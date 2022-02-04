@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Master Plan Map</title>
+        <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+        <script src="https://unpkg.com/maplibre-gl@2.1.1/dist/maplibre-gl.js"></script>
+        <script src="https://unpkg.com/@maplibre/maplibre-gl-compare@0.5.0/dist/maplibre-gl-compare.js"></script>
+        <link href="https://unpkg.com/maplibre-gl@2.1.1/dist/maplibre-gl.css" rel="stylesheet" />
+        <link href="https://unpkg.com/@maplibre/maplibre-gl-compare@0.5.0/dist/maplibre-gl-compare.css" rel="stylesheet" />
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+            body * {
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+            .map {
+                bottom: 0;
+                position: absolute;
+                top: 0;
+                width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="compare">
+            <div id="before" class="map"></div>
+            <div id="after" class="map"></div>
+        </div>
+        <script>
+            function getStyle(source, tilePort=8080) {
+                let loc = document.location;
+                let tileBase = `${loc.protocol}//${loc.host.split(":")[0]}:${tilePort}/services`;
+                return {
+                    "version": 8,
+                    "sources": {
+                        "base": {
+                            "type": "vector",
+                            "url": `${tileBase}/basemap`
+                        },
+                        "primary": {
+                            "type": "raster",
+                            "url": `${tileBase}/${source}`,
+                            "tileSize": 256
+                        },
+                        "lwi": {
+                            "type": "raster",
+                            "url": `${tileBase}/lwi`,
+                            "tileSize": 256
+                        }
+                    },
+                    "layers": [
+                        {
+                            "id": "state",
+                            "type": "fill",
+                            "source": "base",
+                            "source-layer": "state",
+                            "paint": {
+                                "fill-color": "#d6d6d6"
+                            }
+                        },
+                        {
+                            "id": "state-screen",
+                            "type": "fill",
+                            "source": "base",
+                            "source-layer": "state",
+                            "filter": ["!=", ["get", "abbr"], "LA"],
+                            "paint": {
+                                "fill-color": "#ffffff",
+                                "fill-opacity": 0.4
+                            }
+                        },
+                        {
+                            "id": "water-not-in-icm",
+                            "type": "fill",
+                            "source": "base",
+                            "source-layer": "water",
+                            "paint": {
+                                "fill-color": "#ffffff"
+                            }
+                        },
+                        {
+                            "id": "lwi",
+                            "type": "raster",
+                            "source": "lwi"
+                        },
+                        {
+                            "id": "primary",
+                            "type": "raster",
+                            "source": "primary"
+                        },
+                        {
+                            "id": "levee",
+                            "type": "line",
+                            "source": "base",
+                            "source-layer": "levee",
+                            "paint": {
+                                "line-color": "#939598",
+                                "line-opacity": 0.5,
+                                "line-width": 0.667
+                            }
+                        },
+                        {
+                            "id": "road-secondary",
+                            "type": "line",
+                            "source": "base",
+                            "source-layer": "road",
+                            "filter": ["==", ["get", "type"], "S"],
+                            "paint": {
+                                "line-color": "#a4a4a4",
+                                "line-opacity": 0.5,
+                                "line-width": 1.333
+                            }
+                        },
+                        {
+                            "id": "road-primary",
+                            "type": "line",
+                            "source": "base",
+                            "source-layer": "road",
+                            "filter": ["==", ["get", "type"], "P"],
+                            "paint": {
+                                "line-color": "#a4a4a4",
+                                "line-width": 1.333
+                            }
+                        }
+                    ]
+                };
+            }
+
+            let beforeMap = new maplibregl.Map({
+                container: "before",
+                style: getStyle("lndtyp"),
+                center: [-91.27, 29.8],
+                zoom: 7,
+                hash: true
+            });
+            let afterMap = new maplibregl.Map({
+                container: "after",
+                style: getStyle("lndtyp"),
+                center: [-91.27, 29.8],
+                zoom: 7,
+                hash: true
+            });
+            let map = new maplibregl.Compare(beforeMap, afterMap, "#compare");
+        </script>
+    </body>
+</html>
