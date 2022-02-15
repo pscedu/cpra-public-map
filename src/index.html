@@ -32,7 +32,7 @@
     <body>
         <div id="compare">
             <div id="before" class="map"></div>
-            <div id="after" class="map"></div>
+            <!-- <div id="after" class="map"></div> -->
         </div>
         <script>
             function getStyle(source, tilePort=8080) {
@@ -91,11 +91,11 @@
                             "type": "raster",
                             "source": "lwi"
                         },
-                        {
-                            "id": "primary",
-                            "type": "raster",
-                            "source": "primary"
-                        },
+                        // {
+                        //     "id": "primary",
+                        //     "type": "raster",
+                        //     "source": "primary"
+                        // },
                         {
                             "id": "levee",
                             "type": "line",
@@ -129,6 +129,146 @@
                                 "line-color": "#a4a4a4",
                                 "line-width": 1.333
                             }
+                        },
+                        // Landbridge polygon
+                        {
+                            "id": "project-polygon-lb",
+                            "type": "fill",
+                            "source": "base",
+                            "source-layer": "project_polygon",
+                            "filter": ["all",
+                                ["==", ["get", "active"], 1],
+                                ["==", ["get", "type"], "LB"]
+                            ],
+                            "paint": {
+                                "fill-color": "#5C913A"
+                            }
+                        },
+                        // Marsh creation polygon
+                        {
+                            "id": "project-polygon-mc",
+                            "type": "fill",
+                            "source": "base",
+                            "source-layer": "project_polygon",
+                            "filter": ["all",
+                                ["==", ["get", "active"], 1],
+                                ["==", ["get", "type"], "MC"]
+                            ],
+                            "paint": {
+                                "fill-color": "#D5DF24",
+                                "fill-opacity": 0.5
+                            }
+                        },
+                        // Bank stabilization line
+                                                {
+                            "id": "project-line-bs",
+                            "type": "line",
+                            "source": "base",
+                            "source-layer": "project_line",
+                            "filter": ["all",
+                                ["==", ["get", "active"], 1],
+                                ["==", ["get", "type"], "BS"]
+                            ],
+                            "paint": {
+                                "line-color": "#D9A73B",
+                                "line-width": 4
+                            }
+                        },
+                        // Diversion line
+                        {
+                            "id": "project-line-di",
+                            "type": "line",
+                            "source": "base",
+                            "source-layer": "project_line",
+                            "filter": ["all",
+                                ["==", ["get", "active"], 1],
+                                ["==", ["get", "type"], "DI"]
+                            ],
+                            "paint": {
+                                "line-color": "#ED6731",
+                                "line-dasharray": [2, 1],
+                                "line-width": 6.75
+                            }
+                        },
+                        // Hydrologic restoration line
+                        {
+                            "id": "project-line-hr",
+                            "type": "line",
+                            "source": "base",
+                            "source-layer": "project_line",
+                            "filter": ["all",
+                                ["==", ["get", "active"], 1],
+                                ["==", ["get", "type"], "HR"]
+                            ],
+                            "paint": {
+                                "line-color": "#1DBEF0",
+                                "line-dasharray": [1, 1],
+                                "line-width": 5
+                            }
+                        },
+                        // Ridge restoration line
+                        {
+                            "id": "project-line-rr",
+                            "type": "line",
+                            "source": "base",
+                            "source-layer": "project_line",
+                            "filter": ["all",
+                                ["==", ["get", "active"], 1],
+                                ["==", ["get", "type"], "RR"]
+                            ],
+                            "paint": {
+                                "line-color": "#1C4E7F",
+                                "line-width": 2.5
+                            }
+                        },
+                        // Structural risk reduction line
+                        {
+                            "id": "project-line-sr",
+                            "type": "line",
+                            "source": "base",
+                            "source-layer": "project_line",
+                            "filter": ["all",
+                                ["==", ["get", "active"], 1],
+                                ["==", ["get", "type"], "SR"]
+                            ],
+                            "paint": {
+                                "line-color": "#404042",
+                                "line-width": 4
+                            }
+                        },
+                        // Diversion point
+                        {
+                            "id": "project-point-di",
+                            "type": "circle",
+                            "source": "base",
+                            "source-layer": "project_point",
+                            "filter": ["all",
+                                ["==", ["get", "active"], 1],
+                                ["==", ["get", "type"], "DI"]
+                            ],
+                            "paint": {
+                                "circle-color": "#FFFFFF",
+                                "circle-radius": 6,
+                                "circle-stroke-color": "#ED6731",
+                                "circle-stroke-width": 5
+                            }
+                        },
+                        // Hydrologic restoration point
+                        {
+                            "id": "project-point-hr",
+                            "type": "circle",
+                            "source": "base",
+                            "source-layer": "project_point",
+                            "filter": ["all",
+                                ["==", ["get", "active"], 1],
+                                ["==", ["get", "type"], "HR"]
+                            ],
+                            "paint": {
+                                "circle-color": "#FFFFFF",
+                                "circle-radius": 6,
+                                "circle-stroke-color": "#1DBEF0",
+                                "circle-stroke-width": 5
+                            }
                         }
                     ]
                 };
@@ -141,14 +281,14 @@
                 zoom: 7,
                 hash: true
             });
-            let afterMap = new maplibregl.Map({
-                container: "after",
-                style: getStyle("lndtyp"),
-                center: [-91.27, 29.8],
-                zoom: 7,
-                hash: true
-            });
-            let map = new maplibregl.Compare(beforeMap, afterMap, "#compare");
+            // let afterMap = new maplibregl.Map({
+            //     container: "after",
+            //     style: getStyle("lndtyp"),
+            //     center: [-91.27, 29.8],
+            //     zoom: 7,
+            //     hash: true
+            // });
+            // let map = new maplibregl.Compare(beforeMap, afterMap, "#compare");
         </script>
     </body>
 </html>
