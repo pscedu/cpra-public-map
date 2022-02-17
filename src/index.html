@@ -40,6 +40,7 @@
                 let tileBase = `${loc.protocol}//${loc.host.split(":")[0]}:${tilePort}/services`;
                 return {
                     "version": 8,
+                    "sprite": `${loc.origin}/style/sprite`,
                     "sources": {
                         "base": {
                             "type": "vector",
@@ -155,8 +156,7 @@
                                 ["==", ["get", "type"], "MC"]
                             ],
                             "paint": {
-                                "fill-color": "#D5DF24",
-                                "fill-opacity": 0.5
+                                "fill-pattern": "green-dots"
                             }
                         },
                         // Bank stabilization line
@@ -268,6 +268,21 @@
                                 "circle-radius": 6,
                                 "circle-stroke-color": "#1DBEF0",
                                 "circle-stroke-width": 5
+                            }
+                        },
+                        // Structural risk reduction point
+                        {
+                            "id": "project-point-sr",
+                            "type": "symbol",
+                            "source": "base",
+                            "source-layer": "project_point",
+                            "filter": ["all",
+                                ["==", ["get", "active"], 1],
+                                ["==", ["get", "type"], "SR"]
+                            ],
+                            "layout": {
+                                "icon-allow-overlap": true,
+                                "icon-image": "square"
                             }
                         }
                     ]
