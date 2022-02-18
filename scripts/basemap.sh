@@ -55,7 +55,25 @@ SQL
 ogr2ogr -t_srs "EPSG:4326" -sql "$state_sql" \
     $DATA/state.geojson $DATA/backgroundlayers_formapping_arcmap.gdb
 
-# TODO: Add annotations centroids for labels.
+read -r -d '' community_label_sql << SQL
+select replace(replace(replace(replace(TextString, X'0A', ' '), X'0D', ' '),
+        '  ', ' '), '  ', ' ') as text,
+    'community' as type,
+    SHAPE
+from Ref_Communities_CoastwideLocations
+SQL
+ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$community_label_sql" \
+    $DATA/label.geojson $DATA/productionmap_formapping_arcmap.gdb
+
+read -r -d '' water_label_sql << SQL
+select replace(replace(replace(replace(TextString, X'0A', ' '), X'0D', ' '),
+        '  ', ' '), '  ', ' ') as text,
+    'water' as type,
+    SHAPE
+from Ref_Waterbodies_CoastwideLocations
+SQL
+ogr2ogr -append -t_srs "EPSG:4326" -dialect sqlite -sql "$water_label_sql" \
+    $DATA/label.geojson $DATA/productionmap_formapping_arcmap.gdb
 
 read -r -d '' project_point_sql << SQL
 select ProjectName as name,
@@ -103,6 +121,7 @@ tippecanoe -zg -o $TILES/basemap.mbtiles \
     $DATA/project_point.geojson \
     $DATA/project_line.geojson \
     $DATA/project_polygon.geojson \
+    $DATA/label.geojson \
     $DATA/road.geojson \
     $DATA/levee.geojson \
     $DATA/water.geojson \
