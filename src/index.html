@@ -10,6 +10,7 @@
         <link href="https://unpkg.com/@maplibre/maplibre-gl-compare@0.5.0/dist/maplibre-gl-compare.css" rel="stylesheet" />
         <style>
             body {
+                font-family: Arial, Helvetica, sans-serif;
                 margin: 0;
                 padding: 0;
                 overflow: hidden;
@@ -21,33 +22,290 @@
                 -ms-user-select: none;
                 user-select: none;
             }
+            h2 {
+                margin: 0 0 0.5em;
+            }
             .map {
                 bottom: 0;
                 position: absolute;
                 top: 0;
                 width: 100%;
             }
+            #map-controls {
+                background-color: white;
+                border: 1px solid black;
+                left: 10px;
+                padding: 15px;
+                position: absolute;
+                top: 10px;
+            }
         </style>
     </head>
     <body>
         <div id="compare">
-            <div id="before" class="map"></div>
-            <div id="after" class="map"></div>
+            <div id="map" class="map"></div>
+            <div id="map-controls">
+                <h2>Layers</h2>
+                <div>
+                    <input type="checkbox" id="projects" name="projects" checked>
+                    <label for="projects">Projects</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="lndtyp" name="lndtyp">
+                    <label for="lndtyp">Land Type</label>
+                </div>
+            </div>
         </div>
         <script>
-            function getStyle(source, tilePort=8080) {
+            function getStyle(layers, tilePort=8080) {
                 let loc = document.location;
                 let tileBase = `${loc.protocol}//${loc.host.split(":")[0]}:${tilePort}/services`;
+                let backgroundLayers = [
+                    {
+                        "id": "state",
+                        "type": "fill",
+                        "source": "base",
+                        "source-layer": "state",
+                        "paint": {
+                            "fill-color": "#d6d6d6"
+                        }
+                    },
+                    {
+                        "id": "state-screen",
+                        "type": "fill",
+                        "source": "base",
+                        "source-layer": "state",
+                        "filter": ["!=", ["get", "abbr"], "LA"],
+                        "paint": {
+                            "fill-color": "#ffffff",
+                            "fill-opacity": 0.4
+                        }
+                    },
+                    {
+                        "id": "water-not-in-icm",
+                        "type": "fill",
+                        "source": "base",
+                        "source-layer": "water",
+                        "paint": {
+                            "fill-color": "#ffffff"
+                        }
+                    },
+                    {
+                        "id": "lwi",
+                        "type": "raster",
+                        "source": "lwi"
+                    }
+                ];
+                let foregroundLayers = [
+                    {
+                        "id": "levee",
+                        "type": "line",
+                        "source": "base",
+                        "source-layer": "levee",
+                        "paint": {
+                            "line-color": "#939598",
+                            "line-opacity": 0.5,
+                            "line-width": 0.667
+                        }
+                    },
+                    {
+                        "id": "road-secondary",
+                        "type": "line",
+                        "source": "base",
+                        "source-layer": "road",
+                        "filter": ["==", ["get", "type"], "S"],
+                        "paint": {
+                            "line-color": "#a4a4a4",
+                            "line-opacity": 0.5,
+                            "line-width": 1.333
+                        }
+                    },
+                    {
+                        "id": "road-primary",
+                        "type": "line",
+                        "source": "base",
+                        "source-layer": "road",
+                        "filter": ["==", ["get", "type"], "P"],
+                        "paint": {
+                            "line-color": "#a4a4a4",
+                            "line-width": 1.333
+                        }
+                    }
+                ];
+                let projectLayers = [
+                    // Landbridge polygon
+                    {
+                        "id": "project-polygon-lb",
+                        "type": "fill",
+                        "source": "base",
+                        "source-layer": "project_polygon",
+                        "filter": ["all",
+                            ["==", ["get", "active"], 1],
+                            ["==", ["get", "type"], "LB"]
+                        ],
+                        "paint": {
+                            "fill-color": "#5C913A"
+                        }
+                    },
+                    // Marsh creation polygon
+                    {
+                        "id": "project-polygon-mc",
+                        "type": "fill",
+                        "source": "base",
+                        "source-layer": "project_polygon",
+                        "filter": ["all",
+                            ["==", ["get", "active"], 1],
+                            ["==", ["get", "type"], "MC"]
+                        ],
+                        "paint": {
+                            "fill-pattern": "green-dots"
+                        }
+                    },
+                    // Bank stabilization line
+                                            {
+                        "id": "project-line-bs",
+                        "type": "line",
+                        "source": "base",
+                        "source-layer": "project_line",
+                        "filter": ["all",
+                            ["==", ["get", "active"], 1],
+                            ["==", ["get", "type"], "BS"]
+                        ],
+                        "paint": {
+                            "line-color": "#D9A73B",
+                            "line-width": 4
+                        }
+                    },
+                    // Diversion line
+                    {
+                        "id": "project-line-di",
+                        "type": "line",
+                        "source": "base",
+                        "source-layer": "project_line",
+                        "filter": ["all",
+                            ["==", ["get", "active"], 1],
+                            ["==", ["get", "type"], "DI"]
+                        ],
+                        "paint": {
+                            "line-color": "#ED6731",
+                            "line-dasharray": [2, 1],
+                            "line-width": 6.75
+                        }
+                    },
+                    // Hydrologic restoration line
+                    {
+                        "id": "project-line-hr",
+                        "type": "line",
+                        "source": "base",
+                        "source-layer": "project_line",
+                        "filter": ["all",
+                            ["==", ["get", "active"], 1],
+                            ["==", ["get", "type"], "HR"]
+                        ],
+                        "paint": {
+                            "line-color": "#1DBEF0",
+                            "line-dasharray": [1, 1],
+                            "line-width": 5
+                        }
+                    },
+                    // Ridge restoration line
+                    {
+                        "id": "project-line-rr",
+                        "type": "line",
+                        "source": "base",
+                        "source-layer": "project_line",
+                        "filter": ["all",
+                            ["==", ["get", "active"], 1],
+                            ["==", ["get", "type"], "RR"]
+                        ],
+                        "paint": {
+                            "line-color": "#1C4E7F",
+                            "line-width": 2.5
+                        }
+                    },
+                    // Structural risk reduction line
+                    {
+                        "id": "project-line-sr",
+                        "type": "line",
+                        "source": "base",
+                        "source-layer": "project_line",
+                        "filter": ["all",
+                            ["==", ["get", "active"], 1],
+                            ["==", ["get", "type"], "SR"]
+                        ],
+                        "paint": {
+                            "line-color": "#404042",
+                            "line-width": 4
+                        }
+                    },
+                    // Diversion point
+                    {
+                        "id": "project-point-di",
+                        "type": "circle",
+                        "source": "base",
+                        "source-layer": "project_point",
+                        "filter": ["all",
+                            ["==", ["get", "active"], 1],
+                            ["==", ["get", "type"], "DI"]
+                        ],
+                        "paint": {
+                            "circle-color": "#FFFFFF",
+                            "circle-radius": 6,
+                            "circle-stroke-color": "#ED6731",
+                            "circle-stroke-width": 5
+                        }
+                    },
+                    // Hydrologic restoration point
+                    {
+                        "id": "project-point-hr",
+                        "type": "circle",
+                        "source": "base",
+                        "source-layer": "project_point",
+                        "filter": ["all",
+                            ["==", ["get", "active"], 1],
+                            ["==", ["get", "type"], "HR"]
+                        ],
+                        "paint": {
+                            "circle-color": "#FFFFFF",
+                            "circle-radius": 6,
+                            "circle-stroke-color": "#1DBEF0",
+                            "circle-stroke-width": 5
+                        }
+                    },
+                    // Structural risk reduction point
+                    {
+                        "id": "project-point-sr",
+                        "type": "symbol",
+                        "source": "base",
+                        "source-layer": "project_point",
+                        "filter": ["all",
+                            ["==", ["get", "active"], 1],
+                            ["==", ["get", "type"], "SR"]
+                        ],
+                        "layout": {
+                            "icon-allow-overlap": true,
+                            "icon-image": "square"
+                        }
+                    }
+                ];
+                let modelLayers = [
+                    {
+                        "id": "lndtyp",
+                        "type": "raster",
+                        "source": "lndtyp"
+                    }
+                ];
                 return {
                     "version": 8,
+                    "sprite": `${loc.origin}/style/sprite`,
                     "sources": {
                         "base": {
                             "type": "vector",
                             "url": `${tileBase}/basemap`
                         },
-                        "primary": {
+                        "lndtyp": {
                             "type": "raster",
-                            "url": `${tileBase}/${source}`,
+                            "url": `${tileBase}/lndtyp`,
                             "tileSize": 256
                         },
                         "lwi": {
@@ -57,98 +315,35 @@
                         }
                     },
                     "layers": [
-                        {
-                            "id": "state",
-                            "type": "fill",
-                            "source": "base",
-                            "source-layer": "state",
-                            "paint": {
-                                "fill-color": "#d6d6d6"
-                            }
-                        },
-                        {
-                            "id": "state-screen",
-                            "type": "fill",
-                            "source": "base",
-                            "source-layer": "state",
-                            "filter": ["!=", ["get", "abbr"], "LA"],
-                            "paint": {
-                                "fill-color": "#ffffff",
-                                "fill-opacity": 0.4
-                            }
-                        },
-                        {
-                            "id": "water-not-in-icm",
-                            "type": "fill",
-                            "source": "base",
-                            "source-layer": "water",
-                            "paint": {
-                                "fill-color": "#ffffff"
-                            }
-                        },
-                        {
-                            "id": "lwi",
-                            "type": "raster",
-                            "source": "lwi"
-                        },
-                        {
-                            "id": "primary",
-                            "type": "raster",
-                            "source": "primary"
-                        },
-                        {
-                            "id": "levee",
-                            "type": "line",
-                            "source": "base",
-                            "source-layer": "levee",
-                            "paint": {
-                                "line-color": "#939598",
-                                "line-opacity": 0.5,
-                                "line-width": 0.667
-                            }
-                        },
-                        {
-                            "id": "road-secondary",
-                            "type": "line",
-                            "source": "base",
-                            "source-layer": "road",
-                            "filter": ["==", ["get", "type"], "S"],
-                            "paint": {
-                                "line-color": "#a4a4a4",
-                                "line-opacity": 0.5,
-                                "line-width": 1.333
-                            }
-                        },
-                        {
-                            "id": "road-primary",
-                            "type": "line",
-                            "source": "base",
-                            "source-layer": "road",
-                            "filter": ["==", ["get", "type"], "P"],
-                            "paint": {
-                                "line-color": "#a4a4a4",
-                                "line-width": 1.333
-                            }
-                        }
+                        ...backgroundLayers,
+                        ...((layers.includes("lndtyp")) ? modelLayers : []),
+                        ...foregroundLayers,
+                        ...((layers.includes("projects")) ? projectLayers : [])
                     ]
                 };
             }
 
-            let beforeMap = new maplibregl.Map({
-                container: "before",
-                style: getStyle("lndtyp"),
+            let checkboxes = document.querySelectorAll("input[type=checkbox]");
+
+            function getLayers() {
+                let layers = [];
+                for (let i = 0; i < checkboxes.length; i++) {
+                    let checkbox = checkboxes[i];
+                    if (checkbox.checked) layers.push(checkbox.name);
+                }
+                return layers;
+            }
+
+            let map = new maplibregl.Map({
+                container: "map",
+                style: getStyle(getLayers()),
                 center: [-91.27, 29.8],
                 zoom: 7,
                 hash: true
             });
-            let afterMap = new maplibregl.Map({
-                container: "after",
-                style: getStyle("lndtyp"),
-                center: [-91.27, 29.8],
-                zoom: 7,
-                hash: true
-            });
-            let map = new maplibregl.Compare(beforeMap, afterMap, "#compare");
+
+            Array.from(checkboxes).forEach(cb =>
+                cb.addEventListener("change", () => map.setStyle(getStyle(getLayers()))));
         </script>
     </body>
 </html>

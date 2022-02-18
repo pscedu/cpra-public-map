@@ -57,10 +57,52 @@ ogr2ogr -t_srs "EPSG:4326" -sql "$state_sql" \
 
 # TODO: Add annotations centroids for labels.
 
+read -r -d '' project_point_sql << SQL
+select ProjectName as name,
+    ProjectNumber as project_number,
+    MasterPlan as plan,
+    Region as region,
+    ProjectTypeCode as type,
+    ActiveProject as active
+from Points
+SQL
+ogr2ogr -t_srs "EPSG:4326" -sql "$project_point_sql" \
+    $DATA/project_point.geojson $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
+
+read -r -d '' project_line_sql << SQL
+select ProjectName as name,
+    ProjectNumber as project_number,
+    MasterPlan as plan,
+    Region as region,
+    ProjectTypeCode as type,
+    ActiveProject as active
+from Lines
+SQL
+ogr2ogr -t_srs "EPSG:4326" -sql "$project_line_sql" \
+    $DATA/project_line.geojson $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
+
+read -r -d '' project_polygon_sql << SQL
+select ProjectName as name,
+    ProjectNumber as project_number,
+    MasterPlan as plan,
+    Region as region,
+    ProjectTypeCode as type,
+    ActiveProject as active
+from Polygons
+SQL
+ogr2ogr -t_srs "EPSG:4326" -sql "$project_polygon_sql" \
+    $DATA/project_polygon.geojson $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
+
 # Generate vector tiles.
+echo "Generating vector tiles..."
 tippecanoe -zg -o $TILES/basemap.mbtiles \
+    --force \
     --coalesce-densest-as-needed \
     --extend-zooms-if-still-dropping \
+    --base-zoom=7 \
+    $DATA/project_point.geojson \
+    $DATA/project_line.geojson \
+    $DATA/project_polygon.geojson \
     $DATA/road.geojson \
     $DATA/levee.geojson \
     $DATA/water.geojson \
