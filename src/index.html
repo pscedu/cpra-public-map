@@ -130,6 +130,24 @@
                             "line-color": "#a4a4a4",
                             "line-width": 1.333
                         }
+                    },
+                    {
+                        "id": "label",
+                        "type": "symbol",
+                        "source": "base",
+                        "source-layer": "label",
+                        "layout": {
+                            "text-field": ["get", "text"],
+                            "text-size": ["case", ["==", "community", ["get", "type"]], 16, 13],
+                            "text-font": ["case",
+                                ["==", "community", ["get", "type"]],
+                                ["literal", ["Franklin Gothic Demi Regular"]],
+                                ["literal", ["Franklin Gothic Book Regular"]]
+                            ],
+                        },
+                        "paint": {
+                            "text-color": "#444444"
+                        }
                     }
                 ];
                 let projectLayers = [
@@ -298,6 +316,7 @@
                 return {
                     "version": 8,
                     "sprite": `${loc.origin}/style/sprite`,
+                    "glyphs": `${loc.origin}/style/glyphs/{fontstack}/{range}.pbf`,
                     "sources": {
                         "base": {
                             "type": "vector",
