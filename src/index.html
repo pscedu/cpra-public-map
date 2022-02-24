@@ -54,9 +54,34 @@
                     <input type="checkbox" id="lndtyp" name="lndtyp">
                     <label for="lndtyp">Land Type</label>
                 </div>
+                <div>
+                    <input type="checkbox" id="maxele" name="maxele">
+                    <label for="maxele">Max Elevation (ADCIRC)</label>
+                </div>
             </div>
         </div>
         <script>
+            function getSources(layerNames, tileBase) {
+                let sources = {
+                    "base": {
+                        "type": "vector",
+                        "url": `${tileBase}/basemap`
+                    },
+                    "lwi": {
+                        "type": "raster",
+                        "url": `${tileBase}/lwi`,
+                        "tileSize": 256
+                    }
+                };
+                layerNames.filter(l => l !== 'projects').forEach(layer => {
+                    sources[layer] = {
+                        "type": "raster",
+                        "url": `${tileBase}/${layer}`,
+                        "tileSize": 256
+                    };
+                });
+                return sources;
+            }
             function getStyle(layers, tilePort=8080) {
                 let loc = document.location;
                 let tileBase = `${loc.protocol}//${loc.host.split(":")[0]}:${tilePort}/services`;
@@ -306,36 +331,21 @@
                         }
                     }
                 ];
-                let modelLayers = [
-                    {
-                        "id": "lndtyp",
+                let modelLayers = layers.filter(l => l !== 'projects').map(layer => {
+                    return {
+                        "id": layer,
                         "type": "raster",
-                        "source": "lndtyp"
-                    }
-                ];
+                        "source": layer
+                    };
+                });
                 return {
                     "version": 8,
                     "sprite": `${loc.origin}/style/sprite`,
                     "glyphs": `${loc.origin}/style/glyphs/{fontstack}/{range}.pbf`,
-                    "sources": {
-                        "base": {
-                            "type": "vector",
-                            "url": `${tileBase}/basemap`
-                        },
-                        "lndtyp": {
-                            "type": "raster",
-                            "url": `${tileBase}/lndtyp`,
-                            "tileSize": 256
-                        },
-                        "lwi": {
-                            "type": "raster",
-                            "url": `${tileBase}/lwi`,
-                            "tileSize": 256
-                        }
-                    },
+                    "sources": getSources(layers, tileBase),
                     "layers": [
                         ...backgroundLayers,
-                        ...((layers.includes("lndtyp")) ? modelLayers : []),
+                        ...modelLayers,
                         ...foregroundLayers,
                         ...((layers.includes("projects")) ? projectLayers : [])
                     ]
