@@ -64,7 +64,7 @@ for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_N_*_*_W_*.tif; do
     if [[ "$in_name" =~ .*(FFIBS|lndchg)\.tif ]]; then
         echo "Converting $in_name..."
         raster_type="${BASH_REMATCH[1]}"
-        color_path="$DATA/$raster_type.clr"
+        color_path="$WORKING/$raster_type.clr"
         out_name="${in_name%.tif}.mbtiles"
         out_path="$TILES/$out_name"
 
