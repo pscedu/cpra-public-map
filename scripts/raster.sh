@@ -57,8 +57,6 @@ cat > $WORKING/lndtyp.clr << EOF
 0 0 0 0 0
 EOF
 
-working_path="$WORKING/working.tif"
-
 for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_N_*_*_W_*.tif; do
     in_name=$(basename "$in_path")
     if [[ "$in_name" =~ .*(FFIBS|lndchg)\.tif ]]; then
@@ -67,19 +65,24 @@ for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_N_*_*_W_*.tif; do
         color_path="$WORKING/$raster_type.clr"
         out_name="${in_name%.tif}.mbtiles"
         out_path="$TILES/$out_name"
+        working_tif_path="$WORKING/working.tif"
+        working_tiles_path="$WORKING/$out_name"
 
         # Colorize the raster.
-        gdaldem color-relief -alpha $in_path $color_path $working_path
+        gdaldem color-relief -alpha $in_path $color_path $working_tif_path
 
         # Set the coordinate system.
-        gdal_edit.py -a_srs "EPSG:26915" $working_path
+        gdal_edit.py -a_srs "EPSG:26915" $working_tif_path
 
         # Tile the highest zoom level.
-        gdal_translate $working_path $out_path \
+        gdal_translate $working_tif_path $working_tiles_path \
             -of MBTILES -co ZOOM_LEVEL_STRATEGY=UPPER
 
         # Add lower zoom levels.
-        gdaladdo $out_path -r cubic
+        gdaladdo $working_tiles_path -r cubic
+
+        # Move the tiles to the output directory.
+        mv $working_tiles_path $out_path
         echo
     fi
 done
