@@ -51,15 +51,15 @@
                     <label for="projects">Projects</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="lndtyp" name="lndtyp">
-                    <label for="lndtyp">Land Type</label>
+                    <input type="checkbox" id="model" name="model">
+                    <label for="model">Land Change</label>
                 </div>
             </div>
         </div>
         <script>
             function getStyle(layers, tilePort=8080) {
                 let loc = document.location;
-                let tileBase = `${loc.protocol}//${loc.host.split(":")[0]}:${tilePort}/services`;
+                let tileBase = "http://vm007.bridges2.psc.edu:8081/services";
                 let backgroundLayers = [
                     {
                         "id": "state",
@@ -308,9 +308,9 @@
                 ];
                 let modelLayers = [
                     {
-                        "id": "lndtyp",
+                        "id": "model",
                         "type": "raster",
-                        "source": "lndtyp"
+                        "source": "model"
                     }
                 ];
                 return {
@@ -322,9 +322,9 @@
                             "type": "vector",
                             "url": `${tileBase}/basemap`
                         },
-                        "lndtyp": {
+                        "model": {
                             "type": "raster",
-                            "url": `${tileBase}/lndtyp`,
+                            "url": `${tileBase}/MP2023_S07_G500_C000_U00_V00_SLA_N_02_52_W_lndchg`,
                             "tileSize": 256
                         },
                         "lwi": {
@@ -335,7 +335,7 @@
                     },
                     "layers": [
                         ...backgroundLayers,
-                        ...((layers.includes("lndtyp")) ? modelLayers : []),
+                        ...((layers.includes("model")) ? modelLayers : []),
                         ...foregroundLayers,
                         ...((layers.includes("projects")) ? projectLayers : [])
                     ]
