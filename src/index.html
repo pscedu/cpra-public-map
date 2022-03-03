@@ -51,15 +51,20 @@
                     <label for="projects">Projects</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="lndtyp" name="lndtyp">
-                    <label for="lndtyp">Land Type</label>
+                    <input type="checkbox" id="model" name="model">
+                    <label for="model">Model Results</label>
+                </div>
+                <div>
+                    <label for="model-select">Model Layer:</label>
+                    <select name="model-select" id="model-select">
+                    </select>
                 </div>
             </div>
         </div>
         <script>
             function getStyle(layers, tilePort=8080) {
                 let loc = document.location;
-                let tileBase = `${loc.protocol}//${loc.host.split(":")[0]}:${tilePort}/services`;
+                let tileBase = "http://vm007.bridges2.psc.edu:8081/services";
                 let backgroundLayers = [
                     {
                         "id": "state",
@@ -308,9 +313,9 @@
                 ];
                 let modelLayers = [
                     {
-                        "id": "lndtyp",
+                        "id": "model",
                         "type": "raster",
-                        "source": "lndtyp"
+                        "source": "model"
                     }
                 ];
                 return {
@@ -322,9 +327,9 @@
                             "type": "vector",
                             "url": `${tileBase}/basemap`
                         },
-                        "lndtyp": {
+                        "model": {
                             "type": "raster",
-                            "url": `${tileBase}/lndtyp`,
+                            "url": document.getElementById("model-select").value,
                             "tileSize": 256
                         },
                         "lwi": {
@@ -335,34 +340,56 @@
                     },
                     "layers": [
                         ...backgroundLayers,
-                        ...((layers.includes("lndtyp")) ? modelLayers : []),
+                        ...((layers.includes("model")) ? modelLayers : []),
                         ...foregroundLayers,
                         ...((layers.includes("projects")) ? projectLayers : [])
                     ]
                 };
             }
 
-            let checkboxes = document.querySelectorAll("input[type=checkbox]");
+            async function init() {
+                let services = await fetch('http://vm007.bridges2.psc.edu:8081/services');
+                let servicesJson = await services.json();
+                let modelSelect = document.getElementById("model-select");
+                servicesJson.forEach((service) => {
+                    if (service.name.indexOf("MP2023") == -1) return;
+                    if (service.name.indexOf("01_W") != -1) return;
+                    let option = document.createElement("option");
+                    option.value = service.url;
+                    option.innerHTML = service.name;
+                    modelSelect.appendChild(option);
+                    modelSelect.value = service.url;
+                });
 
-            function getLayers() {
-                let layers = [];
-                for (let i = 0; i < checkboxes.length; i++) {
-                    let checkbox = checkboxes[i];
-                    if (checkbox.checked) layers.push(checkbox.name);
+                modelSelect.addEventListener("change", () => map.setStyle(getStyle(getLayers())));
+
+                let checkboxes = document.querySelectorAll("input[type=checkbox]");
+
+                function getLayers() {
+                    let layers = [];
+                    for (let i = 0; i < checkboxes.length; i++) {
+                        let checkbox = checkboxes[i];
+                        if (checkbox.checked) layers.push(checkbox.name);
+                    }
+                    return layers;
                 }
-                return layers;
+
+                let map = new maplibregl.Map({
+                    container: "map",
+                    style: getStyle(getLayers()),
+                    center: [-91.27, 29.8],
+                    zoom: 7,
+                    hash: true
+                });
+
+                Array.from(checkboxes).forEach(cb =>
+                    cb.addEventListener("change", () => map.setStyle(getStyle(getLayers()))));
+
             }
 
-            let map = new maplibregl.Map({
-                container: "map",
-                style: getStyle(getLayers()),
-                center: [-91.27, 29.8],
-                zoom: 7,
-                hash: true
-            });
+            init();
 
-            Array.from(checkboxes).forEach(cb =>
-                cb.addEventListener("change", () => map.setStyle(getStyle(getLayers()))));
+
         </script>
     </body>
 </html>
