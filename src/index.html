@@ -52,7 +52,12 @@
                 </div>
                 <div>
                     <input type="checkbox" id="model" name="model">
-                    <label for="model">Land Change</label>
+                    <label for="model">Model Results</label>
+                </div>
+                <div>
+                    <label for="model-select">Model Layer:</label>
+                    <select name="model-select" id="model-select">
+                    </select>
                 </div>
             </div>
         </div>
@@ -324,7 +329,7 @@
                         },
                         "model": {
                             "type": "raster",
-                            "url": `${tileBase}/MP2023_S07_G500_C000_U00_V00_SLA_N_02_52_W_lndchg`,
+                            "url": document.getElementById("model-select").value,
                             "tileSize": 256
                         },
                         "lwi": {
@@ -342,27 +347,49 @@
                 };
             }
 
-            let checkboxes = document.querySelectorAll("input[type=checkbox]");
+            async function init() {
+                let services = await fetch('http://vm007.bridges2.psc.edu:8081/services');
+                let servicesJson = await services.json();
+                let modelSelect = document.getElementById("model-select");
+                servicesJson.forEach((service) => {
+                    if (service.name.indexOf("MP2023") == -1) return;
+                    if (service.name.indexOf("01_W") != -1) return;
+                    let option = document.createElement("option");
+                    option.value = service.url;
+                    option.innerHTML = service.name;
+                    modelSelect.appendChild(option);
+                    modelSelect.value = service.url;
+                });
 
-            function getLayers() {
-                let layers = [];
-                for (let i = 0; i < checkboxes.length; i++) {
-                    let checkbox = checkboxes[i];
-                    if (checkbox.checked) layers.push(checkbox.name);
+                modelSelect.addEventListener("change", () => map.setStyle(getStyle(getLayers())));
+
+                let checkboxes = document.querySelectorAll("input[type=checkbox]");
+
+                function getLayers() {
+                    let layers = [];
+                    for (let i = 0; i < checkboxes.length; i++) {
+                        let checkbox = checkboxes[i];
+                        if (checkbox.checked) layers.push(checkbox.name);
+                    }
+                    return layers;
                 }
-                return layers;
+
+                let map = new maplibregl.Map({
+                    container: "map",
+                    style: getStyle(getLayers()),
+                    center: [-91.27, 29.8],
+                    zoom: 7,
+                    hash: true
+                });
+
+                Array.from(checkboxes).forEach(cb =>
+                    cb.addEventListener("change", () => map.setStyle(getStyle(getLayers()))));
+
             }
 
-            let map = new maplibregl.Map({
-                container: "map",
-                style: getStyle(getLayers()),
-                center: [-91.27, 29.8],
-                zoom: 7,
-                hash: true
-            });
+            init();
 
-            Array.from(checkboxes).forEach(cb =>
-                cb.addEventListener("change", () => map.setStyle(getStyle(getLayers()))));
+
         </script>
     </body>
 </html>
