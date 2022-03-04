@@ -304,6 +304,10 @@ export function getStyle(servicesUrl, layers, mapState) {
 		"sprite": `${loc.origin}/style/sprite`,
 		"glyphs": `${loc.origin}/style/glyphs/{fontstack}/{range}.pbf`,
 		"sources": getSources(layers, mapState, servicesUrl),
+		"transition": {
+			"duration": 0,
+			"delay": 0
+		},
 		"layers": [
 			...getBackgroundLayers(layers, mapState),
 			...getModelLayers(layers, mapState),
