@@ -1,7 +1,7 @@
 #!/bin/bash
 
 FONTS="./fonts"
-GLYPHS="./src/style/glyphs"
+GLYPHS="./src/static/style/glyphs"
 
 for source in $FONTS/*.ttf; do
     source_file=$(basename "$source")
