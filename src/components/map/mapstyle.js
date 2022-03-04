@@ -1,7 +1,31 @@
-export function getStyle(layers, tilePort=8080) {
-	let loc = document.location;
-	let tileBase = "http://vm007.bridges2.psc.edu:8081/services";
-	let backgroundLayers = [
+function getSources(layers, mapState, servicesUrl) {
+	const sources = {
+		"base": {
+			"type": "vector",
+			"url": `${servicesUrl}/basemap-vector`
+		},
+		"lwi": {
+			"type": "raster",
+			"url": `${servicesUrl}/basemap-raster`,
+			"tileSize": 256
+		}
+	};
+	mapState.visibleLayers.forEach((name) => {
+		const layer = layers[name];
+		const year = `Year ${mapState.year}`;
+		if (layer !== undefined
+				&& layer.type == "model"
+				&& year in layer.years) sources[name] = {
+			type: "raster",
+			url: layer.years[year],
+			tileSize: 256
+		};
+	});
+	return sources;
+}
+
+function getBackgroundLayers() {
+	return [
 		{
 			"id": "state",
 			"type": "fill",
@@ -37,7 +61,11 @@ export function getStyle(layers, tilePort=8080) {
 			"source": "lwi"
 		}
 	];
-	let foregroundLayers = [
+}
+
+
+function getForegroundLayers() {
+	return [
 		{
 			"id": "levee",
 			"type": "line",
@@ -91,7 +119,10 @@ export function getStyle(layers, tilePort=8080) {
 			}
 		}
 	];
-	let projectLayers = [
+}
+function getProjectLayers(layers, mapState) {
+	if (!mapState.visibleLayers.includes("Projects")) return [];
+	return [
 		// Landbridge polygon
 		{
 			"id": "project-polygon-lb",
@@ -247,38 +278,37 @@ export function getStyle(layers, tilePort=8080) {
 			}
 		}
 	];
-	let modelLayers = [
-		{
-			"id": "model",
-			"type": "raster",
-			"source": "model"
-		}
-	];
+}
+
+
+function getModelLayers(layers, mapState) {
+	const year = `Year ${mapState.year}`;
+	return mapState.visibleLayers
+		.filter(name => layers[name] !== undefined
+			&& layers[name].type == "model"
+			&& year in layers[name].years)
+		.map((name) => {
+			return {
+				id: name,
+				type: "raster",
+				source: name
+			};
+		});
+}
+
+
+export function getStyle(servicesUrl, layers, mapState) {
+	let loc = document.location;
 	return {
 		"version": 8,
 		"sprite": `${loc.origin}/style/sprite`,
 		"glyphs": `${loc.origin}/style/glyphs/{fontstack}/{range}.pbf`,
-		"sources": {
-			"base": {
-				"type": "vector",
-				"url": `${tileBase}/basemap`
-			},
-			"model": {
-				"type": "raster",
-				"url": 'http://vm007.bridges2.psc.edu:8081/services/MP2023_S07_G500_C000_U00_V00_SLA_N_02_52_W_lndchg',
-				"tileSize": 256
-			},
-			"lwi": {
-				"type": "raster",
-				"url": `${tileBase}/lwi`,
-				"tileSize": 256
-			}
-		},
+		"sources": getSources(layers, mapState, servicesUrl),
 		"layers": [
-			...backgroundLayers,
-			...((layers.includes("model")) ? modelLayers : []),
-			...foregroundLayers,
-			...((layers.includes("projects")) ? projectLayers : [])
+			...getBackgroundLayers(layers, mapState),
+			...getModelLayers(layers, mapState),
+			...getForegroundLayers(layers, mapState),
+			...getProjectLayers(layers, mapState)
 		]
 	};
 }
