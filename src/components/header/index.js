@@ -10,7 +10,10 @@ const Header = () => (
 		<h1>
 			<span class={style.title}>Louisiana's Costal</span>
 			<span class={style.title}>Master Plan 2023</span>
-			<span class={style.subtitle}>Data Viewer</span>
+			<span class={style.subtitle}>
+				DataViewer{" "}
+				<span class={style.preview}>Preview</span>
+			</span>
 		</h1>
 		<nav>
 			<Link activeClassName={style.active} href="/">Explore</Link>
