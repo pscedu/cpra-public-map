@@ -351,9 +351,8 @@
                 let services = await fetch('http://vm007.bridges2.psc.edu:8081/services');
                 let servicesJson = await services.json();
                 let modelSelect = document.getElementById("model-select");
-                servicesJson.forEach((service) => {
-                    if (service.name.indexOf("MP2023") == -1) return;
-                    if (service.name.indexOf("01_W") != -1) return;
+                servicesJson.sort((a, b) => a.name > b.name).forEach((service) => {
+                    if (service.name.indexOf("Year") == -1) return;
                     let option = document.createElement("option");
                     option.value = service.url;
                     option.innerHTML = service.name;
