@@ -57,7 +57,7 @@ cat > $WORKING/lndtyp.clr << EOF
 0 0 0 0 0
 EOF
 
-for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_N_*_*_W_*.tif; do
+for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_N_*_*2_W_*.tif; do
     in_name=$(basename "$in_path")
     if [[ "$in_name" =~ .*(FFIBS|lndchg)\.tif ]]; then
         echo "Converting $in_name..."
