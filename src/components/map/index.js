@@ -17,7 +17,7 @@ class Map extends Component {
 			container: this.base,
 			style: getStyle(["projects"]),
 			center: [-91.27, 29.8],
-			zoom: 7,
+			zoom: 8,
 			hash: true
 		});
 	}
