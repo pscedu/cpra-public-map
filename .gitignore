@@ -1,6 +1,9 @@
+node_modules
+/build
+/*.log
 data/
 fonts/
 node_modules/
-src/style/glyphs
+src/static/style/glyphs
 tiles/
 working/
