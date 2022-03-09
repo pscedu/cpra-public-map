@@ -3,7 +3,7 @@ import { useState } from 'preact/hooks';
 import { Router } from 'preact-router';
 
 import * as config from './config';
-import { useLayers } from './hooks';
+import { useServices } from './hooks';
 import Header from '../header';
 import Layers from '../layers';
 import Map from '../map';
@@ -12,17 +12,18 @@ import Explore from '../../routes/explore';
 
 
 const App = () => {
-    const layers = useLayers(config.servicesUrl);
+    const services = useServices(config.servicesUrl);
     const [mapState, setMapState] = useState({
-        visibleLayers: ["Projects"],
-        year: 50
+        showProjects: true,
+		modelLayer: "",
+		year: 50
     });
 	return (
 		<div id="app">
 			<Header />
 			<Toolbar />
-			<Layers {...{layers, mapState, setMapState}} />
-			<Map {...{servicesUrl: config.servicesUrl, layers, mapState}} />
+			<Layers {...{services, mapState, setMapState}} />
+			<Map {...{servicesUrl: config.servicesUrl, services, mapState}} />
 			<Router>
 				<Explore path="/" />
 			</Router>

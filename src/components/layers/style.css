@@ -16,6 +16,9 @@
 	font-weight: bold;
 }
 .input select,
-.input input {
+.input input[type="range"] {
 	width: 100%;
+}
+.input input[type="checkbox"] {
+	margin-right: 0.5rem;
 }

@@ -2,29 +2,48 @@ import { h } from 'preact';
 import style from './style.css';
 
 const Layers = (props) => {
-	const {layers, mapState, setMapState} = props;
-	const layerIds = Object.keys(layers)
-		.sort((a, b) => layers[a].name > layers[b].name);
-	const onChangeLayer = (e) => setMapState({
+	const {services, mapState, setMapState} = props;
+	if (!services) return null;
+
+	const modelLayerNames = [];
+	for (let service of Object.values(services)) {
+		if (service.name.indexOf("Base Map") != -1) continue;
+		let [name, _year] = service.name.split(" - ");
+		if (modelLayerNames.indexOf(name) == -1) modelLayerNames.push(name);
+	}
+	modelLayerNames.sort();
+
+	const setShowProjects = (e) => setMapState({
 		...mapState,
-		visibleLayers: [e.target.value]
+		showProjects: e.target.checked
 	});
-	const onChangeYear = (e) => setMapState({
+	
+	const setModelLayer = (e) => setMapState({
+		...mapState,
+		modelLayer: e.target.value
+	});
+
+	const setYear = (e) => setMapState({
 		...mapState,
 		year: e.target.value
 	});
-	const yearEnabled = mapState.visibleLayers
-		.filter(name => layers[name] !== undefined
-			&& layers[name].type == "model").length > 0;
+
+	const yearEnabled = mapState.modelLayer !== "";
 	return (
 		<div class={style.layers}>
 			<h2>Map Layers</h2>
 			<div class={style.input}>
-				<label for="layer" class="sr-only">Layer</label>
-				<select name="layer" id="layer" value={mapState.visibleLayers[0]}
-						onChange={onChangeLayer}>
-					{layerIds.map((id) =>
-						<option value={id}>{layers[id].name}</option>)}
+				<input type="checkbox" id="show-projects"
+					checked={mapState.showProjects} onChange={setShowProjects} />
+				<label for="show-projects">Candidate Projects</label>
+			</div>
+			<div class={style.input}>
+				<label for="model-layer">Model Layer</label>
+				<select name="model-layer" id="model-layer" value={mapState.modelLayer}
+						onChange={setModelLayer}>
+					<option value="">None</option>
+					{modelLayerNames.map((name) =>
+						<option value={name}>{name}</option>)}
 				</select>
 			</div>
 			<div class={style.input}>
@@ -34,7 +53,7 @@ const Layers = (props) => {
 				</div>
 				<input type="range" id="year" name="year"
 					min="0" max="50" step="10" disabled={!yearEnabled}
-					value={mapState.year} onInput={onChangeYear}></input>
+					value={mapState.year} onInput={setYear}></input>
 			</div>
 		</div>
 	);

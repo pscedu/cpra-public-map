@@ -11,13 +11,14 @@ class Map extends Component {
 
 	componentWillReceiveProps(props) {
 		if (this.map)
-			this.map.setStyle(getStyle(props.servicesUrl, props.layers, props.mapState));
+			this.map.setStyle(getStyle(props.services, props.mapState));
 	}
 
 	componentDidMount() {
 		this.map = new maplibregl.Map({
 			container: this.base,
-			style: getStyle(this.props.servicesUrl, this.props.layers, this.props.mapState),
+			style: (this.props.services) ?
+				getStyle(this.props.services, this.props.mapState) : null,
 			center: [-91.27, 29.8],
 			zoom: 8,
 			hash: true
