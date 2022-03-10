@@ -1,1 +1,1 @@
-export const servicesUrl = "http://tiles.mpdv_23.bridges2.psc.edu/services";
+export const servicesUrl = "https://tiles.mpdv-23.bridges2.psc.edu/services";
