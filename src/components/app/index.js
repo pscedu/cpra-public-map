@@ -26,7 +26,7 @@ const App = () => {
 			<Layers {...{services, mapState, setMapState}} />
 			<Map {...{servicesUrl: config.servicesUrl, services, mapState, setMapState}} />
 			<Router>
-				<Explore path="/" />
+				<Explore path="/:slideId?" />
 			</Router>
 		</div>
 	);

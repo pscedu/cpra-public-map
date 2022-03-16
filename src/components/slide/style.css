@@ -1,0 +1,8 @@
+.slide {
+    height: 100%;
+    overflow-y: scroll;
+    padding: 25px;
+}
+.slide h2 {
+    font-size: 24px;
+}

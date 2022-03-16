@@ -1,6 +1,6 @@
 import { h } from 'preact';
-import { Link } from 'preact-router/match';
 import style from './style.css';
+
 
 const Header = () => (
 	<header class={style.header}>
@@ -16,7 +16,7 @@ const Header = () => (
 			</span>
 		</h1>
 		<nav>
-			<Link activeClassName={style.active} href="/">Explore</Link>
+			<a class={style.active} href="/">Explore</a>
 		</nav>
 	</header>
 );
