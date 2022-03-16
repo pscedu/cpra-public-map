@@ -15,7 +15,7 @@ const Explore = (props) => (
             </Slide>
             <Slide id="protecting" title="Protecting the Gulf">
                 <p>
-                Pellentesque dapibus odio ut posuere facilisis. Vivamus ac egestas ipsum. Fusce maximus accumsan purus, id sagittis sem sagittis ut. Nulla iaculis ante eu lorem porta blandit sed ac metus. Phasellus nec tellus nec dui faucibus iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus vehicula tincidunt ultrices. Cras iaculis lacus eget magna cursus malesuada. In consectetur scelerisque mi, at sagittis odio ullamcorper at. Nulla suscipit gravida suscipit. Aenean quis accumsan justo, non consectetur nisl. 
+                    Pellentesque dapibus odio ut posuere facilisis. Vivamus ac egestas ipsum. Fusce maximus accumsan purus, id sagittis sem sagittis ut. Nulla iaculis ante eu lorem porta blandit sed ac metus. Phasellus nec tellus nec dui faucibus iaculis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Phasellus vehicula tincidunt ultrices. Cras iaculis lacus eget magna cursus malesuada. In consectetur scelerisque mi, at sagittis odio ullamcorper at. Nulla suscipit gravida suscipit. Aenean quis accumsan justo, non consectetur nisl. 
                 </p>
             </Slide>
         </Slides>

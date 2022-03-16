@@ -6,8 +6,7 @@ import style from './style.css';
 import SlideNavigation from '../slide-navigation';
 
 const Slides = (props) => {
-    const slides = props.children.filter(child =>
-        child.type && child.type.name == "Slide");
+    const slides = props.children;
     let currentSlide = slides[0];
     let currentIdx = 0;
     if (props.slideId) for (let slideIdx in slides) {
