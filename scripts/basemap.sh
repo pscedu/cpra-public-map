@@ -21,8 +21,9 @@ gdaldem color-relief -alpha $DATA/lwi_merged.tif $DATA/lwi.clr $DATA/lwi.tif
 
 # Tile the land-water interface raster.
 gdal_translate $DATA/lwi.tif $TILES/lwi.mbtiles \
-    -of MBTILES -co ZOOM_LEVEL_STRATEGY=UPPER
-gdaladdo $TILES/lwi.mbtiles -r cubic
+    -of MBTILES -co ZOOM_LEVEL_STRATEGY=UPPER \
+    -co NAME="Base Map: Raster"
+gdaladdo $TILES/basemap-raster.mbtiles -r cubic
 
 # Convert vector layers to GeoJSON.
 read -r -d '' road_sql << SQL
@@ -113,11 +114,12 @@ ogr2ogr -t_srs "EPSG:4326" -sql "$project_polygon_sql" \
 
 # Generate vector tiles.
 echo "Generating vector tiles..."
-tippecanoe -zg -o $TILES/basemap.mbtiles \
+tippecanoe -zg -o $TILES/basemap-vector.mbtiles \
     --force \
     --coalesce-densest-as-needed \
     --extend-zooms-if-still-dropping \
     --base-zoom=7 \
+    -n "Base Map: Vector" \
     $DATA/project_point.geojson \
     $DATA/project_line.geojson \
     $DATA/project_polygon.geojson \
