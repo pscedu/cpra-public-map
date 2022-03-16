@@ -1,6 +1,8 @@
 node_modules
 /build
 /*.log
+/scratch.txt
+/size-plugin.json
 data/
 fonts/
 node_modules/

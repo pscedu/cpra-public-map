@@ -16,6 +16,7 @@ const App = () => {
     const [mapState, setMapState] = useState({
         showProjects: true,
 		modelLayer: "",
+		prevYear: null,
 		year: 50
     });
 	return (
@@ -23,7 +24,7 @@ const App = () => {
 			<Header />
 			<Toolbar />
 			<Layers {...{services, mapState, setMapState}} />
-			<Map {...{servicesUrl: config.servicesUrl, services, mapState}} />
+			<Map {...{servicesUrl: config.servicesUrl, services, mapState, setMapState}} />
 			<Router>
 				<Explore path="/" />
 			</Router>

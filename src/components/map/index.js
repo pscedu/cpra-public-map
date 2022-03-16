@@ -23,6 +23,14 @@ class Map extends Component {
 			zoom: 8,
 			hash: true
 		});
+
+		this.map.on("idle", () => {
+			if (this.props.mapState.prevYear !== null) this.props.setMapState({
+				...this.props.mapState,
+				prevYear: null
+			});
+		});
+
 	}
 
 	render() {

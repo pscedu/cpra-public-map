@@ -14,16 +14,26 @@ export function getStyle(services, mapState) {
 	}
 
 	// Prepare model layers.
-	const modelLayerName = `${mapState.modelLayer} - Year ${mapState.year}`;
 	const modelLayers = Object.values(services)
 		.filter((service) => service.name.indexOf("Base Map") == -1)
 		.map((service) => {
+			let [layerName, yearStr] = service.name.split(" - Year ");
+			let year = parseInt(yearStr);
+			let visibleYear = (mapState.prevYear !== null) ?
+				mapState.prevYear : mapState.year;
 			return {
 				id: service.name,
 				type: "raster",
 				source: service.name,
+				paint: {
+					"raster-fade-duration": 0,
+					"raster-opacity": (layerName == mapState.modelLayer
+						&& year == visibleYear) ? 1 : 0
+				},
 				layout: {
-					visibility: (modelLayerName == service.name) ? "visible": "none"
+					visibility: (layerName == mapState.modelLayer
+						&& [mapState.year, mapState.prevYear].indexOf(year) != -1) ?
+						"visible": "none"
 				}
 			}
 		});

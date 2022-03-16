@@ -5,10 +5,13 @@ const Layers = (props) => {
 	const {services, mapState, setMapState} = props;
 	if (!services) return null;
 
+	const modelLayerYears = {};
 	const modelLayerNames = [];
 	for (let service of Object.values(services)) {
 		if (service.name.indexOf("Base Map") != -1) continue;
-		let [name, _year] = service.name.split(" - ");
+		let [name, yearStr] = service.name.split(" - Year ");
+		modelLayerYears[name] = modelLayerYears[name] || [];
+		modelLayerYears[name].push(parseInt(yearStr));
 		if (modelLayerNames.indexOf(name) == -1) modelLayerNames.push(name);
 	}
 	modelLayerNames.sort();
@@ -20,13 +23,19 @@ const Layers = (props) => {
 	
 	const setModelLayer = (e) => setMapState({
 		...mapState,
-		modelLayer: e.target.value
+		modelLayer: e.target.value,
+		prevYear: null
 	});
 
-	const setYear = (e) => setMapState({
-		...mapState,
-		year: e.target.value
-	});
+	const setYear = (e) => {
+		const year = parseInt(e.target.value);
+		const hasYear = modelLayerYears[mapState.modelLayer].indexOf(year) == -1;
+		setMapState({
+			...mapState,
+			year: year,
+			prevYear: (hasYear) ? null : mapState.year
+		});
+	};
 
 	const yearEnabled = mapState.modelLayer !== "";
 	return (
