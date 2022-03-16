@@ -74,6 +74,11 @@ for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_N_*_*_W_*.tif; do
         # Set the coordinate system.
         gdal_edit.py -a_srs "EPSG:26915" $working_tif_path
 
+        # Mask excluded ecoregions.
+        gdal_rasterize -b 1 -b 2 -b 3 -b 4 -burn 0 \
+            -where "ecoregion in ('ATB', 'UVR')" \
+            "/vsizip/$DATA/MP23_Ecoregions_withAtch.zip" $working_tif_path
+
         # Tile the highest zoom level.
         gdal_translate $working_tif_path $working_tiles_path \
             -of MBTILES -co ZOOM_LEVEL_STRATEGY=UPPER
