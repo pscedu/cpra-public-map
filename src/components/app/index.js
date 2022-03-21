@@ -23,7 +23,6 @@ const App = () => {
 	return (
 		<div id="app">
 			<Header />
-			<Toolbar />
 			<Layers {...{services, mapState, setMapState}} />
 			{(mapState.modelLayer !== "") ?
 				<Legend legend={config.legends[mapState.modelLayer]} /> : null}
