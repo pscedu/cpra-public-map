@@ -19,7 +19,10 @@ class Map extends Component {
 			container: this.base,
 			style: (this.props.services) ?
 				getStyle(this.props.services, this.props.mapState) : null,
-			center: [-91.27, 29.8],
+			center: [-91.215, 29.41],
+			maxBounds: [-91.215 - 5, 29.41 - 3, -91.215 + 5, 29.41 + 3],
+			maxZoom: 12,
+			minZoom: 6,
 			zoom: 8,
 			hash: true
 		});
