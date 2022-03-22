@@ -143,7 +143,6 @@ export function getStyle(services, mapState) {
 				"source": "Base Map: Vector",
 				"source-layer": "project_polygon",
 				"filter": ["all",
-					["==", ["get", "active"], 1],
 					["==", ["get", "type"], "LB"]
 				],
 				"paint": {
@@ -160,7 +159,6 @@ export function getStyle(services, mapState) {
 				"source": "Base Map: Vector",
 				"source-layer": "project_polygon",
 				"filter": ["all",
-					["==", ["get", "active"], 1],
 					["==", ["get", "type"], "MC"]
 				],
 				"paint": {
@@ -177,7 +175,6 @@ export function getStyle(services, mapState) {
 				"source": "Base Map: Vector",
 				"source-layer": "project_line",
 				"filter": ["all",
-					["==", ["get", "active"], 1],
 					["==", ["get", "type"], "BS"]
 				],
 				"paint": {
@@ -195,7 +192,6 @@ export function getStyle(services, mapState) {
 				"source": "Base Map: Vector",
 				"source-layer": "project_line",
 				"filter": ["all",
-					["==", ["get", "active"], 1],
 					["==", ["get", "type"], "DI"]
 				],
 				"paint": {
@@ -214,7 +210,6 @@ export function getStyle(services, mapState) {
 				"source": "Base Map: Vector",
 				"source-layer": "project_line",
 				"filter": ["all",
-					["==", ["get", "active"], 1],
 					["==", ["get", "type"], "HR"]
 				],
 				"paint": {
@@ -233,7 +228,6 @@ export function getStyle(services, mapState) {
 				"source": "Base Map: Vector",
 				"source-layer": "project_line",
 				"filter": ["all",
-					["==", ["get", "active"], 1],
 					["==", ["get", "type"], "RR"]
 				],
 				"paint": {
@@ -251,7 +245,6 @@ export function getStyle(services, mapState) {
 				"source": "Base Map: Vector",
 				"source-layer": "project_line",
 				"filter": ["all",
-					["==", ["get", "active"], 1],
 					["==", ["get", "type"], "SR"]
 				],
 				"paint": {
@@ -269,7 +262,6 @@ export function getStyle(services, mapState) {
 				"source": "Base Map: Vector",
 				"source-layer": "project_point",
 				"filter": ["all",
-					["==", ["get", "active"], 1],
 					["==", ["get", "type"], "DI"]
 				],
 				"paint": {
@@ -289,7 +281,6 @@ export function getStyle(services, mapState) {
 				"source": "Base Map: Vector",
 				"source-layer": "project_point",
 				"filter": ["all",
-					["==", ["get", "active"], 1],
 					["==", ["get", "type"], "HR"]
 				],
 				"paint": {
@@ -309,7 +300,6 @@ export function getStyle(services, mapState) {
 				"source": "Base Map: Vector",
 				"source-layer": "project_point",
 				"filter": ["all",
-					["==", ["get", "active"], 1],
 					["==", ["get", "type"], "SR"]
 				],
 				"layout": {

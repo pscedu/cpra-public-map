@@ -8,7 +8,7 @@ import Slides from '../../components/slides';
 
 const Explore = (props) => {
     const projectMap = {};
-    props.projectList.forEach((proj) => projectMap[proj.id] = proj);
+    props.projectList.forEach((proj) => projectMap[proj.project_id] = proj);
     let project = projectMap[props.projectId] || props.projectList[0];
 
     return (

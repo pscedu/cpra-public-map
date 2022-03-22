@@ -9,7 +9,9 @@ const ProjectDetail = (props) => {
         <div class={style["project-detail"]}>
             <h3>Type of Project</h3>
             <p>{props.projectTypes[project.type]}</p>
-            <button onClick={zoomToProject}>View on the Map</button>
+            <h3>Region</h3>
+            <p>{project.region}</p>
+            <button onClick={zoomToProject}>Zoom Map to Project</button>
         </div>
     );
 };

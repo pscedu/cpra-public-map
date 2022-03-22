@@ -10,17 +10,11 @@ export function useProjectList(projectListUrl) {
 		let headers = rows.shift();
 
 		let projectList = rows.map((row) => {
-			return {
-				id: row[0].toLowerCase().replace(/\./g, ""),
-				name: row[1],
-				type: row[2],
-				xmin: parseFloat(row[3]),
-				ymin: parseFloat(row[4]),
-				xmax: parseFloat(row[5]),
-				ymax: parseFloat(row[6])
-			};
+			let project = {};
+			for (let i in headers) project[headers[i]] = row[i];
+			return project;
 		});
-
+		
         setProjectList(projectList);
 	}, []);
 	return projectList;

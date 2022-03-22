@@ -30,7 +30,7 @@ class Map extends Component {
 					});
 				} else {
 					// Line/polygon/multipoint project
-					this.map.fitBounds(props.projectBbox);
+					this.map.fitBounds(props.projectBbox, {padding: 50});
 				}
 				
 			}
@@ -61,8 +61,7 @@ class Map extends Component {
 
 		this.projectLayers.forEach((layerName) => {
 			this.map.on("click", layerName, (e) => {
-				let projectId = e.features[0].properties.project_number
-					.toLowerCase().replace(/\./g, "");
+				let projectId = e.features[0].properties.project_id;
 				route(`/detail/${projectId}`);
 			});
 			this.map.on("mouseenter", layerName,
@@ -71,10 +70,6 @@ class Map extends Component {
 				() => this.map.getCanvas().style.cursor = "");
 		});
 
-	}
-
-	fitBounds(xmin, ymin, xmax, ymax) {
-		console.log(xmin, ymin, xmax, ymax);
 	}
 
 	render() {
