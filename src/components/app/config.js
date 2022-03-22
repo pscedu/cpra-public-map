@@ -8,7 +8,7 @@ export const legends = {
         "labels": ["Fresh Forest", "Fresh Marsh", "Intermediate Marsh", "Brackish Marsh", "Saline Marsh"]
     }
 }
-export const projectListUrl = "/static/projects.csv";
+export const projectListUrl = "/projects.csv";
 export const projectTypes = {
     BI: "Barrier Island Restoration",
     BS: "Bank Stabilization",
