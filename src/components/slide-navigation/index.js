@@ -3,7 +3,7 @@ import style from './style.css';
 
 
 function getLink(path, id, hash="") {
-    let link = path.replace(":slideId?", id);
+    let link = path.split(":slideId")[0] + id;
     if (!id.includes("#")) link += hash;
     return link;
 }

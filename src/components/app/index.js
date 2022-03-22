@@ -3,7 +3,7 @@ import { useState } from 'preact/hooks';
 import { Router } from 'preact-router';
 
 import * as config from './config';
-import { useServices } from './hooks';
+import { useProjectList, useServices } from './hooks';
 import Header from '../header';
 import Layers from '../layers';
 import Legend from '../legend';
@@ -13,6 +13,7 @@ import Explore from '../../routes/explore';
 
 
 const App = () => {
+	const projectList = useProjectList(config.projectListUrl);
     const services = useServices(config.servicesUrl);
     const [mapState, setMapState] = useState({
         showProjects: true,
@@ -20,15 +21,23 @@ const App = () => {
 		prevYear: null,
 		year: 50
     });
+	const [projectBbox, setProjectBbox] = useState(null);
 	return (
 		<div id="app">
 			<Header />
 			<Layers {...{services, mapState, setMapState}} />
 			{(mapState.modelLayer !== "") ?
 				<Legend legend={config.legends[mapState.modelLayer]} /> : null}
-			<Map {...{servicesUrl: config.servicesUrl, services, mapState, setMapState}} />
+			<Map {...{projectBbox,
+					servicesUrl: config.servicesUrl,
+					services,
+					mapState,
+					setMapState}} />
 			<Router>
-				<Explore path="/:slideId?" />
+				<Explore path="/:slideId?/:projectId?"
+					projectList={projectList}
+					projectTypes={config.projectTypes}
+					setProjectBbox={setProjectBbox} />
 			</Router>
 		</div>
 	);

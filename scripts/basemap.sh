@@ -76,40 +76,29 @@ SQL
 ogr2ogr -append -t_srs "EPSG:4326" -dialect sqlite -sql "$water_label_sql" \
     $DATA/label.geojson $DATA/productionmap_formapping_arcmap.gdb
 
-read -r -d '' project_point_sql << SQL
-select ProjectName as name,
-    ProjectNumber as project_number,
-    MasterPlan as plan,
-    Region as region,
-    ProjectTypeCode as type,
-    ActiveProject as active
-from Points
+
+read -r -d '' project_sql << SQL
+select replace(replace(replace(replace(replace(lower(ProjectName),
+        ' ', '-'), '.', ''), '''', ''), '/', '-'), '---', '-') as project_id,
+    case when ProjectTypeCode = 'IP' then (
+        case when ElementTypeCode = 'MC' and ProjectName like "%Landbridge%" then 'LB'
+            when ElementTypeCode in ('CH', 'CL') then 'HR'
+            when ElementTypeCode in ('EL', 'GA', 'PL', 'PW') then 'SR'
+            when ElementTypeCode in ('BS', 'MC', 'OR', 'RR', 'SP') then ElementTypeCode
+            else 'IP' end
+        ) else ProjectTypeCode end as type,
+    Shape as geom
+from LAYER
+where ActiveProject = 1
 SQL
-ogr2ogr -t_srs "EPSG:4326" -sql "$project_point_sql" \
+
+ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "${project_sql/LAYER/Points}" \
     $DATA/project_point.geojson $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
 
-read -r -d '' project_line_sql << SQL
-select ProjectName as name,
-    ProjectNumber as project_number,
-    MasterPlan as plan,
-    Region as region,
-    ProjectTypeCode as type,
-    ActiveProject as active
-from Lines
-SQL
-ogr2ogr -t_srs "EPSG:4326" -sql "$project_line_sql" \
+ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "${project_sql/LAYER/Lines}" \
     $DATA/project_line.geojson $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
 
-read -r -d '' project_polygon_sql << SQL
-select ProjectName as name,
-    ProjectNumber as project_number,
-    MasterPlan as plan,
-    Region as region,
-    ProjectTypeCode as type,
-    ActiveProject as active
-from Polygons
-SQL
-ogr2ogr -t_srs "EPSG:4326" -sql "$project_polygon_sql" \
+ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "${project_sql/LAYER/Polygons}" \
     $DATA/project_polygon.geojson $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
 
 # Generate vector tiles.

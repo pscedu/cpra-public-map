@@ -6,6 +6,7 @@ node_modules
 data/
 fonts/
 node_modules/
+src/static/projects.csv
 src/static/style/glyphs
 tiles/
 working/
