@@ -1,4 +1,6 @@
 export function getStyle(services, mapState) {
+	if (services === null) return {version: 8, sources: {}, layers: []};
+
 	let loc = document.location;
 	let projectsVisibility = (mapState.showProjects) ? "visible": "none";
 
