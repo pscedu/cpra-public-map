@@ -16,7 +16,9 @@ class Map extends Component {
 
   shouldComponentUpdate(props) {
     if (this.map) {
-      this.map.setStyle(getStyle(props.services, props.mapState));
+      this.map.setStyle(
+        getStyle(props.services, props.mapState, props.projects)
+      );
       if (props.projectBbox !== this.props.projectBbox) {
         if (props.projectBbox[0] == props.projectBbox[2]) {
           // Point project
@@ -39,7 +41,11 @@ class Map extends Component {
     this.map = new maplibregl.Map({
       container: this.base,
       style: this.props.services
-        ? getStyle(this.props.services, this.props.mapState)
+        ? getStyle(
+            this.props.services,
+            this.props.mapState,
+            this.props.projects
+          )
         : null,
       center: [-91.215, 29.41],
       maxBounds: [-91.215 - 5, 29.41 - 3, -91.215 + 5, 29.41 + 3],
@@ -60,7 +66,7 @@ class Map extends Component {
     this.projectLayers.forEach((layerName) => {
       this.map.on("click", layerName, (e) => {
         let projectId = e.features[0].properties.project_id;
-        route(`/detail/${projectId}`);
+        route(`/project/${projectId}`);
       });
       this.map.on(
         "mouseenter",

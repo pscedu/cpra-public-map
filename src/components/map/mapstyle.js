@@ -2,7 +2,7 @@ function linear_zoom(min, max) {
   return ["interpolate", ["linear"], ["zoom"], 6, min, 12, max];
 }
 
-export function getStyle(services, mapState) {
+export function getStyle(services, mapState, projects) {
   if (services === null) return { version: 8, sources: {}, layers: [] };
 
   let loc = document.location;
@@ -45,6 +45,13 @@ export function getStyle(services, mapState) {
         },
       };
     });
+
+  const activeProjects = [
+    "in",
+    ["get", "project_id"],
+    ["literal", projects.map((project) => project.project_id)],
+  ];
+
   return {
     version: 8,
     sprite: `${loc.origin}/style/sprite`,
@@ -149,7 +156,7 @@ export function getStyle(services, mapState) {
         type: "fill",
         source: "Base Map: Vector",
         "source-layer": "project_polygon",
-        filter: ["==", ["get", "type"], "LB"],
+        filter: ["all", ["==", ["get", "type"], "LB"], activeProjects],
         paint: {
           "fill-color": "#5C913A",
         },
@@ -163,7 +170,7 @@ export function getStyle(services, mapState) {
         type: "fill",
         source: "Base Map: Vector",
         "source-layer": "project_polygon",
-        filter: ["==", ["get", "type"], "MC"],
+        filter: ["all", ["==", ["get", "type"], "MC"], activeProjects],
         paint: {
           "fill-pattern": "green-dots",
         },
@@ -177,7 +184,11 @@ export function getStyle(services, mapState) {
         type: "line",
         source: "Base Map: Vector",
         "source-layer": "project_line",
-        filter: ["in", ["get", "type"], ["literal", ["BS", "SR"]]],
+        filter: [
+          "all",
+          ["in", ["get", "type"], ["literal", ["BS", "SR"]]],
+          activeProjects,
+        ],
         paint: {
           "line-color": [
             "case",
@@ -197,7 +208,11 @@ export function getStyle(services, mapState) {
         type: "line",
         source: "Base Map: Vector",
         "source-layer": "project_line",
-        filter: ["in", ["get", "type"], ["literal", ["DI", "HR"]]],
+        filter: [
+          "all",
+          ["in", ["get", "type"], ["literal", ["DI", "HR"]]],
+          activeProjects,
+        ],
         paint: {
           "line-color": [
             "case",
@@ -218,7 +233,7 @@ export function getStyle(services, mapState) {
         type: "line",
         source: "Base Map: Vector",
         "source-layer": "project_line",
-        filter: ["==", ["get", "type"], "RR"],
+        filter: ["all", ["==", ["get", "type"], "RR"], activeProjects],
         paint: {
           "line-color": "#1C4E7F",
           "line-width": linear_zoom(1.5, 2.5),
@@ -233,7 +248,11 @@ export function getStyle(services, mapState) {
         type: "circle",
         source: "Base Map: Vector",
         "source-layer": "project_point",
-        filter: ["in", ["get", "type"], ["literal", ["DI", "HR"]]],
+        filter: [
+          "all",
+          ["in", ["get", "type"], ["literal", ["DI", "HR"]]],
+          activeProjects,
+        ],
         paint: {
           "circle-color": "#FFFFFF",
           "circle-radius": linear_zoom(3, 6),
@@ -255,7 +274,7 @@ export function getStyle(services, mapState) {
         type: "symbol",
         source: "Base Map: Vector",
         "source-layer": "project_point",
-        filter: ["==", ["get", "type"], "SR"],
+        filter: ["all", ["==", ["get", "type"], "SR"], activeProjects],
         layout: {
           "icon-allow-overlap": true,
           "icon-image": "square",

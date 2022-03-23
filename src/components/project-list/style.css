@@ -1,0 +1,43 @@
+.project-list {
+  font-size: 1.1rem;
+  line-height: 2.2rem;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+.project-list thead {
+  display: block;
+  height: 50px;
+  padding-right: 10px;
+}
+.project-list tbody {
+  display: block;
+  height: 195px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-color: #274d36 transparent;
+}
+.project-list tr {
+  display: block;
+  position: relative;
+  width: 100%;
+}
+.project-list th,
+.project-list td {
+  display: inline-block;
+  text-align: left;
+  white-space: nowrap;
+}
+.project-list tbody tr {
+  border-bottom: 1px solid #cccccc;
+}
+.project-list input {
+  min-width: 75%;
+}
+.name {
+  width: 50%;
+}
+.type,
+.region {
+  width: 25%;
+}
