@@ -1,4 +1,4 @@
-import { h, render, Component } from "preact";
+import { h, Component } from "preact";
 import { route } from "preact-router";
 import style from "./style.css";
 import { getStyle } from "./mapstyle";
@@ -7,13 +7,10 @@ class Map extends Component {
   projectLayers = [
     "project-polygon-lb",
     "project-polygon-mc",
-    "project-line-bs",
-    "project-line-di",
-    "project-line-hr",
+    "project-line-bs-sr",
+    "project-line-di-hr",
     "project-line-rr",
-    "project-line-sr",
-    "project-point-di",
-    "project-point-hr",
+    "project-point-di-hr",
     "project-point-sr",
   ];
 
@@ -38,6 +35,7 @@ class Map extends Component {
   }
 
   componentDidMount() {
+    // eslint-disable-next-line no-undef
     this.map = new maplibregl.Map({
       container: this.base,
       style: this.props.services

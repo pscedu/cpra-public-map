@@ -1,3 +1,7 @@
+function linear_zoom(min, max) {
+  return ["interpolate", ["linear"], ["zoom"], 6, min, 12, max];
+}
+
 export function getStyle(services, mapState) {
   if (services === null) return { version: 8, sources: {}, layers: [] };
 
@@ -145,7 +149,7 @@ export function getStyle(services, mapState) {
         type: "fill",
         source: "Base Map: Vector",
         "source-layer": "project_polygon",
-        filter: ["all", ["==", ["get", "type"], "LB"]],
+        filter: ["==", ["get", "type"], "LB"],
         paint: {
           "fill-color": "#5C913A",
         },
@@ -159,7 +163,7 @@ export function getStyle(services, mapState) {
         type: "fill",
         source: "Base Map: Vector",
         "source-layer": "project_polygon",
-        filter: ["all", ["==", ["get", "type"], "MC"]],
+        filter: ["==", ["get", "type"], "MC"],
         paint: {
           "fill-pattern": "green-dots",
         },
@@ -167,48 +171,42 @@ export function getStyle(services, mapState) {
           visibility: projectsVisibility,
         },
       },
-      // Bank stabilization line
+      // Bank stabilization and structural risk reduction lines
       {
-        id: "project-line-bs",
+        id: "project-line-bs-sr",
         type: "line",
         source: "Base Map: Vector",
         "source-layer": "project_line",
-        filter: ["all", ["==", ["get", "type"], "BS"]],
+        filter: ["in", ["get", "type"], ["literal", ["BS", "SR"]]],
         paint: {
-          "line-color": "#D9A73B",
-          "line-width": 4,
+          "line-color": [
+            "case",
+            ["==", ["get", "type"], "BS"],
+            "#D9A73B",
+            "#404042",
+          ],
+          "line-width": linear_zoom(2, 5),
         },
         layout: {
           visibility: projectsVisibility,
         },
       },
-      // Diversion line
+      // Diversion and hydrologic restoration lines
       {
-        id: "project-line-di",
+        id: "project-line-di-hr",
         type: "line",
         source: "Base Map: Vector",
         "source-layer": "project_line",
-        filter: ["all", ["==", ["get", "type"], "DI"]],
+        filter: ["in", ["get", "type"], ["literal", ["DI", "HR"]]],
         paint: {
-          "line-color": "#ED6731",
+          "line-color": [
+            "case",
+            ["==", ["get", "type"], "DI"],
+            "#ED6731",
+            "#1DBEF0",
+          ],
           "line-dasharray": [2, 1],
-          "line-width": 6.75,
-        },
-        layout: {
-          visibility: projectsVisibility,
-        },
-      },
-      // Hydrologic restoration line
-      {
-        id: "project-line-hr",
-        type: "line",
-        source: "Base Map: Vector",
-        "source-layer": "project_line",
-        filter: ["all", ["==", ["get", "type"], "HR"]],
-        paint: {
-          "line-color": "#1DBEF0",
-          "line-dasharray": [1, 1],
-          "line-width": 5,
+          "line-width": linear_zoom(2, 6.75),
         },
         layout: {
           visibility: projectsVisibility,
@@ -220,59 +218,32 @@ export function getStyle(services, mapState) {
         type: "line",
         source: "Base Map: Vector",
         "source-layer": "project_line",
-        filter: ["all", ["==", ["get", "type"], "RR"]],
+        filter: ["==", ["get", "type"], "RR"],
         paint: {
           "line-color": "#1C4E7F",
-          "line-width": 2.5,
+          "line-width": linear_zoom(1.5, 2.5),
         },
         layout: {
           visibility: projectsVisibility,
         },
       },
-      // Structural risk reduction line
+      // Diversion and hydrologic restoration points
       {
-        id: "project-line-sr",
-        type: "line",
-        source: "Base Map: Vector",
-        "source-layer": "project_line",
-        filter: ["all", ["==", ["get", "type"], "SR"]],
-        paint: {
-          "line-color": "#404042",
-          "line-width": 4,
-        },
-        layout: {
-          visibility: projectsVisibility,
-        },
-      },
-      // Diversion point
-      {
-        id: "project-point-di",
+        id: "project-point-di-hr",
         type: "circle",
         source: "Base Map: Vector",
         "source-layer": "project_point",
-        filter: ["all", ["==", ["get", "type"], "DI"]],
+        filter: ["in", ["get", "type"], ["literal", ["DI", "HR"]]],
         paint: {
           "circle-color": "#FFFFFF",
-          "circle-radius": 6,
-          "circle-stroke-color": "#ED6731",
-          "circle-stroke-width": 5,
-        },
-        layout: {
-          visibility: projectsVisibility,
-        },
-      },
-      // Hydrologic restoration point
-      {
-        id: "project-point-hr",
-        type: "circle",
-        source: "Base Map: Vector",
-        "source-layer": "project_point",
-        filter: ["all", ["==", ["get", "type"], "HR"]],
-        paint: {
-          "circle-color": "#FFFFFF",
-          "circle-radius": 6,
-          "circle-stroke-color": "#1DBEF0",
-          "circle-stroke-width": 5,
+          "circle-radius": linear_zoom(3, 6),
+          "circle-stroke-color": [
+            "case",
+            ["==", ["get", "type"], "DI"],
+            "#ED6731",
+            "#1DBEF0",
+          ],
+          "circle-stroke-width": linear_zoom(2.5, 5),
         },
         layout: {
           visibility: projectsVisibility,
@@ -284,10 +255,11 @@ export function getStyle(services, mapState) {
         type: "symbol",
         source: "Base Map: Vector",
         "source-layer": "project_point",
-        filter: ["all", ["==", ["get", "type"], "SR"]],
+        filter: ["==", ["get", "type"], "SR"],
         layout: {
           "icon-allow-overlap": true,
           "icon-image": "square",
+          "icon-size": linear_zoom(0.5, 1),
           visibility: projectsVisibility,
         },
       },
