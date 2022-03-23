@@ -1,5 +1,4 @@
 import { h } from "preact";
-import style from "./style.css";
 
 import Drawer from "../../components/drawer";
 import ProjectDetail from "../../components/project-detail";

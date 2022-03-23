@@ -20,7 +20,7 @@ export function getStyle(services, mapState) {
     .filter((service) => service.name.indexOf("Base Map") == -1)
     .map((service) => {
       let [layerName, yearStr] = service.name.split(" - Year ");
-      let year = parseInt(yearStr);
+      let year = parseInt(yearStr, 10);
       let visibleYear =
         mapState.prevYear !== null ? mapState.prevYear : mapState.year;
       return {
@@ -45,7 +45,7 @@ export function getStyle(services, mapState) {
     version: 8,
     sprite: `${loc.origin}/style/sprite`,
     glyphs: `${loc.origin}/style/glyphs/{fontstack}/{range}.pbf`,
-    sources: sources,
+    sources,
     transition: {
       duration: 0,
       delay: 0,
