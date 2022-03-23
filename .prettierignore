@@ -1,0 +1,12 @@
+node_modules
+/build
+/*.log
+/scratch.txt
+/size-plugin.json
+data/
+fonts/
+node_modules/
+src/static/projects.csv
+src/static/style/glyphs
+tiles/
+working/

@@ -1,9 +1,9 @@
 .toolbar {
-    background-color: #cccccc;
-    bottom: 0;
-    position: fixed;
-    right: 0;
-    top: 0;
-    width: 50px;
-    z-index: 100;
+  background-color: #cccccc;
+  bottom: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 50px;
+  z-index: 100;
 }

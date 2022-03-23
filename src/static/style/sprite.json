@@ -1,16 +1,16 @@
 {
-    "green-dots": {
-        "width": 64,
-        "height": 64,
-        "x": 0,
-        "y": 0,
-        "pixelRatio": 6
-    },
-    "square": {
-        "width": 16,
-        "height": 16,
-        "x": 64,
-        "y": 0,
-        "pixelRatio": 2
-    }
+  "green-dots": {
+    "width": 64,
+    "height": 64,
+    "x": 0,
+    "y": 0,
+    "pixelRatio": 6
+  },
+  "square": {
+    "width": 16,
+    "height": 16,
+    "x": 64,
+    "y": 0,
+    "pixelRatio": 2
+  }
 }
