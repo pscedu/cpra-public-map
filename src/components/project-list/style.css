@@ -8,7 +8,6 @@
 .project-list thead {
   display: block;
   height: 50px;
-  padding-right: 10px;
 }
 .project-list tbody {
   display: block;
@@ -28,7 +27,13 @@
   text-align: left;
   white-space: nowrap;
 }
-.project-list tbody tr {
+.project {
+  background-size: 32px;
+  background-repeat: no-repeat;
+  background-position: 0 3px;
+  padding-left: 40px;
+}
+.project-list td {
   border-bottom: 1px solid #cccccc;
 }
 .project-list input {

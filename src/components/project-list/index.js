@@ -8,7 +8,10 @@ const ProjectList = ({
   setProjectFilters,
 }) => {
   const projectRows = projects.map((project) => (
-    <tr key={project.project_id}>
+    <tr
+      key={project.project_id}
+      class={`${style.project} project-type-icon-${project.type.toLowerCase()}`}
+    >
       <td class={style.name}>
         <a href={`/project/${project.project_id}`}>{project.name}</a>
       </td>

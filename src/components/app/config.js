@@ -16,7 +16,7 @@ export const legends = {
 };
 export const projectListUrl = "/projects.csv";
 export const projectTypes = {
-  BI: "Barrier Island Restoration",
+  BH: "Barrier Island Restoration",
   BS: "Bank Stabilization",
   DI: "Diversion",
   HR: "Hydrologic Restoration",

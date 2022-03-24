@@ -50,3 +50,39 @@ h2 {
   position: absolute !important;
   width: 1px !important;
 }
+.project-type-icon-bh {
+  background-image: url("/assets/project-icons/bh.png");
+}
+.project-type-icon-bs {
+  background-image: url("/assets/project-icons/bs.png");
+}
+.project-type-icon-di {
+  background-image: url("/assets/project-icons/di.png");
+}
+.project-type-icon-hr {
+  background-image: url("/assets/project-icons/hr.png");
+}
+.project-type-icon-ip {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><circle fill='rgba(200, 200, 200, 1)' cx='16' cy='16' r='16'/></svg>");
+}
+.project-type-icon-lb {
+  background-image: url("/assets/project-icons/lb.png");
+}
+.project-type-icon-mc {
+  background-image: url("/assets/project-icons/mc.png");
+}
+.project-type-icon-ns {
+  background-image: url("/assets/project-icons/ns.png");
+}
+.project-type-icon-or {
+  background-image: url("/assets/project-icons/or.png");
+}
+.project-type-icon-rr {
+  background-image: url("/assets/project-icons/rr.png");
+}
+.project-type-icon-sp {
+  background-image: url("/assets/project-icons/sp.png");
+}
+.project-type-icon-sr {
+  background-image: url("/assets/project-icons/sr.png");
+}
