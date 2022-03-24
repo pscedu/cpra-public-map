@@ -87,7 +87,7 @@ for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_N_*_*2_W_*.tif; do
             -co NAME="$raster_name - Year $raster_year"
 
         # Add lower zoom levels.
-        gdaladdo $working_tiles_path -r cubic
+        gdaladdo $working_tiles_path -r nearest
 
         # Move the tiles to the output directory.
         mv $working_tiles_path $out_path
