@@ -1,0 +1,14 @@
+.close-button {
+  border: 2px solid #274d36;
+  border-radius: 15px;
+  color: #274d36;
+  display: block;
+  padding: 0.25rem 0.5rem;
+  position: absolute;
+  right: 25px;
+  text-decoration: none;
+  top: 25px;
+}
+.close-button::before {
+  content: "\2716";
+}

@@ -66,7 +66,7 @@ class Map extends Component {
     this.projectLayers.forEach((layerName) => {
       this.map.on("click", layerName, (e) => {
         let projectId = e.features[0].properties.project_id;
-        route(`/project/${projectId}`);
+        route(`/${projectId}`);
       });
       this.map.on(
         "mouseenter",

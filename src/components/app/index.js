@@ -16,6 +16,7 @@ const App = () => {
   );
   const services = useServices(config.servicesUrl);
   const [mapState, setMapState] = useState({
+    selectedProjectId: "",
     showProjects: true,
     modelLayer: "",
     prevYear: null,
@@ -42,7 +43,7 @@ const App = () => {
       />
       <Router>
         <Explore
-          path="/:slideId?/:projectId?"
+          path="/:projectId?"
           projects={projects}
           projectFilters={projectFilters}
           projectTypes={config.projectTypes}
