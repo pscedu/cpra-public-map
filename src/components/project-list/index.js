@@ -36,7 +36,7 @@ const ProjectList = ({
               type="search"
               value={projectFilters.name}
               onKeyUp={onName}
-              placeholder="Filter projects by name..."
+              placeholder="Filter projects..."
             />
           </th>
           <th class={style.type}>Project Type</th>

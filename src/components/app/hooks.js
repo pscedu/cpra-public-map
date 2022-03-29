@@ -1,4 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
+import { projectTypes } from "./config";
 
 const normalizeText = (text) => text.toLowerCase().replace(/[^a-z0-9 ]/g, "");
 
@@ -32,7 +33,9 @@ export function useProjects(projectsUrl) {
 
   let filteredProjects = projects.filter((project) => {
     if (needles.length == 0) return true;
-    let haystack = normalizeText(project.name);
+    let haystack = normalizeText(
+      [project.name, project.region, projectTypes[project.type]].join(" ")
+    );
     for (let needle of needles)
       if (haystack.indexOf(needle) === -1) return false;
     return true;
