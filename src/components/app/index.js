@@ -43,10 +43,12 @@ const App = () => {
       />
       <Router>
         <Explore
+          mapState={mapState}
           path="/:projectId?"
           projects={projects}
           projectFilters={projectFilters}
           projectTypes={config.projectTypes}
+          setMapState={setMapState}
           setProjectBbox={setProjectBbox}
           setProjectFilters={setProjectFilters}
         />

@@ -158,7 +158,12 @@ export function getStyle(services, mapState, projects) {
         "source-layer": "project_polygon",
         filter: ["all", ["==", ["get", "type"], "LB"], activeProjects],
         paint: {
-          "fill-color": "#5C913A",
+          "fill-color": [
+            "case",
+            ["==", ["get", "project_id"], mapState.activeProjectId],
+            "#683796",
+            "#5C913A",
+          ],
         },
         layout: {
           visibility: projectsVisibility,
@@ -172,7 +177,12 @@ export function getStyle(services, mapState, projects) {
         "source-layer": "project_polygon",
         filter: ["all", ["==", ["get", "type"], "MC"], activeProjects],
         paint: {
-          "fill-pattern": "green-dots",
+          "fill-pattern": [
+            "case",
+            ["==", ["get", "project_id"], mapState.activeProjectId],
+            "purple-dots",
+            "green-dots",
+          ],
         },
         layout: {
           visibility: projectsVisibility,
@@ -192,6 +202,8 @@ export function getStyle(services, mapState, projects) {
         paint: {
           "line-color": [
             "case",
+            ["==", ["get", "project_id"], mapState.activeProjectId],
+            "#683796",
             ["==", ["get", "type"], "BS"],
             "#D9A73B",
             "#404042",
@@ -216,6 +228,8 @@ export function getStyle(services, mapState, projects) {
         paint: {
           "line-color": [
             "case",
+            ["==", ["get", "project_id"], mapState.activeProjectId],
+            "#683796",
             ["==", ["get", "type"], "DI"],
             "#ED6731",
             "#1DBEF0",
@@ -235,7 +249,12 @@ export function getStyle(services, mapState, projects) {
         "source-layer": "project_line",
         filter: ["all", ["==", ["get", "type"], "RR"], activeProjects],
         paint: {
-          "line-color": "#1C4E7F",
+          "line-color": [
+            "case",
+            ["==", ["get", "project_id"], mapState.activeProjectId],
+            "#683796",
+            "#1C4E7F",
+          ],
           "line-width": linear_zoom(1.5, 2.5),
         },
         layout: {
@@ -258,6 +277,8 @@ export function getStyle(services, mapState, projects) {
           "circle-radius": linear_zoom(3, 6),
           "circle-stroke-color": [
             "case",
+            ["==", ["get", "project_id"], mapState.activeProjectId],
+            "#683796",
             ["==", ["get", "type"], "DI"],
             "#ED6731",
             "#1DBEF0",
@@ -277,7 +298,12 @@ export function getStyle(services, mapState, projects) {
         filter: ["all", ["==", ["get", "type"], "SR"], activeProjects],
         layout: {
           "icon-allow-overlap": true,
-          "icon-image": "square",
+          "icon-image": [
+            "case",
+            ["==", ["get", "project_id"], mapState.activeProjectId],
+            "purple-square",
+            "black-square",
+          ],
           "icon-size": linear_zoom(0.5, 1),
           visibility: projectsVisibility,
         },
