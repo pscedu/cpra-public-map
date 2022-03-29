@@ -10,3 +10,10 @@
   text-decoration: none;
   vertical-align: middle;
 }
+.project-type {
+  background-size: 32px;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  line-height: 32px;
+  padding-left: 40px;
+}
