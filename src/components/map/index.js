@@ -7,9 +7,10 @@ class Map extends Component {
   projectLayers = [
     "project-polygon-lb",
     "project-polygon-mc",
-    "project-line-bs-sr",
+    "project-line-bs-or-sr",
     "project-line-di-hr",
     "project-line-rr",
+    "project-line-sp",
     "project-point-di-hr",
     "project-point-sr",
   ];

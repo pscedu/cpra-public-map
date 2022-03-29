@@ -190,13 +190,13 @@ export function getStyle(services, mapState, projects) {
       },
       // Bank stabilization and structural risk reduction lines
       {
-        id: "project-line-bs-sr",
+        id: "project-line-bs-or-sr",
         type: "line",
         source: "Base Map: Vector",
         "source-layer": "project_line",
         filter: [
           "all",
-          ["in", ["get", "type"], ["literal", ["BS", "SR"]]],
+          ["in", ["get", "type"], ["literal", ["BS", "OR", "SR"]]],
           activeProjects,
         ],
         paint: {
@@ -206,6 +206,8 @@ export function getStyle(services, mapState, projects) {
             "#683796",
             ["==", ["get", "type"], "BS"],
             "#D9A73B",
+            ["==", ["get", "type"], "OR"],
+            "#EDA482",
             "#404042",
           ],
           "line-width": linear_zoom(2, 5),
@@ -256,6 +258,26 @@ export function getStyle(services, mapState, projects) {
             "#1C4E7F",
           ],
           "line-width": linear_zoom(1.5, 2.5),
+        },
+        layout: {
+          visibility: projectsVisibility,
+        },
+      },
+      // Shoreline protection line
+      {
+        id: "project-line-sp",
+        type: "line",
+        source: "Base Map: Vector",
+        "source-layer": "project_line",
+        filter: ["all", ["==", ["get", "type"], "SP"], activeProjects],
+        paint: {
+          "line-color": [
+            "case",
+            ["==", ["get", "project_id"], mapState.activeProjectId],
+            "#683796",
+            "#19A598",
+          ],
+          "line-width": linear_zoom(3, 4.5),
         },
         layout: {
           visibility: projectsVisibility,
