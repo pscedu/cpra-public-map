@@ -32,6 +32,48 @@
   display: inline-block;
   height: 20px;
   margin: 0 10px 0 0;
+  position: relative;
   vertical-align: middle;
   width: 50px;
+}
+.di {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='20'><line x1='0' y1='10' x2='50' y2='10' stroke='%23ED6731' stroke-width='5' stroke-dasharray='9 4' /><circle fill='white' stroke='%23ED6731' stroke-width='4' cx='25' cy='10' r='6'/></svg>");
+}
+.hr {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='20'><line x1='0' y1='10' x2='50' y2='10' stroke='%231DBEF0' stroke-width='5' stroke-dasharray='9 4' /><circle fill='white' stroke='%231DBEF0' stroke-width='4' cx='25' cy='10' r='6'/></svg>");
+}
+.sr {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='20'><line x1='0' y1='10' x2='50' y2='10' stroke='%23404042' stroke-width='3' /><rect fill='white' stroke='%23404042' stroke-width='1' x='21' y='6' height='8' width='8' /></svg>");
+}
+.bs {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='20'><line x1='0' y1='10' x2='50' y2='10' stroke='%23D9A73B' stroke-width='3' /></svg>");
+}
+.bh {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='20'><line x1='0' y1='10' x2='50' y2='10' stroke='%23A2E3DF' stroke-width='3' /></svg>");
+}
+.or {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='20'><line x1='0' y1='10' x2='50' y2='10' stroke='%23EDA482' stroke-width='3' /></svg>");
+}
+.rr {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='20'><line x1='0' y1='10' x2='50' y2='10' stroke='%231C4E7F' stroke-width='2' /></svg>");
+}
+.sp {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='20'><line x1='0' y1='10' x2='50' y2='10' stroke='%2319A598' stroke-width='4' /></svg>");
+}
+.lb {
+  background-color: #5c913a;
+}
+.mc,
+.mc::before {
+  background-image: url("/static/style/sprite.png");
+  background-size: 59px;
+  background-position: top left 25px;
+  background-repeat: no-repeat;
+}
+.mc::before {
+  background-position: top left;
+  content: "";
+  display: block;
+  height: 20px;
+  width: 26px;
 }

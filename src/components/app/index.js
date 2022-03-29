@@ -28,9 +28,7 @@ const App = () => {
     <div id="app">
       <Header />
       <Layers {...{ services, mapState, setMapState }} />
-      {mapState.modelLayer !== "" ? (
-        <Legend legend={config.legends[mapState.modelLayer]} />
-      ) : null}
+      <Legend legends={config.legends} mapState={mapState} />
       <Map
         {...{
           projectBbox,

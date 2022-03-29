@@ -3,6 +3,21 @@ export const legends = {
     colors: ["#4591ac", "#265118"],
     labels: ["Land Loss", "Land Gain"],
   },
+  Projects: {
+    classes: ["di", "hr", "sr", "bs", "bh", "or", "rr", "sp", "lb", "mc"],
+    labels: [
+      "Diversion",
+      "Hydrologic Restoration",
+      "Structural Risk Reduction",
+      "Bank Stabilization",
+      "Barrier Island Restoration",
+      "Oyster Reef Restoration",
+      "Ridge Restoration",
+      "Shoreline Protection",
+      "Landbridge",
+      "Marsh Creation",
+    ],
+  },
   "Vegetation Type": {
     colors: ["#267300", "#A3C400", "#FFFF00", "#FFAA00", "#FF0000"],
     labels: [
