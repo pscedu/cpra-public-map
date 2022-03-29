@@ -13,11 +13,11 @@ const Header = () => (
         DataViewer <span class={style.preview}>Preview</span>
       </span>
     </h1>
-    <nav>
+    {/* <nav>
       <a class={style.active} href="/">
         Explore
       </a>
-    </nav>
+    </nav> */}
   </header>
 );
 
