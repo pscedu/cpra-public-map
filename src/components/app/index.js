@@ -8,6 +8,7 @@ import Header from "../header";
 import Layers from "../layers";
 import Legend from "../legend";
 import Map from "../map";
+import Watermark from "../watermark";
 import Explore from "../../routes/explore";
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
       <Header />
       <Layers {...{ services, mapState, setMapState }} />
       <Legend legends={config.legends} mapState={mapState} />
+      <Watermark>DRAFT</Watermark>
       <Map
         {...{
           projectBbox,
