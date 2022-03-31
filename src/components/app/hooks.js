@@ -5,6 +5,7 @@ const normalizeText = (text) => text.toLowerCase().replace(/[^a-z0-9 ]/g, "");
 
 export function useProjects(projectsUrl) {
   const [projects, setProjects] = useState([]);
+  const [projectBbox, setProjectBbox] = useState(null);
   const [projectFilters, setProjectFilters] = useState({
     name: "",
   });
@@ -20,6 +21,18 @@ export function useProjects(projectsUrl) {
       let allProjects = rows.map((row) => {
         let project = {};
         for (let i in headers) project[headers[i]] = row[i];
+        project.zoomToBbox = () =>
+          setProjectBbox([
+            project.xmin,
+            project.ymin,
+            project.xmax,
+            project.ymax,
+          ]);
+        project.filterOnName = () =>
+          setProjectFilters({
+            ...projectFilters,
+            name: project.name,
+          });
         return project;
       });
 
@@ -41,7 +54,7 @@ export function useProjects(projectsUrl) {
     return true;
   });
 
-  return [filteredProjects, projectFilters, setProjectFilters];
+  return [filteredProjects, projectBbox, projectFilters, setProjectFilters];
 }
 
 export function useServices(servicesUrl) {

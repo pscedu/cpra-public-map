@@ -1,7 +1,36 @@
 .slides {
   bottom: 0;
+  display: flex;
+  flex-direction: row;
   left: 0;
   position: absolute;
   right: 0;
   top: 0;
+}
+.tab {
+  background-color: #54715f;
+  border: 0 none transparent;
+  margin: 0 3px 0 0;
+  position: relative;
+  text-decoration: none;
+  width: 40px;
+}
+.tab-active,
+.tab:hover,
+.tab:active {
+  background-color: #274d36;
+}
+.tab-inner {
+  color: white;
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  left: 10px;
+  position: relative;
+  text-align: left;
+  text-transform: uppercase;
+  top: 275px;
+  transform: rotate(-90deg);
+  transform-origin: top left;
+  width: 250px;
 }

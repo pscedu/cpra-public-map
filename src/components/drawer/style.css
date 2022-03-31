@@ -1,5 +1,5 @@
 .drawer {
-  bottom: 50px;
+  bottom: 100px;
   height: 300px;
   left: 50px;
   position: absolute;
@@ -31,8 +31,6 @@
   content: "\1431";
 }
 .body {
-  background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.25) 0 0 8px;
   height: 100%;
   left: 65px;
   width: 100%;

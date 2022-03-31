@@ -3,13 +3,6 @@ import style from "./style.css";
 
 const ProjectDetail = (props) => {
   const project = props.project;
-  const zoomToProject = () =>
-    props.setProjectBbox([
-      project.xmin,
-      project.ymin,
-      project.xmax,
-      project.ymax,
-    ]);
   return (
     <div class={style["project-detail"]}>
       <h3>Type of Project</h3>
@@ -22,7 +15,7 @@ const ProjectDetail = (props) => {
       </p>
       <h3>Region</h3>
       <p>{project.region}</p>
-      <button onClick={zoomToProject}>Zoom Map to Project</button>
+      <button onClick={project.zoomToBbox}>Zoom Map to Project</button>
     </div>
   );
 };
