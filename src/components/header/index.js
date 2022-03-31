@@ -7,7 +7,7 @@ const Header = () => (
       <img src="/assets/images/logo.png" alt="CPRA" />
     </a>
     <h1>
-      <span class={style.title}>Louisiana's Costal</span>
+      <span class={style.title}>Louisiana's Coastal</span>
       <span class={style.title}>Master Plan 2023</span>
       <span class={style.subtitle}>
         DataViewer <span class={style.preview}>Preview</span>
