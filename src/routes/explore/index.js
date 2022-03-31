@@ -19,9 +19,9 @@ const Explore = ({
   const projectMap = {};
   projects.forEach((proj) => (projectMap[proj.project_id] = proj));
   let project = projectMap[projectId];
-  let activeProjectId = (project || {}).project_id || "";
-  if (mapState.activeProjectId != activeProjectId)
-    setMapState({ ...mapState, activeProjectId });
+  let selectedProjectId = (project || {}).project_id || "";
+  if (mapState.selectedProjectId != selectedProjectId)
+    setMapState({ ...mapState, selectedProjectId });
 
   let content = project ? (
     <Slide title={project.name}>
