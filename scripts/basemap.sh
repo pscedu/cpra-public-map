@@ -81,7 +81,9 @@ read -r -d '' project_sql << SQL
 select replace(replace(replace(replace(replace(lower(ProjectName),
         ' ', '-'), '.', ''), '''', ''), '/', '-'), '---', '-') as project_id,
     case when ProjectTypeCode = 'IP' then (
-        case when ElementTypeCode = 'MC' and ProjectName like "%Landbridge%" then 'LB'
+        case when ProjectName = 'Manchac Wetland Restoration and Maurepas Landbridge'
+                then 'MC' 
+            when ElementTypeCode = 'MC' and ProjectName like "%Landbridge%" then 'LB'
             when ElementTypeCode in ('CH', 'CL') then 'HR'
             when ElementTypeCode in ('EL', 'GA', 'PL', 'PW') then 'SR'
             when ElementTypeCode in ('BS', 'MC', 'OR', 'RR', 'SP') then ElementTypeCode
