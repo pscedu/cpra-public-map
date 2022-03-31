@@ -36,6 +36,7 @@ const ProjectList = ({
               type="search"
               value={projectFilters.name}
               onKeyUp={onName}
+              onSearch={onName}
               placeholder="Filter projects..."
             />
           </th>
