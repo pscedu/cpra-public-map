@@ -49,12 +49,15 @@ class Map extends Component {
           )
         : null,
       center: [-91.215, 29.41],
+      dragRotate: false,
+      hash: true,
       maxBounds: [-91.215 - 5, 29.41 - 3, -91.215 + 5, 29.41 + 3],
       maxZoom: 12,
       minZoom: 6,
       zoom: 8,
-      hash: true,
     });
+
+    this.map.touchZoomRotate.disableRotation();
 
     this.map.on("idle", () => {
       if (this.props.mapState.prevYear !== null)
