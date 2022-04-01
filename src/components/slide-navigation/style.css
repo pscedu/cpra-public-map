@@ -1,7 +1,7 @@
 .slide-navigation {
-  float: right;
-  position: relative;
-  top: 10px;
+  left: 0;
+  position: absolute;
+  top: 310px;
 }
 .bubble {
   background-color: #274d36;
@@ -10,13 +10,17 @@
   color: white;
   display: inline-block;
   line-height: 36px;
-  margin: 0 0 0 10px;
+  margin: 0 10px 0 0;
   text-decoration: none;
   vertical-align: middle;
 }
 span.bubble {
+  background-color: rgba(255, 255, 255, 0.85);
+  box-shadow: none;
+  color: #274d36;
   font-size: 20px;
-  padding: 5px 30px;
+  font-weight: bold;
+  padding: 5px 20px;
 }
 a.bubble {
   font-size: 30px;

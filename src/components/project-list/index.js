@@ -13,7 +13,7 @@ const ProjectList = ({
       class={`${style.project} project-type-icon-${project.type.toLowerCase()}`}
     >
       <td class={style.name}>
-        <a href={`/${project.project_id}`}>{project.name}</a>
+        <a href={`/projects/${project.project_id}`}>{project.name}</a>
       </td>
       <td class={style.type}>{projectTypes[project.type]}</td>
       <td class={style.region}>{project.region}</td>

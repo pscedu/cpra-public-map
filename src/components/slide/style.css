@@ -1,7 +1,13 @@
 .slide {
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 0 8px;
   height: 100%;
   overflow-y: auto;
   padding: 25px;
+  width: 100%;
+}
+a + .slide {
+  margin: 0 4px 0 -2px;
 }
 .slide h2 {
   font-size: 24px;

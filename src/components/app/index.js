@@ -12,9 +12,8 @@ import Watermark from "../watermark";
 import Explore from "../../routes/explore";
 
 const App = () => {
-  const [projects, projectFilters, setProjectFilters] = useProjects(
-    config.projectListUrl
-  );
+  const [projects, projectBbox, projectFilters, setProjectFilters] =
+    useProjects(config.projectListUrl);
   const services = useServices(config.servicesUrl);
   const [mapState, setMapState] = useState({
     selectedProjectId: "",
@@ -23,7 +22,6 @@ const App = () => {
     prevYear: null,
     year: 50,
   });
-  const [projectBbox, setProjectBbox] = useState(null);
 
   return (
     <div id="app">
@@ -44,12 +42,11 @@ const App = () => {
       <Router>
         <Explore
           mapState={mapState}
-          path="/:projectId?"
+          path="/:slideId?/:projectId?"
           projects={projects}
           projectFilters={projectFilters}
           projectTypes={config.projectTypes}
           setMapState={setMapState}
-          setProjectBbox={setProjectBbox}
           setProjectFilters={setProjectFilters}
         />
       </Router>
