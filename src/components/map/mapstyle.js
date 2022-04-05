@@ -135,6 +135,11 @@ function projectLayers(show, filter, suffix = "") {
   ];
 }
 
+function rasterTileUrl(serviceUrl, prefix) {
+  let sub = `//${prefix}.`;
+  return `${serviceUrl.replace("//", sub)}/tiles/{z}/{x}/{y}.png`;
+}
+
 export function getStyle(services, mapState, projects) {
   if (services === null) return { version: 8, sources: {}, layers: [] };
 
@@ -143,11 +148,31 @@ export function getStyle(services, mapState, projects) {
   // Prepare sources.
   const sources = {};
   for (let service of Object.values(services)) {
-    let source = {
-      type: service.imageType == "pbf" ? "vector" : "raster",
-      url: service.url,
-    };
-    if (source.type == "raster") source.tileSize = 256;
+    let source;
+    if (service.imageType == "pbf") {
+      source = {
+        type: "vector",
+        url: service.url,
+      };
+    } else {
+      source = {
+        bounds: [
+          -94.00080091962352, 28.70426878930118, -87.51148588666453,
+          31.048795426051505,
+        ],
+        type: "raster",
+        tiles: [
+          rasterTileUrl(service.url, "a"),
+          rasterTileUrl(service.url, "b"),
+          rasterTileUrl(service.url, "c"),
+          rasterTileUrl(service.url, "d"),
+        ],
+        tileSize: 256,
+      };
+    }
+    if (source.type == "raster") {
+      source.tileSize = 256;
+    }
     sources[service.name] = source;
   }
 
