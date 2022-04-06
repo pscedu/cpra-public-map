@@ -54,51 +54,67 @@ const Explore = ({
         mapState={mapState}
         setMapState={setMapState}
       >
-        <Slide id="introduction" title="Welcome!" tab-title="Introduction">
-          Welcome to the portal!
+        <Slide
+          id="introduction"
+          title="Welcome to the Louisiana Coastal Protection and Restoration Authority Data Viewer"
+          tab-title="Introduction"
+        >
+          The land change and vegetation data from this interactive map
+          (currently in draft form) will help to inform decisions about coastal
+          restoration and risk reduction projects in Louisiana as part of the
+          2023 Coastal Master Plan. Additional data including flood depths,
+          estimated annual damage, and structure exposure will be added as it
+          becomes available.{" "}
+          <strong>
+            Use the arrows below and the map layers panel above to explore the
+            map.
+          </strong>
         </Slide>
         <Slide
           id="land-change"
-          title="Land Change"
+          title="Land Change: Lower Barataria Landbridge"
+          tab-title="Land Change"
           modelLayer="Land Change"
           projectId="lower-barataria-landbridge"
         >
           <p>
-            As marsh is converted to open water, the Louisiana coast loses habit
-            and its ability to suppress the impacts of large storms (e.g.
-            Hurricane Ida).{" "}
+            The combination of sea level rise and land subsidence contributes
+            significantly to rapid rates of land loss in coastal Louisiana. As
+            marsh is converted to open water, the Louisiana coast loses habitat
+            and its ability to limit the impacts of large storms.{" "}
             <strong>
               Use the year slider in the map layers box to see projected land
-              loss over time.
+              loss over time without any action.
             </strong>
           </p>
           <p>
-            The proposed Lower Barataria Landbridge project was designed to act
-            as a natural barrier to control hydrology in the basin, mitigate the
-            impacts of sea level rise, and stimulate the natural regeneration of
-            marsh in this ecologically diverse region. Through our Future With
-            Action modeling (coming soon!) we hope to see the Lower Barataria
-            Landbridge preserve marsh and mitigate flood risk for coastal
-            residents. If the project performs well over the 50 year time
-            period, it will be selected as a 2023 Louisiana Coastal Master Plan
-            project with the potential for future funding and construction.
+            The proposed Lower Barataria Landbridge project is intended to act
+            as a natural barrier to manage hydrology in the basin, mitigate the
+            impacts of sea level rise, and support marsh health in this
+            ecologically diverse region. Through our Future With Action
+            modeling, we hope to see the Lower Barataria Landbridge preserve
+            marsh and mitigate flood risk for coastal residents. If the project
+            performs well over the 50 year model period, it may be selected as a
+            2023 Louisiana Coastal Master Plan project with the potential for
+            future funding and construction.
           </p>
         </Slide>
         <Slide
           id="vegetation-type"
-          title="Vegetation Type"
+          title="Vegetation Type: Atchafalaya River Diversion"
+          tab-title="Vegetation Type"
           modelLayer="Vegetation Type"
           projectId="atchafalaya-river-diversion"
         >
           <p>
-            A major coastal issue in Louisiana is the upward (or coastward)
+            A major issue in some parts of coastal Louisiana is the inland
             migration of salinity over time. Vegetation that thrives is fresher
             environments is killed by increased salinity, and fresh-brackish
             species are compressed to smaller habitable areas (or completely
             wiped out in some cases).{" "}
             <strong>
-              Use the year slider in the map layers box to see how vegetation
-              type is projected to change over time.
+              Use the year slider in the map layers box to see how vegetation is
+              projected to change over time without any action.
             </strong>
           </p>
           <p>
