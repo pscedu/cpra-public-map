@@ -4,6 +4,7 @@ import style from "./style.css";
 const ProjectList = ({
   projects,
   projectFilters,
+  projectTypeDescriptions,
   projectTypes,
   setProjectFilters,
 }) => {
@@ -15,7 +16,9 @@ const ProjectList = ({
       <td class={style.name}>
         <a href={`/projects/${project.project_id}`}>{project.name}</a>
       </td>
-      <td class={style.type}>{projectTypes[project.type]}</td>
+      <td class={style.type} title={projectTypeDescriptions[project.type]}>
+        {projectTypes[project.type]}
+      </td>
       <td class={style.region}>{project.region}</td>
     </tr>
   ));

@@ -13,6 +13,7 @@ const Explore = ({
   projects,
   projectId,
   projectFilters,
+  projectTypeDescriptions,
   projectTypes,
   setMapState,
   setProjectFilters,
@@ -30,13 +31,18 @@ const Explore = ({
       <a class={style["close-button"]} href="/projects">
         <span class="sr-only">Close</span>
       </a>
-      <ProjectDetail project={project} projectTypes={projectTypes} />
+      <ProjectDetail
+        project={project}
+        projectTypes={projectTypes}
+        projectTypeDescriptions={projectTypeDescriptions}
+      />
     </Slide>
   ) : (
     <Slide id="projects" tab-title="Projects">
       <ProjectList
         projects={projects}
         projectFilters={projectFilters}
+        projectTypeDescriptions={projectTypeDescriptions}
         projectTypes={projectTypes}
         setProjectFilters={setProjectFilters}
       />

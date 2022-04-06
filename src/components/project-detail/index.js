@@ -7,6 +7,7 @@ const ProjectDetail = (props) => {
     <div class={style["project-detail"]}>
       <h3>Type of Project</h3>
       <p
+        title={props.projectTypeDescriptions[project.type]}
         class={`${
           style["project-type"]
         } project-type-icon-${project.type.toLowerCase()}`}

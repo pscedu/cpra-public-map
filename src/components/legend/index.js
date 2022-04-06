@@ -6,8 +6,9 @@ const getItems = (legend) =>
     const css = {};
     if (legend.colors) css.backgroundColor = legend.colors[i];
     const cls = legend.classes ? style[legend.classes[i]] : "";
+    const tooltip = legend.tooltips ? { title: legend.tooltips[i] } : {};
     return (
-      <li key={label} class={style["legend-item"]}>
+      <li key={label} class={style["legend-item"]} {...tooltip}>
         <span class={`${style.symbol} ${cls}`} style={css} />
         <span class={style.label}>{label}</span>
       </li>

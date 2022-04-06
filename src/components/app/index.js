@@ -45,6 +45,7 @@ const App = () => {
           path="/:slideId?/:projectId?"
           projects={projects}
           projectFilters={projectFilters}
+          projectTypeDescriptions={config.projectTypeDescriptions}
           projectTypes={config.projectTypes}
           setMapState={setMapState}
           setProjectFilters={setProjectFilters}

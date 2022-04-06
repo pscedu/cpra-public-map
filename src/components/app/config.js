@@ -1,3 +1,32 @@
+export const servicesUrl = "https://tiles.mpdv-23.bridges2.psc.edu/services";
+export const projectListUrl = "/projects.csv";
+export const projectTypes = {
+  BH: "Barrier Island Restoration",
+  BS: "Bank Stabilization",
+  DI: "Diversion",
+  HR: "Hydrologic Restoration",
+  IP: "Integrated Project",
+  LB: "Landbridge",
+  MC: "Marsh Creation",
+  NR: "Non-Structural Risk Reduction",
+  OR: "Oyster Reef Restoration",
+  RR: "Ridge Restoration",
+  SP: "Shoreline Protection",
+  SR: "Structural Risk Reduction",
+};
+export const projectTypeDescriptions = {
+  BH: "Barrier Island/Headland Restoration is the creation and restoration of dune, beach, and back barrier marsh to restore or augment offshore barrier islands and headlands.",
+  BS: "Bank Stabilization is the onshore placement of earthen fill and vegetation planting designed to reduce wave energies and maintain shorelines in open bays, lakes, and bayous.",
+  DI: "Diversions use channels and/or structures to divert sediment and fresh water from the Mississippi and Atchafalaya Rivers into adjacent basins.",
+  HR: "Hydrologic Restoration conveys fresh water to areas that have been cut off by man-made features or prevents the intrusion of salt water into fresh areas through man-made channels and eroded wetlands.",
+  LB: "Land Bridge establishes new wetlands in deep and shallow open water across basins to maintain estuarine gradient through sediment dredging and placement.",
+  MC: "Marsh Creation establishes new wetlands in open water areas such as bays, ponds, and canals through sediment dredging and placement.",
+  NR: "Non-Structural Risk Reduction projects elevate and floodproof buildings and help property owners prepare for flooding or move out of areas of high flood risk.",
+  OR: "Oyster Barrier Reefs are bioengineered to improve oyster propagation and serve as breakwaters to attenuate wave energies.",
+  RR: "Ridge Restoration uses dredging, sediment placement, and vegetative plantings to restore natural ridge functions in basins.",
+  SP: "Shoreline Protection provided by near-shore rock breakwaters reduces wave energies on shorelines surrounding open bays, lakes, sounds, and bayous.",
+  SR: "Structural Risk Reduction projects reduce flood risk by acting as physical barriers against storm surge. These systems can include earthen levees, floodwalls, floodgates, and pumping stations.",
+};
 export const legends = {
   "Land Change": {
     colors: ["#4591ac", "#265118"],
@@ -17,6 +46,18 @@ export const legends = {
       "Landbridge",
       "Marsh Creation",
     ],
+    tooltips: [
+      projectTypeDescriptions.DI,
+      projectTypeDescriptions.HR,
+      projectTypeDescriptions.SR,
+      projectTypeDescriptions.BS,
+      projectTypeDescriptions.BH,
+      projectTypeDescriptions.OR,
+      projectTypeDescriptions.RR,
+      projectTypeDescriptions.SP,
+      projectTypeDescriptions.LB,
+      projectTypeDescriptions.MC,
+    ],
   },
   "Vegetation Type": {
     colors: ["#267300", "#A3C400", "#FFFF00", "#FFAA00", "#FF0000"],
@@ -29,19 +70,3 @@ export const legends = {
     ],
   },
 };
-export const projectListUrl = "/projects.csv";
-export const projectTypes = {
-  BH: "Barrier Island Restoration",
-  BS: "Bank Stabilization",
-  DI: "Diversion",
-  HR: "Hydrologic Restoration",
-  IP: "Integrated Project",
-  LB: "Landbridge",
-  MC: "Marsh Creation",
-  NR: "Non-Structural Risk Reduction",
-  OR: "Oyster Reef Restoration",
-  RR: "Ridge Restoration",
-  SP: "Shoreline Protection",
-  SR: "Structural Risk Reduction",
-};
-export const servicesUrl = "https://tiles.mpdv-23.bridges2.psc.edu/services";
