@@ -6,25 +6,11 @@
     "y": 0,
     "pixelRatio": 3
   },
-  "purple-dots": {
-    "width": 64,
-    "height": 64,
-    "x": 80,
-    "y": 0,
-    "pixelRatio": 3
-  },
-  "black-square": {
+  "square": {
     "width": 16,
     "height": 16,
     "x": 64,
     "y": 0,
-    "pixelRatio": 1
-  },
-  "purple-square": {
-    "width": 16,
-    "height": 16,
-    "x": 64,
-    "y": 17,
     "pixelRatio": 1
   }
 }
