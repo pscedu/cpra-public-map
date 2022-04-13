@@ -192,7 +192,6 @@ export function getStyle(services, mapState, projects) {
     mapState.year,
     mapState.subtype
   );
-  console.log(prevLayerName, layerName);
   const modelLayers = Object.values(services)
     .filter((service) => service.name.indexOf("Base Map") == -1)
     .map((service) => {
