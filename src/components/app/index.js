@@ -18,9 +18,10 @@ const App = () => {
   const [mapState, setMapState] = useState({
     selectedProjectId: "",
     showProjects: true,
-    modelLayer: "",
+    modelLayer: null,
+    subtype: null,
     prevYear: null,
-    year: 50,
+    year: "50",
   });
 
   return (

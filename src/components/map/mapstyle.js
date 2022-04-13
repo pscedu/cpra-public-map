@@ -181,7 +181,6 @@ export function getStyle(services, mapState, projects) {
     .filter((service) => service.name.indexOf("Base Map") == -1)
     .map((service) => {
       let [layerName, yearStr] = service.name.split(" - Year ");
-      let year = parseInt(yearStr, 10);
       let visibleYear =
         mapState.prevYear !== null ? mapState.prevYear : mapState.year;
       return {
@@ -191,12 +190,12 @@ export function getStyle(services, mapState, projects) {
         paint: {
           "raster-fade-duration": 0,
           "raster-opacity":
-            layerName == mapState.modelLayer && year == visibleYear ? 1 : 0,
+            layerName == mapState.modelLayer && yearStr == visibleYear ? 1 : 0,
         },
         layout: {
           visibility:
             layerName == mapState.modelLayer &&
-            [mapState.year, mapState.prevYear].indexOf(year) != -1
+            [mapState.year, mapState.prevYear].indexOf(yearStr) != -1
               ? "visible"
               : "none",
         },

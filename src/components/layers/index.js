@@ -1,19 +1,32 @@
 import { h } from "preact";
+import { useEffect, useState } from "preact/hooks";
 import style from "./style.css";
 
 const Layers = (props) => {
   const { services, mapState, setMapState } = props;
-  if (!services) return null;
 
-  const modelLayerYears = {};
-  const modelLayerNames = [];
-  for (let service of Object.values(services)) {
-    if (service.name.indexOf("Base Map") != -1) continue;
-    let [name, yearStr] = service.name.split(" - Year ");
-    modelLayerYears[name] = modelLayerYears[name] || [];
-    modelLayerYears[name].push(parseInt(yearStr));
-    if (modelLayerNames.indexOf(name) == -1) modelLayerNames.push(name);
-  }
+  const [modelLayers, setModelLayers] = useState({});
+  useEffect(() => {
+    if (!services) return;
+    const layers = {};
+    for (let service of Object.values(services)) {
+      if (service.name.indexOf("Base Map") != -1) continue;
+      let [name, year, subtype] = service.name.split(" - ");
+      let layer = (layers[name] = layers[name] || { years: [] });
+      layer.years.push(year.replace("Year ", ""));
+      if (subtype) {
+        let parts = subtype.split(" ");
+        let subtypeValue = parts.pop();
+        let subtypeName = parts.join(" ");
+        layer.subtypeName = subtypeName;
+        layer.subtypeValues = layer.subtypeValues || [];
+        layer.subtypeValues.push(subtypeValue);
+      }
+    }
+    setModelLayers(layers);
+  }, [services]);
+
+  const modelLayerNames = Object.keys(modelLayers);
   modelLayerNames.sort();
 
   const setShowProjects = (e) =>
@@ -25,21 +38,21 @@ const Layers = (props) => {
   const setModelLayer = (e) =>
     setMapState({
       ...mapState,
-      modelLayer: e.target.value,
+      modelLayer: e.target.value === "" ? null : e.target.value,
       prevYear: null,
     });
 
   const setYear = (e) => {
-    const year = parseInt(e.target.value);
-    const hasYear = modelLayerYears[mapState.modelLayer].indexOf(year) == -1;
+    const year = e.target.value;
+    const hasYear = modelLayers[mapState.modelLayer].years.indexOf(year) == -1;
     setMapState({
       ...mapState,
-      year: year,
+      year,
       prevYear: hasYear ? null : mapState.year,
     });
   };
 
-  const yearEnabled = mapState.modelLayer !== "";
+  const yearEnabled = mapState.modelLayer !== null;
   return (
     <div class={style.layers}>
       <h2>Map Layers</h2>
@@ -62,7 +75,9 @@ const Layers = (props) => {
         >
           <option value="">None</option>
           {modelLayerNames.map((name) => (
-            <option value={name}>{name}</option>
+            <option key={name} value={name}>
+              {name}
+            </option>
           ))}
         </select>
       </div>
@@ -81,7 +96,7 @@ const Layers = (props) => {
           disabled={!yearEnabled}
           value={mapState.year}
           onInput={setYear}
-        ></input>
+        />
       </div>
     </div>
   );

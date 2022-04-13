@@ -20,7 +20,7 @@ const Legend = ({ legends, mapState }) => {
   if (mapState.showProjects)
     content.push(<h2>Projects</h2>, <ul>{getItems(legends["Projects"])}</ul>);
 
-  if (mapState.modelLayer !== "")
+  if (mapState.modelLayer)
     content.push(
       <h2>{mapState.modelLayer}</h2>,
       <ul>{getItems(legends[mapState.modelLayer])}</ul>
