@@ -2,6 +2,12 @@ function linearZoom(min, max) {
   return ["interpolate", ["linear"], ["zoom"], 6, min, 12, max];
 }
 
+function getLayerName(modelLayer, year, subtype) {
+  let name = `${modelLayer} - Year ${year}`;
+  if (subtype) name += ` - ${subtype}`;
+  return name;
+}
+
 function projectLayers(show, filter, suffix = "") {
   if (!show) return [];
   return [
@@ -177,12 +183,19 @@ export function getStyle(services, mapState, projects) {
   }
 
   // Prepare model layers.
+  let prevLayerName =
+    mapState.prevYear !== null
+      ? getLayerName(mapState.modelLayer, mapState.prevYear, mapState.subtype)
+      : null;
+  let layerName = getLayerName(
+    mapState.modelLayer,
+    mapState.year,
+    mapState.subtype
+  );
+  console.log(prevLayerName, layerName);
   const modelLayers = Object.values(services)
     .filter((service) => service.name.indexOf("Base Map") == -1)
     .map((service) => {
-      let [layerName, yearStr] = service.name.split(" - Year ");
-      let visibleYear =
-        mapState.prevYear !== null ? mapState.prevYear : mapState.year;
       return {
         id: service.name,
         type: "raster",
@@ -190,12 +203,14 @@ export function getStyle(services, mapState, projects) {
         paint: {
           "raster-fade-duration": 0,
           "raster-opacity":
-            layerName == mapState.modelLayer && yearStr == visibleYear ? 1 : 0,
+            service.name ===
+            (prevLayerName !== null ? prevLayerName : layerName)
+              ? 1
+              : 0,
         },
         layout: {
           visibility:
-            layerName == mapState.modelLayer &&
-            [mapState.year, mapState.prevYear].indexOf(yearStr) != -1
+            service.name === layerName || service.name === prevLayerName
               ? "visible"
               : "none",
         },

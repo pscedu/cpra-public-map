@@ -19,8 +19,8 @@ const App = () => {
     selectedProjectId: "",
     showProjects: true,
     modelLayer: null,
-    subtype: null,
     prevYear: null,
+    subtype: null,
     year: "50",
   });
 

@@ -15,12 +15,8 @@ const Layers = (props) => {
       let layer = (layers[name] = layers[name] || { years: [] });
       layer.years.push(year.replace("Year ", ""));
       if (subtype) {
-        let parts = subtype.split(" ");
-        let subtypeValue = parts.pop();
-        let subtypeName = parts.join(" ");
-        layer.subtypeName = subtypeName;
-        layer.subtypeValues = layer.subtypeValues || [];
-        layer.subtypeValues.push(subtypeValue);
+        layer.subtypes = layer.subtypes || [];
+        if (!layer.subtypes.includes(subtype)) layer.subtypes.push(subtype);
       }
     }
     setModelLayers(layers);
@@ -35,11 +31,24 @@ const Layers = (props) => {
       showProjects: e.target.checked,
     });
 
-  const setModelLayer = (e) =>
+  const setModelLayer = (e) => {
+    let modelLayer = e.target.value === "" ? null : e.target.value;
     setMapState({
       ...mapState,
-      modelLayer: e.target.value === "" ? null : e.target.value,
+      modelLayer,
       prevYear: null,
+      subtype:
+        modelLayers[modelLayer] && modelLayers[modelLayer].subtypes
+          ? modelLayers[modelLayer].subtypes[0]
+          : null,
+    });
+  };
+
+  const setSubtype = (e) =>
+    setMapState({
+      ...mapState,
+      prevYear: null,
+      subtype: e.target.value,
     });
 
   const setYear = (e) => {
@@ -53,6 +62,7 @@ const Layers = (props) => {
   };
 
   const yearEnabled = mapState.modelLayer !== null;
+  const subtypeEnabled = mapState.subtype !== null;
   return (
     <div class={style.layers}>
       <h2>Map Layers</h2>
@@ -79,6 +89,24 @@ const Layers = (props) => {
               {name}
             </option>
           ))}
+        </select>
+      </div>
+      <div class={style.input}>
+        <label for="model-layer-option">Model Layer Option</label>
+        <select
+          name="model-layer-option"
+          id="model-layer-option"
+          value={mapState.subtype}
+          onChange={setSubtype}
+          disabled={!subtypeEnabled}
+        >
+          {((modelLayers[mapState.modelLayer] || {}).subtypes || []).map(
+            (name) => (
+              <option key={name} value={name}>
+                {name}
+              </option>
+            )
+          )}
         </select>
       </div>
       <div class={style.input}>
