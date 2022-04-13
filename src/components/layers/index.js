@@ -2,6 +2,8 @@ import { h } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import style from "./style.css";
 
+const toFloat = (value) => parseFloat(value.replace(/[^0-9.]/g, ""));
+
 const Layers = (props) => {
   const { services, mapState, setMapState } = props;
 
@@ -19,6 +21,9 @@ const Layers = (props) => {
         if (!layer.subtypes.includes(subtype)) layer.subtypes.push(subtype);
       }
     }
+    for (let layer of Object.values(layers))
+      if (layer.subtypes)
+        layer.subtypes.sort((a, b) => toFloat(a) - toFloat(b));
     setModelLayers(layers);
   }, [services]);
 
