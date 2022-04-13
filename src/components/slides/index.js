@@ -53,6 +53,8 @@ const Slides = ({
       setMapState({
         ...mapState,
         modelLayer,
+        // TODO: Handle layers that have subtypes.
+        subtype: null,
       });
 
     let project = projectMap[projectId];
