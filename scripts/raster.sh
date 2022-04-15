@@ -77,6 +77,7 @@ convert_raster () {
     in_path="$1"
     raster_type="$2"
     raster_name="$3"
+    mask="$4"
     in_name=$(basename "$in_path")
 
     echo "Converting $in_name..."
@@ -96,6 +97,10 @@ convert_raster () {
     gdal_rasterize -b 1 -b 2 -b 3 -b 4 -burn 0 \
         -where "ecoregion in ('ATB', 'UVR')" \
         "/vsizip/$DATA/MP23_Ecoregions_withAtch.zip" $working_tif_path
+
+    if [ ! -z "$mask" ]; then
+        gdal_rasterize -b 1 -b 2 -b 3 -b 4 -burn 0 "$mask" $working_tif_path
+    fi
 
     # Tile the highest zoom level.
     gdal_translate $working_tif_path $working_tiles_path \
@@ -129,5 +134,6 @@ do
     [[ "$year" == "01" ]] && year="0"
     exceedance=$(basename "$in_path" | cut -d "_" -f12)
     raster_name="Flood Depth - Year $year - Exceedance Probability $exceedance"
-    convert_raster $in_path "CLARA" "$raster_name"
+    convert_raster $in_path "CLARA" "$raster_name" \
+        "/vsizip/$DATA/Lake_Mask.zip/Lake Mask/lake_mask_for_mapping.shp"
 done
