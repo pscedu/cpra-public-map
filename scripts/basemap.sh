@@ -2,8 +2,12 @@
 
 DATA="./data"
 TILES="./tiles"
+WORKING="./working"
+
 export GDAL_CACHEMAX="80%"
 export GDAL_NUM_THREADS="ALL_CPUS"
+
+mkdir -p "$WORKING"
 
 # Merge the two land-water interface rasters.
 gdal_merge.py -o $DATA/lwi_merged.tif \
@@ -103,6 +107,38 @@ ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "${project_sql/LAYER/Lines}" \
 ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "${project_sql/LAYER/Polygons}" \
     $DATA/project_polygon.geojson $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
 
+read -r -d '' parish_sql << SQL
+select NAME as name
+from tl_2021_us_county
+where STATEFP = '22'
+SQL
+ogr2ogr -t_srs "EPSG:4326" -sql "$parish_sql" \
+    $WORKING/parish.geojson /vsizip/$DATA/tl_2021_us_county.zip/tl_2021_us_county.shp
+
+read -r -d '' uscd_sql << SQL
+select cast(CD116FP as integer) as district
+from tl_2021_us_cd116
+where STATEFP = '22'
+SQL
+ogr2ogr -t_srs "EPSG:4326" -sql "$uscd_sql" \
+    $WORKING/uscd.geojson /vsizip/$DATA/tl_2021_us_cd116.zip/tl_2021_us_cd116.shp
+
+read -r -d '' lash_sql << SQL
+select cast(SLDLST as integer) as district
+from tl_2021_22_sldl
+where FUNCSTAT = 'N'
+SQL
+ogr2ogr -t_srs "EPSG:4326" -sql "$lash_sql" \
+    $WORKING/lash.geojson /vsizip/$DATA/tl_2021_22_sldl.zip/tl_2021_22_sldl.shp
+
+read -r -d '' lass_sql << SQL
+select cast(SLDUST as integer) as district
+from tl_2021_22_sldu
+where FUNCSTAT = 'N'
+SQL
+ogr2ogr -t_srs "EPSG:4326" -sql "$lass_sql" \
+    $WORKING/lass.geojson /vsizip/$DATA/tl_2021_22_sldu.zip/tl_2021_22_sldu.shp
+
 # Generate vector tiles.
 echo "Generating vector tiles..."
 tippecanoe -zg -o $TILES/basemap-vector.mbtiles \
@@ -111,6 +147,10 @@ tippecanoe -zg -o $TILES/basemap-vector.mbtiles \
     --extend-zooms-if-still-dropping \
     --base-zoom=7 \
     -n "Base Map: Vector" \
+    $WORKING/parish.geojson \
+    $WORKING/uscd.geojson \
+    $WORKING/lash.geojson \
+    $WORKING/lass.geojson \
     $DATA/project_point.geojson \
     $DATA/project_line.geojson \
     $DATA/project_polygon.geojson \
