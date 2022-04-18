@@ -49,6 +49,12 @@ const Layers = (props) => {
     });
   };
 
+  const setPoliticalBoundary = (e) =>
+    setMapState({
+      ...mapState,
+      politicalBoundary: e.target.value === "" ? null : e.target.value,
+    });
+
   const setSubtype = (e) =>
     setMapState({
       ...mapState,
@@ -130,6 +136,21 @@ const Layers = (props) => {
           value={mapState.year}
           onInput={setYear}
         />
+      </div>
+      <div class={style.input}>
+        <label for="political-boundary">Political Boundary</label>
+        <select
+          name="political-boundary"
+          id="political-boundary"
+          value={mapState.politicalBoundary}
+          onChange={setPoliticalBoundary}
+        >
+          <option value="">None</option>
+          <option value="parish">Parish</option>
+          <option value="uscd">U.S. Congressional District</option>
+          <option value="lash">Louisiana State House District</option>
+          <option value="lass">Louisiana State Senate District</option>
+        </select>
       </div>
     </div>
   );

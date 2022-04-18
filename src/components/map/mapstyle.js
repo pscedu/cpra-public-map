@@ -8,6 +8,41 @@ function getLayerName(modelLayer, year, subtype) {
   return name;
 }
 
+function politicalBoundaryLayers(politicalBoundary) {
+  if (!politicalBoundary) return [];
+  let prefix = politicalBoundary == "parish" ? "" : "District ";
+  return [
+    {
+      id: "political-boundary-line",
+      type: "line",
+      source: "Base Map: Vector",
+      "source-layer": `${politicalBoundary}_line`,
+      paint: {
+        "line-color": "#444444",
+        "line-dasharray": [2, 1],
+        "line-width": 2,
+      },
+    },
+    {
+      id: "political-boundary-label",
+      type: "symbol",
+      source: "Base Map: Vector",
+      "source-layer": `${politicalBoundary}_label`,
+      layout: {
+        "text-field": ["concat", prefix, ["get", "text"]],
+        "text-size": 15,
+        "text-font": ["Franklin Gothic Demi Regular"],
+      },
+      paint: {
+        "text-color": "#444444",
+        "text-halo-blur": 1,
+        "text-halo-color": "#ffffff",
+        "text-halo-width": 2,
+      },
+    },
+  ];
+}
+
 function projectLayers(show, filter, suffix = "") {
   if (!show) return [];
   return [
@@ -320,6 +355,9 @@ export function getStyle(services, mapState, projects) {
         type: "symbol",
         source: "Base Map: Vector",
         "source-layer": "label",
+        filter: mapState.politicalBoundary
+          ? ["==", "water", ["get", "type"]]
+          : true,
         layout: {
           "text-field": ["get", "text"],
           "text-size": ["case", ["==", "community", ["get", "type"]], 16, 13],
@@ -341,6 +379,7 @@ export function getStyle(services, mapState, projects) {
         ["==", ["get", "project_id"], mapState.selectedProjectId],
         "-selected"
       ),
+      ...politicalBoundaryLayers(mapState.politicalBoundary),
     ],
   };
 }

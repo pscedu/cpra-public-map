@@ -16,10 +16,11 @@ const App = () => {
     useProjects(config.projectListUrl);
   const services = useServices(config.servicesUrl);
   const [mapState, setMapState] = useState({
+    modelLayer: null,
+    politicalBoundary: null,
+    prevYear: null,
     selectedProjectId: "",
     showProjects: true,
-    modelLayer: null,
-    prevYear: null,
     subtype: null,
     year: "50",
   });

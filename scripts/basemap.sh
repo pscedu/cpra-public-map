@@ -108,37 +108,62 @@ ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "${project_sql/LAYER/Lines}" \
 ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "${project_sql/LAYER/Polygons}" \
     $WORKING/project_polygon.geojson $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
 
-read -r -d '' parish_sql << SQL
-select NAME as name
+read -r -d '' parish_label_sql << SQL
+select NAME as text,
+    st_pointonsurface(geometry) as geom
 from tl_2021_us_county
 where STATEFP = '22'
 SQL
-ogr2ogr -t_srs "EPSG:4326" -sql "$parish_sql" \
+ogr2ogr -t_srs "EPSG:4326" -dialect "sqlite" -sql "$parish_label_sql" \
+    $WORKING/parish_label.geojson \
+    /vsizip/$DATA/tl_2021_us_county.zip/tl_2021_us_county.shp
+
+ogr2ogr -t_srs "EPSG:4326" -where "STATEFP = '22'" \
     $WORKING/parish.geojson /vsizip/$DATA/tl_2021_us_county.zip/tl_2021_us_county.shp
 
-read -r -d '' uscd_sql << SQL
-select cast(CD116FP as integer) as district
+python3 ./scripts/poly2line.py $WORKING/parish.geojson $WORKING/parish_line.geojson
+
+read -r -d '' uscd_label_sql << SQL
+select cast(cast(CD116FP as integer) as character(3)) as text,
+    st_pointonsurface(geometry) as geom
 from tl_2021_us_cd116
 where STATEFP = '22'
 SQL
-ogr2ogr -t_srs "EPSG:4326" -sql "$uscd_sql" \
+ogr2ogr -t_srs "EPSG:4326" -dialect "sqlite" -sql "$uscd_label_sql" \
+    $WORKING/uscd_label.geojson /vsizip/$DATA/tl_2021_us_cd116.zip/tl_2021_us_cd116.shp
+
+ogr2ogr -t_srs "EPSG:4326" -where "STATEFP = '22'" \
     $WORKING/uscd.geojson /vsizip/$DATA/tl_2021_us_cd116.zip/tl_2021_us_cd116.shp
 
-read -r -d '' lash_sql << SQL
-select cast(SLDLST as integer) as district
+python3 ./scripts/poly2line.py $WORKING/uscd.geojson $WORKING/uscd_line.geojson
+
+read -r -d '' lash_label_sql << SQL
+select cast(cast(SLDLST as integer) as character(3)) as text,
+    st_pointonsurface(geometry) as geom
 from tl_2021_22_sldl
 where FUNCSTAT = 'N'
 SQL
-ogr2ogr -t_srs "EPSG:4326" -sql "$lash_sql" \
+ogr2ogr -t_srs "EPSG:4326" -dialect "sqlite" -sql "$lash_label_sql" \
+    $WORKING/lash_label.geojson /vsizip/$DATA/tl_2021_22_sldl.zip/tl_2021_22_sldl.shp
+
+ogr2ogr -t_srs "EPSG:4326" -where "FUNCSTAT = 'N'" \
     $WORKING/lash.geojson /vsizip/$DATA/tl_2021_22_sldl.zip/tl_2021_22_sldl.shp
 
-read -r -d '' lass_sql << SQL
-select cast(SLDUST as integer) as district
+python3 ./scripts/poly2line.py $WORKING/lash.geojson $WORKING/lash_line.geojson
+
+read -r -d '' lass_label_sql << SQL
+select cast(cast(SLDUST as integer) as character(3)) as text,
+    centroid(geometry) as geom
 from tl_2021_22_sldu
 where FUNCSTAT = 'N'
 SQL
-ogr2ogr -t_srs "EPSG:4326" -sql "$lass_sql" \
+ogr2ogr -t_srs "EPSG:4326" -dialect "sqlite" -sql "$lass_label_sql" \
+    $WORKING/lass_label.geojson /vsizip/$DATA/tl_2021_22_sldu.zip/tl_2021_22_sldu.shp
+
+ogr2ogr -t_srs "EPSG:4326" -where "FUNCSTAT = 'N'" \
     $WORKING/lass.geojson /vsizip/$DATA/tl_2021_22_sldu.zip/tl_2021_22_sldu.shp
+
+python3 ./scripts/poly2line.py $WORKING/lass.geojson $WORKING/lass_line.geojson
 
 # Generate vector tiles.
 echo "Generating vector tiles..."
@@ -148,10 +173,14 @@ tippecanoe -zg -o $TILES/basemap-vector.mbtiles \
     --extend-zooms-if-still-dropping \
     --base-zoom=7 \
     -n "Base Map: Vector" \
-    $WORKING/parish.geojson \
-    $WORKING/uscd.geojson \
-    $WORKING/lash.geojson \
-    $WORKING/lass.geojson \
+    $WORKING/parish_label.geojson \
+    $WORKING/uscd_label.geojson \
+    $WORKING/lash_label.geojson \
+    $WORKING/lass_label.geojson \
+    $WORKING/parish_line.geojson \
+    $WORKING/uscd_line.geojson \
+    $WORKING/lash_line.geojson \
+    $WORKING/lass_line.geojson \
     $WORKING/project_point.geojson \
     $WORKING/project_line.geojson \
     $WORKING/project_polygon.geojson \
