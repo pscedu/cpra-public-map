@@ -83,6 +83,10 @@ class Map extends Component {
         () => (this.map.getCanvas().style.cursor = "")
       );
     });
+
+    window.addEventListener("mapFitBounds", (e) =>
+      this.map.fitBounds(e.detail.bounds, e.detail.options)
+    );
   }
 
   render() {

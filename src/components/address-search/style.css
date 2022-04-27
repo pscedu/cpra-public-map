@@ -1,0 +1,9 @@
+.address-search {
+  position: absolute;
+  right: 50px;
+  top: 50px;
+  z-index: 50;
+}
+.address-search input {
+  width: 300px;
+}
