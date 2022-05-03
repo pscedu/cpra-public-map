@@ -13,8 +13,9 @@ import Watermark from "../watermark";
 import Explore from "../../routes/explore";
 
 const App = () => {
-  const [projects, projectBbox, projectFilters, setProjectFilters] =
-    useProjects(config.projectListUrl);
+  const [projects, projectFilters, setProjectFilters] = useProjects(
+    config.projectListUrl
+  );
   const services = useServices(config.servicesUrl);
   const [mapState, setMapState] = useState({
     modelLayer: null,
@@ -35,7 +36,6 @@ const App = () => {
       <Watermark>DRAFT</Watermark>
       <Map
         {...{
-          projectBbox,
           projects,
           servicesUrl: config.servicesUrl,
           services,

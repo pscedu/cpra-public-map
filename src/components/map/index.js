@@ -20,18 +20,6 @@ class Map extends Component {
       this.map.setStyle(
         getStyle(props.services, props.mapState, props.projects)
       );
-      if (props.projectBbox !== this.props.projectBbox) {
-        if (props.projectBbox[0] == props.projectBbox[2]) {
-          // Point project
-          this.map.easeTo({
-            center: props.projectBbox.slice(0, 2),
-            zoom: 10,
-          });
-        } else {
-          // Line/polygon/multipoint project
-          this.map.fitBounds(props.projectBbox, { padding: 50 });
-        }
-      }
     }
 
     return false;
