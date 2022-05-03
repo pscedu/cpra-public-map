@@ -21,16 +21,21 @@ const App = () => {
     modelLayer: null,
     politicalBoundary: null,
     prevYear: null,
+    searchPolygon: null,
     selectedProjectId: "",
     showProjects: true,
     subtype: null,
     year: "50",
   });
+  const updateMapState = (updates) => setMapState({ ...mapState, ...updates });
 
   return (
     <div id="app">
       <Header />
-      <AddressSearch geocodeUrl={config.geocodeUrl} />
+      <AddressSearch
+        geocodeUrl={config.geocodeUrl}
+        updateMapState={updateMapState}
+      />
       <Layers {...{ services, mapState, setMapState }} />
       <Legend legends={config.legends} mapState={mapState} />
       <Watermark>DRAFT</Watermark>

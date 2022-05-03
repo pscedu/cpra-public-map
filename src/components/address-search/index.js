@@ -1,8 +1,11 @@
 import { h } from "preact";
 import { useRef } from "preact/hooks";
+import bbox from "@turf/bbox";
+import buffer from "@turf/buffer";
+import { point } from "@turf/helpers";
 import style from "./style.css";
 
-const AddressSearch = ({ geocodeUrl }) => {
+const AddressSearch = ({ geocodeUrl, updateMapState }) => {
   const el = useRef(null);
 
   const search = async (e) => {
@@ -11,21 +14,28 @@ const AddressSearch = ({ geocodeUrl }) => {
     const url = new URL(geocodeUrl);
     url.searchParams.append("q", e.target.value);
     url.searchParams.append("addressdetails", "1");
+    url.searchParams.append("polygon_geojson", "1");
     const res = await fetch(url.toString());
     const results = await res.json();
-    if (results.length) zoomToResult(results[0]);
+    if (results.length) showResult(results[0]);
   };
 
-  const zoomToResult = (result) => {
-    const coords = result.boundingbox.map(parseFloat);
-    const event = new CustomEvent("mapFitBounds", {
+  const showResult = (result) => {
+    const searchPolygon =
+      result.category == "boundary"
+        ? result.geojson
+        : buffer(point([result.lon, result.lat].map(parseFloat)), 1, {
+            units: "miles",
+          }).geometry;
+    updateMapState({ searchPolygon });
+    const fitBoundsEvent = new CustomEvent("mapFitBounds", {
       bubbles: true,
       detail: {
-        bounds: [coords[2], coords[0], coords[3], coords[1]],
+        bounds: bbox(searchPolygon),
         options: { padding: 100 },
       },
     });
-    if (el.current) el.current.dispatchEvent(event);
+    if (el.current) el.current.dispatchEvent(fitBoundsEvent);
   };
 
   return (

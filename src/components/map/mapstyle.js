@@ -1,3 +1,7 @@
+import bboxPolygon from "@turf/bbox-polygon";
+import difference from "@turf/difference";
+import { feature, featureCollection } from "@turf/helpers";
+
 function linearZoom(min, max) {
   return ["interpolate", ["linear"], ["zoom"], 6, min, 12, max];
 }
@@ -181,7 +185,7 @@ function rasterTileUrl(serviceUrl, prefix) {
   return `${serviceUrl.replace("//", sub)}/tiles/{z}/{x}/{y}.png`;
 }
 
-export function getStyle(services, mapState, projects) {
+export function getStyle(services, mapState, projects, maxBounds) {
   if (services === null) return { version: 8, sources: {}, layers: [] };
 
   let loc = document.location;
@@ -216,6 +220,19 @@ export function getStyle(services, mapState, projects) {
     }
     sources[service.name] = source;
   }
+
+  let searchFeatures = [bboxPolygon(maxBounds)];
+  if (mapState.searchPolygon)
+    searchFeatures = [
+      difference(searchFeatures[0], mapState.searchPolygon),
+      feature(mapState.searchPolygon, { type: "search" }),
+    ];
+  searchFeatures[0].properties = { type: "screen" };
+
+  sources["search"] = {
+    type: "geojson",
+    data: featureCollection(searchFeatures),
+  };
 
   // Prepare model layers.
   let prevLayerName =
@@ -257,19 +274,9 @@ export function getStyle(services, mapState, projects) {
     ["literal", projects.map((project) => project.project_id)],
   ];
 
-  const selectedProjectScreen =
-    mapState.showProjects && mapState.selectedProjectId != ""
-      ? [
-          {
-            id: "selected-project-screen",
-            type: "background",
-            paint: {
-              "background-color": "#ffffff",
-              "background-opacity": 0.7,
-            },
-          },
-        ]
-      : [];
+  const showSearch =
+    mapState.searchPolygon ||
+    (mapState.showProjects && mapState.selectedProjectId != "");
 
   return {
     version: 8,
@@ -373,7 +380,33 @@ export function getStyle(services, mapState, projects) {
         },
       },
       ...projectLayers(mapState.showProjects, activeProjects),
-      ...selectedProjectScreen,
+      {
+        id: "search-screen",
+        source: "search",
+        type: "fill",
+        filter: ["==", "screen", ["get", "type"]],
+        paint: {
+          "fill-color": "#ffffff",
+          "fill-opacity": 0.7,
+        },
+        layout: {
+          visibility: showSearch ? "visible" : "none",
+        },
+      },
+      {
+        id: "search",
+        source: "search",
+        type: "line",
+        filter: ["==", "search", ["get", "type"]],
+        paint: {
+          "line-color": "#000000",
+          "line-dasharray": [1, 1],
+          "line-width": 2,
+        },
+        layout: {
+          visibility: showSearch ? "visible" : "none",
+        },
+      },
       ...projectLayers(
         mapState.showProjects && mapState.selectedProjectId != "",
         ["==", ["get", "project_id"], mapState.selectedProjectId],

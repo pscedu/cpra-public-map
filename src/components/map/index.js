@@ -4,6 +4,8 @@ import style from "./style.css";
 import { getStyle } from "./mapstyle";
 
 class Map extends Component {
+  center = [-91.215, 29.41];
+  maxBounds = [-91.215 - 5, 29.41 - 3, -91.215 + 5, 29.41 + 3];
   projectLayers = [
     "project-polygon-lb",
     "project-polygon-mc",
@@ -16,12 +18,7 @@ class Map extends Component {
   ];
 
   shouldComponentUpdate(props) {
-    if (this.map) {
-      this.map.setStyle(
-        getStyle(props.services, props.mapState, props.projects)
-      );
-    }
-
+    if (this.map) this.map.setStyle(this.getStyle(props));
     return false;
   }
 
@@ -29,17 +26,11 @@ class Map extends Component {
     // eslint-disable-next-line no-undef
     this.map = new maplibregl.Map({
       container: this.base,
-      style: this.props.services
-        ? getStyle(
-            this.props.services,
-            this.props.mapState,
-            this.props.projects
-          )
-        : null,
-      center: [-91.215, 29.41],
+      style: this.props.services ? getStyle(this.props) : null,
+      center: this.center,
       dragRotate: false,
       hash: true,
-      maxBounds: [-91.215 - 5, 29.41 - 3, -91.215 + 5, 29.41 + 3],
+      maxBounds: this.maxBounds,
       maxZoom: 12,
       minZoom: 6,
       zoom: 8,
@@ -74,6 +65,15 @@ class Map extends Component {
 
     window.addEventListener("mapFitBounds", (e) =>
       this.map.fitBounds(e.detail.bounds, e.detail.options)
+    );
+  }
+
+  getStyle(props) {
+    return getStyle(
+      props.services,
+      props.mapState,
+      props.projects,
+      this.maxBounds
     );
   }
 
