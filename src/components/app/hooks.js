@@ -5,7 +5,6 @@ const normalizeText = (text) => text.toLowerCase().replace(/[^a-z0-9 ]/g, "");
 
 export function useProjects(projectsUrl) {
   const [projects, setProjects] = useState([]);
-  const [projectBbox, setProjectBbox] = useState(null);
   const [projectFilters, setProjectFilters] = useState({
     name: "",
   });
@@ -21,13 +20,15 @@ export function useProjects(projectsUrl) {
       let allProjects = rows.map((row) => {
         let project = {};
         for (let i in headers) project[headers[i]] = row[i];
-        project.zoomToBbox = () =>
-          setProjectBbox([
-            project.xmin,
-            project.ymin,
-            project.xmax,
-            project.ymax,
-          ]);
+        project.zoomToBbox = () => {
+          const fitBoundsEvent = new CustomEvent("mapFitBounds", {
+            detail: {
+              bounds: [project.xmin, project.ymin, project.xmax, project.ymax],
+              options: { padding: 100 },
+            },
+          });
+          window.dispatchEvent(fitBoundsEvent);
+        };
         project.filterOnName = () =>
           setProjectFilters({
             ...projectFilters,
@@ -54,7 +55,7 @@ export function useProjects(projectsUrl) {
     return true;
   });
 
-  return [filteredProjects, projectBbox, projectFilters, setProjectFilters];
+  return [filteredProjects, projectFilters, setProjectFilters];
 }
 
 export function useServices(servicesUrl) {

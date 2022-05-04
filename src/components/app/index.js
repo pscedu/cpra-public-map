@@ -4,6 +4,7 @@ import { Router } from "preact-router";
 
 import * as config from "./config";
 import { useProjects, useServices } from "./hooks";
+import AddressSearch from "../address-search";
 import Header from "../header";
 import Layers from "../layers";
 import Legend from "../legend";
@@ -12,28 +13,34 @@ import Watermark from "../watermark";
 import Explore from "../../routes/explore";
 
 const App = () => {
-  const [projects, projectBbox, projectFilters, setProjectFilters] =
-    useProjects(config.projectListUrl);
+  const [projects, projectFilters, setProjectFilters] = useProjects(
+    config.projectListUrl
+  );
   const services = useServices(config.servicesUrl);
   const [mapState, setMapState] = useState({
     modelLayer: null,
     politicalBoundary: null,
     prevYear: null,
+    searchPolygon: null,
     selectedProjectId: "",
     showProjects: true,
     subtype: null,
     year: "50",
   });
+  const updateMapState = (updates) => setMapState({ ...mapState, ...updates });
 
   return (
     <div id="app">
       <Header />
+      <AddressSearch
+        geocodeUrl={config.geocodeUrl}
+        updateMapState={updateMapState}
+      />
       <Layers {...{ services, mapState, setMapState }} />
       <Legend legends={config.legends} mapState={mapState} />
       <Watermark>DRAFT</Watermark>
       <Map
         {...{
-          projectBbox,
           projects,
           servicesUrl: config.servicesUrl,
           services,
