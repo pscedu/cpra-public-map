@@ -82,6 +82,7 @@ const AddressSearch = ({ geocodeUrl, updateMapState }) => {
   const clear = () => {
     updateMapState({ searchPolygon: null });
     if (input.current) input.current.value = "";
+    setText("");
     setResults([]);
     setCurrentIdx(0);
   };
