@@ -9,6 +9,7 @@ import Header from "../header";
 import Layers from "../layers";
 import Legend from "../legend";
 import Map from "../map";
+import Toolbar from "../toolbar";
 import Watermark from "../watermark";
 import Explore from "../../routes/explore";
 
@@ -34,6 +35,7 @@ const App = () => {
       <Header geocodeUrl={config.geocodeUrl} updateMapState={updateMapState} />
       <Layers {...{ services, mapState, setMapState }} />
       <Legend legends={config.legends} mapState={mapState} />
+      <Toolbar />
       <Watermark>DRAFT</Watermark>
       <Map
         {...{
