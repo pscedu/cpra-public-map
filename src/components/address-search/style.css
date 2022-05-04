@@ -51,3 +51,20 @@
   content: "\2A09";
   font-size: 1.25rem;
 }
+.instructions {
+  color: #888888;
+  padding: 0 30px;
+}
+.examples {
+  padding: 0;
+}
+.examples li {
+  list-style-type: none;
+  padding: 4px 0;
+}
+.example {
+  background-color: #eeeeee;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  padding: 1px 10px;
+}

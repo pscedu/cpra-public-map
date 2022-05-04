@@ -45,6 +45,7 @@ const AddressSearch = ({ geocodeUrl, updateMapState }) => {
   const [text, setText] = useState("");
   const [results, setResults] = useState([]);
   const [currentIdx, setCurrentIdx] = useState(0);
+  const [focused, setFocused] = useState(false);
 
   const keyUp = async (e) => {
     // Select the active result when enter is pressed.
@@ -114,12 +115,49 @@ const AddressSearch = ({ geocodeUrl, updateMapState }) => {
         id="address-search"
         placeholder="Search by address, project, or region"
         onKeyUp={keyUp}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
         ref={input}
       />
       {text.length > 0 ? (
         <button class={style["clear"]} onClick={clear}>
           <span class="sr-only">Clear</span>
         </button>
+      ) : null}
+      {text.length == 0 && focused ? (
+        <div class={style["instructions"]}>
+          <p>These are examples of things you can find:</p>
+          <ul class={style["examples"]}>
+            <li>
+              <strong>Address:</strong>{" "}
+              <span class={style["example"]}>1300 Perdido St, New Orleans</span>
+            </li>
+            <li>
+              <strong>LA House or Senate District:</strong>{" "}
+              <span class={style["example"]}>House-53</span>
+            </li>
+            <li>
+              <strong>Parish:</strong>{" "}
+              <span class={style["example"]}>Terrebonne Parish</span>
+            </li>
+            <li>
+              <strong>Project Name:</strong>{" "}
+              <span class={style["example"]}>Lower Barataria Landbridge</span>
+            </li>
+            <li>
+              <strong>Project Type:</strong>{" "}
+              <span class={style["example"]}>Marsh Creation</span>
+            </li>
+            <li>
+              <strong>Region:</strong>{" "}
+              <span class={style["example"]}>Central Coast</span>
+            </li>
+            <li>
+              <strong>U.S. Congressional District:</strong>{" "}
+              <span class={style["example"]}>US-2</span>
+            </li>
+          </ul>
+        </div>
       ) : null}
       {results.length ? (
         <ul class={style["results"]}>
