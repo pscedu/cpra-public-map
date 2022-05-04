@@ -1,7 +1,9 @@
 import { h } from "preact";
 import style from "./style.css";
 
-const Header = () => (
+import AddressSearch from "../address-search";
+
+const Header = ({ geocodeUrl, updateMapState }) => (
   <header class={style.header}>
     <a href="https://coastal.la.gov/" class={style.logo}>
       <img src="/assets/images/logo.png" alt="CPRA" />
@@ -9,15 +11,16 @@ const Header = () => (
     <h1>
       <span class={style.title}>Louisiana's Coastal</span>
       <span class={style.title}>Master Plan 2023</span>
-      <span class={style.subtitle}>
+      {/* <span class={style.subtitle}>
         DataViewer <span class={style.preview}>Preview</span>
-      </span>
+      </span> */}
     </h1>
-    {/* <nav>
+    <nav>
       <a class={style.active} href="/">
         Explore
       </a>
-    </nav> */}
+    </nav>
+    <AddressSearch geocodeUrl={geocodeUrl} updateMapState={updateMapState} />
   </header>
 );
 

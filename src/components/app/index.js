@@ -4,7 +4,7 @@ import { Router } from "preact-router";
 
 import * as config from "./config";
 import { useProjects, useServices } from "./hooks";
-import AddressSearch from "../address-search";
+
 import Header from "../header";
 import Layers from "../layers";
 import Legend from "../legend";
@@ -31,11 +31,7 @@ const App = () => {
 
   return (
     <div id="app">
-      <Header />
-      <AddressSearch
-        geocodeUrl={config.geocodeUrl}
-        updateMapState={updateMapState}
-      />
+      <Header geocodeUrl={config.geocodeUrl} updateMapState={updateMapState} />
       <Layers {...{ services, mapState, setMapState }} />
       <Legend legends={config.legends} mapState={mapState} />
       <Watermark>DRAFT</Watermark>
