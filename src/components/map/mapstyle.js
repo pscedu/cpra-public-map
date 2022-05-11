@@ -47,8 +47,18 @@ function politicalBoundaryLayers(politicalBoundary) {
   ];
 }
 
-function projectLayers(show, filter, suffix = "") {
+function projectLayers(show, filter, model, suffix = "") {
   if (!show) return [];
+  const mod = (yesModel, noModel) => (model ? yesModel : noModel);
+  const modelStrokeColor = linearZoom(
+    "rgba(0, 0, 0, 0.1)",
+    "rgba(0, 0, 0, 0.25)"
+  );
+  const modelStrokeWidth = linearZoom(1, 2);
+  const modelFillColor = linearZoom(
+    "rgba(0, 0, 0, 0.07)",
+    "rgba(0, 0, 0, 0.15)"
+  );
   return [
     // Landbridge polygon
     {
@@ -58,8 +68,17 @@ function projectLayers(show, filter, suffix = "") {
       "source-layer": "project_polygon",
       filter: ["all", ["==", ["get", "type"], "LB"], filter],
       paint: {
-        "fill-color": "#5C913A",
+        "fill-color": mod(modelFillColor, "#5C913A"),
       },
+    },
+    {
+      id: `project-polygon-lb-outline${suffix}`,
+      type: "line",
+      source: "Base Map: Vector",
+      "source-layer": "project_polygon",
+      filter: ["all", ["==", ["get", "type"], "LB"], filter],
+      paint: { "line-color": modelStrokeColor, "line-width": modelStrokeWidth },
+      layout: { visibility: mod("visible", "none") },
     },
     // Marsh creation polygon
     {
@@ -68,9 +87,19 @@ function projectLayers(show, filter, suffix = "") {
       source: "Base Map: Vector",
       "source-layer": "project_polygon",
       filter: ["all", ["==", ["get", "type"], "MC"], filter],
-      paint: {
-        "fill-pattern": "green-dots",
-      },
+      paint: mod(
+        { "fill-color": modelFillColor },
+        { "fill-pattern": "green-dots" }
+      ),
+    },
+    {
+      id: `project-polygon-mc-outline${suffix}`,
+      type: "line",
+      source: "Base Map: Vector",
+      "source-layer": "project_polygon",
+      filter: ["all", ["==", ["get", "type"], "MC"], filter],
+      paint: { "line-color": modelStrokeColor, "line-width": modelStrokeWidth },
+      layout: { visibility: mod("visible", "none") },
     },
     // Bank stabilization and structural risk reduction lines
     {
@@ -84,15 +113,15 @@ function projectLayers(show, filter, suffix = "") {
         filter,
       ],
       paint: {
-        "line-color": [
+        "line-color": mod(modelStrokeColor, [
           "case",
           ["==", ["get", "type"], "BS"],
           "#D9A73B",
           ["==", ["get", "type"], "OR"],
           "#EDA482",
           "#404042",
-        ],
-        "line-width": linearZoom(2, 5),
+        ]),
+        "line-width": mod(modelStrokeWidth, linearZoom(2, 5)),
       },
     },
     // Diversion and hydrologic restoration lines
@@ -107,14 +136,14 @@ function projectLayers(show, filter, suffix = "") {
         filter,
       ],
       paint: {
-        "line-color": [
+        "line-color": mod(modelStrokeColor, [
           "case",
           ["==", ["get", "type"], "DI"],
           "#ED6731",
           "#1DBEF0",
-        ],
+        ]),
         "line-dasharray": [2, 1],
-        "line-width": linearZoom(2, 6.75),
+        "line-width": mod(modelStrokeWidth, linearZoom(2, 6.75)),
       },
     },
     // Ridge restoration line
@@ -125,8 +154,8 @@ function projectLayers(show, filter, suffix = "") {
       "source-layer": "project_line",
       filter: ["all", ["==", ["get", "type"], "RR"], filter],
       paint: {
-        "line-color": "#1C4E7F",
-        "line-width": linearZoom(1.5, 2.5),
+        "line-color": mod(modelStrokeColor, "#1C4E7F"),
+        "line-width": mod(modelStrokeWidth, linearZoom(1.5, 2.5)),
       },
     },
     // Shoreline protection line
@@ -137,8 +166,8 @@ function projectLayers(show, filter, suffix = "") {
       "source-layer": "project_line",
       filter: ["all", ["==", ["get", "type"], "SP"], filter],
       paint: {
-        "line-color": "#19A598",
-        "line-width": linearZoom(3, 4.5),
+        "line-color": mod(modelStrokeColor, "#19A598"),
+        "line-width": mod(modelStrokeWidth, linearZoom(3, 4.5)),
       },
     },
     // Diversion and hydrologic restoration points
@@ -153,15 +182,15 @@ function projectLayers(show, filter, suffix = "") {
         filter,
       ],
       paint: {
-        "circle-color": "#FFFFFF",
-        "circle-radius": linearZoom(3, 6),
-        "circle-stroke-color": [
+        "circle-color": mod(modelFillColor, "#FFFFFF"),
+        "circle-radius": mod(linearZoom(1, 3), linearZoom(2, 5)),
+        "circle-stroke-color": mod(modelStrokeColor, [
           "case",
           ["==", ["get", "type"], "DI"],
           "#ED6731",
           "#1DBEF0",
-        ],
-        "circle-stroke-width": linearZoom(2.5, 5),
+        ]),
+        "circle-stroke-width": mod(modelStrokeWidth, linearZoom(1.5, 4)),
       },
     },
     // Structural risk reduction point
@@ -171,10 +200,13 @@ function projectLayers(show, filter, suffix = "") {
       source: "Base Map: Vector",
       "source-layer": "project_point",
       filter: ["all", ["==", ["get", "type"], "SR"], filter],
+      paint: {
+        "icon-opacity": mod(linearZoom(0.1, 0.3), 1),
+      },
       layout: {
         "icon-allow-overlap": true,
-        "icon-image": "black-square",
-        "icon-size": linearZoom(0.5, 1),
+        "icon-image": "square",
+        "icon-size": linearZoom(0.1, 1),
       },
     },
   ];
@@ -379,7 +411,11 @@ export function getStyle(services, mapState, selection, maxBounds) {
           "text-color": "#444444",
         },
       },
-      ...projectLayers(mapState.showProjects, true),
+      ...projectLayers(
+        mapState.showProjects,
+        true,
+        mapState.modelLayer !== null
+      ),
       {
         id: "search-screen",
         source: "search",
@@ -410,6 +446,7 @@ export function getStyle(services, mapState, selection, maxBounds) {
       ...projectLayers(
         mapState.showProjects && selectedProjects,
         selectedProjects,
+        false,
         "-selected"
       ),
       ...politicalBoundaryLayers(mapState.politicalBoundary),
