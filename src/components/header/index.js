@@ -1,7 +1,7 @@
 import { h } from "preact";
 import style from "./style.css";
 
-import AddressSearch from "../address-search";
+import Search from "../search";
 
 const Header = ({ geocodeUrl, updateMapState }) => (
   <header class={style.header}>
@@ -20,7 +20,7 @@ const Header = ({ geocodeUrl, updateMapState }) => (
         Explore
       </a>
     </nav>
-    <AddressSearch geocodeUrl={geocodeUrl} updateMapState={updateMapState} />
+    <Search geocodeUrl={geocodeUrl} updateMapState={updateMapState} />
   </header>
 );
 

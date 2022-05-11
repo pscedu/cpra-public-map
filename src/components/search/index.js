@@ -40,7 +40,7 @@ function formatResult(result) {
   ];
 }
 
-const AddressSearch = ({ geocodeUrl, updateMapState }) => {
+const Search = ({ geocodeUrl, updateMapState }) => {
   const input = useRef(null);
   const [text, setText] = useState("");
   const [results, setResults] = useState([]);
@@ -179,4 +179,4 @@ const AddressSearch = ({ geocodeUrl, updateMapState }) => {
   );
 };
 
-export default AddressSearch;
+export default Search;
