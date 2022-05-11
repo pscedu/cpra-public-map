@@ -3,7 +3,7 @@ import { useState } from "preact/hooks";
 import { Router } from "preact-router";
 
 import * as config from "./config";
-import { useProjects, useServices } from "./hooks";
+import { useProjects, useSearchIndex, useServices } from "./hooks";
 
 import Header from "../header";
 import Layers from "../layers";
@@ -14,16 +14,14 @@ import Watermark from "../watermark";
 import Explore from "../../routes/explore";
 
 const App = () => {
-  const [projects, projectFilters, setProjectFilters] = useProjects(
-    config.projectListUrl
-  );
+  const projects = useProjects(config.projectListUrl);
+  const searchIndex = useSearchIndex(projects);
   const services = useServices(config.servicesUrl);
   const [mapState, setMapState] = useState({
     modelLayer: null,
     politicalBoundary: null,
     prevYear: null,
-    searchPolygon: null,
-    selectedProjectId: "",
+    selection: null,
     showProjects: true,
     subtype: null,
     year: "50",
@@ -32,7 +30,11 @@ const App = () => {
 
   return (
     <div id="app">
-      <Header geocodeUrl={config.geocodeUrl} updateMapState={updateMapState} />
+      <Header
+        geocodeUrl={config.geocodeUrl}
+        updateMapState={updateMapState}
+        searchIndex={searchIndex}
+      />
       <Layers {...{ services, mapState, setMapState }} />
       <Legend legends={config.legends} mapState={mapState} />
       <Toolbar />
@@ -49,13 +51,11 @@ const App = () => {
       <Router>
         <Explore
           mapState={mapState}
-          path="/:slideId?/:projectId?"
+          path="/:slideId?"
           projects={projects}
-          projectFilters={projectFilters}
           projectTypeDescriptions={config.projectTypeDescriptions}
           projectTypes={config.projectTypes}
           setMapState={setMapState}
-          setProjectFilters={setProjectFilters}
         />
       </Router>
     </div>

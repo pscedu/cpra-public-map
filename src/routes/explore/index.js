@@ -6,29 +6,31 @@ import ProjectDetail from "../../components/project-detail";
 import ProjectList from "../../components/project-list";
 import Slide from "../../components/slide";
 import Slides from "../../components/slides";
+import { fireEvent } from "../../utils";
 
 const Explore = ({
   mapState,
   path,
   projects,
-  projectId,
-  projectFilters,
   projectTypeDescriptions,
   projectTypes,
   setMapState,
-  setProjectFilters,
   slideId,
 }) => {
   const projectMap = {};
   projects.forEach((proj) => (projectMap[proj.project_id] = proj));
-  let project = projectMap[projectId];
-  let selectedProjectId = (project || {}).project_id || "";
-  if (mapState.selectedProjectId != selectedProjectId)
-    setMapState({ ...mapState, selectedProjectId });
+
+  const selection = mapState.selection || {};
+  let project = projectMap[selection.project];
+
+  const clearProject = (e) => {
+    e.preventDefault();
+    fireEvent("searchClearResult");
+  };
 
   let projectsSlide = project ? (
     <Slide title={project.name} id="projects" tab-title="Projects">
-      <a class={style["close-button"]} href="/projects">
+      <a class={style["close-button"]} href="#" onClick={clearProject}>
         <span class="sr-only">Close</span>
       </a>
       <ProjectDetail
@@ -41,10 +43,8 @@ const Explore = ({
     <Slide id="projects" tab-title="Projects">
       <ProjectList
         projects={projects}
-        projectFilters={projectFilters}
         projectTypeDescriptions={projectTypeDescriptions}
         projectTypes={projectTypes}
-        setProjectFilters={setProjectFilters}
       />
     </Slide>
   );
@@ -55,7 +55,6 @@ const Explore = ({
         tabs={true}
         path={path}
         slideId={slideId}
-        projectId={projectId}
         projectMap={projectMap}
         mapState={mapState}
         setMapState={setMapState}

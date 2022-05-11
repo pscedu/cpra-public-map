@@ -1,6 +1,6 @@
 import { h, Component } from "preact";
-import { route } from "preact-router";
 import style from "./style.css";
+import { fireEvent, getProjectResult } from "../../utils";
 import { getStyle } from "./mapstyle";
 
 class Map extends Component {
@@ -48,8 +48,13 @@ class Map extends Component {
 
     this.projectLayers.forEach((layerName) => {
       this.map.on("click", layerName, (e) => {
-        let projectId = e.features[0].properties.project_id;
-        route(`/projects/${projectId}`);
+        if (!this.projectMap) {
+          this.projectMap = {};
+          for (let project of this.props.projects)
+            this.projectMap[project.project_id] = project;
+        }
+        let project = this.projectMap[e.features[0].properties.project_id];
+        fireEvent("searchSelectResult", { result: getProjectResult(project) });
       });
       this.map.on(
         "mouseenter",

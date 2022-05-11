@@ -3,49 +3,77 @@ import { useEffect, useRef, useState } from "preact/hooks";
 import bbox from "@turf/bbox";
 import buffer from "@turf/buffer";
 import { point } from "@turf/helpers";
+import { fireEvent, normalizeText } from "../../utils";
 import style from "./style.css";
 
 const excludedCategories = ["railway"];
 
-function getNames(result) {
-  const addr = result.address;
-  let primary = addr[result.category];
-  let secondary =
-    addr.neighbourhood || addr.town || addr.city || addr.county || null;
-  if (!primary)
-    primary = [addr.house_number, addr.road]
-      .filter((part) => part !== undefined)
-      .join(" ");
+function getLocalResults(text, searchIndex) {
+  let needles = normalizeText(text)
+    .split(" ")
+    .filter((part) => part.length);
 
-  if (primary == "") {
-    primary = secondary;
-    secondary = null;
-  }
-  return {
-    primary,
-    secondary,
-  };
+  return searchIndex.filter((entry) => {
+    if (needles.length == 0) return false;
+    for (let needle of needles)
+      if (entry.haystack.indexOf(needle) === -1) return false;
+    return true;
+  });
+}
+
+function getOsmResults(json) {
+  return json
+    .filter((result) => excludedCategories.indexOf(result.category) === -1)
+    .map((result) => {
+      const addr = result.address;
+      let primary = addr[result.category];
+      let secondary =
+        addr.neighbourhood || addr.town || addr.city || addr.county || null;
+      if (!primary)
+        primary = [addr.house_number, addr.road]
+          .filter((part) => part !== undefined)
+          .join(" ");
+
+      if (primary == "") {
+        primary = secondary;
+        secondary = null;
+      }
+      return {
+        type: "osm",
+        name: primary,
+        category: secondary,
+        details: result,
+      };
+    });
 }
 
 function formatResult(result) {
-  const names = getNames(result);
   return [
     <span key="primary" class={style["primary"]}>
-      {names.primary}
+      {result.name}
     </span>,
     " ",
-    <span key="secondary" class={style["seconary"]}>
-      {names.secondary}
+    <span key="secondary" class={style["secondary"]}>
+      {result.category}
     </span>,
   ];
 }
 
-const Search = ({ geocodeUrl, updateMapState }) => {
+const Search = ({ geocodeUrl, searchIndex, updateMapState }) => {
   const input = useRef(null);
   const [text, setText] = useState("");
+  const [hasResult, setHasResult] = useState(false);
   const [results, setResults] = useState([]);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [focused, setFocused] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener("searchSelectResult", (e) => {
+      setHasResult(true);
+      select(e.detail.result);
+    });
+    window.addEventListener("searchClearResult", clear);
+  }, []);
 
   const keyUp = async (e) => {
     // Select the active result when enter is pressed.
@@ -64,45 +92,50 @@ const Search = ({ geocodeUrl, updateMapState }) => {
       url.searchParams.append("q", text);
       url.searchParams.append("addressdetails", "1");
       url.searchParams.append("polygon_geojson", "1");
-      const res = await fetch(url.toString());
-      const results = (await res.json())
-        .filter((r) => excludedCategories.indexOf(r.category) === -1)
-        .slice(0, 5);
-      setResults(results);
+      const req = fetch(url.toString());
+      const results = getLocalResults(text, searchIndex);
+      const res = await req;
+      results.push(...getOsmResults(await res.json()));
+      setResults(results.slice(0, 5));
       setCurrentIdx(0);
     })();
-  }, [text, geocodeUrl]);
+  }, [text, geocodeUrl, searchIndex]);
 
   const select = (result) => {
     showResult(result);
-    if (input.current) input.current.value = getNames(result).primary;
+    if (input.current) input.current.value = result.name;
     setResults([]);
     setCurrentIdx(0);
+    setHasResult(true);
   };
 
   const clear = () => {
-    updateMapState({ searchPolygon: null });
+    updateMapState({ selection: null });
     if (input.current) input.current.value = "";
     setText("");
     setResults([]);
     setCurrentIdx(0);
+    setHasResult(false);
+  };
+
+  const getOsmSelection = (details) => {
+    const polygon =
+      details.category == "boundary"
+        ? details.geojson
+        : buffer(point([details.lon, details.lat].map(parseFloat)), 1, {
+            units: "miles",
+          }).geometry;
+    return { polygon };
   };
 
   const showResult = (result) => {
-    const searchPolygon =
-      result.category == "boundary"
-        ? result.geojson
-        : buffer(point([result.lon, result.lat].map(parseFloat)), 1, {
-            units: "miles",
-          }).geometry;
-    updateMapState({ searchPolygon });
-    const fitBoundsEvent = new CustomEvent("mapFitBounds", {
-      detail: {
-        bounds: bbox(searchPolygon),
-        options: { padding: 100 },
-      },
-    });
-    window.dispatchEvent(fitBoundsEvent);
+    const selection = result.selection || getOsmSelection(result.details);
+    updateMapState({ selection });
+
+    let bounds = result.bounds;
+    if (selection.polygon) bounds = bbox(selection.polygon);
+    if (bounds)
+      fireEvent("mapFitBounds", { bounds, options: { padding: 100 } });
   };
 
   return (
@@ -119,7 +152,7 @@ const Search = ({ geocodeUrl, updateMapState }) => {
         onBlur={() => setFocused(false)}
         ref={input}
       />
-      {text.length > 0 ? (
+      {hasResult || text.length > 0 ? (
         <button class={style["clear"]} onClick={clear}>
           <span class="sr-only">Clear</span>
         </button>

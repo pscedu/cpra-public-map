@@ -188,7 +188,8 @@ function rasterTileUrl(serviceUrl, prefix) {
 export function getStyle(services, mapState, projects, maxBounds) {
   if (services === null) return { version: 8, sources: {}, layers: [] };
 
-  let loc = document.location;
+  const loc = document.location;
+  const selection = mapState.selection || {};
 
   // Prepare sources.
   const sources = {};
@@ -222,10 +223,10 @@ export function getStyle(services, mapState, projects, maxBounds) {
   }
 
   let searchFeatures = [bboxPolygon(maxBounds)];
-  if (mapState.searchPolygon)
+  if (selection.polygon)
     searchFeatures = [
-      difference(searchFeatures[0], mapState.searchPolygon),
-      feature(mapState.searchPolygon, { type: "search" }),
+      difference(searchFeatures[0], selection.polygon),
+      feature(selection.polygon, { type: "search" }),
     ];
   searchFeatures[0].properties = { type: "screen" };
 
@@ -268,15 +269,15 @@ export function getStyle(services, mapState, projects, maxBounds) {
       };
     });
 
-  const activeProjects = [
-    "in",
-    ["get", "project_id"],
-    ["literal", projects.map((project) => project.project_id)],
-  ];
+  let selectedProjects = null;
+  if (selection.project)
+    selectedProjects = ["==", ["get", "project_id"], selection.project];
+  if (selection.projectType)
+    selectedProjects = ["==", ["get", "type"], selection.projectType];
 
   const showSearch =
-    mapState.searchPolygon ||
-    (mapState.showProjects && mapState.selectedProjectId != "");
+    selection.polygon ||
+    (mapState.showProjects && (selection.project || selection.projectType));
 
   return {
     version: 8,
@@ -379,7 +380,7 @@ export function getStyle(services, mapState, projects, maxBounds) {
           "text-color": "#444444",
         },
       },
-      ...projectLayers(mapState.showProjects, activeProjects),
+      ...projectLayers(mapState.showProjects, true),
       {
         id: "search-screen",
         source: "search",
@@ -408,8 +409,8 @@ export function getStyle(services, mapState, projects, maxBounds) {
         },
       },
       ...projectLayers(
-        mapState.showProjects && mapState.selectedProjectId != "",
-        ["==", ["get", "project_id"], mapState.selectedProjectId],
+        mapState.showProjects && selectedProjects,
+        selectedProjects,
         "-selected"
       ),
       ...politicalBoundaryLayers(mapState.politicalBoundary),

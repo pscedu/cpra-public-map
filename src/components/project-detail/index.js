@@ -16,7 +16,6 @@ const ProjectDetail = (props) => {
       </p>
       <h3>Region</h3>
       <p>{project.region}</p>
-      <button onClick={project.zoomToBbox}>Zoom Map to Project</button>
     </div>
   );
 };

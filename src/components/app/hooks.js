@@ -1,13 +1,9 @@
 import { useEffect, useState } from "preact/hooks";
+import { getProjectResult, normalizeText } from "../../utils";
 import { projectTypes } from "./config";
-
-const normalizeText = (text) => text.toLowerCase().replace(/[^a-z0-9 ]/g, "");
 
 export function useProjects(projectsUrl) {
   const [projects, setProjects] = useState([]);
-  const [projectFilters, setProjectFilters] = useState({
-    name: "",
-  });
   useEffect(() => {
     (async () => {
       let res = await fetch(projectsUrl);
@@ -29,33 +25,47 @@ export function useProjects(projectsUrl) {
           });
           window.dispatchEvent(fitBoundsEvent);
         };
-        project.filterOnName = () =>
-          setProjectFilters({
-            ...projectFilters,
-            name: project.name,
-          });
         return project;
       });
-
       setProjects(allProjects);
     })();
   }, [projectsUrl]);
 
-  let needles = normalizeText(projectFilters.name)
-    .split(" ")
-    .filter((part) => part.length);
+  return projects;
+}
 
-  let filteredProjects = projects.filter((project) => {
-    if (needles.length == 0) return true;
-    let haystack = normalizeText(
-      [project.name, project.region, projectTypes[project.type]].join(" ")
-    );
-    for (let needle of needles)
-      if (haystack.indexOf(needle) === -1) return false;
-    return true;
-  });
-
-  return [filteredProjects, projectFilters, setProjectFilters];
+export function useSearchIndex(projects) {
+  const [searchIndex, setSearchIndex] = useState([]);
+  useEffect(() => {
+    const projectTypeItems = Object.keys(projectTypes).map((typeKey) => {
+      return {
+        type: "project-type",
+        name: projectTypes[typeKey],
+        category: "Project Type",
+        haystack: normalizeText(projectTypes[typeKey]),
+        selection: {
+          projectType: typeKey,
+        },
+      };
+    });
+    const regions = [];
+    const projectItems = (projects || []).map((project) => {
+      if (!regions.includes(project.region)) regions.push(project.region);
+      return getProjectResult(project);
+    });
+    regions.sort();
+    const regionItems = regions.map((region) => {
+      return {
+        type: "region",
+        name: region,
+        category: "Region",
+        haystack: normalizeText(region),
+        selection: { region },
+      };
+    });
+    setSearchIndex([...projectTypeItems, ...regionItems, ...projectItems]);
+  }, [projects]);
+  return searchIndex;
 }
 
 export function useServices(servicesUrl) {
