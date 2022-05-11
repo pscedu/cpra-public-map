@@ -1,10 +1,25 @@
 import { h } from "preact";
+import { fireEvent, getProjectTypeResult, getRegionResult } from "../../utils";
 import style from "./style.css";
 
 const ProjectList = ({ projects, projectTypeDescriptions, projectTypes }) => {
   const selectProject = (e, project) => {
     e.preventDefault();
     project.select();
+  };
+
+  const selectProjectType = (e, project) => {
+    e.preventDefault();
+    fireEvent("searchSelectResult", {
+      result: getProjectTypeResult(project.type, projectTypes),
+    });
+  };
+
+  const selectRegion = (e, project) => {
+    e.preventDefault();
+    fireEvent("searchSelectResult", {
+      result: getRegionResult(project.region),
+    });
   };
 
   const projectRows = projects.map((project) => (
@@ -18,9 +33,15 @@ const ProjectList = ({ projects, projectTypeDescriptions, projectTypes }) => {
         </a>
       </td>
       <td class={style.type} title={projectTypeDescriptions[project.type]}>
-        {projectTypes[project.type]}
+        <a href="#" onClick={(e) => selectProjectType(e, project)}>
+          {projectTypes[project.type]}
+        </a>
       </td>
-      <td class={style.region}>{project.region}</td>
+      <td class={style.region}>
+        <a href="#" onClick={(e) => selectRegion(e, project)}>
+          {project.region}
+        </a>
+      </td>
     </tr>
   ));
 

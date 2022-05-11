@@ -30,6 +30,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.project-list thead tr,
 .project {
   background-size: 32px;
   background-repeat: no-repeat;
