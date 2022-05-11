@@ -30,12 +30,6 @@ const Layers = (props) => {
   const modelLayerNames = Object.keys(modelLayers);
   modelLayerNames.sort();
 
-  const setShowProjects = (e) =>
-    setMapState({
-      ...mapState,
-      showProjects: e.target.checked,
-    });
-
   const setModelLayer = (e) => {
     let modelLayer = e.target.value === "" ? null : e.target.value;
     setMapState({
@@ -48,12 +42,6 @@ const Layers = (props) => {
           : null,
     });
   };
-
-  const setPoliticalBoundary = (e) =>
-    setMapState({
-      ...mapState,
-      politicalBoundary: e.target.value === "" ? null : e.target.value,
-    });
 
   const setSubtype = (e) =>
     setMapState({
@@ -78,23 +66,14 @@ const Layers = (props) => {
     <div class={style.layers}>
       <h2>Map Layers</h2>
       <div class={style.input}>
-        <input
-          type="checkbox"
-          id="show-projects"
-          checked={mapState.showProjects}
-          onChange={setShowProjects}
-        />
-        <label for="show-projects">Candidate Projects</label>
-      </div>
-      <div class={style.input}>
-        <label for="model-layer">Model Layer</label>
+        <label for="model-layer">Layer</label>
         <select
           name="model-layer"
           id="model-layer"
           value={mapState.modelLayer}
           onChange={setModelLayer}
         >
-          <option value="">None</option>
+          <option value="">Candidate Projects</option>
           {modelLayerNames.map((name) => (
             <option key={name} value={name}>
               {name}
@@ -102,24 +81,26 @@ const Layers = (props) => {
           ))}
         </select>
       </div>
-      <div class={style.input}>
-        <label for="model-layer-option">Model Layer Option</label>
-        <select
-          name="model-layer-option"
-          id="model-layer-option"
-          value={mapState.subtype}
-          onChange={setSubtype}
-          disabled={!subtypeEnabled}
-        >
-          {((modelLayers[mapState.modelLayer] || {}).subtypes || []).map(
-            (name) => (
-              <option key={name} value={name}>
-                {name}
-              </option>
-            )
-          )}
-        </select>
-      </div>
+      {subtypeEnabled ? (
+        <div class={style.input}>
+          <label for="model-layer-option">Layer Option</label>
+          <select
+            name="model-layer-option"
+            id="model-layer-option"
+            value={mapState.subtype}
+            onChange={setSubtype}
+          >
+            {((modelLayers[mapState.modelLayer] || {}).subtypes || []).map(
+              (name) => (
+                <option key={name} value={name}>
+                  {name}
+                </option>
+              )
+            )}
+          </select>
+        </div>
+      ) : null}
+
       <div class={style.input}>
         <div>
           <label for="year">Year</label>:{" "}
@@ -136,21 +117,6 @@ const Layers = (props) => {
           value={mapState.year}
           onInput={setYear}
         />
-      </div>
-      <div class={style.input}>
-        <label for="political-boundary">Political Boundary</label>
-        <select
-          name="political-boundary"
-          id="political-boundary"
-          value={mapState.politicalBoundary}
-          onChange={setPoliticalBoundary}
-        >
-          <option value="">None</option>
-          <option value="parish">Parish</option>
-          <option value="uscd">U.S. Congressional District</option>
-          <option value="lash">Louisiana State House District</option>
-          <option value="lass">Louisiana State Senate District</option>
-        </select>
       </div>
     </div>
   );
