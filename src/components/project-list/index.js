@@ -1,11 +1,10 @@
 import { h } from "preact";
 import style from "./style.css";
-import { fireEvent, getProjectResult } from "../../utils";
 
 const ProjectList = ({ projects, projectTypeDescriptions, projectTypes }) => {
   const selectProject = (e, project) => {
     e.preventDefault();
-    fireEvent("searchSelectResult", { result: getProjectResult(project) });
+    project.select();
   };
 
   const projectRows = projects.map((project) => (

@@ -185,11 +185,10 @@ function rasterTileUrl(serviceUrl, prefix) {
   return `${serviceUrl.replace("//", sub)}/tiles/{z}/{x}/{y}.png`;
 }
 
-export function getStyle(services, mapState, projects, maxBounds) {
+export function getStyle(services, mapState, selection, maxBounds) {
   if (services === null) return { version: 8, sources: {}, layers: [] };
 
   const loc = document.location;
-  const selection = mapState.selection || {};
 
   // Prepare sources.
   const sources = {};

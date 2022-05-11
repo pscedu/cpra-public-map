@@ -17,11 +17,11 @@ const App = () => {
   const projects = useProjects(config.projectListUrl);
   const searchIndex = useSearchIndex(projects);
   const services = useServices(config.servicesUrl);
+  const [selection, setSelection] = useState({});
   const [mapState, setMapState] = useState({
     modelLayer: null,
     politicalBoundary: null,
     prevYear: null,
-    selection: null,
     showProjects: true,
     subtype: null,
     year: "50",
@@ -32,7 +32,7 @@ const App = () => {
     <div id="app">
       <Header
         geocodeUrl={config.geocodeUrl}
-        updateMapState={updateMapState}
+        setSelection={setSelection}
         searchIndex={searchIndex}
       />
       <Layers {...{ services, mapState, setMapState }} />
@@ -45,6 +45,7 @@ const App = () => {
           servicesUrl: config.servicesUrl,
           services,
           mapState,
+          selection,
           setMapState,
         }}
       />
@@ -55,6 +56,7 @@ const App = () => {
           projects={projects}
           projectTypeDescriptions={config.projectTypeDescriptions}
           projectTypes={config.projectTypes}
+          selection={selection}
           setMapState={setMapState}
         />
       </Router>

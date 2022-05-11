@@ -3,7 +3,7 @@ import style from "./style.css";
 
 import Search from "../search";
 
-const Header = ({ geocodeUrl, searchIndex, updateMapState }) => (
+const Header = ({ geocodeUrl, searchIndex, setSelection }) => (
   <header class={style.header}>
     <a href="https://coastal.la.gov/" class={style.logo}>
       <img src="/assets/images/logo.png" alt="CPRA" />
@@ -23,7 +23,7 @@ const Header = ({ geocodeUrl, searchIndex, updateMapState }) => (
     <Search
       geocodeUrl={geocodeUrl}
       searchIndex={searchIndex}
-      updateMapState={updateMapState}
+      setSelection={setSelection}
     />
   </header>
 );

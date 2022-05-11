@@ -59,7 +59,7 @@ function formatResult(result) {
   ];
 }
 
-const Search = ({ geocodeUrl, searchIndex, updateMapState }) => {
+const Search = ({ geocodeUrl, searchIndex, setSelection }) => {
   const input = useRef(null);
   const [text, setText] = useState("");
   const [hasResult, setHasResult] = useState(false);
@@ -110,7 +110,7 @@ const Search = ({ geocodeUrl, searchIndex, updateMapState }) => {
   };
 
   const clear = () => {
-    updateMapState({ selection: null });
+    setSelection({});
     if (input.current) input.current.value = "";
     setText("");
     setResults([]);
@@ -130,7 +130,7 @@ const Search = ({ geocodeUrl, searchIndex, updateMapState }) => {
 
   const showResult = (result) => {
     const selection = result.selection || getOsmSelection(result.details);
-    updateMapState({ selection });
+    setSelection(selection);
 
     let bounds = result.bounds;
     if (selection.polygon) bounds = bbox(selection.polygon);

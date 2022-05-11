@@ -1,5 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
-import { getProjectResult, normalizeText } from "../../utils";
+import { fireEvent, getProjectResult, normalizeText } from "../../utils";
 import { projectTypes } from "./config";
 
 export function useProjects(projectsUrl) {
@@ -16,15 +16,10 @@ export function useProjects(projectsUrl) {
       let allProjects = rows.map((row) => {
         let project = {};
         for (let i in headers) project[headers[i]] = row[i];
-        project.zoomToBbox = () => {
-          const fitBoundsEvent = new CustomEvent("mapFitBounds", {
-            detail: {
-              bounds: [project.xmin, project.ymin, project.xmax, project.ymax],
-              options: { padding: 100 },
-            },
+        project.select = () =>
+          fireEvent("searchSelectResult", {
+            result: getProjectResult(project),
           });
-          window.dispatchEvent(fitBoundsEvent);
-        };
         return project;
       });
       setProjects(allProjects);

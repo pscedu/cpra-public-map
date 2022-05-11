@@ -58,7 +58,7 @@ const Slides = ({
       });
 
     let project = projectMap[projectId];
-    if (project) project.zoomToBbox();
+    if (project) project.select();
   }, [modelLayer, projectId]);
 
   return (

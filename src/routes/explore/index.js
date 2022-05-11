@@ -14,13 +14,13 @@ const Explore = ({
   projects,
   projectTypeDescriptions,
   projectTypes,
+  selection,
   setMapState,
   slideId,
 }) => {
   const projectMap = {};
   projects.forEach((proj) => (projectMap[proj.project_id] = proj));
 
-  const selection = mapState.selection || {};
   let project = projectMap[selection.project];
 
   const clearProject = (e) => {

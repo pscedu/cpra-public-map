@@ -1,6 +1,5 @@
 import { h, Component } from "preact";
 import style from "./style.css";
-import { fireEvent, getProjectResult } from "../../utils";
 import { getStyle } from "./mapstyle";
 
 class Map extends Component {
@@ -54,7 +53,7 @@ class Map extends Component {
             this.projectMap[project.project_id] = project;
         }
         let project = this.projectMap[e.features[0].properties.project_id];
-        fireEvent("searchSelectResult", { result: getProjectResult(project) });
+        project.select();
       });
       this.map.on(
         "mouseenter",
@@ -77,7 +76,7 @@ class Map extends Component {
     return getStyle(
       props.services,
       props.mapState,
-      props.projects,
+      props.selection,
       this.maxBounds
     );
   }
