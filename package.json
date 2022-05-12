@@ -28,9 +28,9 @@
     "sirv-cli": "1.0.3"
   },
   "dependencies": {
+    "@mapbox/sphericalmercator": "^1.2.0",
     "@turf/bbox": "^6.5.0",
     "@turf/bbox-polygon": "^6.5.0",
-    "@turf/buffer": "^6.5.0",
     "@turf/difference": "^6.5.0",
     "@turf/helpers": "^6.5.0",
     "preact": "^10.3.2",

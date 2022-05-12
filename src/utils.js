@@ -1,3 +1,18 @@
+import SphericalMercator from "@mapbox/sphericalmercator";
+
+export const bufferPoint = (xDeg, yDeg, radius, segments = 32) => {
+  const sm = new SphericalMercator();
+  const [x, y] = sm.forward([xDeg, yDeg]);
+  const ring = [];
+  for (let i = 0; i <= segments; i++) {
+    let angle = (2 * Math.PI * i) / segments;
+    ring.push(
+      sm.inverse([radius * Math.cos(angle) + x, radius * Math.sin(angle) + y])
+    );
+  }
+  return { type: "Polygon", coordinates: [ring] };
+};
+
 export const fireEvent = (name, detail) => {
   const event = new CustomEvent(name, { detail });
   window.dispatchEvent(event);

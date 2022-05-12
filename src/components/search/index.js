@@ -1,9 +1,7 @@
 import { h } from "preact";
 import { useEffect, useRef, useState } from "preact/hooks";
 import bbox from "@turf/bbox";
-import buffer from "@turf/buffer";
-import { point } from "@turf/helpers";
-import { fireEvent, normalizeText } from "../../utils";
+import { bufferPoint, fireEvent, normalizeText } from "../../utils";
 import style from "./style.css";
 
 const excludedCategories = ["railway"];
@@ -122,9 +120,7 @@ const Search = ({ geocodeUrl, searchIndex, setSelection }) => {
     const polygon =
       details.category == "boundary"
         ? details.geojson
-        : buffer(point([details.lon, details.lat].map(parseFloat)), 1, {
-            units: "miles",
-          }).geometry;
+        : bufferPoint(parseFloat(details.lon), parseFloat(details.lat), 1609);
     return { polygon };
   };
 
