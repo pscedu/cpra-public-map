@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { Router } from "preact-router";
 
 import * as config from "./config";
@@ -26,7 +26,12 @@ const App = () => {
     subtype: null,
     year: "50",
   });
-  const updateMapState = (updates) => setMapState({ ...mapState, ...updates });
+
+  useEffect(() => {
+    window.addEventListener("mapUpdateState", (e) =>
+      setMapState({ ...mapState, ...e.detail.updates })
+    );
+  }, []);
 
   return (
     <div id="app">
@@ -51,13 +56,11 @@ const App = () => {
       />
       <Router>
         <Explore
-          mapState={mapState}
           path="/:slideId?"
           projects={projects}
           projectTypeDescriptions={config.projectTypeDescriptions}
           projectTypes={config.projectTypes}
           selection={selection}
-          setMapState={setMapState}
         />
       </Router>
     </div>

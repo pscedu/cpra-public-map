@@ -4,9 +4,7 @@ import style from "./style.css";
 
 const toFloat = (value) => parseFloat(value.replace(/[^0-9.]/g, ""));
 
-const Layers = (props) => {
-  const { services, mapState, setMapState } = props;
-
+const Layers = ({ services, mapState, setMapState }) => {
   const [modelLayers, setModelLayers] = useState({});
   useEffect(() => {
     if (!services) return;

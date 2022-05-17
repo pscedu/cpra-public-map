@@ -9,13 +9,11 @@ import Slides from "../../components/slides";
 import { fireEvent } from "../../utils";
 
 const Explore = ({
-  mapState,
   path,
   projects,
   projectTypeDescriptions,
   projectTypes,
   selection,
-  setMapState,
   slideId,
 }) => {
   const projectMap = {};
@@ -29,7 +27,12 @@ const Explore = ({
   };
 
   let projectsSlide = project ? (
-    <Slide title={project.name} id="projects" tab-title="Projects">
+    <Slide
+      title={project.name}
+      id="projects"
+      tab-title="Projects"
+      modelLayer={null}
+    >
       <a class={style["close-button"]} href="#" onClick={clearProject}>
         <span class="sr-only">Close</span>
       </a>
@@ -40,7 +43,7 @@ const Explore = ({
       />
     </Slide>
   ) : (
-    <Slide id="projects" tab-title="Projects">
+    <Slide id="projects" tab-title="Projects" modelLayer={null}>
       <ProjectList
         projects={projects}
         projectTypeDescriptions={projectTypeDescriptions}
@@ -56,8 +59,7 @@ const Explore = ({
         path={path}
         slideId={slideId}
         projectMap={projectMap}
-        mapState={mapState}
-        setMapState={setMapState}
+        modelLayer={null}
       >
         <Slide
           id="introduction"
