@@ -12,11 +12,18 @@ const Year = ({ setState, state, years }) => {
     });
   };
 
+  const ticks = [0, 10, 20, 30, 40, 50].map((val) => (
+    <span key={val} class="tick">
+      {val}
+    </span>
+  ));
+
   return (
     <div class="input">
       <label class="label" for="year">
-        Year : <span class={style.year}>{state.year}</span>
+        Year<span class="sr-only">: {state.year}</span>
       </label>
+      <div class={style.ticks}>{ticks}</div>
       <input
         type="range"
         id="year"
