@@ -46,7 +46,9 @@ const SlideNavigation = ({
     >
       <a href={getLink(path, slide.props.id)}>
         {slide.props.icon ? <ion-icon name={slide.props.icon} /> : null}
-        <span class="inner">{slide.props.tabTitle || slide.props.title}</span>
+        <span class={style.inner}>
+          {slide.props.tabTitle || slide.props.title}
+        </span>
       </a>
     </li>
   ));

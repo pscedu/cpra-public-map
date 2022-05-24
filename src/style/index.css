@@ -39,6 +39,9 @@ h2 {
 .input {
   margin-bottom: 1em;
 }
+.input:last-child {
+  margin-bottom: 0;
+}
 .label {
   color: #666666;
   display: block;

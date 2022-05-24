@@ -45,7 +45,6 @@ ul {
   font-size: 14px;
   text-align: center;
   text-decoration: none;
-  text-transform: uppercase;
   width: 100%;
 }
 .nav-type-tabs ul li {
@@ -53,7 +52,8 @@ ul {
 }
 .nav-type-tabs ul a {
   color: #274d36;
-  padding: 18px;
+  text-align: center;
+  padding: 15px;
 }
 .nav-type-tabs ul li:first-child {
   border-left: 0 none transparent;
@@ -64,4 +64,13 @@ ul {
 .nav-type-tabs .active a {
   color: white;
   font-weight: 700;
+}
+.nav-type-tabs ion-icon {
+  float: none;
+  margin: 0;
+  text-align: center;
+}
+.nav-type-tabs .inner {
+  display: block;
+  margin-top: 5px;
 }
