@@ -1,0 +1,6 @@
+.year {
+  font-weight: bold;
+}
+input[type="range"] {
+  width: 100%;
+}

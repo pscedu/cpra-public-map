@@ -3,7 +3,6 @@ import { useEffect } from "preact/hooks";
 import style from "./style.css";
 
 import SlideNavigation from "../slide-navigation";
-import { fireEvent } from "../../utils";
 
 const getTabLinks = (slides, start, end, currentIdx) =>
   slides.slice(start, end).map((slide, i) => (
@@ -20,7 +19,15 @@ const getTabLinks = (slides, start, end, currentIdx) =>
     </a>
   ));
 
-const Slides = ({ children, path, projectMap, slideId, tabs }) => {
+const Slides = ({
+  children,
+  mapState,
+  path,
+  projectMap,
+  setMapState,
+  slideId,
+  tabs,
+}) => {
   const slides = children;
   let currentSlide = slides[0];
   let currentIdx = 0;
@@ -40,9 +47,13 @@ const Slides = ({ children, path, projectMap, slideId, tabs }) => {
     ? getTabLinks(slides, currentIdx + 1, slides.length + 1)
     : null;
 
-  let { modelLayer, projectId } = currentSlide.props;
+  let { modelLayerSpec, projectId } = currentSlide.props;
   useEffect(() => {
-    fireEvent("mapUpdateState", { updates: { modelLayer, subtype: null } });
+    setMapState({
+      ...mapState,
+      modelLayer: modelLayerSpec.name,
+      subtype: null,
+    });
 
     let project = projectMap[projectId];
     if (project) project.select();
