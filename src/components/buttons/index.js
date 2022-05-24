@@ -4,7 +4,7 @@ import style from "./style.css";
 const Buttons = ({ choices, label, value, setValue }) => {
   const handleClick = (e) => setValue(e.target.value);
 
-  const buttons = choices.map(([buttonValue, buttonLabel]) => (
+  const buttons = choices.map(([buttonValue, buttonLabel, buttonIcon]) => (
     <button
       key={buttonValue}
       class={`${style.button} ${
@@ -13,6 +13,7 @@ const Buttons = ({ choices, label, value, setValue }) => {
       value={buttonValue}
       onClick={handleClick}
     >
+      {buttonIcon ? <ion-icon name={buttonIcon} /> : null}
       {buttonLabel}
     </button>
   ));

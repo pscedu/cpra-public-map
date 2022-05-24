@@ -1,6 +1,8 @@
 .button {
   background-color: white;
   border: 1px solid #274d36;
+  color: #274d36;
+  cursor: pointer;
   padding: 5px 15px;
 }
 .active {

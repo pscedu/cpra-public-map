@@ -70,6 +70,7 @@ const Explore = ({
       >
         <Slide
           controls={["environment", "plan", "year"]}
+          icon="earth"
           id="land-change"
           modelLayerSpec={modelLayers["Land Change"]}
           setSlideState={setMapState}
@@ -78,6 +79,7 @@ const Explore = ({
         />
         <Slide
           controls={["environment", "plan", "year"]}
+          icon="leaf"
           id="vegetation-type"
           modelLayerSpec={modelLayers["Vegetation Type"]}
           setSlideState={setMapState}
@@ -86,6 +88,7 @@ const Explore = ({
         />
         <Slide
           controls={["environment", "plan", "year"]}
+          icon="water"
           id="flood-risk"
           modelLayerSpec={modelLayers["Flood Depth"]}
           setSlideState={setMapState}
@@ -94,6 +97,7 @@ const Explore = ({
         />
         <Slide
           controls={["environment", "plan", "year"]}
+          icon="people"
           id="social-vulnerability"
           modelLayerSpec={{}}
           setSlideState={setMapState}

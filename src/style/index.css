@@ -91,3 +91,8 @@ h2 {
 .project-type-icon-sr {
   background-image: url("/assets/project-icons/sr.png");
 }
+ion-icon {
+  font-size: 1.5rem;
+  margin-right: 10px;
+  vertical-align: middle;
+}

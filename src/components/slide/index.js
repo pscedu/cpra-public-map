@@ -45,8 +45,8 @@ const Slide = ({
     controlComponents.push(
       <Buttons
         choices={[
-          ["S07", "Lower"],
-          ["S08", "Higher"],
+          ["S07", "Lower", "partly-sunny"],
+          ["S08", "Higher", "rainy"],
         ]}
         label="Environmental Scenario"
         value={environment}
@@ -58,8 +58,8 @@ const Slide = ({
     controlComponents.push(
       <Buttons
         choices={[
-          ["G500", "Without Further Action"],
-          ["G600", "With 2023 Master Plan"],
+          ["G500", "Without Further Action", "close"],
+          ["G600", "With 2023 Master Plan", "hammer"],
         ]}
         label="Project Implementation Scenario"
         value={plan}
