@@ -4,29 +4,30 @@ import style from "./style.css";
 
 import SlideNavigation from "../slide-navigation";
 
-const getTabLinks = (slides, start, end, currentIdx) =>
-  slides.slice(start, end).map((slide, i) => (
-    <a
-      key={slide.props.id}
-      href={`/${slide.props.id}`}
-      class={`${style.tab} ${
-        style[i === currentIdx ? "tab-active" : "tab-inactive"]
-      }`}
-    >
-      <span class={style["tab-inner"]}>
-        {slide.props["tab-title"] || slide.props.title}
-      </span>
-    </a>
-  ));
+// const getTabLinks = (slides, start, end, currentIdx) =>
+//   slides.slice(start, end).map((slide, i) => (
+//     <a
+//       key={slide.props.id}
+//       href={`/${slide.props.id}`}
+//       class={`${style.tab} ${
+//         style[i === currentIdx ? "tab-active" : "tab-inactive"]
+//       }`}
+//     >
+//       <span class={style["tab-inner"]}>
+//         {slide.props["tab-title"] || slide.props.title}
+//       </span>
+//     </a>
+//   ));
 
 const Slides = ({
+  arrows,
   children,
   mapState,
+  navigation,
   path,
   projectMap,
   setMapState,
   slideId,
-  tabs,
 }) => {
   const slides = children;
   let currentSlide = slides[0];
@@ -40,12 +41,6 @@ const Slides = ({
         break;
       }
     }
-  let prevTabs = tabs
-    ? getTabLinks(slides, 0, currentIdx + 1, currentIdx)
-    : null;
-  let nextTabs = tabs
-    ? getTabLinks(slides, currentIdx + 1, slides.length + 1)
-    : null;
 
   let { modelLayerSpec, projectId } = currentSlide.props;
   useEffect(() => {
@@ -61,17 +56,14 @@ const Slides = ({
 
   return (
     <div class={style.slides}>
-      {prevTabs}
       {currentSlide}
-      {nextTabs}
       {slides.length > 1 ? (
         <SlideNavigation
-          path={path}
-          current={currentSlide}
+          arrows={arrows}
           currentIdx={currentIdx}
-          prev={slides[currentIdx - 1]}
-          next={slides[currentIdx + 1]}
-          count={slides.length}
+          navigationType={navigation}
+          path={path}
+          slides={slides}
         />
       ) : null}
     </div>

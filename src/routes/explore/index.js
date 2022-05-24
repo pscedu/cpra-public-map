@@ -58,7 +58,7 @@ const Explore = ({
   // );
 
   return (
-    <Drawer title="Explore" open={true}>
+    <Drawer title={mapState.modelLayer || "Explore"} open={true}>
       <Slides
         mapState={mapState}
         modelLayer={null}
@@ -66,7 +66,7 @@ const Explore = ({
         projectMap={projectMap}
         setMapState={setMapState}
         slideId={slideId}
-        tabs={true}
+        navigation="tabs"
       >
         <Slide
           controls={["environment", "plan", "year"]}
@@ -74,7 +74,7 @@ const Explore = ({
           modelLayerSpec={modelLayers["Land Change"]}
           setSlideState={setMapState}
           slideState={mapState}
-          title="Land Change"
+          tabTitle="Land Change"
         />
         <Slide
           controls={["environment", "plan", "year"]}
@@ -82,7 +82,23 @@ const Explore = ({
           modelLayerSpec={modelLayers["Vegetation Type"]}
           setSlideState={setMapState}
           slideState={mapState}
-          title="Vegetation Type"
+          tabTitle="Vegetation Type"
+        />
+        <Slide
+          controls={["environment", "plan", "year"]}
+          id="flood-risk"
+          modelLayerSpec={modelLayers["Flood Depth"]}
+          setSlideState={setMapState}
+          slideState={mapState}
+          tabTitle="Flood Risk"
+        />
+        <Slide
+          controls={["environment", "plan", "year"]}
+          id="social-vulnerability"
+          modelLayerSpec={{}}
+          setSlideState={setMapState}
+          slideState={mapState}
+          tabTitle="Social Vulnerability"
         />
         {/* {projectsSlide} */}
       </Slides>

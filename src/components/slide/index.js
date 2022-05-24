@@ -21,6 +21,7 @@ const Slide = ({
   modelLayerSpec,
   setSlideState,
   slideState,
+  tabTitle,
   title,
 }) => {
   const [environment, setEnvironment] = stateProp(
@@ -68,7 +69,7 @@ const Slide = ({
 
   return (
     <section class={style.slide}>
-      {title ? <h2>{title}</h2> : null}
+      <h2 class={!title ? "sr-only" : ""}>{title || tabTitle}</h2>
       {children}
       <div class={style.controls}>{controlComponents}</div>
     </section>
