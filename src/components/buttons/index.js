@@ -2,8 +2,6 @@ import { h } from "preact";
 import style from "./style.css";
 
 const Buttons = ({ choices, label, value, setValue }) => {
-  const handleClick = (e) => setValue(e.target.value);
-
   const buttons = choices.map(([buttonValue, buttonLabel, buttonIcon]) => (
     <button
       key={buttonValue}
@@ -11,7 +9,7 @@ const Buttons = ({ choices, label, value, setValue }) => {
         value === buttonValue ? style.active : style.inactive
       }`}
       value={buttonValue}
-      onClick={handleClick}
+      onClick={() => setValue(buttonValue)}
     >
       {buttonIcon ? <ion-icon name={buttonIcon} /> : null}
       {buttonLabel}
