@@ -17,7 +17,7 @@ const getItems = (legend) =>
 
 const Legend = ({ legends, mapState }) => {
   const content = [];
-  if (mapState.showProjects)
+  if (mapState.showProjects && !mapState.modelLayer)
     content.push(<h2>Projects</h2>, <ul>{getItems(legends["Projects"])}</ul>);
 
   if (mapState.modelLayer && legends[mapState.modelLayer])
