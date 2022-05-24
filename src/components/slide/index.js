@@ -4,7 +4,7 @@ import style from "./style.css";
 import Buttons from "../buttons";
 import Year from "../year";
 
-const stateProp = (propName, state, setState) => {
+const stateProp = (propName, state = {}, setState) => {
   return [
     state[propName],
     (value) => {
@@ -18,7 +18,7 @@ const stateProp = (propName, state, setState) => {
 const Slide = ({
   children,
   controls = [],
-  modelLayerSpec,
+  layerSpec,
   setSlideState,
   slideState,
   tabTitle,
@@ -38,7 +38,7 @@ const Slide = ({
       <Year
         setState={setSlideState}
         state={slideState}
-        years={modelLayerSpec.years}
+        years={layerSpec.years}
       />
     );
 
@@ -70,7 +70,7 @@ const Slide = ({
 
   if (controls.includes("subtype")) {
     let label;
-    const choices = modelLayerSpec.subtypes.map((name) => {
+    const choices = layerSpec.subtypes.map((name) => {
       let parts = name.split(" ");
       let last = parts.pop();
       if (!label) label = parts.join(" ");

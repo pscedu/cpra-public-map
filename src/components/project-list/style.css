@@ -12,7 +12,7 @@
 }
 .project-list tbody {
   display: block;
-  height: 195px;
+  height: 230px;
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-color: #274d36 transparent;
@@ -49,4 +49,13 @@
 .type,
 .region {
   width: 25%;
+}
+.project-list a {
+  border-bottom: 2px solid transparent;
+  color: black;
+  text-decoration: none;
+}
+.project-list a:active,
+.project-list a:hover {
+  border-bottom-color: #5c7967;
 }

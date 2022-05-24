@@ -3,12 +3,7 @@ import { useState } from "preact/hooks";
 import { Router } from "preact-router";
 
 import * as config from "./config";
-import {
-  useModelLayers,
-  useProjects,
-  useSearchIndex,
-  useServices,
-} from "./hooks";
+import { useLayers, useProjects, useSearchIndex, useServices } from "./hooks";
 
 import Header from "../header";
 import Legend from "../legend";
@@ -21,15 +16,14 @@ const App = () => {
   const projects = useProjects(config.projectListUrl);
   const searchIndex = useSearchIndex(projects);
   const services = useServices(config.servicesUrl);
-  const modelLayers = useModelLayers(services);
+  const layers = useLayers(services);
   const [selection, setSelection] = useState({});
   const [mapState, setMapState] = useState({
     environment: "S08",
-    modelLayer: null,
+    layer: null,
     plan: "G500",
     politicalBoundary: null,
     prevYear: null,
-    showProjects: true,
     subtype: null,
     year: "50",
   });
@@ -62,7 +56,7 @@ const App = () => {
           projectTypes={config.projectTypes}
           selection={selection}
           mapState={mapState}
-          modelLayers={modelLayers}
+          layers={layers}
           setMapState={setMapState}
         />
       </Router>

@@ -10,7 +10,7 @@ import { fireEvent } from "../../utils";
 
 const Explore = ({
   mapState,
-  modelLayers,
+  layers,
   path,
   projects,
   projectTypeDescriptions,
@@ -19,49 +19,57 @@ const Explore = ({
   setMapState,
   slideId,
 }) => {
-  if (!modelLayers) return;
+  if (!layers) return;
 
   const projectMap = {};
   projects.forEach((proj) => (projectMap[proj.project_id] = proj));
 
-  // let project = projectMap[selection.project];
+  let project = projectMap[selection.project];
 
-  // const clearProject = (e) => {
-  //   e.preventDefault();
-  //   fireEvent("searchClearResult");
-  // };
+  const clearProject = (e) => {
+    e.preventDefault();
+    fireEvent("searchClearResult");
+  };
 
-  // let projectsSlide = project ? (
-  //   <Slide
-  //     title={project.name}
-  //     id="projects"
-  //     tab-title="Projects"
-  //     modelLayer={null}
-  //   >
-  //     <a class={style["close-button"]} href="#" onClick={clearProject}>
-  //       <span class="sr-only">Close</span>
-  //     </a>
-  //     <ProjectDetail
-  //       project={project}
-  //       projectTypes={projectTypes}
-  //       projectTypeDescriptions={projectTypeDescriptions}
-  //     />
-  //   </Slide>
-  // ) : (
-  //   <Slide id="projects" tab-title="Projects" modelLayer={null}>
-  //     <ProjectList
-  //       projects={projects}
-  //       projectTypeDescriptions={projectTypeDescriptions}
-  //       projectTypes={projectTypes}
-  //     />
-  //   </Slide>
-  // );
+  let projectsSlide = project ? (
+    <Slide
+      title={project.name}
+      id="projects"
+      tabTitle="Projects"
+      layer="Projects"
+      layerSpec={layers["Projects"]}
+      icon="cube"
+    >
+      <a class={style["close-button"]} href="#" onClick={clearProject}>
+        <span class="sr-only">Close</span>
+      </a>
+      <ProjectDetail
+        project={project}
+        projectTypes={projectTypes}
+        projectTypeDescriptions={projectTypeDescriptions}
+      />
+    </Slide>
+  ) : (
+    <Slide
+      id="projects"
+      tabTitle="Projects"
+      layer="Projects"
+      layerSpec={layers["Projects"]}
+      icon="cube"
+    >
+      <ProjectList
+        projects={projects}
+        projectTypeDescriptions={projectTypeDescriptions}
+        projectTypes={projectTypes}
+      />
+    </Slide>
+  );
 
   return (
-    <Drawer title={mapState.modelLayer || "Explore"} open={true}>
+    <Drawer title={mapState.layer || "Explore"} open={true}>
       <Slides
         mapState={mapState}
-        modelLayer={null}
+        layer={null}
         path={path}
         projectMap={projectMap}
         setMapState={setMapState}
@@ -72,7 +80,7 @@ const Explore = ({
           controls={["environment", "plan", "year"]}
           icon="earth"
           id="land-change"
-          modelLayerSpec={modelLayers["Land Change"]}
+          layerSpec={layers["Land Change"]}
           setSlideState={setMapState}
           slideState={mapState}
           tabTitle="Land Change"
@@ -81,7 +89,7 @@ const Explore = ({
           controls={["environment", "plan", "year"]}
           icon="leaf"
           id="vegetation-type"
-          modelLayerSpec={modelLayers["Vegetation Type"]}
+          layerSpec={layers["Vegetation Type"]}
           setSlideState={setMapState}
           slideState={mapState}
           tabTitle="Vegetation Type"
@@ -90,7 +98,7 @@ const Explore = ({
           controls={["environment", "plan", "subtype", "year"]}
           icon="water"
           id="flood-risk"
-          modelLayerSpec={modelLayers["Flood Depth"]}
+          layerSpec={layers["Flood Depth"]}
           setSlideState={setMapState}
           slideState={mapState}
           tabTitle="Flood Risk"
@@ -99,12 +107,12 @@ const Explore = ({
           controls={["environment", "plan", "year"]}
           icon="people"
           id="social-vulnerability"
-          modelLayerSpec={{}}
+          layerSpec={{}}
           setSlideState={setMapState}
           slideState={mapState}
           tabTitle="Social Vulnerability"
         />
-        {/* {projectsSlide} */}
+        {projectsSlide}
       </Slides>
     </Drawer>
   );

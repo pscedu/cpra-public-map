@@ -29,14 +29,14 @@ const Slides = ({
       }
     }
 
-  let { modelLayerSpec, projectId } = currentSlide.props;
+  let { layerSpec, projectId } = currentSlide.props;
   useEffect(() => {
-    if (mapState.subtype) prevSubypes[mapState.modelLayer] = mapState.subtype;
+    if (mapState.subtype) prevSubypes[mapState.layer] = mapState.subtype;
     setMapState({
       ...mapState,
-      modelLayer: modelLayerSpec.name,
-      subtype: modelLayerSpec.subtypes
-        ? prevSubypes[modelLayerSpec.name] || modelLayerSpec.subtypes[0]
+      layer: layerSpec.name,
+      subtype: layerSpec.subtypes
+        ? prevSubypes[layerSpec.name] || layerSpec.subtypes[0]
         : null,
     });
 
