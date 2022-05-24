@@ -30,6 +30,7 @@ const Slide = ({
     setSlideState
   );
   const [plan, setPlan] = stateProp("plan", slideState, setSlideState);
+  const [subtype, setSubtype] = stateProp("subtype", slideState, setSlideState);
 
   const controlComponents = [];
   if (controls.includes("year"))
@@ -66,6 +67,24 @@ const Slide = ({
         setValue={setPlan}
       />
     );
+
+  if (controls.includes("subtype")) {
+    let label;
+    const choices = modelLayerSpec.subtypes.map((name) => {
+      let parts = name.split(" ");
+      let last = parts.pop();
+      if (!label) label = parts.join(" ");
+      return [name, last];
+    });
+    controlComponents.push(
+      <Buttons
+        choices={choices}
+        label={label}
+        value={subtype}
+        setValue={setSubtype}
+      />
+    );
+  }
 
   return (
     <section class={style.slide}>

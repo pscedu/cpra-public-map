@@ -4,20 +4,7 @@ import style from "./style.css";
 
 import SlideNavigation from "../slide-navigation";
 
-// const getTabLinks = (slides, start, end, currentIdx) =>
-//   slides.slice(start, end).map((slide, i) => (
-//     <a
-//       key={slide.props.id}
-//       href={`/${slide.props.id}`}
-//       class={`${style.tab} ${
-//         style[i === currentIdx ? "tab-active" : "tab-inactive"]
-//       }`}
-//     >
-//       <span class={style["tab-inner"]}>
-//         {slide.props["tab-title"] || slide.props.title}
-//       </span>
-//     </a>
-//   ));
+const prevSubypes = {};
 
 const Slides = ({
   arrows,
@@ -44,10 +31,13 @@ const Slides = ({
 
   let { modelLayerSpec, projectId } = currentSlide.props;
   useEffect(() => {
+    if (mapState.subtype) prevSubypes[mapState.modelLayer] = mapState.subtype;
     setMapState({
       ...mapState,
       modelLayer: modelLayerSpec.name,
-      subtype: null,
+      subtype: modelLayerSpec.subtypes
+        ? prevSubypes[modelLayerSpec.name] || modelLayerSpec.subtypes[0]
+        : null,
     });
 
     let project = projectMap[projectId];

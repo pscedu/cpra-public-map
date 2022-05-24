@@ -1,9 +1,14 @@
 .button {
   background-color: white;
   border: 1px solid #274d36;
+  border-left: 0 none transparent;
   color: #274d36;
   cursor: pointer;
+  line-height: 1.5rem;
   padding: 5px 15px;
+}
+.button:first-child {
+  border-left: 1px solid #274d36;
 }
 .active {
   background-color: #274d36;
