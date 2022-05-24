@@ -17,13 +17,11 @@ const getItems = (legend) =>
 
 const Legend = ({ legends, mapState }) => {
   const content = [];
-  if (mapState.showProjects)
-    content.push(<h2>Projects</h2>, <ul>{getItems(legends["Projects"])}</ul>);
 
-  if (mapState.modelLayer && legends[mapState.modelLayer])
+  if (mapState.layer && legends[mapState.layer])
     content.push(
-      <h2>{mapState.modelLayer}</h2>,
-      <ul>{getItems(legends[mapState.modelLayer])}</ul>
+      <h2>{mapState.layer}</h2>,
+      <ul>{getItems(legends[mapState.layer])}</ul>
     );
 
   return content.length ? (

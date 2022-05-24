@@ -1,11 +1,7 @@
 .slides {
-  bottom: 0;
   display: flex;
-  flex-direction: row;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
+  flex-direction: column;
+  height: 100%;
 }
 .tab {
   background-color: #54715f;

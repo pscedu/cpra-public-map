@@ -1,12 +1,16 @@
 .drawer {
-  bottom: 100px;
-  height: 300px;
-  left: 50px;
+  bottom: 0;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 0 8px;
+  display: flex;
+  flex-direction: column;
+  left: 100px;
   position: absolute;
   z-index: 100;
 }
 .open {
-  width: 50%;
+  height: 450px;
+  min-width: 850px;
+  width: 45%;
 }
 .handle {
   background-color: #274d36;
@@ -14,26 +18,27 @@
   color: white;
   cursor: pointer;
   font-size: 24px;
-  font-weight: 700;
-  padding: 15px 25px;
-  position: relative;
-  text-align: left;
+  font-weight: 400;
+  letter-spacing: 2px;
+  padding: 7px 60px;
+  text-align: center;
   text-transform: uppercase;
-  top: 300px;
-  transform: rotate(-90deg);
   transform-origin: top left;
-  width: 300px;
 }
-.open .handle::before {
+.handle::after {
+  float: right;
+  font-size: 80%;
+  right: -40px;
+  position: relative;
+  top: 4px;
+}
+.open .handle::after {
   content: "\142F";
 }
-.closed .handle::before {
+.closed .handle::after {
   content: "\1431";
 }
 .body {
-  height: 100%;
-  left: 65px;
-  width: 100%;
-  position: absolute;
-  top: 0;
+  flex: 1 1 auto;
+  min-height: 0px;
 }

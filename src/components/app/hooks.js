@@ -7,6 +7,35 @@ import {
 } from "../../utils";
 import { projectTypes } from "./config";
 
+const toFloat = (value) => parseFloat(value.replace(/[^0-9.]/g, ""));
+
+export function useLayers(services) {
+  const [layers, setLayers] = useState(null);
+  useEffect(() => {
+    if (!services) return;
+    const specs = {};
+    for (let service of Object.values(services)) {
+      if (service.name.indexOf("Base Map") != -1) continue;
+      let [name, year, subtype] = service.name.split(" - ");
+      let layer = (specs[name] = specs[name] || {
+        name,
+        subtypes: [],
+        years: [],
+      });
+      layer.years.push(year.replace("Year ", ""));
+      if (subtype && !layer.subtypes.includes(subtype))
+        layer.subtypes.push(subtype);
+    }
+    for (let layer of Object.values(specs))
+      if (layer.subtypes)
+        layer.subtypes.sort((a, b) => toFloat(a) - toFloat(b));
+
+    specs["Projects"] = { name: "Projects" };
+    setLayers(specs);
+  }, [services]);
+  return layers;
+}
+
 export function useProjects(projectsUrl) {
   const [projects, setProjects] = useState([]);
   useEffect(() => {

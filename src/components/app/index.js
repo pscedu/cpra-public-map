@@ -1,12 +1,11 @@
 import { h } from "preact";
-import { useEffect, useState } from "preact/hooks";
+import { useState } from "preact/hooks";
 import { Router } from "preact-router";
 
 import * as config from "./config";
-import { useProjects, useSearchIndex, useServices } from "./hooks";
+import { useLayers, useProjects, useSearchIndex, useServices } from "./hooks";
 
 import Header from "../header";
-import Layers from "../layers";
 import Legend from "../legend";
 import Map from "../map";
 import Toolbar from "../toolbar";
@@ -17,21 +16,17 @@ const App = () => {
   const projects = useProjects(config.projectListUrl);
   const searchIndex = useSearchIndex(projects);
   const services = useServices(config.servicesUrl);
+  const layers = useLayers(services);
   const [selection, setSelection] = useState({});
   const [mapState, setMapState] = useState({
-    modelLayer: null,
+    environment: "S08",
+    layer: null,
+    plan: "G500",
     politicalBoundary: null,
     prevYear: null,
-    showProjects: true,
     subtype: null,
     year: "50",
   });
-
-  useEffect(() => {
-    window.addEventListener("mapUpdateState", (e) =>
-      setMapState({ ...mapState, ...e.detail.updates })
-    );
-  }, []);
 
   return (
     <div id="app">
@@ -40,7 +35,6 @@ const App = () => {
         setSelection={setSelection}
         searchIndex={searchIndex}
       />
-      <Layers {...{ services, mapState, setMapState }} />
       <Legend legends={config.legends} mapState={mapState} />
       <Toolbar />
       <Watermark>DRAFT</Watermark>
@@ -61,6 +55,9 @@ const App = () => {
           projectTypeDescriptions={config.projectTypeDescriptions}
           projectTypes={config.projectTypes}
           selection={selection}
+          mapState={mapState}
+          layers={layers}
+          setMapState={setMapState}
         />
       </Router>
     </div>

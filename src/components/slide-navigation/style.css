@@ -1,7 +1,15 @@
 .slide-navigation {
-  left: 0;
+  background-color: white;
+}
+.arrow {
   position: absolute;
-  top: 310px;
+  top: 50%;
+}
+.prev {
+  left: 15px;
+}
+.next {
+  right: 15px;
 }
 .bubble {
   background-color: #274d36;
@@ -10,22 +18,59 @@
   color: white;
   display: inline-block;
   line-height: 36px;
-  margin: 0 10px 0 0;
   text-decoration: none;
   vertical-align: middle;
 }
-span.bubble {
-  background-color: rgba(255, 255, 255, 0.85);
-  box-shadow: none;
-  color: #274d36;
-  font-size: 20px;
-  font-weight: bold;
-  padding: 5px 20px;
-}
 a.bubble {
   font-size: 30px;
-  padding: 2px 10px 8px;
+  padding: 2px 5px 8px;
 }
 a.disabled {
   background-color: #5c7967;
+}
+li,
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.nav-type-tabs ul {
+  border-top: 1px solid #274d36;
+  display: flex;
+  width: 100;
+}
+.nav-type-tabs ul li,
+.nav-type-tabs ul a {
+  display: block;
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+  width: 100%;
+}
+.nav-type-tabs ul li {
+  border-left: 1px solid #274d36;
+}
+.nav-type-tabs ul a {
+  color: #274d36;
+  text-align: center;
+  padding: 15px;
+}
+.nav-type-tabs ul li:first-child {
+  border-left: 0 none transparent;
+}
+.nav-type-tabs .active {
+  background-color: #274d36;
+}
+.nav-type-tabs .active a {
+  color: white;
+  font-weight: 700;
+}
+.nav-type-tabs ion-icon {
+  float: none;
+  margin: 0;
+  text-align: center;
+}
+.nav-type-tabs .inner {
+  display: block;
+  margin-top: 5px;
 }

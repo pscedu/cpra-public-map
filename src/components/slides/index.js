@@ -3,24 +3,19 @@ import { useEffect } from "preact/hooks";
 import style from "./style.css";
 
 import SlideNavigation from "../slide-navigation";
-import { fireEvent } from "../../utils";
 
-const getTabLinks = (slides, start, end, currentIdx) =>
-  slides.slice(start, end).map((slide, i) => (
-    <a
-      key={slide.props.id}
-      href={`/${slide.props.id}`}
-      class={`${style.tab} ${
-        style[i === currentIdx ? "tab-active" : "tab-inactive"]
-      }`}
-    >
-      <span class={style["tab-inner"]}>
-        {slide.props["tab-title"] || slide.props.title}
-      </span>
-    </a>
-  ));
+const prevSubypes = {};
 
-const Slides = ({ children, path, projectMap, slideId, tabs }) => {
+const Slides = ({
+  arrows,
+  children,
+  mapState,
+  navigation,
+  path,
+  projectMap,
+  setMapState,
+  slideId,
+}) => {
   const slides = children;
   let currentSlide = slides[0];
   let currentIdx = 0;
@@ -33,16 +28,17 @@ const Slides = ({ children, path, projectMap, slideId, tabs }) => {
         break;
       }
     }
-  let prevTabs = tabs
-    ? getTabLinks(slides, 0, currentIdx + 1, currentIdx)
-    : null;
-  let nextTabs = tabs
-    ? getTabLinks(slides, currentIdx + 1, slides.length + 1)
-    : null;
 
-  let { modelLayer, projectId } = currentSlide.props;
+  let { layerSpec, projectId } = currentSlide.props;
   useEffect(() => {
-    fireEvent("mapUpdateState", { updates: { modelLayer, subtype: null } });
+    if (mapState.subtype) prevSubypes[mapState.layer] = mapState.subtype;
+    setMapState({
+      ...mapState,
+      layer: layerSpec.name,
+      subtype: layerSpec.subtypes
+        ? prevSubypes[layerSpec.name] || layerSpec.subtypes[0]
+        : null,
+    });
 
     let project = projectMap[projectId];
     if (project) project.select();
@@ -50,17 +46,14 @@ const Slides = ({ children, path, projectMap, slideId, tabs }) => {
 
   return (
     <div class={style.slides}>
-      {prevTabs}
       {currentSlide}
-      {nextTabs}
       {slides.length > 1 ? (
         <SlideNavigation
-          path={path}
-          current={currentSlide}
+          arrows={arrows}
           currentIdx={currentIdx}
-          prev={slides[currentIdx - 1]}
-          next={slides[currentIdx + 1]}
-          count={slides.length}
+          navigationType={navigation}
+          path={path}
+          slides={slides}
         />
       ) : null}
     </div>
