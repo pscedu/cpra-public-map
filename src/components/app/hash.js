@@ -15,7 +15,7 @@ export function getHashString(obj, defaults, excluded = []) {
   obj = { ...getHashObject(defaults, true), ...obj };
   let kv = Object.keys(obj)
     .filter((k) => !(excluded.includes(k) || obj[k] == defaults[k]))
-    .map((k) => `${k}=${encodeURIComponent(obj[k])}`)
+    .map((k) => `${k}=${k == "map" ? obj[k] : encodeURIComponent(obj[k])}`)
     .join("&");
   return kv ? `#${kv}` : "";
 }
