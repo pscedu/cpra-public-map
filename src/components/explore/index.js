@@ -8,20 +8,27 @@ import Slide from "../slide";
 import Slides from "../slides";
 import { fireEvent } from "../../utils";
 
+const layerOrder = [
+  "Land Change",
+  "Vegetation Type",
+  "Flood Depth",
+  "Social Vulnerability",
+  "Projects",
+];
+
 const Explore = ({
   mapState,
   layers,
-  path,
-  prevYear,
   projects,
   projectTypeDescriptions,
   projectTypes,
   selection,
   updateMapState,
-  setPrevYear,
-  slideId,
 }) => {
   if (!layers) return;
+
+  const currentIdx = layerOrder.indexOf(mapState.layer);
+  const setCurrentIdx = (idx) => updateMapState({ layer: layerOrder[idx] });
 
   const projectMap = {};
   projects.forEach((proj) => (projectMap[proj.project_id] = proj));
@@ -36,9 +43,7 @@ const Explore = ({
   let projectsSlide = project ? (
     <Slide
       title={project.name}
-      id="projects"
       tabTitle="Projects"
-      layer="Projects"
       layerSpec={layers["Projects"]}
       icon="cube"
     >
@@ -52,13 +57,7 @@ const Explore = ({
       />
     </Slide>
   ) : (
-    <Slide
-      id="projects"
-      tabTitle="Projects"
-      layer="Projects"
-      layerSpec={layers["Projects"]}
-      icon="cube"
-    >
+    <Slide tabTitle="Projects" layerSpec={layers["Projects"]} icon="cube">
       <ProjectList
         projects={projects}
         projectTypeDescriptions={projectTypeDescriptions}
@@ -70,18 +69,16 @@ const Explore = ({
   return (
     <Drawer title={mapState.layer || "Explore"} open={true}>
       <Slides
+        currentIdx={currentIdx}
         mapState={mapState}
-        layer={null}
-        path={path}
-        projectMap={projectMap}
-        updateMapState={updateMapState}
-        slideId={slideId}
         navigation="tabs"
+        projectMap={projectMap}
+        setCurrentIdx={setCurrentIdx}
+        updateMapState={updateMapState}
       >
         <Slide
           controls={["environment", "plan", "year"]}
           icon="earth"
-          id="land-change"
           layerSpec={layers["Land Change"]}
           updateSlideState={updateMapState}
           slideState={mapState}
@@ -90,7 +87,6 @@ const Explore = ({
         <Slide
           controls={["environment", "plan", "year"]}
           icon="leaf"
-          id="vegetation-type"
           layerSpec={layers["Vegetation Type"]}
           updateSlideState={updateMapState}
           slideState={mapState}
@@ -99,7 +95,6 @@ const Explore = ({
         <Slide
           controls={["environment", "plan", "subtype", "year"]}
           icon="water"
-          id="flood-risk"
           layerSpec={layers["Flood Depth"]}
           updateSlideState={updateMapState}
           slideState={mapState}
@@ -108,8 +103,7 @@ const Explore = ({
         <Slide
           controls={["environment", "plan", "year"]}
           icon="people"
-          id="social-vulnerability"
-          layerSpec={{}}
+          layerSpec={{ name: "Social Vulnerability" }}
           updateSlideState={updateMapState}
           slideState={mapState}
           tabTitle="Social Vulnerability"

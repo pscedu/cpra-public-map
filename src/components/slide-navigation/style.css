@@ -17,15 +17,13 @@
   box-shadow: rgba(0, 0, 0, 0.25) 0 0 8px;
   color: white;
   display: inline-block;
+  font-size: 30px;
   line-height: 36px;
+  padding: 2px 5px 8px;
   text-decoration: none;
   vertical-align: middle;
 }
-a.bubble {
-  font-size: 30px;
-  padding: 2px 5px 8px;
-}
-a.disabled {
+button.disabled {
   background-color: #5c7967;
 }
 li,
@@ -40,7 +38,7 @@ ul {
   width: 100;
 }
 .nav-type-tabs ul li,
-.nav-type-tabs ul a {
+.nav-type-tabs ul button {
   display: block;
   font-size: 14px;
   text-align: center;
@@ -50,8 +48,11 @@ ul {
 .nav-type-tabs ul li {
   border-left: 1px solid #274d36;
 }
-.nav-type-tabs ul a {
+.nav-type-tabs ul button {
+  background-color: transparent;
+  border: 0 none transparent;
   color: #274d36;
+  cursor: pointer;
   text-align: center;
   padding: 15px;
 }
@@ -61,7 +62,7 @@ ul {
 .nav-type-tabs .active {
   background-color: #274d36;
 }
-.nav-type-tabs .active a {
+.nav-type-tabs .active button {
   color: white;
   font-weight: 700;
 }

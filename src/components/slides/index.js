@@ -11,32 +11,23 @@ const Slides = ({
   children,
   mapState,
   navigation,
-  path,
   projectMap,
   updateMapState,
-  slideId,
+  currentIdx,
+  setCurrentIdx,
 }) => {
   const slides = children;
-  let currentSlide = slides[0];
-  let currentIdx = 0;
-  if (slideId)
-    for (let slideIdx in slides) {
-      let slide = slides[slideIdx];
-      if (slide.props.id == slideId) {
-        currentSlide = slide;
-        currentIdx = parseInt(slideIdx, 10);
-        break;
-      }
-    }
+  let currentSlide = slides[currentIdx];
 
   let { layerSpec, projectId } = currentSlide.props;
   useEffect(() => {
     if (mapState.subtype) prevSubypes[mapState.layer] = mapState.subtype;
     updateMapState({
       layer: layerSpec.name,
-      subtype: layerSpec.subtypes
-        ? prevSubypes[layerSpec.name] || layerSpec.subtypes[0]
-        : null,
+      subtype:
+        (layerSpec.subtypes || []).length > 0
+          ? prevSubypes[layerSpec.name] || layerSpec.subtypes[0]
+          : null,
     });
 
     let project = projectMap[projectId];
@@ -51,8 +42,8 @@ const Slides = ({
           arrows={arrows}
           currentIdx={currentIdx}
           navigationType={navigation}
-          path={path}
           slides={slides}
+          setCurrentIdx={setCurrentIdx}
         />
       ) : null}
     </div>
