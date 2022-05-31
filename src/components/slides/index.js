@@ -13,7 +13,7 @@ const Slides = ({
   navigation,
   path,
   projectMap,
-  setMapState,
+  updateMapState,
   slideId,
 }) => {
   const slides = children;
@@ -32,8 +32,7 @@ const Slides = ({
   let { layerSpec, projectId } = currentSlide.props;
   useEffect(() => {
     if (mapState.subtype) prevSubypes[mapState.layer] = mapState.subtype;
-    setMapState({
-      ...mapState,
+    updateMapState({
       layer: layerSpec.name,
       subtype: layerSpec.subtypes
         ? prevSubypes[layerSpec.name] || layerSpec.subtypes[0]

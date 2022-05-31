@@ -28,7 +28,7 @@ class Map extends Component {
       style: this.props.services ? getStyle(this.props) : null,
       center: this.center,
       dragRotate: false,
-      hash: true,
+      hash: "map",
       maxBounds: this.maxBounds,
       maxZoom: 12,
       minZoom: 6,
@@ -39,8 +39,7 @@ class Map extends Component {
 
     this.map.on("idle", () => {
       if (this.props.mapState.prevYear !== null)
-        this.props.setMapState({
-          ...this.props.mapState,
+        this.props.updateMapState({
           prevYear: null,
         });
     });

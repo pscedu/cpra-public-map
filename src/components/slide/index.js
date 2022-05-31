@@ -4,13 +4,13 @@ import style from "./style.css";
 import Buttons from "../buttons";
 import Year from "../year";
 
-const stateProp = (propName, state = {}, setState) => {
+const stateProp = (propName, state = {}, updateState) => {
   return [
     state[propName],
     (value) => {
-      const newState = { ...state };
-      newState[propName] = value;
-      setState(newState);
+      const changes = {};
+      changes[propName] = value;
+      updateState(changes);
     },
   ];
 };
@@ -19,7 +19,7 @@ const Slide = ({
   children,
   controls = [],
   layerSpec,
-  setSlideState,
+  updateSlideState,
   slideState,
   tabTitle,
   title,
@@ -27,16 +27,20 @@ const Slide = ({
   const [environment, setEnvironment] = stateProp(
     "environment",
     slideState,
-    setSlideState
+    updateSlideState
   );
-  const [plan, setPlan] = stateProp("plan", slideState, setSlideState);
-  const [subtype, setSubtype] = stateProp("subtype", slideState, setSlideState);
+  const [plan, setPlan] = stateProp("plan", slideState, updateSlideState);
+  const [subtype, setSubtype] = stateProp(
+    "subtype",
+    slideState,
+    updateSlideState
+  );
 
   const controlComponents = [];
   if (controls.includes("year"))
     controlComponents.push(
       <Year
-        setState={setSlideState}
+        updateState={updateSlideState}
         state={slideState}
         years={layerSpec.years}
       />

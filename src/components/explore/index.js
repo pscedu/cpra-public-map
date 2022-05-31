@@ -1,22 +1,24 @@
 import { h } from "preact";
 import style from "./style.css";
 
-import Drawer from "../../components/drawer";
-import ProjectDetail from "../../components/project-detail";
-import ProjectList from "../../components/project-list";
-import Slide from "../../components/slide";
-import Slides from "../../components/slides";
+import Drawer from "../drawer";
+import ProjectDetail from "../project-detail";
+import ProjectList from "../project-list";
+import Slide from "../slide";
+import Slides from "../slides";
 import { fireEvent } from "../../utils";
 
 const Explore = ({
   mapState,
   layers,
   path,
+  prevYear,
   projects,
   projectTypeDescriptions,
   projectTypes,
   selection,
-  setMapState,
+  updateMapState,
+  setPrevYear,
   slideId,
 }) => {
   if (!layers) return;
@@ -72,7 +74,7 @@ const Explore = ({
         layer={null}
         path={path}
         projectMap={projectMap}
-        setMapState={setMapState}
+        updateMapState={updateMapState}
         slideId={slideId}
         navigation="tabs"
       >
@@ -81,7 +83,7 @@ const Explore = ({
           icon="earth"
           id="land-change"
           layerSpec={layers["Land Change"]}
-          setSlideState={setMapState}
+          updateSlideState={updateMapState}
           slideState={mapState}
           tabTitle="Land Change"
         />
@@ -90,7 +92,7 @@ const Explore = ({
           icon="leaf"
           id="vegetation-type"
           layerSpec={layers["Vegetation Type"]}
-          setSlideState={setMapState}
+          updateSlideState={updateMapState}
           slideState={mapState}
           tabTitle="Vegetation Type"
         />
@@ -99,7 +101,7 @@ const Explore = ({
           icon="water"
           id="flood-risk"
           layerSpec={layers["Flood Depth"]}
-          setSlideState={setMapState}
+          updateSlideState={updateMapState}
           slideState={mapState}
           tabTitle="Flood Risk"
         />
@@ -108,7 +110,7 @@ const Explore = ({
           icon="people"
           id="social-vulnerability"
           layerSpec={{}}
-          setSlideState={setMapState}
+          updateSlideState={updateMapState}
           slideState={mapState}
           tabTitle="Social Vulnerability"
         />
