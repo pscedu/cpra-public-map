@@ -1,5 +1,6 @@
 export function getHashObject(defaults, all = false) {
-  const hash = window.location.hash.replace("#", "");
+  const hash =
+    typeof window !== "undefined" ? window.location.hash.replace("#", "") : "";
   const obj = { ...defaults };
   hash
     .split("&")
