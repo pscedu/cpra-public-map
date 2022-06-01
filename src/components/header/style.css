@@ -1,22 +1,29 @@
 .header {
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: #274d36;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 0 8px;
   display: flex;
   left: 0;
   margin: 0;
-  padding: 30px 50px;
+  padding: 10px calc(110px + 25%) 10px 100px;
   position: absolute;
-  right: 50px;
+  right: 0;
   top: 0;
   z-index: 150;
 }
 .logo {
   z-index: 50;
 }
+.logo,
 .logo img {
-  width: 50px;
+  display: block;
+  height: 25px;
 }
 .header h1 {
-  margin: 0 0 -10px 30px;
+  color: white;
+  flex: 1 0 auto;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 6px 0 -10px 20px;
   padding: 0;
   position: relative;
   top: -10px;
@@ -25,44 +32,10 @@
   display: block;
 }
 .title {
-  font-weight: 700;
   letter-spacing: -0.5px;
   line-height: 32px;
-  text-transform: uppercase;
 }
-.subtitle {
-  color: #444444;
-  font-size: 16px;
-  font-weight: 300;
-  line-height: 30px;
-  text-transform: uppercase;
-}
-.header nav a::before {
-  border-left: 1px solid #333333;
-  content: "";
-  height: 24px;
-  left: -80px;
-  position: relative;
-  width: 0;
-}
-.header nav a {
-  color: #333333;
-  font-size: 18px;
-  margin: 0 0 0 100px;
-  padding: 6px 20px;
-  position: relative;
-  text-decoration: none;
-  text-transform: uppercase;
-  text-shadow: rgba(0, 0, 0, 0.25) 1px 1px 2px;
-  z-index: 50;
-}
-.header nav a:hover,
-.header nav a:active {
-  border-bottom-color: #333333;
-}
-.active {
-  border-bottom: 6px solid #274d34;
-}
-.preview {
-  color: red;
+.spacer {
+  flex: 0 1 auto;
+  width: 100%;
 }

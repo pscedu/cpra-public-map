@@ -1,6 +1,7 @@
 import { h } from "preact";
 import style from "./style.css";
 
+import ActionButton from "../action-button";
 import Search from "../search";
 
 const Header = ({ geocodeUrl, searchIndex, setSelection }) => (
@@ -9,17 +10,10 @@ const Header = ({ geocodeUrl, searchIndex, setSelection }) => (
       <img src="/assets/images/logo.png" alt="CPRA" />
     </a>
     <h1>
-      <span class={style.title}>Louisiana's Coastal</span>
-      <span class={style.title}>Master Plan 2023</span>
-      {/* <span class={style.subtitle}>
-        DataViewer <span class={style.preview}>Preview</span>
-      </span> */}
+      <span class={style.title}>Louisiana's Coastal Master Plan 2023</span>
     </h1>
-    <nav>
-      <a class={style.active} href="/">
-        Explore
-      </a>
-    </nav>
+    <div class={style.spacer} />
+    <ActionButton icon="play">Start Guided Tour</ActionButton>
     <Search
       geocodeUrl={geocodeUrl}
       searchIndex={searchIndex}
