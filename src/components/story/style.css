@@ -1,0 +1,8 @@
+.story section > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.story section > div > div {
+  min-width: 300px;
+}

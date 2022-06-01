@@ -9,6 +9,7 @@ const prevSubypes = {};
 const Slides = ({
   arrows,
   children,
+  cssClass,
   mapState,
   navigation,
   projectMap,
@@ -16,7 +17,7 @@ const Slides = ({
   currentIdx,
   setCurrentIdx,
 }) => {
-  const slides = children;
+  const slides = Array.isArray(children) ? children : [children];
   let currentSlide = slides[currentIdx];
 
   let { layerSpec, projectId } = currentSlide.props;
@@ -35,7 +36,7 @@ const Slides = ({
   }, [currentIdx]);
 
   return (
-    <div class={style.slides}>
+    <div class={`${style.slides} ${cssClass || ""}`}>
       {currentSlide}
       {slides.length > 1 ? (
         <SlideNavigation

@@ -41,6 +41,18 @@ export function useHashState(defaults, excluded = []) {
   return [value, updateValue];
 }
 
+export function useHashVar(name, defaultValue) {
+  const defaults = {};
+  defaults[name] = defaultValue;
+  const [obj, updateObj] = useHashState(defaults);
+  const setValue = (value) => {
+    const updates = {};
+    updates[name] = value;
+    updateObj(updates);
+  };
+  return [obj[name], setValue];
+}
+
 export function useLayers(services) {
   const [layers, setLayers] = useState(null);
   useEffect(() => {

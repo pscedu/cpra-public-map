@@ -94,7 +94,7 @@ const Slide = ({
     <section class={style.slide}>
       <h2 class={!title ? "sr-only" : ""}>{title || tabTitle}</h2>
       {children}
-      <div class={style.controls}>{controlComponents}</div>
+      <div class="slide-controls">{controlComponents}</div>
     </section>
   );
 };
