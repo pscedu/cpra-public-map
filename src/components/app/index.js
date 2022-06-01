@@ -31,7 +31,7 @@ const App = () => {
   const [selection, setSelection] = useState({});
   const [mapState, updateMapState] = useHashState(
     {
-      environment: "S08",
+      environment: "S07",
       layer: "Land Change",
       plan: "G500",
       politicalBoundary: null,
