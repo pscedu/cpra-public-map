@@ -9,35 +9,26 @@ const prevSubypes = {};
 const Slides = ({
   arrows,
   children,
+  cssClass,
   mapState,
   navigation,
-  path,
   projectMap,
-  setMapState,
-  slideId,
+  updateMapState,
+  currentIdx,
+  setCurrentIdx,
 }) => {
-  const slides = children;
-  let currentSlide = slides[0];
-  let currentIdx = 0;
-  if (slideId)
-    for (let slideIdx in slides) {
-      let slide = slides[slideIdx];
-      if (slide.props.id == slideId) {
-        currentSlide = slide;
-        currentIdx = parseInt(slideIdx, 10);
-        break;
-      }
-    }
+  const slides = Array.isArray(children) ? children : [children];
+  let currentSlide = slides[currentIdx];
 
   let { layerSpec, projectId } = currentSlide.props;
   useEffect(() => {
     if (mapState.subtype) prevSubypes[mapState.layer] = mapState.subtype;
-    setMapState({
-      ...mapState,
+    updateMapState({
       layer: layerSpec.name,
-      subtype: layerSpec.subtypes
-        ? prevSubypes[layerSpec.name] || layerSpec.subtypes[0]
-        : null,
+      subtype:
+        (layerSpec.subtypes || []).length > 0
+          ? prevSubypes[layerSpec.name] || layerSpec.subtypes[0]
+          : null,
     });
 
     let project = projectMap[projectId];
@@ -45,15 +36,15 @@ const Slides = ({
   }, [currentIdx]);
 
   return (
-    <div class={style.slides}>
+    <div class={`${style.slides} ${cssClass || ""}`}>
       {currentSlide}
       {slides.length > 1 ? (
         <SlideNavigation
           arrows={arrows}
           currentIdx={currentIdx}
           navigationType={navigation}
-          path={path}
           slides={slides}
+          setCurrentIdx={setCurrentIdx}
         />
       ) : null}
     </div>

@@ -6,8 +6,52 @@ import {
   getRegionResult,
 } from "../../utils";
 import { projectTypes } from "./config";
+import { getHashObject, getHashString } from "./hash";
 
 const toFloat = (value) => parseFloat(value.replace(/[^0-9.]/g, ""));
+
+export function useHashState(defaults, excluded = []) {
+  const [value, setValue] = useState(getHashObject(defaults));
+
+  const updateValue = (changes) => {
+    const newValue = { ...value, ...changes };
+    setValue(newValue);
+    try {
+      window.history.replaceState(
+        window.history.state,
+        "",
+        getHashString(newValue, defaults, excluded)
+      );
+    } catch (SecurityError) {}
+  };
+
+  useEffect(() => {
+    window.addEventListener(
+      "hashchange",
+      () => {
+        const newValue = getHashObject(defaults);
+        let changed =
+          Object.keys(value).filter((k) => newValue[k] !== value[k]).length > 0;
+        if (changed) setValue(newValue);
+      },
+      false
+    );
+  }, []);
+
+  return [value, updateValue];
+}
+
+export function useHashVar(name, defaultValue) {
+  const defaults = {};
+  defaults[name] = defaultValue;
+  const [obj, updateObj] = useHashState(defaults);
+  const setValue = (value) => {
+    const updates = {};
+    updates[name] = value;
+    updateObj(updates);
+  };
+  return [obj[name], setValue];
+}
 
 export function useLayers(services) {
   const [layers, setLayers] = useState(null);

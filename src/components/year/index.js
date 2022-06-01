@@ -1,14 +1,13 @@
 import { h } from "preact";
 import style from "./style.css";
 
-const Year = ({ setState, state, years }) => {
+const Year = ({ state, updateState, years }) => {
   const handleInput = (e) => {
     const newYear = e.target.value;
-    const hasYear = years.indexOf(state.year) !== -1;
-    setState({
-      ...state,
+    const hasNewYear = years.indexOf(newYear) !== -1;
+    updateState({
       year: newYear,
-      prevYear: hasYear ? state.year : null,
+      prevYear: hasNewYear ? state.year : null,
     });
   };
 
