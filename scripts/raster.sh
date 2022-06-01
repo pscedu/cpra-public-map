@@ -116,7 +116,7 @@ convert_raster () {
 }
 
 # Process land change rasters
-for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_N_*_*2_W_lndchg.tif; do
+for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_O_02_*2_W_lndchg.tif; do
     year=$(($(basename "$in_path" | cut -d "_" -f10)-2))
     convert_raster $in_path "lndchg" "Land Change - Year $year"
 done
@@ -128,7 +128,7 @@ for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_N_*_*2_W_FFIBS.tif; do
 done
 
 # Process flood depth rasters
-for in_path in $DATA/MP2023_S07_G500_C000_U00_V00_SLA_O_*_*_CLARA_*_aep_depths_ft.tif
+for in_path in $DATA/MP2023_S*_G500_C000_U00_V00_SLA_O_*_*_CLARA_*_aep_depths_ft.tif
 do
     year=$(basename "$in_path" | cut -d "_" -f10)
     [[ "$year" == "01" ]] && year="0"
