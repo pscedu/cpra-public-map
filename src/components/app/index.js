@@ -72,8 +72,10 @@ const App = () => {
     <div id="app">
       <Header
         geocodeUrl={config.geocodeUrl}
-        setSelection={setSelection}
         searchIndex={searchIndex}
+        setSelection={setSelection}
+        setStorySlide={setStorySlide}
+        storySlide={storySlide}
       />
       <Legend legends={config.legends} mapState={mapState} />
       <Toolbar />
