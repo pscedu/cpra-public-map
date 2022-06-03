@@ -116,7 +116,7 @@ convert_raster () {
 }
 
 # Process land change rasters
-for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_O_02_*2_W_lndchg.tif; do
+for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_*_02_*2_W_lndchg.tif; do
     s=$(basename "$in_path" | cut -d "_" -f2)
     g=$(basename "$in_path" | cut -d "_" -f3)
     year=$(($(basename "$in_path" | cut -d "_" -f10)-2))
@@ -124,7 +124,7 @@ for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_O_02_*2_W_lndchg.tif; do
 done
 
 # Process vegatation type rasters
-for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_N_*_*2_W_FFIBS.tif; do
+for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_*_*_*2_W_FFIBS.tif; do
     s=$(basename "$in_path" | cut -d "_" -f2)
     g=$(basename "$in_path" | cut -d "_" -f3)
     year=$(($(basename "$in_path" | cut -d "_" -f10)-2))
@@ -132,7 +132,7 @@ for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_N_*_*2_W_FFIBS.tif; do
 done
 
 # Process flood depth rasters
-for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_O_*_*_CLARA_*_aep_depths_ft.tif
+for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_*_*_*_CLARA_*_aep_depths_ft.tif
 do
     s=$(basename "$in_path" | cut -d "_" -f2)
     g=$(basename "$in_path" | cut -d "_" -f3)
