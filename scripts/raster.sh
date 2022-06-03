@@ -117,23 +117,29 @@ convert_raster () {
 
 # Process land change rasters
 for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_O_02_*2_W_lndchg.tif; do
+    s=$(basename "$in_path" | cut -d "_" -f2)
+    g=$(basename "$in_path" | cut -d "_" -f3)
     year=$(($(basename "$in_path" | cut -d "_" -f10)-2))
-    convert_raster $in_path "lndchg" "Land Change - Year $year"
+    convert_raster $in_path "lndchg" "Land Change - $s - $g - Year $year"
 done
 
 # Process vegatation type rasters
 for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_N_*_*2_W_FFIBS.tif; do
+    s=$(basename "$in_path" | cut -d "_" -f2)
+    g=$(basename "$in_path" | cut -d "_" -f3)
     year=$(($(basename "$in_path" | cut -d "_" -f10)-2))
-    convert_raster $in_path "FFIBS" "Vegegation Type - Year $year"
+    convert_raster $in_path "FFIBS" "Vegegation Type - $s - $g - Year $year"
 done
 
 # Process flood depth rasters
-for in_path in $DATA/MP2023_S*_G500_C000_U00_V00_SLA_O_*_*_CLARA_*_aep_depths_ft.tif
+for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_O_*_*_CLARA_*_aep_depths_ft.tif
 do
+    s=$(basename "$in_path" | cut -d "_" -f2)
+    g=$(basename "$in_path" | cut -d "_" -f3)
     year=$(basename "$in_path" | cut -d "_" -f10)
     [[ "$year" == "01" ]] && year="0"
     exceedance=$(basename "$in_path" | cut -d "_" -f12)
-    raster_name="Flood Depth - Year $year - Exceedance Probability $exceedance"
+    raster_name="Flood Depth - $s - $g - Year $year - Exceedance Probability $exceedance"
     convert_raster $in_path "CLARA" "$raster_name" \
         "/vsizip/$DATA/Lake_Mask.zip/Lake Mask/lake_mask_for_mapping.shp"
 done
