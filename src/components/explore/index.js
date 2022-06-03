@@ -72,7 +72,7 @@ const Explore = ({
       updateMapState={updateMapState}
     >
       <Slide
-        controls={["environment", "plan", "year"]}
+        controls={["scenario", "group", "year"]}
         icon="earth"
         layerSpec={layers["Land Change"]}
         updateSlideState={updateMapState}
@@ -80,7 +80,7 @@ const Explore = ({
         tabTitle="Land Change"
       />
       <Slide
-        controls={["environment", "plan", "year"]}
+        controls={["scenario", "group", "year"]}
         icon="leaf"
         layerSpec={layers["Vegetation Type"]}
         updateSlideState={updateMapState}
@@ -88,7 +88,7 @@ const Explore = ({
         tabTitle="Vegetation Type"
       />
       <Slide
-        controls={["environment", "plan", "subtype", "year"]}
+        controls={["scenario", "group", "subtype", "year"]}
         icon="water"
         layerSpec={layers["Flood Depth"]}
         updateSlideState={updateMapState}
@@ -96,7 +96,7 @@ const Explore = ({
         tabTitle="Flood Risk"
       />
       <Slide
-        controls={["environment", "plan", "year"]}
+        controls={["scenario", "group", "year"]}
         icon="people"
         layerSpec={{ name: "Social Vulnerability" }}
         updateSlideState={updateMapState}

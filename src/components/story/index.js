@@ -58,7 +58,7 @@ const Story = ({
         </p>
       </Slide>
       <Slide
-        controls={["environment"]}
+        controls={["scenario"]}
         layerSpec={layers["Vegetation Type"]}
         updateSlideState={updateMapState}
         slideState={mapState}

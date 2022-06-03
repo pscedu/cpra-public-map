@@ -6,8 +6,8 @@ function linearZoom(min, max) {
   return ["interpolate", ["linear"], ["zoom"], 6, min, 12, max];
 }
 
-function getLayerName(layer, year, subtype) {
-  let name = `${layer} - Year ${year}`;
+function getLayerName(layer, scenario, group, year, subtype) {
+  let name = `${layer} - ${scenario} - ${group} - Year ${year}`;
   if (subtype) name += ` - ${subtype}`;
   return name;
 }
@@ -269,9 +269,21 @@ export function getStyle(services, mapState, selection, maxBounds) {
   // Prepare model layers.
   let prevLayerName =
     mapState.prevYear !== null
-      ? getLayerName(mapState.layer, mapState.prevYear, mapState.subtype)
+      ? getLayerName(
+          mapState.layer,
+          mapState.scenario,
+          mapState.group,
+          mapState.prevYear,
+          mapState.subtype
+        )
       : null;
-  let layerName = getLayerName(mapState.layer, mapState.year, mapState.subtype);
+  let layerName = getLayerName(
+    mapState.layer,
+    mapState.scenario,
+    mapState.group,
+    mapState.year,
+    mapState.subtype
+  );
   const modelLayers = Object.values(services)
     .filter((service) => service.name.indexOf("Base Map") == -1)
     .map((service) => {

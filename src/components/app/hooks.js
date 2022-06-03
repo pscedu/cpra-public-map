@@ -60,13 +60,18 @@ export function useLayers(services) {
     const specs = {};
     for (let service of Object.values(services)) {
       if (service.name.indexOf("Base Map") != -1) continue;
-      let [name, year, subtype] = service.name.split(" - ");
+      let [name, scenario, group, year, subtype] = service.name.split(" - ");
       let layer = (specs[name] = specs[name] || {
         name,
+        groups: [],
+        scenarios: [],
         subtypes: [],
         years: [],
       });
       layer.years.push(year.replace("Year ", ""));
+      if (group && !layer.groups.includes(group)) layer.groups.push(group);
+      if (scenario && !layer.scenarios.includes(scenario))
+        layer.scenarios.push(scenario);
       if (subtype && !layer.subtypes.includes(subtype))
         layer.subtypes.push(subtype);
     }

@@ -24,12 +24,12 @@ const Slide = ({
   tabTitle,
   title,
 }) => {
-  const [environment, setEnvironment] = stateProp(
-    "environment",
+  const [scenario, setScenario] = stateProp(
+    "scenario",
     slideState,
     updateSlideState
   );
-  const [plan, setPlan] = stateProp("plan", slideState, updateSlideState);
+  const [group, setGroup] = stateProp("group", slideState, updateSlideState);
   const [subtype, setSubtype] = stateProp(
     "subtype",
     slideState,
@@ -46,7 +46,7 @@ const Slide = ({
       />
     );
 
-  if (controls.includes("environment"))
+  if (controls.includes("scenario"))
     controlComponents.push(
       <Buttons
         choices={[
@@ -54,21 +54,21 @@ const Slide = ({
           ["S08", "Higher", "rainy"],
         ]}
         label="Environmental Scenario"
-        value={environment}
-        setValue={setEnvironment}
+        value={scenario}
+        setValue={setScenario}
       />
     );
 
-  if (controls.includes("plan"))
+  if (controls.includes("group"))
     controlComponents.push(
       <Buttons
         choices={[
           ["G500", "Without Further Action", "close"],
-          ["G600", "With 2023 Master Plan", "hammer"],
+          ["G603", "With 2023 Master Plan", "hammer"],
         ]}
         label="Project Implementation Scenario"
-        value={plan}
-        setValue={setPlan}
+        value={group}
+        setValue={setGroup}
       />
     );
 
