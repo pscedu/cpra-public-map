@@ -93,7 +93,7 @@ const Explore = ({
         layerSpec={layers["Flood Depth"]}
         updateSlideState={updateMapState}
         slideState={mapState}
-        tabTitle="Flood Risk"
+        tabTitle="Flood Depth"
       />
       <Slide
         controls={["scenario", "group", "year"]}
