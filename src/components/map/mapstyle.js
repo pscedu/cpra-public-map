@@ -310,7 +310,7 @@ export function getStyle(services, mapState, selection, maxBounds) {
 
   let selectedProjects = null;
   if (selection.project)
-    selectedProjects = ["==", ["get", "project_id"], selection.project];
+    selectedProjects = ["==", ["get", "name"], selection.project];
   if (selection.projectType)
     selectedProjects = ["==", ["get", "type"], selection.projectType];
 

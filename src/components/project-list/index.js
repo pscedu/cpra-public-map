@@ -24,7 +24,7 @@ const ProjectList = ({ projects, projectTypeDescriptions, projectTypes }) => {
 
   const projectRows = projects.map((project) => (
     <tr
-      key={project.project_id}
+      key={project.name}
       class={`${style.project} project-type-icon-${project.type.toLowerCase()}`}
     >
       <td class={style.name}>

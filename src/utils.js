@@ -28,7 +28,7 @@ export const getProjectResult = (project) => {
       parseFloat
     ),
     selection: {
-      project: project.project_id,
+      project: project.name,
     },
   };
 };

@@ -23,7 +23,7 @@ import Watermark from "../watermark";
 const App = () => {
   const projects = useProjects(config.projectListUrl);
   const projectMap = {};
-  projects.forEach((proj) => (projectMap[proj.project_id] = proj));
+  projects.forEach((proj) => (projectMap[proj.name] = proj));
 
   const searchIndex = useSearchIndex(projects);
   const services = useServices(config.servicesUrl);

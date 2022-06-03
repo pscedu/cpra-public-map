@@ -49,9 +49,9 @@ class Map extends Component {
         if (!this.projectMap) {
           this.projectMap = {};
           for (let project of this.props.projects)
-            this.projectMap[project.project_id] = project;
+            this.projectMap[project.name] = project;
         }
-        let project = this.projectMap[e.features[0].properties.project_id];
+        let project = this.projectMap[e.features[0].properties.name];
         project.select();
       });
       this.map.on(

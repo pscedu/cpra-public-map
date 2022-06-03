@@ -20,7 +20,7 @@ const Slides = ({
   const slides = Array.isArray(children) ? children : [children];
   let currentSlide = slides[currentIdx];
 
-  let { layerSpec, projectId } = currentSlide.props;
+  let { layerSpec, projectName } = currentSlide.props;
   useEffect(() => {
     if (mapState.subtype) prevSubypes[mapState.layer] = mapState.subtype;
     updateMapState({
@@ -31,7 +31,7 @@ const Slides = ({
           : null,
     });
 
-    let project = projectMap[projectId];
+    let project = projectMap[projectName];
     if (project) project.select();
   }, [currentIdx]);
 
