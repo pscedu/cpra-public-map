@@ -7,9 +7,7 @@ export GDAL_CACHEMAX="80%"
 export GDAL_NUM_THREADS="ALL_CPUS"
 
 read -r -d '' project_sql << SQL
-select replace(replace(replace(replace(replace(lower(ProjectName),
-        ' ', '-'), '.', ''), '''', ''), '/', '-'), '---', '-') as project_id,
-    ProjectName as name,
+select ProjectName as name,
     max(ProjectTypeCode) as type,
     max(Region) as region,
     st_minx(st_collect(geom)) as xmin,

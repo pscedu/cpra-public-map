@@ -83,8 +83,7 @@ ogr2ogr -append -t_srs "EPSG:4326" -dialect sqlite -sql "$water_label_sql" \
 
 
 read -r -d '' project_sql << SQL
-select replace(replace(replace(replace(replace(lower(ProjectName),
-        ' ', '-'), '.', ''), '''', ''), '/', '-'), '---', '-') as project_id,
+select ProjectName as name,
     case when ProjectTypeCode = 'IP' then (
         case when ProjectName = 'Manchac Wetland Restoration and Maurepas Landbridge'
                 then 'MC' 
@@ -107,6 +106,17 @@ ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "${project_sql/LAYER/Lines}" \
 
 ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "${project_sql/LAYER/Polygons}" \
     $WORKING/project_polygon.geojson $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
+
+ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "${project_sql/LAYER/Points}" \
+    $WORKING/project_label.geojson $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
+
+ogr2ogr -append -t_srs "EPSG:4326" -dialect sqlite \
+    -sql "select name, type, st_pointonsurface(geom) as geom from (${project_sql/LAYER/Lines}) as lines" \
+    $WORKING/project_label.geojson $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
+
+ogr2ogr -append -t_srs "EPSG:4326" -dialect sqlite \
+    -sql "select name, type, st_pointonsurface(geom) as geom from (${project_sql/LAYER/Polygons}) as polygons" \
+    $WORKING/project_label.geojson $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
 
 read -r -d '' parish_label_sql << SQL
 select NAME as text,
@@ -177,6 +187,7 @@ tippecanoe -zg -o $TILES/basemap-vector.mbtiles \
     $WORKING/uscd_label.geojson \
     $WORKING/lash_label.geojson \
     $WORKING/lass_label.geojson \
+    $WORKING/project_label.geojson \
     $WORKING/parish_line.geojson \
     $WORKING/uscd_line.geojson \
     $WORKING/lash_line.geojson \
