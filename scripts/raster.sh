@@ -128,7 +128,7 @@ for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_*_*_*2_W_FFIBS.tif; do
     s=$(basename "$in_path" | cut -d "_" -f2)
     g=$(basename "$in_path" | cut -d "_" -f3)
     year=$(($(basename "$in_path" | cut -d "_" -f10)-2))
-    convert_raster $in_path "FFIBS" "Vegegation Type - $s - $g - Year $year"
+    convert_raster $in_path "FFIBS" "Vegetation Type - $s - $g - Year $year"
 done
 
 # Process flood depth rasters
