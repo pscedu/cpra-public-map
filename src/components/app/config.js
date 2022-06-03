@@ -31,13 +31,13 @@ export const projectTypeDescriptions = {
 export const legends = {
   "Flood Depth": {
     colors: [
-      "#578289",
-      "#7abeed",
-      "#f3ba23",
-      "#ee6730",
-      "#be264f",
-      "#225ac2",
-      "#3a4877",
+      "#728D97",
+      "#73B7EA",
+      "#99D9A7",
+      "#F8D88B",
+      "#E9B023",
+      "#E56524",
+      "#B73865",
     ],
     labels: [
       "1 to < 4 feet",
@@ -81,7 +81,7 @@ export const legends = {
     ],
   },
   "Vegetation Type": {
-    colors: ["#267300", "#A3C400", "#FFFF00", "#FFAA00", "#FF0000"],
+    colors: ["#5E823A", "#DAE86D", "#92CBE8", "#735753", "#0679D2"],
     labels: [
       "Fresh Forest",
       "Fresh Marsh",
