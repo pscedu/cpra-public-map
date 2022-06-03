@@ -418,7 +418,11 @@ export function getStyle(services, mapState, selection, maxBounds) {
           "text-color": "#444444",
         },
       },
-      ...projectLayers(true, true, mapState.layer !== "Projects"),
+      ...projectLayers(
+        mapState.layer == "Projects" || mapState.group !== "G500",
+        true,
+        mapState.layer !== "Projects"
+      ),
       {
         id: "search-screen",
         source: "search",
