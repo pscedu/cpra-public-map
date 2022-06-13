@@ -17,6 +17,8 @@ const getItems = (legend) =>
 
 const Legend = ({ legends, mapState }) => {
   const content = [];
+  const cssClass =
+    style[`legend-${mapState.layer.replace(" ", "-").toLowerCase()}`];
 
   if (mapState.layer && legends[mapState.layer])
     content.push(
@@ -25,7 +27,7 @@ const Legend = ({ legends, mapState }) => {
     );
 
   return content.length ? (
-    <section class={style.legend}>{content}</section>
+    <section class={`${style.legend} ${cssClass}`}>{content}</section>
   ) : null;
 };
 
