@@ -4,7 +4,7 @@
   box-shadow: rgba(0, 0, 0, 0.1) 0 0 4px;
   margin: 0;
   min-width: 10%;
-  padding: 20px 30px;
+  padding: 10px 15px;
   position: absolute;
   right: 10px;
   z-index: 50;
@@ -22,7 +22,7 @@
 }
 .legend-item {
   list-style-type: none;
-  margin: 7px 0;
+  margin: 4px 0;
   padding: 0;
   white-space: nowrap;
 }
@@ -33,7 +33,7 @@
 }
 .symbol {
   display: inline-block;
-  height: 20px;
+  height: 15px;
   margin: 0 10px 0 0;
   position: relative;
   vertical-align: middle;
@@ -81,6 +81,13 @@
 @media (min-width: 1000px) {
   .legend {
     right: 100px;
+    padding: 20px 30px;
+  }
+  .legend-item {
+    margin: 7px 0;
+  }
+  .symbol {
+    height: 20px;
   }
 }
 @media (min-width: 1600px) {
