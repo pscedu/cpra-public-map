@@ -88,7 +88,7 @@ const Explore = ({
         tabTitle="Vegetation Type"
       />
       <Slide
-        controls={["scenario", "group", "subtype", "year"]}
+        controls={["scenario", "subtype", "year"]}
         icon="water"
         layerSpec={layers["Flood Depth"]}
         updateSlideState={updateMapState}
