@@ -10,7 +10,7 @@
   top: 0;
   z-index: 150;
 }
-.header button {
+.action-button {
   position: absolute;
   right: 10px;
   top: 60px;
@@ -50,7 +50,7 @@
   .header {
     padding: 10px calc(30px + 50%) 10px 20px;
   }
-  .header button {
+  .action-button {
     position: static;
   }
   .spacer {

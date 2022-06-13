@@ -209,6 +209,40 @@ function projectLayers(show, filter, model, suffix = "") {
         "icon-size": linearZoom(0.1, 1),
       },
     },
+    // Project labels
+    {
+      id: `project-label${suffix}`,
+      type: "symbol",
+      source: "Base Map: Vector",
+      "source-layer": "project_label",
+      filter,
+      minzoom: 9,
+      layout: {
+        "text-anchor": "top",
+        "text-field": ["get", "name"],
+        "text-offset": ["literal", [0, 1.5]],
+        "text-size": 14,
+        "text-font": ["literal", ["Franklin Gothic Demi Regular"]],
+      },
+      paint: {
+        "text-color": "#444444",
+        "text-halo-blur": 1,
+        "text-halo-color": "#ffffff",
+        "text-halo-width": 2,
+      },
+    },
+    {
+      id: `project-icon${suffix}`,
+      type: "symbol",
+      source: "Base Map: Vector",
+      "source-layer": "project_label",
+      filter,
+      minzoom: 9,
+      layout: {
+        "icon-image": ["get", "type"],
+        "icon-size": 2,
+      },
+    },
   ];
 }
 
@@ -237,6 +271,7 @@ export function getStyle(services, mapState, selection, maxBounds) {
           -94.00080091962352, 28.70426878930118, -87.51148588666453,
           31.048795426051505,
         ],
+        maxzoom: 12,
         type: "raster",
         tiles: [
           rasterTileUrl(service.url, "a"),

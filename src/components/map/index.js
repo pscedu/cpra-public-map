@@ -14,6 +14,8 @@ class Map extends Component {
     "project-line-sp",
     "project-point-di-hr",
     "project-point-sr",
+    "project-icon",
+    "project-label",
   ];
 
   shouldComponentUpdate(props) {

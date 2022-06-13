@@ -1,16 +1,93 @@
 {
-  "green-dots": {
+  "BH": {
     "width": 64,
     "height": 64,
     "x": 0,
     "y": 0,
-    "pixelRatio": 3
+    "pixelRatio": 6
+  },
+  "BS": {
+    "width": 64,
+    "height": 64,
+    "x": 64,
+    "y": 0,
+    "pixelRatio": 6
+  },
+  "DI": {
+    "width": 64,
+    "height": 64,
+    "x": 128,
+    "y": 0,
+    "pixelRatio": 6
+  },
+  "HR": {
+    "width": 64,
+    "height": 64,
+    "x": 64,
+    "y": 64,
+    "pixelRatio": 6
+  },
+  "LB": {
+    "width": 64,
+    "height": 64,
+    "x": 128,
+    "y": 64,
+    "pixelRatio": 6
+  },
+  "MC": {
+    "width": 64,
+    "height": 64,
+    "x": 0,
+    "y": 128,
+    "pixelRatio": 6
+  },
+  "NS": {
+    "width": 64,
+    "height": 64,
+    "x": 64,
+    "y": 128,
+    "pixelRatio": 6
+  },
+  "OR": {
+    "width": 64,
+    "height": 64,
+    "x": 128,
+    "y": 128,
+    "pixelRatio": 6
+  },
+  "RR": {
+    "width": 64,
+    "height": 64,
+    "x": 192,
+    "y": 0,
+    "pixelRatio": 6
+  },
+  "SP": {
+    "width": 64,
+    "height": 64,
+    "x": 192,
+    "y": 64,
+    "pixelRatio": 6
+  },
+  "SR": {
+    "width": 64,
+    "height": 64,
+    "x": 192,
+    "y": 128,
+    "pixelRatio": 6
+  },
+  "green-dots": {
+    "width": 64,
+    "height": 64,
+    "x": 0,
+    "y": 64,
+    "pixelRatio": 6
   },
   "square": {
     "width": 16,
-    "height": 16,
-    "x": 64,
+    "height": 17,
+    "x": 256,
     "y": 0,
-    "pixelRatio": 1
+    "pixelRatio": 2
   }
 }

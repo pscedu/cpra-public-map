@@ -15,11 +15,19 @@ const Header = ({
   const endTour = () => setStorySlide(null);
   const tourButton =
     storySlide === null ? (
-      <ActionButton icon="play" action={startTour}>
+      <ActionButton
+        icon="play"
+        action={startTour}
+        cssClass={style["action-button"]}
+      >
         Start Guided Tour
       </ActionButton>
     ) : (
-      <ActionButton icon="arrow-undo" action={endTour}>
+      <ActionButton
+        icon="arrow-undo"
+        action={endTour}
+        cssClass={style["action-button"]}
+      >
         Explore the Map
       </ActionButton>
     );

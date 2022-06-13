@@ -63,19 +63,12 @@
 .lb {
   background-color: #5c913a;
 }
-.mc,
-.mc::before {
-  background-image: url("/static/style/sprite.png");
-  background-size: 59px;
-  background-position: top left 25px;
-  background-repeat: no-repeat;
-}
-.mc::before {
-  background-position: top left;
-  content: "";
-  display: block;
-  height: 20px;
-  width: 26px;
+.mc {
+  background-image: radial-gradient(#94b147 25%, transparent 25%),
+    radial-gradient(#94b147 25%, transparent 25%);
+  background-color: #e8ee9c;
+  background-position: 0 0, 10px 10px;
+  background-size: 20px 20px;
 }
 @media (min-width: 700px) {
   .legend {

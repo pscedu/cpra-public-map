@@ -98,24 +98,29 @@ from LAYER
 where ActiveProject = 1
 SQL
 
+read -r -d '' project_label_sql << SQL
+select name,
+    type,
+    st_pointonsurface(st_collect(geom)) as geom
+from (
+    ${project_sql/LAYER/Points}
+    union ${project_sql/LAYER/Lines}
+    union ${project_sql/LAYER/Polygons})
+as points group by name,
+    type
+SQL
+
 ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "${project_sql/LAYER/Points}" \
     $WORKING/project_point.geojson $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
 
 ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "${project_sql/LAYER/Lines}" \
     $WORKING/project_line.geojson $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
 
-ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "${project_sql/LAYER/Polygons}" \
+ogr2ogr -t_srs "EPSG:4326" -dialect sqlite \
+    -sql "select name, type, st_union(geom) as geom from (${project_sql/LAYER/Polygons}) as polygons group by name, type" \
     $WORKING/project_polygon.geojson $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
 
-ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "${project_sql/LAYER/Points}" \
-    $WORKING/project_label.geojson $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
-
-ogr2ogr -append -t_srs "EPSG:4326" -dialect sqlite \
-    -sql "select name, type, st_pointonsurface(geom) as geom from (${project_sql/LAYER/Lines}) as lines" \
-    $WORKING/project_label.geojson $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
-
-ogr2ogr -append -t_srs "EPSG:4326" -dialect sqlite \
-    -sql "select name, type, st_pointonsurface(geom) as geom from (${project_sql/LAYER/Polygons}) as polygons" \
+ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$project_label_sql" \
     $WORKING/project_label.geojson $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
 
 read -r -d '' parish_label_sql << SQL
