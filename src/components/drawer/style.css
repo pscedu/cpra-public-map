@@ -3,21 +3,21 @@
   box-shadow: rgba(0, 0, 0, 0.25) 0 0 8px;
   display: flex;
   flex-direction: column;
-  left: 100px;
+  left: 0;
   position: absolute;
+  right: 0;
   z-index: 100;
 }
 .open {
   height: 450px;
-  min-width: 850px;
-  width: 45%;
+  width: 100%;
 }
 .handle {
   background-color: #274d36;
   border: 0 none transparent;
   color: white;
   cursor: pointer;
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: 400;
   letter-spacing: 2px;
   padding: 7px 60px;
@@ -41,4 +41,26 @@
 .body {
   flex: 1 1 auto;
   min-height: 0px;
+}
+@media (min-width: 1000px) {
+  .drawer {
+    left: 50px;
+    right: auto;
+  }
+  .open {
+    height: 450px;
+    min-width: 550px;
+    width: 55%;
+  }
+}
+@media (min-width: 1300px) {
+  .open {
+    min-width: 850px;
+    width: 45%;
+  }
+}
+@media (min-width: 1600px) {
+  .drawer {
+    left: 100px;
+  }
 }

@@ -8,7 +8,7 @@ input[type="range"],
   color: #666666;
   display: flex;
   flex-direction: row;
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 .ticks span {
   display: block;

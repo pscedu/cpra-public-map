@@ -6,7 +6,7 @@
   min-width: 10%;
   padding: 20px 30px;
   position: absolute;
-  right: 100px;
+  right: 10px;
   z-index: 50;
 }
 .legend h2 {
@@ -76,4 +76,14 @@
   display: block;
   height: 20px;
   width: 26px;
+}
+@media (min-width: 700px) {
+  .legend {
+    right: 20px;
+  }
+}
+@media (min-width: 1000px) {
+  .legend {
+    right: 100px;
+  }
 }

@@ -1,9 +1,15 @@
 .toolbar {
   background-color: #cccccc;
   bottom: 0;
+  display: none;
   position: fixed;
   right: 0;
   top: 0;
   width: 50px;
   z-index: 100;
+}
+@media (min-width: 1000px) {
+  .toolbar {
+    display: block;
+  }
 }

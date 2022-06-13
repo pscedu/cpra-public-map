@@ -1,15 +1,16 @@
 html,
 body {
-  height: 100%;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  background: #fafafa;
-  font-family: "Helvetica Neue", arial, sans-serif;
-  font-weight: 400;
-  color: #444;
-  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  background: #fafafa;
+  color: #444;
+  font-family: "Helvetica Neue", arial, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 * {
   box-sizing: border-box;
@@ -30,11 +31,11 @@ h6 {
   text-transform: uppercase;
 }
 h1 {
-  font-size: 26px;
+  font-size: 1.625rem;
 }
 
 h2 {
-  font-size: 16px;
+  font-size: 1rem;
 }
 .input {
   margin-bottom: 1em;
@@ -45,7 +46,7 @@ h2 {
 .label {
   color: #666666;
   display: block;
-  font-size: 14px;
+  font-size: 0.875rem;
   margin: 0 0 5px 0;
   text-transform: uppercase;
 }
@@ -98,4 +99,16 @@ ion-icon {
   font-size: 1.5rem;
   margin-right: 10px;
   vertical-align: middle;
+}
+@media (min-width: 700px) {
+  html,
+  body {
+    font-size: 14px;
+  }
+}
+@media (min-width: 1600px) {
+  html,
+  body {
+    font-size: 16px;
+  }
 }

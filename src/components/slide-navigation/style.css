@@ -36,7 +36,7 @@ ul {
 }
 .nav-type-dots {
   border-top: 1px solid #cccccc;
-  margin: 0 60px;
+  margin: 0;
   padding: 20px 0;
 }
 .nav-type-dots ul {
@@ -76,7 +76,7 @@ ul {
 .nav-type-tabs ul li,
 .nav-type-tabs ul button {
   display: block;
-  font-size: 14px;
+  font-size: 0.9rem;
   text-align: center;
   text-decoration: none;
   width: 100%;

@@ -4,11 +4,16 @@
   display: flex;
   left: 0;
   margin: 0;
-  padding: 10px calc(110px + 25%) 10px 100px;
+  padding: 10px calc(20px + 65%) 10px 10px;
   position: absolute;
   right: 0;
   top: 0;
   z-index: 150;
+}
+.header button {
+  position: absolute;
+  right: 10px;
+  top: 60px;
 }
 .logo {
   z-index: 50;
@@ -20,6 +25,7 @@
 }
 .header h1 {
   color: white;
+  display: none;
   flex: 1 0 auto;
   font-size: 1.2rem;
   font-weight: 700;
@@ -36,6 +42,33 @@
   line-height: 32px;
 }
 .spacer {
+  display: none;
   flex: 0 1 auto;
   width: 100%;
+}
+@media (min-width: 700px) {
+  .header {
+    padding: 10px calc(30px + 50%) 10px 20px;
+  }
+  .header button {
+    position: static;
+  }
+  .spacer {
+    display: block;
+  }
+}
+@media (min-width: 1000px) {
+  .header {
+    padding: 10px calc(60px + 35%) 10px 50px;
+  }
+}
+@media (min-width: 1300px) {
+  .header h1 {
+    display: block;
+  }
+}
+@media (min-width: 1600px) {
+  .header {
+    padding: 10px calc(110px + 25%) 10px 100px;
+  }
 }
