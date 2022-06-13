@@ -9,7 +9,7 @@
   z-index: 100;
 }
 .open {
-  height: 450px;
+  height: 350px;
   width: 100%;
 }
 .handle {
@@ -62,5 +62,10 @@
 @media (min-width: 1600px) {
   .drawer {
     left: 100px;
+  }
+}
+@media (min-height: 600px) {
+  .open {
+    height: 450px;
   }
 }

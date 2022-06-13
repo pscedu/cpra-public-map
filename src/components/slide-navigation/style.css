@@ -108,6 +108,11 @@ ul {
   text-align: center;
 }
 .nav-type-tabs .inner {
-  display: block;
+  display: none;
   margin-top: 5px;
+}
+@media (min-height: 600px) {
+  .nav-type-tabs .inner {
+    display: block;
+  }
 }
