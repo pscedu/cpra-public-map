@@ -2,6 +2,13 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  overflow-x: hidden;
+}
+.strip {
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  position: relative;
 }
 .tab {
   background-color: #54715f;

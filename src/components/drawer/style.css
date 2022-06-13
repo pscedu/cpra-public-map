@@ -9,7 +9,6 @@
   z-index: 100;
 }
 .open {
-  height: 350px;
   width: 100%;
 }
 .handle {
@@ -48,7 +47,6 @@
     right: auto;
   }
   .open {
-    height: 450px;
     min-width: 550px;
     width: 55%;
   }
@@ -66,6 +64,5 @@
 }
 @media (min-height: 600px) {
   .open {
-    height: 450px;
   }
 }

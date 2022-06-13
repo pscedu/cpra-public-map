@@ -44,7 +44,15 @@ const Slides = ({
 
   return (
     <div class={`${style.slides} ${cssClass || ""}`}>
-      {currentSlide}
+      <div
+        class={style.strip}
+        style={{
+          left: `-${currentIdx * 100}%`,
+          width: `${slides.length * 100}%`,
+        }}
+      >
+        {slides}
+      </div>
       {slides.length > 1 ? (
         <SlideNavigation
           arrows={arrows}

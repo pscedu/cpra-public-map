@@ -8,11 +8,11 @@
 }
 .project-list thead {
   display: block;
-  height: 50px;
+  height: 2.5rem;
 }
 .project-list tbody {
   display: block;
-  height: 150px;
+  height: 160px;
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-color: #274d36 transparent;
@@ -58,9 +58,4 @@
 .project-list a:active,
 .project-list a:hover {
   border-bottom-color: #5c7967;
-}
-@media (min-height: 600px) {
-  .project-list tbody {
-    height: 230px;
-  }
 }
