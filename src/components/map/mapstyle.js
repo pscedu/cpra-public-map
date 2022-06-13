@@ -271,7 +271,7 @@ export function getStyle(services, mapState, selection, maxBounds) {
           -94.00080091962352, 28.70426878930118, -87.51148588666453,
           31.048795426051505,
         ],
-        maxzoom: 12,
+        maxzoom: 13,
         type: "raster",
         tiles: [
           rasterTileUrl(service.url, "a"),
