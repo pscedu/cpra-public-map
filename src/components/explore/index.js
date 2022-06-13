@@ -11,7 +11,7 @@ const layerOrder = [
   "Land Change",
   "Vegetation Type",
   "Flood Depth",
-  "Social Vulnerability",
+  // "Social Vulnerability",
   "Projects",
 ];
 
@@ -95,14 +95,14 @@ const Explore = ({
         slideState={mapState}
         tabTitle="Flood Depth"
       />
-      <Slide
+      {/* <Slide
         controls={["scenario", "group", "year"]}
         icon="people"
         layerSpec={{ name: "Social Vulnerability" }}
         updateSlideState={updateMapState}
         slideState={mapState}
         tabTitle="Social Vulnerability"
-      />
+      /> */}
       {projectsSlide}
     </Slides>
   );
