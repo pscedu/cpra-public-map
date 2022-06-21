@@ -78,7 +78,10 @@ const App = () => {
         storySlide={storySlide}
       />
       <Legend legends={config.legends} mapState={mapState} />
-      <Toolbar />
+      <Toolbar
+        contactEmail={config.contactEmail}
+        websiteUrl={config.websiteUrl}
+      />
       <Watermark>DRAFT</Watermark>
       <Map
         {...{
