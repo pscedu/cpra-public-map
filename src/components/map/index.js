@@ -2,7 +2,7 @@ import { h, Component } from "preact";
 import { getStyle } from "./mapstyle";
 
 class Map extends Component {
-  center = [-91.215, 29.41];
+  bounds = [-93.845, 29.09, -89.175, 30.395];
   maxBounds = [-91.215 - 5, 29.41 - 3, -91.215 + 5, 29.41 + 3];
   projectLayers = [
     "project-polygon-lb",
@@ -25,15 +25,22 @@ class Map extends Component {
   componentDidMount() {
     // eslint-disable-next-line no-undef
     this.map = new maplibregl.Map({
+      bounds: this.bounds,
       container: this.base,
+      fitBoundsOptions: {
+        padding: {
+          top: 50,
+          right: 100,
+          bottom: 300,
+          left: 50,
+        },
+      },
       style: this.props.services ? getStyle(this.props) : null,
-      center: this.center,
       dragRotate: false,
       hash: "map",
       maxBounds: this.maxBounds,
       maxZoom: 12,
       minZoom: 6,
-      zoom: 8,
     });
 
     this.map.touchZoomRotate.disableRotation();
