@@ -97,6 +97,10 @@ export const legends = {
   },
 };
 export const views = {
+  intro: {
+    title: "Welcome",
+    layer: "Projects",
+  },
   "land-change": {
     title: "Land Change",
     layer: "Land Change",

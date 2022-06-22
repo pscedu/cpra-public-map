@@ -14,6 +14,7 @@ import {
 import Drawer from "../drawer";
 import Explore from "../explore";
 import Header from "../header";
+import Intro from "../intro";
 import Legend from "../legend";
 import Map from "../map";
 import Story from "../story";
@@ -41,15 +42,24 @@ const App = () => {
     },
     ["prevYear"]
   );
+
+  if (!localStorage.getItem("intro") && mapState.view == "slide-0")
+    mapState.view = "intro";
+
   const layer = config.views[mapState.view].layer;
   const storySlide = mapState.view.startsWith("slide-")
     ? parseInt(mapState.view.replace("slide-", ""), 10)
     : null;
-  const setStorySlide = (idx) =>
+  const setStorySlide = (idx) => {
+    localStorage.setItem("intro", "true");
     updateMapState({ view: idx === null ? "land-change" : `slide-${idx}` });
+  };
 
-  const drawerContent =
-    storySlide == null ? (
+  let drawerContent;
+  if (mapState.view === "intro") {
+    drawerContent = <Intro setStorySlide={setStorySlide} />;
+  } else if (storySlide == null) {
+    drawerContent = (
       <Explore
         layer={layer}
         projectMap={projectMap}
@@ -61,7 +71,9 @@ const App = () => {
         layers={layers}
         updateMapState={updateMapState}
       />
-    ) : (
+    );
+  } else {
+    drawerContent = (
       <Story
         layer={layer}
         layers={layers}
@@ -72,6 +84,8 @@ const App = () => {
         updateMapState={updateMapState}
       />
     );
+  }
+
   const drawerTitle = config.views[mapState.view].title;
 
   return (
@@ -86,6 +100,7 @@ const App = () => {
       <Legend legends={config.legends} layer={layer} />
       <Toolbar
         contactEmail={config.contactEmail}
+        updateMapState={updateMapState}
         websiteUrl={config.websiteUrl}
       />
       <Watermark>DRAFT</Watermark>

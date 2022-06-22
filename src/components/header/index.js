@@ -24,7 +24,7 @@ const Header = ({
       </ActionButton>
     ) : (
       <ActionButton
-        icon="arrow-undo"
+        icon="map"
         action={endTour}
         cssClass={style["action-button"]}
       >

@@ -1,0 +1,30 @@
+.intro {
+  background-color: white;
+  height: 100%;
+  overflow-y: auto;
+  padding: 25px 60px;
+  width: 100%;
+}
+.buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-bottom: 15px;
+}
+.buttons button {
+  border: 1px solid #7b9f29;
+  font-size: 1.2rem;
+  margin: 0 0 10px;
+  padding: 10px 15px;
+}
+.buttons button:first-child {
+  margin-right: 0;
+}
+@media (min-width: 700px) {
+  .buttons {
+    flex-direction: row;
+  }
+  .buttons button {
+    margin: 0 50px;
+  }
+}
