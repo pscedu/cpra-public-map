@@ -96,3 +96,33 @@ export const legends = {
     ],
   },
 };
+export const views = {
+  "land-change": {
+    title: "Land Change",
+    layer: "Land Change",
+  },
+  "vegetation-type": {
+    title: "Vegetation Type",
+    layer: "Vegetation Type",
+  },
+  "flood-depth": {
+    title: "Flood Depth",
+    layer: "Flood Depth",
+  },
+  projects: {
+    title: "Projects",
+    layer: "Projects",
+  },
+  "slide-0": {
+    title: "Guided Tour",
+    layer: "Projects",
+  },
+  "slide-1": {
+    title: "Guided Tour",
+    layer: "Land Change",
+  },
+  "slide-2": {
+    title: "Guided Tour",
+    layer: "Vegetation Type",
+  },
+};

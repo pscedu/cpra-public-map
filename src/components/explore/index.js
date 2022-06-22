@@ -7,15 +7,16 @@ import Slide from "../slide";
 import Slides from "../slides";
 import { fireEvent } from "../../utils";
 
-const layerOrder = [
-  "Land Change",
-  "Vegetation Type",
-  "Flood Depth",
-  // "Social Vulnerability",
-  "Projects",
+const viewOrder = [
+  "land-change",
+  "vegetation-type",
+  "flood-depth",
+  // "social-vulnerability",
+  "projects",
 ];
 
 const Explore = ({
+  layer,
   mapState,
   layers,
   projectMap,
@@ -27,8 +28,8 @@ const Explore = ({
 }) => {
   if (!layers) return;
 
-  const currentIdx = layerOrder.indexOf(mapState.layer);
-  const setCurrentIdx = (idx) => updateMapState({ layer: layerOrder[idx] });
+  const currentIdx = viewOrder.indexOf(mapState.view);
+  const setCurrentIdx = (idx) => updateMapState({ view: viewOrder[idx] });
   const project = projectMap[selection.project];
 
   const clearProject = (e) => {
@@ -65,6 +66,7 @@ const Explore = ({
   return (
     <Slides
       currentIdx={currentIdx}
+      layer={layer}
       mapState={mapState}
       navigation="tabs"
       projectMap={projectMap}

@@ -251,7 +251,7 @@ function rasterTileUrl(serviceUrl, prefix) {
   return `${serviceUrl.replace("//", sub)}/tiles/{z}/{x}/{y}.png`;
 }
 
-export function getStyle(services, mapState, selection, maxBounds) {
+export function getStyle(services, mapState, layer, selection, maxBounds) {
   if (services === null) return { version: 8, sources: {}, layers: [] };
 
   const loc = document.location;
@@ -305,7 +305,7 @@ export function getStyle(services, mapState, selection, maxBounds) {
   let prevLayerName =
     mapState.prevYear !== null
       ? getLayerName(
-          mapState.layer,
+          layer,
           mapState.scenario,
           mapState.group,
           mapState.prevYear,
@@ -313,7 +313,7 @@ export function getStyle(services, mapState, selection, maxBounds) {
         )
       : null;
   let layerName = getLayerName(
-    mapState.layer,
+    layer,
     mapState.scenario,
     mapState.group,
     mapState.year,
@@ -454,9 +454,9 @@ export function getStyle(services, mapState, selection, maxBounds) {
         },
       },
       ...projectLayers(
-        mapState.layer == "Projects" || mapState.group !== "G500",
+        layer == "Projects" || mapState.group !== "G500",
         true,
-        mapState.layer !== "Projects"
+        layer !== "Projects"
       ),
       {
         id: "search-screen",

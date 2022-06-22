@@ -32,7 +32,7 @@ const App = () => {
   const [mapState, updateMapState] = useHashState(
     {
       scenario: "S07",
-      layer: "Land Change",
+      view: "slide-0",
       group: "G500",
       politicalBoundary: null,
       prevYear: null,
@@ -41,11 +41,17 @@ const App = () => {
     },
     ["prevYear"]
   );
-  const [storySlide, setStorySlide] = useHashVar("slide", null);
+  const layer = config.views[mapState.view].layer;
+  const storySlide = mapState.view.startsWith("slide-")
+    ? parseInt(mapState.view.replace("slide-", ""), 10)
+    : null;
+  const setStorySlide = (idx) =>
+    updateMapState({ view: idx === null ? "land-change" : `slide-${idx}` });
 
   const drawerContent =
     storySlide == null ? (
       <Explore
+        layer={layer}
         projectMap={projectMap}
         projects={projects}
         projectTypeDescriptions={config.projectTypeDescriptions}
@@ -57,6 +63,7 @@ const App = () => {
       />
     ) : (
       <Story
+        layer={layer}
         layers={layers}
         projectMap={projectMap}
         mapState={mapState}
@@ -65,8 +72,7 @@ const App = () => {
         updateMapState={updateMapState}
       />
     );
-  const drawerTitle =
-    storySlide === null ? mapState.layer || "Explore" : "Guided Tour";
+  const drawerTitle = config.views[mapState.view].titles;
 
   return (
     <div id="app">
@@ -77,7 +83,7 @@ const App = () => {
         setStorySlide={setStorySlide}
         storySlide={storySlide}
       />
-      <Legend legends={config.legends} mapState={mapState} />
+      <Legend legends={config.legends} layer={layer} />
       <Toolbar
         contactEmail={config.contactEmail}
         websiteUrl={config.websiteUrl}
@@ -85,6 +91,7 @@ const App = () => {
       <Watermark>DRAFT</Watermark>
       <Map
         {...{
+          layer,
           projects,
           servicesUrl: config.servicesUrl,
           services,

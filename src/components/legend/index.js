@@ -15,16 +15,12 @@ const getItems = (legend) =>
     );
   });
 
-const Legend = ({ legends, mapState }) => {
+const Legend = ({ legends, layer }) => {
   const content = [];
-  const cssClass =
-    style[`legend-${mapState.layer.replace(" ", "-").toLowerCase()}`];
+  const cssClass = style[`legend-${layer.replace(" ", "-").toLowerCase()}`];
 
-  if (mapState.layer && legends[mapState.layer])
-    content.push(
-      <h2>{mapState.layer}</h2>,
-      <ul>{getItems(legends[mapState.layer])}</ul>
-    );
+  if (layer && legends[layer])
+    content.push(<h2>{layer}</h2>, <ul>{getItems(legends[layer])}</ul>);
 
   return content.length ? (
     <section class={`${style.legend} ${cssClass}`}>{content}</section>

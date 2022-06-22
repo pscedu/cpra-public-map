@@ -5,6 +5,7 @@ import Slide from "../slide";
 import Slides from "../slides";
 
 const Story = ({
+  layer,
   layers,
   projectMap,
   mapState,
@@ -18,6 +19,7 @@ const Story = ({
       arrows={true}
       cssClass={style.story}
       currentIdx={slide}
+      layer={layer}
       mapState={mapState}
       navigation="dots"
       projectMap={projectMap}

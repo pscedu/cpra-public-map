@@ -14,6 +14,7 @@ const Slides = ({
   arrows,
   children,
   cssClass,
+  layer,
   mapState,
   navigation,
   projectMap,
@@ -27,10 +28,9 @@ const Slides = ({
   let { layerSpec, projectName } = currentSlide.props;
   useEffect(() => {
     if (!layerSpec) return;
-    if (mapState.subtype) prevSubypes[mapState.layer] = mapState.subtype;
+    if (mapState.subtype) prevSubypes[layer] = mapState.subtype;
     updateMapState({
       group: selectValue(layerSpec.groups || [], mapState.group),
-      layer: layerSpec.name,
       scenario: selectValue(layerSpec.scenarios || [], mapState.scenario),
       subtype:
         (layerSpec.subtypes || []).length > 0

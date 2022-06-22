@@ -77,6 +77,7 @@ class Map extends Component {
     return getStyle(
       props.services,
       props.mapState,
+      props.layer,
       props.selection,
       this.maxBounds
     );
