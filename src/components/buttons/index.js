@@ -12,7 +12,7 @@ const Buttons = ({ choices, label, value, setValue }) => {
       onClick={() => setValue(buttonValue)}
     >
       {buttonIcon ? <ion-icon name={buttonIcon} /> : null}
-      {buttonLabel}
+      <span class={style["button-label"]}>{buttonLabel}</span>
     </button>
   ));
 
