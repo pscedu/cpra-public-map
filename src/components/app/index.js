@@ -72,7 +72,7 @@ const App = () => {
         updateMapState={updateMapState}
       />
     );
-  const drawerTitle = config.views[mapState.view].titles;
+  const drawerTitle = config.views[mapState.view].title;
 
   return (
     <div id="app">
