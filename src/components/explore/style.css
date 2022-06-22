@@ -12,3 +12,23 @@
 .close-button::before {
   content: "\2716";
 }
+@media (min-width: 700px) {
+  .model-slide {
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+  }
+  .model-slide > div {
+    width: 50%;
+  }
+  .model-slide > div:first-of-type {
+    padding-right: 50px;
+  }
+  .slide-explanation {
+    border-left: 1px solid #dddddd;
+    font-size: 1.1rem;
+    line-height: 1.5rem;
+    padding-left: 50px;
+    width: 50%;
+  }
+}

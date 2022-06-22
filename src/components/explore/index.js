@@ -73,28 +73,52 @@ const Explore = ({
     >
       <Slide
         controls={["scenario", "group", "year"]}
+        controlsPosition="start"
+        cssClass={style["model-slide"]}
         icon="earth"
         layerSpec={layers["Land Change"]}
         updateSlideState={updateMapState}
         slideState={mapState}
         tabTitle="Land Change"
-      />
+      >
+        <p class={style["slide-explanation"]}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
+          tellus nulla, lacinia non molestie non, blandit non orci. Nulla sit
+          amet gravida odio, a consectetur sem.
+        </p>
+      </Slide>
       <Slide
         controls={["scenario", "group", "year"]}
+        controlsPosition="start"
+        cssClass={style["model-slide"]}
         icon="leaf"
         layerSpec={layers["Vegetation Type"]}
         updateSlideState={updateMapState}
         slideState={mapState}
         tabTitle="Vegetation Type"
-      />
+      >
+        <p class={style["slide-explanation"]}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
+          tellus nulla, lacinia non molestie non, blandit non orci. Nulla sit
+          amet gravida odio, a consectetur sem.
+        </p>
+      </Slide>
       <Slide
         controls={["scenario", "subtype", "year"]}
+        controlsPosition="start"
+        cssClass={style["model-slide"]}
         icon="water"
         layerSpec={layers["Flood Depth"]}
         updateSlideState={updateMapState}
         slideState={mapState}
         tabTitle="Flood Depth"
-      />
+      >
+        <p class={style["slide-explanation"]}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
+          tellus nulla, lacinia non molestie non, blandit non orci. Nulla sit
+          amet gravida odio, a consectetur sem.
+        </p>
+      </Slide>
       {/* <Slide
         controls={["scenario", "group", "year"]}
         icon="people"
