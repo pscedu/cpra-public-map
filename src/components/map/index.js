@@ -1,5 +1,4 @@
 import { h, Component } from "preact";
-import style from "./style.css";
 import { getStyle } from "./mapstyle";
 
 class Map extends Component {
@@ -84,7 +83,17 @@ class Map extends Component {
   }
 
   render() {
-    return <div class={style.map} />;
+    return (
+      <div
+        style={{
+          bottom: 0,
+          left: 0,
+          position: "absolute",
+          right: 0,
+          top: "45px",
+        }}
+      />
+    );
   }
 }
 
