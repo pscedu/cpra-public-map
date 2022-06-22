@@ -43,7 +43,10 @@ const App = () => {
     ["prevYear"]
   );
 
-  if (!localStorage.getItem("intro") && mapState.view == "slide-0")
+  if (
+    typeof window === "undefined" ||
+    (!localStorage.getItem("intro") && mapState.view == "slide-0")
+  )
     mapState.view = "intro";
 
   const layer = config.views[mapState.view].layer;
