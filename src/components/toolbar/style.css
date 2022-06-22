@@ -12,18 +12,32 @@
   z-index: 100;
 }
 .toolbar button {
-  background-color: transparent;
+  background-color: white;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
   border: 0 none transparent;
-  color: #666666;
+  border-radius: 5px;
+  color: #274e37;
   cursor: pointer;
-  margin: 15px 0 0 0;
+  height: 30px;
+  margin: 15px 10px 0 10px;
   padding: 0;
   text-align: center;
-  width: 100%;
+  width: 30px;
 }
 .toolbar ion-icon {
   margin: 0;
   pointer-events: none;
+}
+.help {
+  background-image: url("/assets/buttons/help.png");
+}
+.website {
+  background-color: white;
+}
+.mail {
+  background-image: url("/assets/buttons/mail.png");
 }
 @media (min-width: 1000px) {
   .toolbar {
