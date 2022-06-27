@@ -99,7 +99,7 @@ export const legends = {
 export const views = {
   intro: {
     title:
-      "Welcome to the Louisiana Coastal Protection and Restoration Authority Data Viewer ",
+      "Welcome to the Louisiana Coastal Protection and Restoration Authority Data Viewer",
     layer: "Projects",
   },
   "land-change": {
@@ -119,15 +119,27 @@ export const views = {
     layer: "Projects",
   },
   "slide-0": {
-    title: "Guided Tour",
+    title: "Executive Summary",
     layer: "Projects",
   },
   "slide-1": {
-    title: "Guided Tour",
-    layer: "Land Change",
+    title: "Vegetation Type",
+    layer: "Vegetation Type",
   },
   "slide-2": {
-    title: "Guided Tour",
-    layer: "Vegetation Type",
+    title: "Land Change",
+    layer: "Land Change",
+  },
+  "slide-3": {
+    title: "Storm Surge-Based Flood Depths",
+    layer: "Flood Depth",
+  },
+  "slide-4": {
+    title: "Candidate Projects",
+    layer: "Projects",
+  },
+  "slide-5": {
+    title: "Navigating the Candidate Project Map",
+    layer: "Projects",
   },
 };

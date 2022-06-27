@@ -75,17 +75,15 @@ const Slide = ({
     );
 
   if (controls.includes("subtype")) {
-    let label;
     const choices = layerSpec.subtypes.map((name) => {
       let parts = name.split(" ");
       let last = parts.pop();
-      if (!label) label = parts.join(" ");
-      return [name, last];
+      return [name, `${last}%`];
     });
     controlComponents.push(
       <Buttons
         choices={choices}
-        label={label}
+        label={"Annual Exceedance Probability"}
         value={subtype}
         setValue={setSubtype}
       />
