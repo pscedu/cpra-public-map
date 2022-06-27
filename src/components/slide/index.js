@@ -71,6 +71,8 @@ const Slide = ({
         label="Project Implementation Scenario"
         value={group}
         setValue={setGroup}
+        disabled={true}
+        help="Coming soon!"
       />
     );
 

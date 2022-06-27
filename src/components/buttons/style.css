@@ -16,6 +16,10 @@
   padding: 5px 15px;
   width: 100%;
 }
+.button:disabled {
+  border: 1px solid #aaaaaa;
+  color: #888888;
+}
 .button ion-icon {
   flex-shrink: 0;
 }
@@ -26,7 +30,20 @@
 .button:first-child {
   border-left: 1px solid #274d36;
 }
+.button:disabled:first-child {
+  border-left: 1px solid #aaaaaa;
+}
 .active {
   background-color: #274d36;
   color: white;
+}
+.active:disabled {
+  background-color: #aaaaaa;
+  color: white;
+}
+.help {
+  color: #999999;
+  font-size: 0.9rem;
+  font-style: italic;
+  margin: 3px 0 0;
 }
