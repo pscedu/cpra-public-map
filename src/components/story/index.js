@@ -66,6 +66,10 @@ const Story = ({
           technical models to predict vegetation change over time as a response
           to anticipated salinity changes.
         </p>
+        <p>
+          Use the slider below to see how we expect vegetation along the
+          Louisiana coast to change over a 50-year time period.
+        </p>
       </Slide>
       <Slide
         controls={["scenario"]}
@@ -83,6 +87,11 @@ const Story = ({
           environmental scenarios to ensure we prepare for a wide range of
           possibilities.
         </p>
+        <p>
+          Click the buttons below to view the modeled land change taking into
+          account <strong>Lower</strong> rates of environmental change over time
+          and <strong>Higher</strong> rates of environmental change over time.
+        </p>
       </Slide>
       <Slide
         controls={["subtype"]}
@@ -97,6 +106,11 @@ const Story = ({
           locations across the coast. This information, along with the relative
           likelihood of each storm occurring, provides a rough idea of how
           flooding could occur across Louisiana's coast over the next 50 years.
+        </p>
+        <p>
+          Use the buttons below to view the projected flood depths resulting
+          from events of various intensities (measured in annual exceedance
+          probability or AEP).
         </p>
       </Slide>
       <Slide
@@ -131,8 +145,11 @@ const Story = ({
       >
         <p>
           Use the map navigation features to learn more about 2023 Coastal
-          Master Plan candidate projects. Interested in seeing more data?
+          Master Plan candidate projects. You can navigate the map by clicking
+          and dragging, or click on a project to learn more. You can also search
+          for an address, city, parish, or project.
         </p>
+        <h3>Interested in seeing more data?</h3>
         <p class={style.button}>
           <ActionButton
             icon="map"
