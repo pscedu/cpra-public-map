@@ -98,8 +98,7 @@ export const legends = {
 };
 export const views = {
   intro: {
-    title:
-      "Welcome to the Louisiana Coastal Protection and Restoration Authority Data Viewer",
+    title: "Welcome to the Master Plan Data Viewer",
     layer: "Projects",
   },
   "land-change": {
