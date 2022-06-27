@@ -55,6 +55,7 @@ const Story = ({
         layerSpec={layers["Vegetation Type"]}
         updateSlideState={updateMapState}
         slideState={mapState}
+        scenario="S07"
       >
         <p>
           One major challenge in parts of coastal Louisiana is the inland
@@ -76,6 +77,7 @@ const Story = ({
         layerSpec={layers["Land Change"]}
         updateSlideState={updateMapState}
         slideState={mapState}
+        year="50"
       >
         <p>
           The combination of sea level rise, land subsidence, and other
@@ -98,6 +100,7 @@ const Story = ({
         layerSpec={layers["Flood Depth"]}
         updateSlideState={updateMapState}
         slideState={mapState}
+        year="50"
       >
         <p>
           Coastal Louisiana experiences a wide range of storm intensities, from

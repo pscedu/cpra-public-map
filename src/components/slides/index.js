@@ -30,12 +30,19 @@ const Slides = ({
     if (!layerSpec) return;
     if (mapState.subtype) prevSubypes[layer] = mapState.subtype;
     updateMapState({
-      group: selectValue(layerSpec.groups || [], mapState.group),
-      scenario: selectValue(layerSpec.scenarios || [], mapState.scenario),
+      group: selectValue(
+        layerSpec.groups || [],
+        currentSlide.props.group || mapState.group
+      ),
+      scenario: selectValue(
+        layerSpec.scenarios || [],
+        currentSlide.props.scenario || mapState.scenario
+      ),
       subtype:
         (layerSpec.subtypes || []).length > 0
           ? prevSubypes[layerSpec.name] || layerSpec.subtypes[0]
           : null,
+      year: currentSlide.props.year || mapState.year,
     });
 
     let project = projectMap[projectName];
