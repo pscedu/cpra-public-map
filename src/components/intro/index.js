@@ -8,32 +8,50 @@ const Intro = ({ setStorySlide }) => {
   const endTour = () => setStorySlide(null);
   return (
     <div class={style.intro}>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-        tellus nulla, lacinia non molestie non, blandit non orci. Nulla sit amet
-        gravida odio, a consectetur sem. In et ante urna. Quisque vulputate eu
-        leo eu consectetur. Ut orci lacus, tempor id quam eu, volutpat feugiat
-        tellus. Etiam vitae velit vel diam ullamcorper porttitor ac at arcu.
-        Aenean eleifend fringilla felis. In efficitur accumsan odio. Cras dictum
-        pretium faucibus. Nunc mattis ultricies justo eu pulvinar. Ut tristique
-        mattis mauris id dapibus. Aliquam tempus consequat urna ac aliquam.{" "}
-      </p>
-      <div class={style.buttons}>
-        <ActionButton
-          icon="play"
-          action={startTour}
-          cssClass={style["action-button"]}
-        >
-          Start Guided Tour
-        </ActionButton>
-        <ActionButton
-          icon="map"
-          action={endTour}
-          cssClass={style["action-button"]}
-        >
-          Explore the Map
-        </ActionButton>
+      <div class={style.columns}>
+        <div class={style.tour}>
+          <p>
+            The Guided Tour introduces users to the Louisiana Coastal Master
+            Plan process and the tools that are available throughout the data
+            viewer. Slides contain explanations of model data and narratives to
+            highlight components of the Master Plan.
+          </p>
+          <p class={style.button}>
+            <ActionButton
+              icon="play"
+              action={startTour}
+              cssClass={style["action-button"]}
+            >
+              Start Guided Tour
+            </ActionButton>
+          </p>
+        </div>
+        <div class={style.explore}>
+          <p>
+            Explore the Map allows users to engage with technical model data and
+            the project map for the 2023 Louisiana Coastal Master Plan in a
+            self-guided format.
+          </p>
+          <p class={style.button}>
+            <ActionButton
+              icon="map"
+              action={endTour}
+              cssClass={style["action-button"]}
+            >
+              Explore the Map
+            </ActionButton>
+          </p>
+        </div>
       </div>
+      <p class={style.warning}>
+        <ion-icon name="warning" />
+        <span>
+          The model data, candidate projects, and functionality in the beta
+          version of the 2023 Coastal Master Plan Data Viewer{" "}
+          <strong>are not final</strong>. Ongoing testing and feedback will
+          inform the official release in Spring 2023.
+        </span>
+      </p>
     </div>
   );
 };
