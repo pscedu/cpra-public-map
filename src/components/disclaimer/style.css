@@ -1,0 +1,11 @@
+.disclaimer {
+  color: #9e1821;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  font-size: 0.9rem;
+}
+.disclaimer ion-icon {
+  flex: 1 0 auto;
+  align-self: center;
+}

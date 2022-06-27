@@ -1,6 +1,7 @@
 import { h } from "preact";
 import style from "./style.css";
 
+import Disclaimer from "../disclaimer";
 import ProjectDetail from "../project-detail";
 import ProjectList from "../project-list";
 import Slide from "../slide";
@@ -83,11 +84,9 @@ const Explore = ({
         slideState={mapState}
         tabTitle="Land Change"
       >
-        <p class={style["slide-explanation"]}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-          tellus nulla, lacinia non molestie non, blandit non orci. Nulla sit
-          amet gravida odio, a consectetur sem.
-        </p>
+        <div class={style["slide-explanation"]}>
+          <Disclaimer />
+        </div>
       </Slide>
       <Slide
         controls={["scenario", "group", "year"]}
@@ -99,11 +98,9 @@ const Explore = ({
         slideState={mapState}
         tabTitle="Vegetation Type"
       >
-        <p class={style["slide-explanation"]}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-          tellus nulla, lacinia non molestie non, blandit non orci. Nulla sit
-          amet gravida odio, a consectetur sem.
-        </p>
+        <div class={style["slide-explanation"]}>
+          <Disclaimer />
+        </div>
       </Slide>
       <Slide
         controls={["scenario", "subtype", "year"]}
@@ -115,11 +112,9 @@ const Explore = ({
         slideState={mapState}
         tabTitle="Flood Depth"
       >
-        <p class={style["slide-explanation"]}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-          tellus nulla, lacinia non molestie non, blandit non orci. Nulla sit
-          amet gravida odio, a consectetur sem.
-        </p>
+        <div class={style["slide-explanation"]}>
+          <Disclaimer />
+        </div>
       </Slide>
       {/* <Slide
         controls={["scenario", "group", "year"]}

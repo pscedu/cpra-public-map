@@ -13,18 +13,6 @@
   font-size: 1.2rem;
   padding: 10px 15px;
 }
-.warning {
-  color: #9e1821;
-  background-color: white;
-  display: flex;
-  flex-direction: row;
-  font-size: 0.9rem;
-}
-.warning ion-icon {
-  float: left;
-  flex: 1 0 auto;
-  align-self: center;
-}
 @media (min-width: 700px) {
   .columns {
     display: flex;

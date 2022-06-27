@@ -2,6 +2,7 @@ import { h } from "preact";
 import style from "./style.css";
 
 import ActionButton from "../action-button";
+import Disclaimer from "../disclaimer";
 
 const Intro = ({ setStorySlide }) => {
   const startTour = () => setStorySlide(0);
@@ -43,15 +44,7 @@ const Intro = ({ setStorySlide }) => {
           </p>
         </div>
       </div>
-      <p class={style.warning}>
-        <ion-icon name="warning" />
-        <span>
-          The model data, candidate projects, and functionality in the beta
-          version of the 2023 Coastal Master Plan Data Viewer{" "}
-          <strong>are not final</strong>. Ongoing testing and feedback will
-          inform the official release in Spring 2023.
-        </span>
-      </p>
+      <Disclaimer />
     </div>
   );
 };
