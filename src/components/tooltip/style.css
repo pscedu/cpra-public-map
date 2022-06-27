@@ -1,0 +1,9 @@
+.tooltip {
+  display: inline-block;
+}
+.tooltip ion-icon {
+  color: #aaaaaa;
+  font-size: 0.9rem;
+  pointer-events: none;
+  vertical-align: text-top;
+}

@@ -1,7 +1,9 @@
 import { h } from "preact";
 import style from "./style.css";
 
-const Year = ({ state, updateState, years }) => {
+import Tooltip from "../tooltip";
+
+const Year = ({ state, tooltip, updateState, years }) => {
   const handleInput = (e) => {
     const newYear = e.target.value;
     const hasNewYear = years.indexOf(newYear) !== -1;
@@ -20,7 +22,8 @@ const Year = ({ state, updateState, years }) => {
   return (
     <div class="input">
       <label class="label" for="year">
-        Year<span class="sr-only">: {state.year}</span>
+        Year<span class="sr-only">: {state.year}</span>{" "}
+        {tooltip ? <Tooltip content={tooltip} /> : null}
       </label>
       <div class={style.ticks}>{ticks}</div>
       <input

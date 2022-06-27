@@ -1,6 +1,8 @@
 import { h } from "preact";
 import style from "./style.css";
 
+import Tooltip from "../tooltip";
+
 const Buttons = ({
   choices,
   disabled = false,
@@ -8,6 +10,7 @@ const Buttons = ({
   label,
   value,
   setValue,
+  tooltip,
 }) => {
   const buttons = choices.map(([buttonValue, buttonLabel, buttonIcon]) => (
     <button
@@ -28,7 +31,9 @@ const Buttons = ({
 
   return (
     <div class="input">
-      <label class="label">{label}</label>
+      <label class="label">
+        {label} {tooltip ? <Tooltip content={tooltip} /> : null}
+      </label>
       <div class={style.buttons}>{buttons}</div>
       {help ? <p class={style.help}>{help}</p> : null}
     </div>
