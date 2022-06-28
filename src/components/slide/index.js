@@ -20,6 +20,7 @@ const Slide = ({
   controls = [],
   controlsPosition = "end",
   cssClass = "",
+  footer,
   layerSpec,
   updateSlideState,
   slideState,
@@ -102,6 +103,7 @@ const Slide = ({
       {controlsPosition === "end" ? children : null}
       <div class="slide-controls">{controlComponents}</div>
       {controlsPosition !== "end" ? children : null}
+      {footer ? footer : null}
     </section>
   );
 };

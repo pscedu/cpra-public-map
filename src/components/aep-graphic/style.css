@@ -1,0 +1,38 @@
+.aep {
+  display: flex;
+  flex-direction: row;
+  margin: 5px 0 0;
+}
+.aep p {
+  color: #888888;
+  font-size: 0.9rem;
+  margin: 0 10px;
+}
+.aep p:first-child {
+  text-align: right;
+}
+.aep > div.arrow-left,
+.aep > div.arrow-right {
+  margin-top: 8px;
+  min-width: 0;
+}
+.aep > div.bar {
+  background: linear-gradient(to right, #274d36, #aaaaaa);
+  height: 6px;
+  margin: 15px 0 0;
+  min-width: 15%;
+}
+.arrow-left {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid #274d36;
+}
+.arrow-right {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #aaaaaa;
+}
