@@ -2,6 +2,7 @@ import { h } from "preact";
 import style from "./style.css";
 import { fireEvent } from "../../utils";
 
+import AEPGraphic from "../aep-graphic";
 import ActionButton from "../action-button";
 import Slide from "../slide";
 import Slides from "../slides";
@@ -33,6 +34,7 @@ const Story = ({
     });
     fireEvent("searchClearResult");
   };
+  const aepGraphic = <AEPGraphic />;
   return (
     <Slides
       arrows={true}
@@ -154,6 +156,7 @@ const Story = ({
         slideState={mapState}
         scenario="S07"
         year="50"
+        footer={aepGraphic}
       >
         <p>
           Coastal Louisiana experiences a wide range of storm intensities, from
