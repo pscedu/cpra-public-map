@@ -7,13 +7,13 @@ const Toolbar = ({ contactEmail, updateMapState, websiteUrl }) => {
   const emailClick = () => (window.location = contactEmail);
   return (
     <div class={style.toolbar}>
-      <button
+      {/* <button
         title="About the Data Viewer"
         onClick={aboutClick}
         class={style.help}
       >
         <span class="sr-only">About the Data Viewer</span>
-      </button>
+      </button> */}
       <button
         title="Visit Master Plan Website"
         onClick={websiteClick}

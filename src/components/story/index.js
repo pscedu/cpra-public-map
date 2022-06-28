@@ -1,9 +1,11 @@
 import { h } from "preact";
 import style from "./style.css";
+import { fireEvent } from "../../utils";
 
 import ActionButton from "../action-button";
 import Slide from "../slide";
 import Slides from "../slides";
+import Disclaimer from "../disclaimer";
 
 const Story = ({
   layer,
@@ -15,7 +17,22 @@ const Story = ({
   updateMapState,
 }) => {
   if (!layers) return;
-  const endTour = () => setSlide(null);
+  const viewProjectList = () => updateMapState({ view: "projects" });
+  const selectProject = (project) => projectMap[project].select();
+  const resetMap = () => {
+    fireEvent("mapFitBounds", {
+      bounds: [-93.845, 29.09, -89.175, 30.395],
+      options: {
+        padding: {
+          top: 50,
+          right: 100,
+          bottom: 300,
+          left: 50,
+        },
+      },
+    });
+    fireEvent("searchClearResult");
+  };
   return (
     <Slides
       arrows={true}
@@ -27,11 +44,15 @@ const Story = ({
       projectMap={projectMap}
       setCurrentIdx={setSlide}
       updateMapState={updateMapState}
+      changeCallback={resetMap}
     >
       <Slide
+        controls={["scenario"]}
+        layerSpec={layers["Land Change"]}
         updateSlideState={updateMapState}
         slideState={mapState}
-        layerSpec={layers["Projects"]}
+        scenario="S07"
+        year="50"
       >
         <p>
           Louisiana's complex and fragile ecosystem is disappearing at an
@@ -41,13 +62,43 @@ const Story = ({
           Gustav, and Ike. The major causes of this land loss include the
           effects of climate change, sea level rise, subsidence, hurricanes,
           storm surges, disconnection of the Mississippi River from coastal
-          marshes, and human impacts.
+          marshes, and human impacts. The rate of land change is uncertain, so
+          the 2023 Coastal Master Plan considers <strong>Lower</strong> and{" "}
+          <strong>Higher</strong> environmental scenarios to ensure we prepare
+          for a wide range of possibilities.
+        </p>
+        <Disclaimer />
+      </Slide>
+      <Slide
+        layerSpec={layers["Land Change"]}
+        updateSlideState={updateMapState}
+        slideState={mapState}
+        scenario="S07"
+        year="50"
+      >
+        <p>
+          As marsh is converted to open water, the Louisiana coast loses habitat
+          and its ability to suppress the impacts of large storms. The 2023
+          Coastal Master Plan sets an ambitious path to respond to the loss of
+          our coastal land and the threats from storm surge events. The master
+          plan, in its purest sense, is a list of projects that build or
+          maintain land and reduce risk to our communities.
         </p>
         <p>
-          The 2023 Coastal Master Plan sets an ambitious path to respond to the
-          loss of our coastal land and the threats from storm surge events. The
-          master plan, in its purest sense, is a list of projects that build or
-          maintain land and reduce risk to our communities.
+          One candidate project, the proposed{" "}
+          <strong>Lower Barataria Landbridge</strong>, is designed to act as a
+          natural barrier to control hydrology in the basin, mitigate the
+          impacts of sea level rise, and stimulate the natural regeneration of
+          marsh in this ecologically diverse region. If the project performs
+          well in our modeling, it may be selected for inclusion in the Coastal
+          Master Plan with the potential for future funding and construction.
+        </p>
+        <p class={style.button}>
+          <ActionButton
+            action={() => selectProject("Lower Barataria Landbridge")}
+          >
+            View the Proposed Lower Barataria Landbridge
+          </ActionButton>
         </p>
       </Slide>
       <Slide
@@ -56,43 +107,44 @@ const Story = ({
         updateSlideState={updateMapState}
         slideState={mapState}
         scenario="S07"
+        year="0"
       >
         <p>
           One major challenge in parts of coastal Louisiana is the inland
           migration of salt water over time. As the salinity gradient from
           coastal marshes to fresh forests is compromised, fresh and brackish
           species are forced into smaller habitable areas or completely wiped
-          out. To inform restoration and resilience strategies in coastal
-          Louisiana, teams of scientists and engineers have built robust
-          technical models to predict vegetation change over time as a response
-          to anticipated salinity changes.
+          out.
         </p>
         <p>
-          Use the slider below to see how we expect vegetation along the
-          Louisiana coast to change over a 50-year time period.
+          Teams of scientists and engineers have built robust technical models
+          to predict vegetation change over time as a response to anticipated
+          salinity changes. The Master Plan Data Viewer displays the predicted
+          vegetation change over <strong>50 years in 10-year increments</strong>
+          .
         </p>
       </Slide>
       <Slide
-        controls={["scenario"]}
-        layerSpec={layers["Land Change"]}
+        layerSpec={layers["Vegetation Type"]}
         updateSlideState={updateMapState}
         slideState={mapState}
+        scenario="S07"
         year="50"
       >
         <p>
-          The combination of sea level rise, land subsidence, and other
-          environmental factors contributes significantly to rapid rates of land
-          loss in coastal Louisiana. As marsh is converted to open water, the
-          Louisiana coast loses habitat and its ability to suppress the impacts
-          of large storms. The rate of land change over time is uncertain to
-          some degree, so the 2023 Coastal Master Plan considers multiple future
-          environmental scenarios to ensure we prepare for a wide range of
-          possibilities.
+          The proposed <strong>Atchafalaya River Diversion</strong> project is
+          designed to convey fresh water from the Atchafalaya River into the
+          Terrebonne basin in order to maintain a natural/healthy fresh-saline
+          gradient. If the project performs well in our modeling, it may be
+          selected for inclusion in the Coastal Master Plan with the potential
+          for future funding and construction.
         </p>
-        <p>
-          Click the buttons below to view the modeled land change taking into
-          account <strong>Lower</strong> rates of environmental change over time
-          and <strong>Higher</strong> rates of environmental change over time.
+        <p class={style.button}>
+          <ActionButton
+            action={() => selectProject("Atchafalaya River Diversion")}
+          >
+            View the Proposed Atchafalaya River Diversion
+          </ActionButton>
         </p>
       </Slide>
       <Slide
@@ -100,6 +152,7 @@ const Story = ({
         layerSpec={layers["Flood Depth"]}
         updateSlideState={updateMapState}
         slideState={mapState}
+        scenario="S07"
         year="50"
       >
         <p>
@@ -111,9 +164,20 @@ const Story = ({
           flooding could occur across Louisiana's coast over the next 50 years.
         </p>
         <p>
-          Use the buttons below to view the projected flood depths resulting
-          from events of various intensities (measured in annual exceedance
-          probability or AEP).
+          We model storm events of various intensities, measured in annual
+          exceedance probability (AEP), from <strong>0.2% to 10.0% AEP</strong>.
+        </p>
+      </Slide>
+      <Slide
+        layerSpec={layers["Flood Depth"]}
+        updateSlideState={updateMapState}
+        slideState={mapState}
+        scenario="S07"
+        year="50"
+      >
+        <p>Information about a proposed project addressing flooding.</p>
+        <p class={style.button}>
+          <ActionButton>View the Proposed Project</ActionButton>
         </p>
       </Slide>
       <Slide
@@ -122,44 +186,29 @@ const Story = ({
         slideState={mapState}
       >
         <p>
-          Restoration and flood risk reduction projects are key to addressing
-          the challenges that Louisiana will face over the next 50 years (and
-          beyond). Project concepts are acquired through public solicitation
-          periods, which allow researchers, local experts, community members,
-          and others to submit ideas to the Coastal Protection and Restoration
-          Authority for consideration.
+          More than 140 restoration and flood risk reduction projects are
+          currently under consideration for inclusion in the 2023 Coastal Master
+          Plan. The candidate projects are based on public input from
+          researchers, local experts, community members, and others.
         </p>
         <p>
-          A subset of proposed projects that meet baseline requirements are
-          grouped into the 2023 Coastal Master Plan candidate project list, and
-          their anticipated performance over a 50-year period is evaluated
-          through an intensive modeling effort. Projects that are predicted to
-          (1) maintain land area and/or decrease flood risk over time across a
-          variety of environmental scenarios, (2) meet budget and resource
-          constraints and (3) provide benefit to Louisiana residents are
-          ultimately selected for the final list of 2023 Coastal Master Plan
-          projects.
+          Candidate projects are evaluated through an intensive modeling effort
+          that predicts their performance over 50 years. The projects selected
+          for inclusion in the master plan will maintain land area and/or
+          decrease flood risk over time across a variety of environmental
+          scenarios; meet budget and resource constraints; and provide benefit
+          to Louisiana residents.
         </p>
-      </Slide>
-      <Slide
-        layerSpec={layers["Projects"]}
-        updateSlideState={updateMapState}
-        slideState={mapState}
-      >
         <p>
-          Use the map navigation features to learn more about 2023 Coastal
-          Master Plan candidate projects. You can navigate the map by clicking
-          and dragging, or click on a project to learn more. You can also search
-          for an address, city, parish, or project.
+          To learn more about the candidate projects,{" "}
+          <strong>explore the map or view the candidate project list.</strong>
         </p>
-        <h3>Interested in seeing more data?</h3>
         <p class={style.button}>
           <ActionButton
-            icon="map"
-            action={endTour}
+            action={viewProjectList}
             cssClass={style["action-button"]}
           >
-            Explore the Map
+            View the Candidate Project List
           </ActionButton>
         </p>
       </Slide>

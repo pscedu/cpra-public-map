@@ -12,6 +12,7 @@ const selectValue = (values, currentValue) => {
 
 const Slides = ({
   arrows,
+  changeCallback,
   children,
   cssClass,
   layer,
@@ -47,6 +48,7 @@ const Slides = ({
 
     let project = projectMap[projectName];
     if (project) project.select();
+    if (changeCallback) changeCallback();
   }, [currentIdx]);
 
   return (
