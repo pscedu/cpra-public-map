@@ -18,9 +18,14 @@
     display: flex;
     flex-direction: row;
   }
+  .columns > div {
+    width: 50%;
+  }
+  .columns > div:first-child {
+    margin-right: 50px;
+  }
   .columns > div:last-child {
     border-left: 1px solid #dddddd;
-    margin-left: 50px;
     padding-left: 50px;
   }
   .buttons button {
