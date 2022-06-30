@@ -93,7 +93,11 @@ export function useProjects(projectsUrl) {
       let rows = (await res.text())
         .split("\n")
         .filter((row) => row.length)
-        .map((row) => row.split(","));
+        .map((row) =>
+          row
+            .split(/(?!\B"[^"]*),(?![^"]*"\B)/g)
+            .map((cell) => cell.replace(/"/g, ""))
+        );
       let headers = rows.shift();
 
       let allProjects = rows.map((row) => {
