@@ -1,4 +1,5 @@
 import { h, Component } from "preact";
+import { fireEvent } from "../../utils";
 import { getStyle } from "./mapstyle";
 
 class Map extends Component {
@@ -50,6 +51,10 @@ class Map extends Component {
         this.props.updateMapState({
           prevYear: null,
         });
+    });
+
+    this.map.on("click", "search-screen", (e) => {
+      fireEvent("searchClearResult");
     });
 
     this.projectLayers.forEach((layerName) => {
