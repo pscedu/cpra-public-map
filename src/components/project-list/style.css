@@ -32,10 +32,10 @@
 }
 .project-list thead tr,
 .project {
-  background-size: 32px;
+  background-size: 24px;
   background-repeat: no-repeat;
-  background-position: 0 3px;
-  padding-left: 40px;
+  background-position: 0 2px;
+  padding-left: 30px;
 }
 .project-list td {
   border-bottom: 1px solid #cccccc;
@@ -58,4 +58,20 @@
 .project-list a:active,
 .project-list a:hover {
   border-bottom-color: #5c7967;
+}
+@media (min-width: 700px) {
+  .project-list thead tr,
+  .project {
+    background-size: 28px;
+    background-position: 0 3px;
+    padding-left: 36px;
+  }
+}
+@media (min-width: 1600px) {
+  .project-list thead tr,
+  .project {
+    background-size: 32px;
+    background-position: 0 3px;
+    padding-left: 40px;
+  }
 }
