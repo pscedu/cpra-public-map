@@ -354,7 +354,7 @@ export function getStyle(services, mapState, layer, selection, maxBounds) {
 
   return {
     version: 8,
-    sprite: `${loc.origin}/style/sprite`,
+    sprite: `${loc.origin}/style/sprite?cache=20220630`,
     glyphs: `${loc.origin}/style/glyphs/{fontstack}/{range}.pbf`,
     sources,
     transition: {
