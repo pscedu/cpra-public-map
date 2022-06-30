@@ -57,7 +57,8 @@ const Story = ({
         layerSpec={layers["Vegetation Type"]}
         updateSlideState={updateMapState}
         slideState={mapState}
-        scenario="S07"
+        scenario="S08"
+        year="0"
       >
         <p>
           One major challenge in parts of coastal Louisiana is the inland
@@ -79,6 +80,7 @@ const Story = ({
         layerSpec={layers["Land Change"]}
         updateSlideState={updateMapState}
         slideState={mapState}
+        scenario="S07"
         year="50"
       >
         <p>
@@ -102,6 +104,7 @@ const Story = ({
         layerSpec={layers["Flood Depth"]}
         updateSlideState={updateMapState}
         slideState={mapState}
+        scenario="S07"
         year="50"
         footer={aepGraphic}
       >
