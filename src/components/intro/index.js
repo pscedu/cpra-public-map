@@ -11,11 +11,11 @@ const Intro = ({ setStorySlide }) => {
     <div class={style.intro}>
       <div class={style.columns}>
         <div class={style.tour}>
+          <h2>Take a Guided Tour</h2>
           <p>
-            The Guided Tour introduces users to the Louisiana Coastal Master
-            Plan process and the tools that are available throughout the data
-            viewer. Slides contain explanations of model data and narratives to
-            highlight components of the Master Plan.
+            First-time user? Unfamiliar with technical model data or the
+            Louisiana Coastal Master Plan? Start with a guided tour of the data
+            viewer and the Master Plan process.
           </p>
           <p class={style.button}>
             <ActionButton
@@ -28,10 +28,11 @@ const Intro = ({ setStorySlide }) => {
           </p>
         </div>
         <div class={style.explore}>
+          <h2>Explore the Map</h2>
           <p>
-            Explore the Map allows users to engage with technical model data and
-            the project map for the 2023 Louisiana Coastal Master Plan in a
-            self-guided format.
+            Returning user? Familiar with technical model data and the Louisiana
+            Coastal Master Plan? Explore the map on your own to view candidate
+            projects and draft model results.
           </p>
           <p class={style.button}>
             <ActionButton
