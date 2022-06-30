@@ -43,18 +43,11 @@ const App = () => {
     ["prevYear"]
   );
 
-  if (
-    typeof window === "undefined" ||
-    (!localStorage.getItem("intro") && mapState.view == "slide-0")
-  )
-    mapState.view = "intro";
-
   const layer = config.views[mapState.view].layer;
   const storySlide = mapState.view.startsWith("slide-")
     ? parseInt(mapState.view.replace("slide-", ""), 10)
     : null;
   const setStorySlide = (idx) => {
-    localStorage.setItem("intro", "true");
     updateMapState({ view: idx === null ? "land-change" : `slide-${idx}` });
   };
 
