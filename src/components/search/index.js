@@ -131,7 +131,17 @@ const Search = ({ geocodeUrl, searchIndex, setSelection }) => {
     let bounds = result.bounds;
     if (selection.polygon) bounds = bbox(selection.polygon);
     if (bounds)
-      fireEvent("mapFitBounds", { bounds, options: { padding: 100 } });
+      fireEvent("mapFitBounds", {
+        bounds,
+        options: {
+          padding: {
+            top: 50,
+            right: 100,
+            bottom: 300,
+            left: 50,
+          },
+        },
+      });
   };
 
   return (
