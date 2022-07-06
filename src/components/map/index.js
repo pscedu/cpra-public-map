@@ -36,7 +36,7 @@ class Map extends Component {
           left: 50,
         },
       },
-      style: this.props.services ? getStyle(this.props) : null,
+      style: this.props.services ? this.getStyle(this.props) : null,
       dragRotate: false,
       hash: "map",
       maxBounds: this.maxBounds,
@@ -82,6 +82,10 @@ class Map extends Component {
     window.addEventListener("mapFitBounds", (e) =>
       this.map.fitBounds(e.detail.bounds, e.detail.options)
     );
+
+    window.addEventListener("mapResize", () => {
+      window.requestAnimationFrame(() => this.map.resize());
+    });
   }
 
   getStyle(props) {
@@ -102,7 +106,7 @@ class Map extends Component {
           left: 0,
           position: "absolute",
           right: 0,
-          top: "45px",
+          top: 0,
         }}
       />
     );

@@ -1,8 +1,15 @@
 import { h } from "preact";
 import style from "./style.css";
 
-const Toolbar = ({ contactEmail, updateMapState, websiteUrl }) => {
+const Toolbar = ({
+  contactEmail,
+  printing,
+  setPrinting,
+  updateMapState,
+  websiteUrl,
+}) => {
   const aboutClick = () => updateMapState({ view: "intro" });
+  const printClick = () => setPrinting(!printing);
   const websiteClick = () => (window.location = websiteUrl);
   const emailClick = () => (window.location = contactEmail);
   return (
@@ -13,6 +20,14 @@ const Toolbar = ({ contactEmail, updateMapState, websiteUrl }) => {
         class={style.help}
       >
         <span class="sr-only">About the Data Viewer</span>
+      </button>
+      <button
+        title="Print or Export Map"
+        onClick={printClick}
+        class={style.print}
+      >
+        <ion-icon name="print" />
+        <span class="sr-only">Print or Export Map</span>
       </button>
       <button
         title="Visit Master Plan Website"

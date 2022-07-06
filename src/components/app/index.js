@@ -4,7 +4,6 @@ import { useState } from "preact/hooks";
 import * as config from "./config";
 import {
   useHashState,
-  useHashVar,
   useLayers,
   useProjects,
   useSearchIndex,
@@ -17,6 +16,7 @@ import Header from "../header";
 import Intro from "../intro";
 import Legend from "../legend";
 import Map from "../map";
+import Print from "../print";
 import Story from "../story";
 import Toolbar from "../toolbar";
 import Watermark from "../watermark";
@@ -42,6 +42,7 @@ const App = () => {
     },
     ["prevYear"]
   );
+  const [printing, setPrinting] = useState(false);
 
   const layer = config.views[mapState.view].layer;
   const storySlide = mapState.view.startsWith("slide-")
@@ -92,28 +93,35 @@ const App = () => {
         setSelection={setSelection}
         setStorySlide={setStorySlide}
         storySlide={storySlide}
+        printing={printing}
       />
-      <Legend legends={config.legends} layer={layer} />
       <Toolbar
         contactEmail={config.contactEmail}
+        printing={printing}
+        setPrinting={setPrinting}
         updateMapState={updateMapState}
         websiteUrl={config.websiteUrl}
       />
-      <Watermark>DRAFT</Watermark>
-      <Map
-        {...{
-          layer,
-          projects,
-          servicesUrl: config.servicesUrl,
-          services,
-          mapState,
-          selection,
-          updateMapState,
-        }}
-      />
-      <Drawer title={drawerTitle} open={true}>
-        {drawerContent}
-      </Drawer>
+      <Print printing={printing} setPrinting={setPrinting}>
+        {printing ? null : <Legend legends={config.legends} layer={layer} />}
+        <Watermark>DRAFT</Watermark>
+        <Map
+          {...{
+            layer,
+            projects,
+            servicesUrl: config.servicesUrl,
+            services,
+            mapState,
+            selection,
+            updateMapState,
+          }}
+        />
+      </Print>
+      {!printing ? (
+        <Drawer title={drawerTitle} open={true}>
+          {drawerContent}
+        </Drawer>
+      ) : null}
     </div>
   );
 };

@@ -6,6 +6,7 @@ import Search from "../search";
 
 const Header = ({
   geocodeUrl,
+  printing,
   searchIndex,
   setSelection,
   setStorySlide,
@@ -13,24 +14,19 @@ const Header = ({
 }) => {
   const startTour = () => setStorySlide(0);
   const endTour = () => setStorySlide(null);
-  const tourButton =
-    storySlide === null ? (
-      <ActionButton
-        icon="play"
-        action={startTour}
-        cssClass={style["action-button"]}
-      >
-        Start Guided Tour
-      </ActionButton>
-    ) : (
-      <ActionButton
-        icon="map"
-        action={endTour}
-        cssClass={style["action-button"]}
-      >
-        Explore the Map
-      </ActionButton>
-    );
+  const tourButton = printing ? null : storySlide === null ? (
+    <ActionButton
+      icon="play"
+      action={startTour}
+      cssClass={style["action-button"]}
+    >
+      Start Guided Tour
+    </ActionButton>
+  ) : (
+    <ActionButton icon="map" action={endTour} cssClass={style["action-button"]}>
+      Explore the Map
+    </ActionButton>
+  );
   return (
     <header class={style.header}>
       <a href="https://coastal.la.gov/" class={style.logo}>
