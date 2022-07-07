@@ -1,10 +1,10 @@
 import { h } from "preact";
 import { useState } from "preact/hooks";
+import { fireEvent } from "../../utils";
 
 import * as config from "./config";
 import {
   useHashState,
-  useHashVar,
   useLayers,
   useProjects,
   useSearchIndex,
@@ -51,9 +51,21 @@ const App = () => {
     updateMapState({ view: idx === null ? "land-change" : `slide-${idx}` });
   };
 
+  const startTour = () => {
+    fireEvent("searchClearResult");
+    fireEvent("mapFitBounds", {
+      bounds: config.mapDefaults.bounds,
+      options: {
+        padding: config.mapDefaults.padding,
+      },
+    });
+    setStorySlide(0);
+  };
+  const endTour = () => setStorySlide(null);
+
   let drawerContent;
   if (mapState.view === "intro") {
-    drawerContent = <Intro setStorySlide={setStorySlide} />;
+    drawerContent = <Intro endTour={endTour} startTour={startTour} />;
   } else if (storySlide == null) {
     drawerContent = (
       <Explore
@@ -87,10 +99,11 @@ const App = () => {
   return (
     <div id="app">
       <Header
+        endTour={endTour}
         geocodeUrl={config.geocodeUrl}
         searchIndex={searchIndex}
         setSelection={setSelection}
-        setStorySlide={setStorySlide}
+        startTour={startTour}
         storySlide={storySlide}
       />
       <Legend legends={config.legends} layer={layer} />
@@ -103,11 +116,12 @@ const App = () => {
       <Map
         {...{
           layer,
-          projects,
-          servicesUrl: config.servicesUrl,
-          services,
+          mapDefaults: config.mapDefaults,
           mapState,
+          projects,
           selection,
+          services,
+          servicesUrl: config.servicesUrl,
           updateMapState,
         }}
       />

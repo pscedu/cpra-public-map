@@ -4,9 +4,7 @@ import style from "./style.css";
 import ActionButton from "../action-button";
 import Disclaimer from "../disclaimer";
 
-const Intro = ({ setStorySlide }) => {
-  const startTour = () => setStorySlide(0);
-  const endTour = () => setStorySlide(null);
+const Intro = ({ endTour, startTour }) => {
   return (
     <div class={style.intro}>
       <div class={style.columns}>

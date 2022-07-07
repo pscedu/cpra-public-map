@@ -5,14 +5,13 @@ import ActionButton from "../action-button";
 import Search from "../search";
 
 const Header = ({
+  endTour,
   geocodeUrl,
   searchIndex,
   setSelection,
-  setStorySlide,
+  startTour,
   storySlide,
 }) => {
-  const startTour = () => setStorySlide(0);
-  const endTour = () => setStorySlide(null);
   const tourButton =
     storySlide === null ? (
       <ActionButton

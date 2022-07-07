@@ -3,7 +3,6 @@ import { fireEvent } from "../../utils";
 import { getStyle } from "./mapstyle";
 
 class Map extends Component {
-  bounds = [-93.845, 29.09, -89.175, 30.395];
   maxBounds = [-91.215 - 5, 29.41 - 3, -91.215 + 5, 29.41 + 3];
   projectLayers = [
     "project-polygon-lb",
@@ -26,15 +25,10 @@ class Map extends Component {
   componentDidMount() {
     // eslint-disable-next-line no-undef
     this.map = new maplibregl.Map({
-      bounds: this.bounds,
+      bounds: this.props.mapDefaults.bounds,
       container: this.base,
       fitBoundsOptions: {
-        padding: {
-          top: 50,
-          right: 100,
-          bottom: 300,
-          left: 50,
-        },
+        padding: this.props.mapDefaults.padding,
       },
       style: this.props.services ? getStyle(this.props) : null,
       dragRotate: false,
