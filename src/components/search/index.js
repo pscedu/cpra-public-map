@@ -135,10 +135,10 @@ const Search = ({ geocodeUrl, searchIndex, setSelection }) => {
         bounds,
         options: {
           padding: {
-            top: 50,
-            right: 100,
-            bottom: 300,
-            left: 50,
+            top: 150,
+            right: 200,
+            bottom: 400,
+            left: 150,
           },
         },
       });
