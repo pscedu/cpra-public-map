@@ -32,7 +32,7 @@ const Year = ({ state, tooltip, updateState, years }) => {
         name="year"
         min="0"
         max="50"
-        step="10"
+        step="1"
         value={state.year}
         onInput={handleInput}
       />

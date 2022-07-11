@@ -1,8 +1,24 @@
 import { h } from "preact";
+import { useEffect, useState } from "preact/hooks";
 import { fireEvent, getProjectTypeResult, getRegionResult } from "../../utils";
 import style from "./style.css";
 
-const ProjectList = ({ projects, projectTypeDescriptions, projectTypes }) => {
+const ProjectList = ({
+  mapState,
+  projects,
+  projectTypeDescriptions,
+  projectTypes,
+}) => {
+  const [filteredProjects, setFilteredProjects] = useState(projects);
+
+  useEffect(() => {
+    setFilteredProjects(
+      projects.filter(
+        (project) => parseInt(mapState.year, 10) >= project.yearmin
+      )
+    );
+  }, [mapState, projects]);
+
   const selectProject = (e, project) => {
     e.preventDefault();
     project.select();
@@ -22,7 +38,7 @@ const ProjectList = ({ projects, projectTypeDescriptions, projectTypes }) => {
     });
   };
 
-  const projectRows = projects.map((project) => (
+  const projectRows = filteredProjects.map((project) => (
     <tr
       key={project.name}
       class={`${style.project} project-type-icon-${project.type.toLowerCase()}`}
@@ -42,6 +58,11 @@ const ProjectList = ({ projects, projectTypeDescriptions, projectTypes }) => {
           {project.region}
         </a>
       </td>
+      <td class={style.years}>
+        {project.yearmin == project.yearmax
+          ? project.yearmin
+          : `${project.yearmin} - ${project.yearmax}`}
+      </td>
     </tr>
   ));
 
@@ -52,6 +73,7 @@ const ProjectList = ({ projects, projectTypeDescriptions, projectTypes }) => {
           <th class={style.name}>Project Name</th>
           <th class={style.type}>Project Type</th>
           <th class={style.region}>Region</th>
+          <th class={style.years}>Years</th>
         </tr>
       </thead>
       <tbody>{projectRows}</tbody>

@@ -74,7 +74,6 @@ const Slide = ({
         label="Project Implementation Scenario"
         value={group}
         setValue={setGroup}
-        disabled={true}
         help="Coming soon!"
         tooltip="Select <strong>Future Without Action</strong> to view model results in a scenario without construction and/or operation of the recommended projects from the 2023 Coastal Master Plan. Select <strong>With 2023 Master Plan</strong> to view model results with implementation of the recommended projects from the 2023 Coastal Master Plan (i.e. assuming construction and operation of coastal restoration and flood protection projects as recommended in the Master Plan)."
       />

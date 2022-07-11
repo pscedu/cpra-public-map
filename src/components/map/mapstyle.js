@@ -7,7 +7,9 @@ function linearZoom(min, max) {
 }
 
 function getLayerName(layer, scenario, group, year, subtype) {
-  let name = `${layer} - ${scenario} - ${group} - Year ${year}`;
+  let name = `${layer} - ${scenario} - ${group} - Year ${
+    Math.floor(year / 10) * 10
+  }`;
   if (subtype) name += ` - ${subtype}`;
   return name;
 }
@@ -455,7 +457,7 @@ export function getStyle(services, mapState, layer, selection, maxBounds) {
       },
       ...projectLayers(
         layer == "Projects" || mapState.group !== "G500",
-        true,
+        ["<=", ["get", "year"], parseInt(mapState.year, 10)],
         layer !== "Projects"
       ),
       {

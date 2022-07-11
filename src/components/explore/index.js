@@ -50,8 +50,17 @@ const Explore = ({
       />
     </Slide>
   ) : (
-    <Slide tabTitle="Projects" layerSpec={layers["Projects"]} icon="cube">
+    <Slide
+      tabTitle="Projects"
+      layerSpec={layers["Projects"]}
+      icon="cube"
+      controls={["year"]}
+      controlsPosition="start"
+      updateSlideState={updateMapState}
+      slideState={mapState}
+    >
       <ProjectList
+        mapState={mapState}
         projects={projects}
         projectTypeDescriptions={projectTypeDescriptions}
         projectTypes={projectTypes}

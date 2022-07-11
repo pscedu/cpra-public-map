@@ -15,9 +15,15 @@ const ProjectDetail = (props) => {
         >
           {props.projectTypes[project.type]}
         </p>
-        <p class="style.region">
+        <p class={style.region}>
           <ion-icon name="location" />
           {project.region}
+        </p>
+        <p class={style.region}>
+          <ion-icon name="calendar" />
+          {project.yearmin == project.yearmax
+            ? `Year ${project.yearmin}`
+            : `Years ${project.yearmin} - ${project.yearmax}`}
         </p>
       </div>
       {project.description ? <p>{project.description}</p> : null}

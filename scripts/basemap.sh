@@ -93,14 +93,19 @@ select ProjectName as name,
             when ElementTypeCode in ('BS', 'MC', 'OR', 'RR', 'SP') then ElementTypeCode
             else 'IP' end
         ) else ProjectTypeCode end as type,
+    case when ip.Year is null then 21 else ip.Year end as year,
     Shape as geom
-from LAYER
+from LAYER as project
+left join implementation_period as ip
+  on project.ProjectID = ip.ProjectID
+    and (ip.ElementID = '' or project.ElementID = ip.ElementID)
 where ActiveProject = 1
 SQL
 
 read -r -d '' project_label_sql << SQL
 select name,
     type,
+    min(year) as year,
     st_pointonsurface(st_collect(geom)) as geom
 from (
     ${project_sql/LAYER/Points}
@@ -110,18 +115,26 @@ as points group by name,
     type
 SQL
 
-ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "${project_sql/LAYER/Points}" \
-    $WORKING/project_point.geojson $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
+# Reproject project data to WGS 84.
+ogr2ogr -t_srs "EPSG:4326" \
+    $WORKING/projects.gpkg \
+    $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
 
-ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "${project_sql/LAYER/Lines}" \
-    $WORKING/project_line.geojson $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
+# Add implementation period data.
+ogr2ogr -append $WORKING/projects.gpkg $DATA/implementation_period.csv
 
-ogr2ogr -t_srs "EPSG:4326" -dialect sqlite \
-    -sql "select name, type, st_union(geom) as geom from (${project_sql/LAYER/Polygons}) as polygons group by name, type" \
-    $WORKING/project_polygon.geojson $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
+ogr2ogr -dialect sqlite -sql "${project_sql/LAYER/Points}" \
+    $WORKING/project_point.geojson $WORKING/projects.gpkg
 
-ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$project_label_sql" \
-    $WORKING/project_label.geojson $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
+ogr2ogr -dialect sqlite -sql "${project_sql/LAYER/Lines}" \
+    $WORKING/project_line.geojson $WORKING/projects.gpkg
+
+ogr2ogr -dialect sqlite \
+    -sql "select name, type, year, st_union(geom) as geom from (${project_sql/LAYER/Polygons}) as polygons group by name, type, year" \
+    $WORKING/project_polygon.geojson $WORKING/projects.gpkg
+
+ogr2ogr -dialect sqlite -sql "$project_label_sql" \
+    $WORKING/project_label.geojson $WORKING/projects.gpkg
 
 read -r -d '' parish_label_sql << SQL
 select NAME as text,
