@@ -22,7 +22,7 @@ const Year = ({ state, tooltip, updateState, years }) => {
   return (
     <div class="input">
       <label class="label" for="year">
-        Year<span class="sr-only">: {state.year}</span>{" "}
+        Year<span class={style.value}>: {state.year}</span>{" "}
         {tooltip ? <Tooltip content={tooltip} /> : null}
       </label>
       <div class={style.ticks}>{ticks}</div>

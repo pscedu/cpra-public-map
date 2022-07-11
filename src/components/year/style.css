@@ -1,3 +1,7 @@
+.value {
+  display: inline-block;
+  min-width: 1.75em;
+}
 input[type="range"],
 .ticks {
   max-width: 300px;
