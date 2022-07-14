@@ -42,6 +42,7 @@ const App = () => {
     },
     ["prevYear"]
   );
+  const [introOpen, setIntroOpen] = useState(mapState.view == "slide-0");
 
   const layer = config.views[mapState.view].layer;
   const storySlide = mapState.view.startsWith("slide-")
@@ -64,9 +65,7 @@ const App = () => {
   const endTour = () => setStorySlide(null);
 
   let drawerContent;
-  if (mapState.view === "intro") {
-    drawerContent = <Intro endTour={endTour} startTour={startTour} />;
-  } else if (storySlide == null) {
+  if (storySlide == null) {
     drawerContent = (
       <Explore
         layer={layer}
@@ -109,7 +108,7 @@ const App = () => {
       <Legend legends={config.legends} layer={layer} />
       <Toolbar
         contactEmail={config.contactEmail}
-        updateMapState={updateMapState}
+        setIntroOpen={setIntroOpen}
         websiteUrl={config.websiteUrl}
       />
       <Watermark>DRAFT</Watermark>
@@ -125,9 +124,15 @@ const App = () => {
           updateMapState,
         }}
       />
-      <Drawer title={drawerTitle} open={true}>
+      <Drawer title={drawerTitle} open={!introOpen}>
         {drawerContent}
       </Drawer>
+      <Intro
+        endTour={endTour}
+        startTour={startTour}
+        open={introOpen}
+        setOpen={setIntroOpen}
+      />
     </div>
   );
 };

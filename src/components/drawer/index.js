@@ -1,11 +1,14 @@
 import { h } from "preact";
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import style from "./style.css";
 
 const Drawer = (props) => {
   const [open, setOpen] = useState(props.open || false);
   const actionText = open ? "Close" : "Open";
   const toggleOpen = () => setOpen(!open);
+  useEffect(() => {
+    window.addEventListener("drawerSetOpen", (e) => setOpen(e.detail.open));
+  }, []);
   return (
     <div class={`${style.drawer} ${style[open ? "open" : "closed"]}`}>
       <button class={style.handle} onClick={toggleOpen}>

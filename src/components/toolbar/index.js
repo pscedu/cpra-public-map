@@ -1,8 +1,8 @@
 import { h } from "preact";
 import style from "./style.css";
 
-const Toolbar = ({ contactEmail, updateMapState, websiteUrl }) => {
-  const aboutClick = () => updateMapState({ view: "intro" });
+const Toolbar = ({ contactEmail, setIntroOpen, websiteUrl }) => {
+  const aboutClick = () => setIntroOpen(true);
   const websiteClick = () => (window.location = websiteUrl);
   const emailClick = () => (window.location = contactEmail);
   return (
