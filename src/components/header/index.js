@@ -15,6 +15,7 @@ const Header = ({
   const tourButton =
     storySlide === null ? (
       <ActionButton
+        analyticsId="header_tour"
         icon="play"
         action={startTour}
         cssClass={style["action-button"]}
@@ -23,6 +24,7 @@ const Header = ({
       </ActionButton>
     ) : (
       <ActionButton
+        analyticsId="header_explore"
         icon="map"
         action={endTour}
         cssClass={style["action-button"]}

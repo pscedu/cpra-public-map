@@ -163,6 +163,7 @@ const Story = ({
         <h3>Interested in seeing more data?</h3>
         <p class={style.button}>
           <ActionButton
+            analyticsId="tour_end_explore"
             icon="map"
             action={endTour}
             cssClass={style["action-button"]}

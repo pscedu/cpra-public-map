@@ -1,6 +1,6 @@
 import { h } from "preact";
-import { useState } from "preact/hooks";
-import { fireEvent } from "../../utils";
+import { useEffect, useState } from "preact/hooks";
+import { fireEvent, gtag, internal } from "../../utils";
 
 import * as config from "./config";
 import {
@@ -22,6 +22,7 @@ import Toolbar from "../toolbar";
 import Watermark from "../watermark";
 
 const App = () => {
+  const baseUrl = window.location.href.replace(window.location.hash, "");
   const projects = useProjects(config.projectListUrl);
   const projectMap = {};
   projects.forEach((proj) => (projectMap[proj.name] = proj));
@@ -30,7 +31,7 @@ const App = () => {
   const services = useServices(config.servicesUrl);
   const layers = useLayers(services);
   const [selection, setSelection] = useState({});
-  const [mapState, updateMapState] = useHashState(
+  const [mapState, updateMapStateHash] = useHashState(
     {
       scenario: "S07",
       view: "slide-0",
@@ -42,6 +43,30 @@ const App = () => {
     },
     ["prevYear"]
   );
+
+  // Send initial analytics configuration.
+  useEffect(() => {
+    gtag("js", new Date());
+    gtag("config", "G-B9C4QG8HKV", {
+      debug_mode: internal,
+      send_page_view: false,
+      traffic_type: internal ? "internal" : "external",
+    });
+    gtag("set", "page_location", `${baseUrl}#view=${mapState.view}`);
+    gtag("set", "page_title", config.views[mapState.view].title);
+    gtag("event", "page_view");
+  }, []);
+
+  // Generate an analytics page view when the view changes.
+  const updateMapState = (updates) => {
+    if (updates.view && updates.view != mapState.view) {
+      gtag("set", "page_location", `${baseUrl}#view=${updates.view}`);
+      gtag("set", "page_title", config.views[updates.view].title);
+      gtag("event", "page_view");
+      if (updates.view === "slide-5") gtag("event", "tutorial_complete");
+    }
+    updateMapStateHash(updates);
+  };
 
   const layer = config.views[mapState.view].layer;
   const storySlide = mapState.view.startsWith("slide-")
@@ -60,6 +85,7 @@ const App = () => {
       },
     });
     setStorySlide(0);
+    gtag("event", "tutorial_begin");
   };
   const endTour = () => setStorySlide(null);
 

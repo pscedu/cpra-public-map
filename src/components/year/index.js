@@ -2,6 +2,9 @@ import { h } from "preact";
 import style from "./style.css";
 
 import Tooltip from "../tooltip";
+import { gtag } from "../../utils";
+
+let yearTimeout;
 
 const Year = ({ state, step = 10, tooltip, updateState, years }) => {
   const handleInput = (e) => {
@@ -11,6 +14,21 @@ const Year = ({ state, step = 10, tooltip, updateState, years }) => {
       year: newYear,
       prevYear: hasNewYear ? state.year : null,
     });
+    if (yearTimeout) clearTimeout(yearTimeout);
+    yearTimeout = setTimeout(
+      () =>
+        gtag("event", "select_item", {
+          item_list_id: "year",
+          item_list_name: "Year",
+          items: [
+            {
+              item_id: newYear,
+              item_name: newYear,
+            },
+          ],
+        }),
+      1000
+    );
   };
 
   const ticks = [0, 10, 20, 30, 40, 50].map((val) => (
