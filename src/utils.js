@@ -55,5 +55,12 @@ export const getRegionResult = (region) => {
   };
 };
 
+window.dataLayer = window.dataLayer || [];
+export const internal = window.location.hostname.search("mpdv") === -1;
+export function gtag() {
+  if (internal) console.log("gtag", arguments);
+  window.dataLayer.push(arguments);
+}
+
 export const normalizeText = (text) =>
   text.toLowerCase().replace(/[^a-z0-9 ]/g, "");

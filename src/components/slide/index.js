@@ -53,6 +53,7 @@ const Slide = ({
   if (controls.includes("scenario"))
     controlComponents.push(
       <Buttons
+        analyticsId="scenario"
         choices={[
           ["S07", "Lower", "partly-sunny"],
           ["S08", "Higher", "rainy"],
@@ -67,6 +68,7 @@ const Slide = ({
   if (controls.includes("group"))
     controlComponents.push(
       <Buttons
+        analyticsId="group"
         choices={[
           ["G500", "Without Further Action", "close"],
           ["G603", "With 2023 Master Plan", "hammer"],
@@ -88,6 +90,7 @@ const Slide = ({
     });
     controlComponents.push(
       <Buttons
+        analyticsId="aep"
         choices={choices}
         label={"Annual Exceedance Probability"}
         value={subtype}

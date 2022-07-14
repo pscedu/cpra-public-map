@@ -1,10 +1,26 @@
 import { h } from "preact";
 import style from "./style.css";
+import { gtag } from "../../utils";
+
+const trackClick = (button_id, button_text) =>
+  gtag("event", "button_click", {
+    button_id,
+    button_text,
+  });
 
 const Toolbar = ({ contactEmail, setIntroOpen, websiteUrl }) => {
-  const aboutClick = () => setIntroOpen(true);
-  const websiteClick = () => (window.location = websiteUrl);
-  const emailClick = () => (window.location = contactEmail);
+  const aboutClick = () => {
+    setIntroOpen(true);
+    trackClick("toolbar_about", "About the Data Viewer");
+  };
+  const websiteClick = () => {
+    trackClick("toolbar_website", "Visit Master Plan Website");
+    window.location = websiteUrl;
+  };
+  const emailClick = () => {
+    trackClick("toolbar_email", "E-mail Us");
+    window.location = contactEmail;
+  };
   return (
     <div class={style.toolbar}>
       <button

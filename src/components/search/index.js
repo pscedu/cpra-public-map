@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "preact/hooks";
 import bbox from "@turf/bbox";
 import { bufferPoint, fireEvent, normalizeText } from "../../utils";
 import style from "./style.css";
+import { gtag } from "../../utils";
 
 const excludedCategories = ["railway"];
 
@@ -142,6 +143,10 @@ const Search = ({ geocodeUrl, searchIndex, setSelection }) => {
           },
         },
       });
+    gtag("event", "select_content", {
+      content_type: (result.category || "OSM").toLowerCase(),
+      item_id: result.name,
+    });
   };
 
   return (

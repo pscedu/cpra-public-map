@@ -1,9 +1,11 @@
 import { h } from "preact";
 import style from "./style.css";
+import { gtag } from "../../utils";
 
 import Tooltip from "../tooltip";
 
 const Buttons = ({
+  analyticsId,
   choices,
   disabled = false,
   help = null,
@@ -21,7 +23,19 @@ const Buttons = ({
       value={buttonValue}
       disabled={disabled}
       onClick={() => {
-        if (!disabled) setValue(buttonValue);
+        if (!disabled) {
+          setValue(buttonValue);
+          gtag("event", "select_item", {
+            item_list_id: analyticsId,
+            item_list_name: label,
+            items: [
+              {
+                item_id: buttonValue,
+                item_name: buttonLabel,
+              },
+            ],
+          });
+        }
       }}
     >
       {buttonIcon ? <ion-icon name={buttonIcon} /> : null}

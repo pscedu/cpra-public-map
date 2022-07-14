@@ -30,6 +30,7 @@ const Intro = ({ endTour, open, setOpen, startTour }) => {
             </p>
             <p class={style.button}>
               <ActionButton
+                analyticsId="intro_tour"
                 icon="play"
                 action={tour}
                 cssClass={style["action-button"]}
@@ -47,6 +48,7 @@ const Intro = ({ endTour, open, setOpen, startTour }) => {
             </p>
             <p class={style.button}>
               <ActionButton
+                analyticsId="intro_explore"
                 icon="map"
                 action={explore}
                 cssClass={style["action-button"]}
