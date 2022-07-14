@@ -116,10 +116,6 @@ export const legends = {
   },
 };
 export const views = {
-  intro: {
-    title: "Welcome to the Master Plan Data Viewer",
-    layer: "Projects",
-  },
   "land-change": {
     title: "Land Change",
     layer: "Land Change",

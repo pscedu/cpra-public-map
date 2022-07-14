@@ -12,11 +12,11 @@ const Toolbar = ({
   contactEmail,
   printing,
   setPrinting,
-  updateMapState,
+  setIntroOpen,
   websiteUrl,
 }) => {
   const aboutClick = () => {
-    updateMapState({ view: "intro" });
+    setIntroOpen(true);
     trackClick("toolbar_about", "About the Data Viewer");
   };
   const printClick = () => {

@@ -68,7 +68,7 @@ const App = () => {
     }
     updateMapStateHash(updates);
   };
-
+  const [introOpen, setIntroOpen] = useState(mapState.view == "slide-0");
   const layer = config.views[mapState.view].layer;
   const storySlide = mapState.view.startsWith("slide-")
     ? parseInt(mapState.view.replace("slide-", ""), 10)
@@ -91,9 +91,7 @@ const App = () => {
   const endTour = () => setStorySlide(null);
 
   let drawerContent;
-  if (mapState.view === "intro") {
-    drawerContent = <Intro endTour={endTour} startTour={startTour} />;
-  } else if (storySlide == null) {
+  if (storySlide == null) {
     drawerContent = (
       <Explore
         layer={layer}
@@ -121,8 +119,6 @@ const App = () => {
     );
   }
 
-  const drawerTitle = config.views[mapState.view].title;
-
   return (
     <div id="app">
       <Header
@@ -138,7 +134,7 @@ const App = () => {
         contactEmail={config.contactEmail}
         printing={printing}
         setPrinting={setPrinting}
-        updateMapState={updateMapState}
+        setIntroOpen={setIntroOpen}
         websiteUrl={config.websiteUrl}
       />
       {printing ? null : <Watermark>DRAFT</Watermark>}
@@ -166,6 +162,12 @@ const App = () => {
           }}
         />
       </Print>
+      <Intro
+        endTour={endTour}
+        startTour={startTour}
+        open={introOpen}
+        setOpen={setIntroOpen}
+      />
       {!printing ? drawerContent : null}
     </div>
   );
