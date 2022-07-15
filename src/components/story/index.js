@@ -37,13 +37,15 @@ const Story = ({
       >
         <p>
           Louisiana's complex and fragile ecosystem is disappearing at an
-          alarming rate. Between 1932 and 2010, Louisiana's coast lost more than
-          1,800 square miles of land. From 2004 through 2008 alone, more than
-          300 square miles of marshland were lost to Hurricanes Katrina, Rita,
-          Gustav, and Ike. The major causes of this land loss include the
-          effects of climate change, sea level rise, subsidence, hurricanes,
-          storm surges, disconnection of the Mississippi River from coastal
-          marshes, and human impacts.
+          alarming rate. Between 1932 and 2016, Louisiana's coast{" "}
+          <a href="https://pubs.er.usgs.gov/publication/sim3381">
+            lost more than 1,866 square miles of land
+          </a>
+          . From 2004 through 2008 alone, more than 300 square miles of
+          marshland were lost to Hurricanes Katrina, Rita, Gustav, and Ike. The
+          major causes of this land loss include the effects of climate change,
+          sea level rise, subsidence, hurricanes, storm surges, disconnection of
+          the Mississippi River from coastal marshes, and human impacts.
         </p>
         <p>
           The 2023 Coastal Master Plan sets an ambitious path to respond to the
