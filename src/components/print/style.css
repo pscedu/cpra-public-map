@@ -1,0 +1,37 @@
+.page {
+  border: 1px solid #999999;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+  position: relative;
+  margin: 0 auto 25px;
+  top: 70px;
+}
+.label {
+  color: #005371;
+  text-transform: uppercase;
+  position: absolute;
+  bottom: 25px;
+  left: 50px;
+}
+.primary {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin: 0 0 0.2rem;
+}
+.secondary {
+  font-size: 0.9rem;
+  margin: 0;
+}
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  position: relative;
+  top: 70px;
+}
+.buttons button {
+  border: 1px solid #7b9f29;
+  flex: 0 1 auto;
+  font-size: 1.2rem;
+  margin: 0 10px;
+  padding: 10px 15px;
+}

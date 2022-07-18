@@ -365,6 +365,13 @@ export function getStyle(services, mapState, layer, selection, maxBounds) {
     },
     layers: [
       {
+        id: "background",
+        type: "background",
+        paint: {
+          "background-color": "#ffffff",
+        },
+      },
+      {
         id: "state",
         type: "fill",
         source: "Base Map: Vector",

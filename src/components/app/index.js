@@ -17,6 +17,7 @@ import Header from "../header";
 import Intro from "../intro";
 import Legend from "../legend";
 import Map from "../map";
+import Print from "../print";
 import Story from "../story";
 import Toolbar from "../toolbar";
 import Watermark from "../watermark";
@@ -31,6 +32,7 @@ const App = () => {
   const services = useServices(config.servicesUrl);
   const layers = useLayers(services);
   const [selection, setSelection] = useState({});
+  const [map, setMap] = useState(null);
   const [mapState, updateMapStateHash] = useHashState(
     {
       scenario: "S07",
@@ -43,6 +45,7 @@ const App = () => {
     },
     ["prevYear"]
   );
+  const [printing, setPrinting] = useState(false);
 
   // Send initial analytics configuration.
   useEffect(() => {
@@ -131,29 +134,38 @@ const App = () => {
         setSelection={setSelection}
         startTour={startTour}
         storySlide={storySlide}
+        printing={printing}
       />
-      <Legend legends={config.legends} layer={layer} />
       <Toolbar
         contactEmail={config.contactEmail}
+        printing={printing}
+        setPrinting={setPrinting}
         updateMapState={updateMapState}
         websiteUrl={config.websiteUrl}
       />
-      <Watermark>DRAFT</Watermark>
-      <Map
-        {...{
-          layer,
-          mapDefaults: config.mapDefaults,
-          mapState,
-          projects,
-          selection,
-          services,
-          servicesUrl: config.servicesUrl,
-          updateMapState,
-        }}
-      />
-      <Drawer title={drawerTitle} open={true}>
-        {drawerContent}
-      </Drawer>
+      {printing ? null : <Watermark>DRAFT</Watermark>}
+      <Print printing={printing} setPrinting={setPrinting} map={map}>
+        {printing ? null : <Legend legends={config.legends} layer={layer} />}
+        <Map
+          {...{
+            layer,
+            mapDefaults: config.mapDefaults,
+            map,
+            mapState,
+            projects,
+            selection,
+            services,
+            servicesUrl: config.servicesUrl,
+            setMap,
+            updateMapState,
+          }}
+        />
+      </Print>
+      {!printing ? (
+        <Drawer title={drawerTitle} open={true}>
+          {drawerContent}
+        </Drawer>
+      ) : null}
     </div>
   );
 };

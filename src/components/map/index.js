@@ -18,19 +18,19 @@ class Map extends Component {
   ];
 
   shouldComponentUpdate(props) {
-    if (this.map) this.map.setStyle(this.getStyle(props));
+    if (props.map) props.map.setStyle(this.getStyle(props));
     return false;
   }
 
   componentDidMount() {
     // eslint-disable-next-line no-undef
-    this.map = new maplibregl.Map({
+    let map = new maplibregl.Map({
       bounds: this.props.mapDefaults.bounds,
       container: this.base,
       fitBoundsOptions: {
         padding: this.props.mapDefaults.padding,
       },
-      style: this.props.services ? getStyle(this.props) : null,
+      style: this.props.services ? this.getStyle(this.props) : null,
       dragRotate: false,
       hash: "map",
       maxBounds: this.maxBounds,
@@ -38,21 +38,21 @@ class Map extends Component {
       minZoom: 6,
     });
 
-    this.map.touchZoomRotate.disableRotation();
+    map.touchZoomRotate.disableRotation();
 
-    this.map.on("idle", () => {
+    map.on("idle", () => {
       if (this.props.mapState.prevYear !== null)
         this.props.updateMapState({
           prevYear: null,
         });
     });
 
-    this.map.on("click", "search-screen", (e) => {
+    map.on("click", "search-screen", (e) => {
       fireEvent("searchClearResult");
     });
 
     this.projectLayers.forEach((layerName) => {
-      this.map.on("click", layerName, (e) => {
+      map.on("click", layerName, (e) => {
         if (!this.projectMap) {
           this.projectMap = {};
           for (let project of this.props.projects)
@@ -61,21 +61,27 @@ class Map extends Component {
         let project = this.projectMap[e.features[0].properties.name];
         project.select();
       });
-      this.map.on(
+      map.on(
         "mouseenter",
         layerName,
-        () => (this.map.getCanvas().style.cursor = "pointer")
+        () => (map.getCanvas().style.cursor = "pointer")
       );
-      this.map.on(
+      map.on(
         "mouseleave",
         layerName,
-        () => (this.map.getCanvas().style.cursor = "")
+        () => (map.getCanvas().style.cursor = "")
       );
     });
 
     window.addEventListener("mapFitBounds", (e) =>
-      this.map.fitBounds(e.detail.bounds, e.detail.options)
+      map.fitBounds(e.detail.bounds, e.detail.options)
     );
+
+    window.addEventListener("mapResize", () => {
+      window.requestAnimationFrame(() => map.resize());
+    });
+
+    this.props.setMap(map);
   }
 
   getStyle(props) {
@@ -96,7 +102,7 @@ class Map extends Component {
           left: 0,
           position: "absolute",
           right: 0,
-          top: "45px",
+          top: 0,
         }}
       />
     );

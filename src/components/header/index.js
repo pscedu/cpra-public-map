@@ -7,31 +7,31 @@ import Search from "../search";
 const Header = ({
   endTour,
   geocodeUrl,
+  printing,
   searchIndex,
   setSelection,
   startTour,
   storySlide,
 }) => {
-  const tourButton =
-    storySlide === null ? (
-      <ActionButton
-        analyticsId="header_tour"
-        icon="play"
-        action={startTour}
-        cssClass={style["action-button"]}
-      >
-        Start Guided Tour
-      </ActionButton>
-    ) : (
-      <ActionButton
-        analyticsId="header_explore"
-        icon="map"
-        action={endTour}
-        cssClass={style["action-button"]}
-      >
-        Explore the Map
-      </ActionButton>
-    );
+  const tourButton = printing ? null : storySlide === null ? (
+    <ActionButton
+      analyticsId="header_tour"
+      icon="play"
+      action={startTour}
+      cssClass={style["action-button"]}
+    >
+      Start Guided Tour
+    </ActionButton>
+  ) : (
+    <ActionButton
+      analyticsId="header_explore"
+      icon="map"
+      action={endTour}
+      cssClass={style["action-button"]}
+    >
+      Explore the Map
+    </ActionButton>
+  );
   return (
     <header class={style.header}>
       <a href="https://coastal.la.gov/" class={style.logo}>
