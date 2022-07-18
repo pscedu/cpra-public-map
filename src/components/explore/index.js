@@ -58,6 +58,7 @@ const Explore = ({
       controlsPosition="start"
       updateSlideState={updateMapState}
       slideState={mapState}
+      yearStep={1}
     >
       <ProjectList
         mapState={mapState}

@@ -29,6 +29,8 @@ const Slides = ({
   useEffect(() => {
     if (!layerSpec) return;
     if (mapState.subtype) prevSubypes[layer] = mapState.subtype;
+    let year = currentSlide.props.year || mapState.year;
+    if (mapState.view !== "projects") year = Math.floor(year / 10) * 10;
     updateMapState({
       group: selectValue(
         layerSpec.groups || [],
@@ -42,7 +44,7 @@ const Slides = ({
         (layerSpec.subtypes || []).length > 0
           ? prevSubypes[layerSpec.name] || layerSpec.subtypes[0]
           : null,
-      year: currentSlide.props.year || mapState.year,
+      year,
     });
 
     let project = projectMap[projectName];

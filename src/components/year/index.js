@@ -3,7 +3,7 @@ import style from "./style.css";
 
 import Tooltip from "../tooltip";
 
-const Year = ({ state, tooltip, updateState, years }) => {
+const Year = ({ state, step = 10, tooltip, updateState, years }) => {
   const handleInput = (e) => {
     const newYear = e.target.value;
     const hasNewYear = years.indexOf(newYear) !== -1;
@@ -32,7 +32,7 @@ const Year = ({ state, tooltip, updateState, years }) => {
         name="year"
         min="0"
         max="50"
-        step="1"
+        step={step}
         value={state.year}
         onInput={handleInput}
       />

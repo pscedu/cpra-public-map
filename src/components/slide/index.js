@@ -26,6 +26,7 @@ const Slide = ({
   slideState,
   tabTitle,
   title,
+  yearStep = 10,
 }) => {
   const [scenario, setScenario] = stateProp(
     "scenario",
@@ -45,6 +46,7 @@ const Slide = ({
       <Year
         updateState={updateSlideState}
         state={slideState}
+        step={yearStep}
         years={layerSpec.years}
         tooltip="The Louisiana Coastal Master Plan utilizes technical models to predict coastal land change and flood risk over a 50-year period. Use the slider below to view decadal model results from initial conditions to 50 years into the future."
       />
