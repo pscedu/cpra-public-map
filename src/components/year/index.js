@@ -17,15 +17,9 @@ const Year = ({ state, step = 10, tooltip, updateState, years }) => {
     if (yearTimeout) clearTimeout(yearTimeout);
     yearTimeout = setTimeout(
       () =>
-        gtag("event", "select_item", {
-          item_list_id: "year",
-          item_list_name: "Year",
-          items: [
-            {
-              item_id: newYear,
-              item_name: newYear,
-            },
-          ],
+        gtag("event", "set_control_value", {
+          control_id: "year",
+          control_value: newYear,
         }),
       1000
     );
