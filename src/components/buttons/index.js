@@ -25,15 +25,9 @@ const Buttons = ({
       onClick={() => {
         if (!disabled) {
           setValue(buttonValue);
-          gtag("event", "select_item", {
-            item_list_id: analyticsId,
-            item_list_name: label,
-            items: [
-              {
-                item_id: buttonValue,
-                item_name: buttonLabel,
-              },
-            ],
+          gtag("event", "set_control_value", {
+            control_id: analyticsId,
+            control_value: buttonValue,
           });
         }
       }}
