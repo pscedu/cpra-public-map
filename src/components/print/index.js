@@ -89,6 +89,17 @@ const Print = ({
             <p class={style.primary}>{addLineBreaks(titles.primary)}</p>
             <p class={style.secondary}>{addLineBreaks(titles.secondary)}</p>
           </div>,
+          <img
+            key="logo"
+            class={style.logo}
+            src="/assets/images/logo.png"
+            alt="Costal Protection and Restoration Authority"
+            style={{
+              bottom: `${margin}px`,
+              height: (0.5 * height) / 8.5,
+              right: `${margin}px`,
+            }}
+          />,
         ]}
       </div>
       <div class={style.buttons}>

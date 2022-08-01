@@ -21,6 +21,9 @@
   line-height: 1.1;
   margin: 0;
 }
+.logo {
+  position: absolute;
+}
 .buttons {
   display: flex;
   flex-direction: row;

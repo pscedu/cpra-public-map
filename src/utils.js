@@ -65,6 +65,20 @@ export function gtag() {
 export const normalizeText = (text) =>
   text.toLowerCase().replace(/[^a-z0-9 ]/g, "");
 
+const drawLogo = (canvas, logoImage, margin = 0.5) => {
+  const ctx = canvas.getContext("2d");
+  const dpi = canvas.width / 11;
+  const targetWidth = dpi * 0.5;
+  const targetHeight = (logoImage.height * targetWidth) / logoImage.width;
+  ctx.drawImage(
+    logoImage,
+    canvas.width - dpi * margin - targetWidth,
+    canvas.height - dpi * margin - targetHeight,
+    targetWidth,
+    targetHeight
+  );
+};
+
 const drawText = ({
   ctx,
   text,
@@ -128,7 +142,39 @@ const drawTitles = (glCanvas, titles, margin = 0.5) => {
   return canvas;
 };
 
-export const mapToImage = ({
+const loadImage = (url) => {
+  const img = new Image();
+  return new Promise((resolve) => {
+    img.onload = () => resolve(img);
+    img.src = url;
+  });
+};
+
+const loadPrintMap = (style, bounds, width, height) => {
+  return new Promise((resolve) => {
+    let container = document.createElement("div");
+    container.style.height = `${height}px`;
+    container.style.left = "-9999px";
+    container.style.position = "absolute";
+    container.style.top = "-9999px";
+    container.style.width = `${width}px`;
+    document.body.appendChild(container);
+
+    // eslint-disable-next-line no-undef
+    let map = new maplibregl.Map({
+      bounds,
+      container,
+      fadeDuration: 0,
+      interactive: false,
+      preserveDrawingBuffer: true,
+      style,
+    });
+
+    map.on("load", () => resolve(map));
+  });
+};
+
+export const mapToImage = async ({
   style,
   bounds,
   width,
@@ -161,30 +207,15 @@ export const mapToImage = ({
     }
   });
 
-  return new Promise((resolve) => {
-    let container = document.createElement("div");
-    container.style.height = `${height}px`;
-    container.style.left = "-9999px";
-    container.style.position = "absolute";
-    container.style.top = "-9999px";
-    container.style.width = `${width}px`;
-    document.body.appendChild(container);
-
-    // eslint-disable-next-line no-undef
-    let map = new maplibregl.Map({
-      bounds,
-      container,
-      fadeDuration: 0,
-      interactive: false,
-      preserveDrawingBuffer: true,
-      style,
-    });
-
-    map.on("load", () => {
-      const canvas = drawTitles(map.getCanvas(), titles);
-      resolve(canvas.toDataURL());
-      map.remove();
-      document.body.removeChild(container);
-    });
-  });
+  const [map, logoImage] = await Promise.all([
+    loadPrintMap(style, bounds, width, height),
+    loadImage("/assets/images/logo.png"),
+  ]);
+  const canvas = drawTitles(map.getCanvas(), titles);
+  drawLogo(canvas, logoImage);
+  const dataUrl = canvas.toDataURL();
+  const container = map.getContainer();
+  map.remove();
+  document.body.removeChild(container);
+  return dataUrl;
 };
