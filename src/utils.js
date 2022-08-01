@@ -130,14 +130,12 @@ const drawTitles = (glCanvas, titles, margin = 0.5) => {
       text: title.toUpperCase(),
     });
 
-  let y = lines.reduce(
-    (y, line) => y - line.fontSize * line.lineHeight,
-    canvas.height - dpi * margin
-  );
-  for (let line of lines) {
+  lines.reverse();
+  let y = canvas.height - dpi * margin;
+  lines.forEach((line, i) => {
+    if (i > 0) y -= line.fontSize * line.lineHeight;
     drawText({ ...line, y });
-    y += line.fontSize * line.lineHeight;
-  }
+  });
 
   return canvas;
 };
