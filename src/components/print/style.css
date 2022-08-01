@@ -9,16 +9,16 @@
   color: #005371;
   text-transform: uppercase;
   position: absolute;
-  bottom: 25px;
-  left: 50px;
 }
 .primary {
   font-weight: bold;
-  font-size: 1.5rem;
-  margin: 0 0 0.2rem;
+  font-size: 150%;
+  line-height: 1.1;
+  margin: 0 0 0.2em;
 }
 .secondary {
-  font-size: 0.9rem;
+  font-size: 100%;
+  line-height: 1.1;
   margin: 0;
 }
 .buttons {

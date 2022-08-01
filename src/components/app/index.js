@@ -144,7 +144,14 @@ const App = () => {
         websiteUrl={config.websiteUrl}
       />
       {printing ? null : <Watermark>DRAFT</Watermark>}
-      <Print printing={printing} setPrinting={setPrinting} map={map}>
+      <Print
+        layer={layer}
+        map={map}
+        mapState={mapState}
+        printing={printing}
+        printText={config.printText}
+        setPrinting={setPrinting}
+      >
         {printing ? null : <Legend legends={config.legends} layer={layer} />}
         <Map
           {...{

@@ -151,3 +151,17 @@ export const mapDefaults = {
     left: 50,
   },
 };
+export const printText = {
+  group: {
+    G500: "Future Without Action",
+    G603: "Future With Action",
+  },
+  layer: {
+    "Land Change": "Land Change from Initial Conditions",
+    Projects: "Candidate Projects",
+  },
+  scenario: {
+    S07: "Lower Project Selection Scenario",
+    S08: "Higher Project Selection Scenario",
+  },
+};

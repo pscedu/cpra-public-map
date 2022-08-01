@@ -65,7 +65,77 @@ export function gtag() {
 export const normalizeText = (text) =>
   text.toLowerCase().replace(/[^a-z0-9 ]/g, "");
 
-export const mapToImage = (style, bounds, width, height, scaleFactor) => {
+const drawText = ({
+  ctx,
+  text,
+  fontFamily,
+  fontSize,
+  fontWeight,
+  color,
+  x,
+  y,
+}) => {
+  ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
+  ctx.fillStyle = color;
+  ctx.fillText(text, x, y);
+};
+
+const drawTitles = (glCanvas, titles, margin = 0.5) => {
+  const canvas = document.createElement("canvas");
+  canvas.height = glCanvas.height;
+  canvas.width = glCanvas.width;
+
+  const ctx = canvas.getContext("2d");
+  const dpi = canvas.width / 11;
+  const options = {
+    color: "#005371",
+    ctx,
+    fontFamily: "Verdana, Geneva, Tahoma, sans-serif",
+    x: margin * dpi,
+  };
+
+  // Copy map image to 2D canvas.
+  ctx.drawImage(glCanvas, 0, 0);
+
+  const lines = [];
+  for (let title of titles.primary)
+    lines.push({
+      ...options,
+      fontSize: (18 * dpi) / 72,
+      fontWeight: "bold",
+      lineHeight: 1.1,
+      text: title.toUpperCase(),
+    });
+
+  for (let title of titles.secondary)
+    lines.push({
+      ...options,
+      fontSize: (12 * dpi) / 72,
+      fontWeight: "normal",
+      lineHeight: 1.1,
+      text: title.toUpperCase(),
+    });
+
+  let y = lines.reduce(
+    (y, line) => y - line.fontSize * line.lineHeight,
+    canvas.height - dpi * margin
+  );
+  for (let line of lines) {
+    drawText({ ...line, y });
+    y += line.fontSize * line.lineHeight;
+  }
+
+  return canvas;
+};
+
+export const mapToImage = ({
+  style,
+  bounds,
+  width,
+  height,
+  scaleFactor,
+  titles,
+}) => {
   style.layers.forEach((layer) => {
     if (layer.type === "raster") {
       layer.paint = layer.paint || {};
@@ -111,7 +181,8 @@ export const mapToImage = (style, bounds, width, height, scaleFactor) => {
     });
 
     map.on("load", () => {
-      resolve(map.getCanvas().toDataURL());
+      const canvas = drawTitles(map.getCanvas(), titles);
+      resolve(canvas.toDataURL());
       map.remove();
       document.body.removeChild(container);
     });

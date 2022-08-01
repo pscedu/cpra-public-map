@@ -17,20 +17,47 @@ function getDimensions() {
   return [Math.min(vhw, vww), Math.min(vhh, vwh)];
 }
 
-const Print = ({ children, map, printing, setPrinting }) => {
+function addLineBreaks(values) {
+  return values.map((value, i) => [
+    value,
+    i === values.length - 1 ? null : <br />,
+  ]);
+}
+
+const Print = ({
+  children,
+  layer,
+  map,
+  mapState,
+  printing,
+  printText,
+  setPrinting,
+}) => {
   const [initialWidth, initialHeight] = getDimensions();
   const [height, setHeight] = useState(initialHeight);
   const [width, setWidth] = useState(initialWidth);
 
+  const titles = {
+    primary: [
+      "2023 Coastal Master Plan",
+      `${printText.group[mapState.group]} - Draft`,
+    ],
+    secondary: [
+      `${printText.layer[layer] || layer} - Year ${mapState.year}`,
+      `${printText.scenario[mapState.scenario]} - ${mapState.scenario}`,
+    ],
+  };
+
   const print = async () => {
     let dpi = 150;
-    let imageUrl = await mapToImage(
-      map.getStyle(),
-      map.getBounds(),
-      11 * dpi,
-      8.5 * dpi,
-      (11 * dpi) / width
-    );
+    let imageUrl = await mapToImage({
+      style: map.getStyle(),
+      bounds: map.getBounds(),
+      width: 11 * dpi,
+      height: 8.5 * dpi,
+      scaleFactor: (11 * dpi) / width,
+      titles,
+    });
     window.open(imageUrl);
   };
 
@@ -43,23 +70,25 @@ const Print = ({ children, map, printing, setPrinting }) => {
     });
   }, []);
 
+  const margin = (0.5 * height) / 8.5;
+
   return printing ? (
     <div class={style.print}>
       <div class={style.page} style={{ height, width }}>
         {[
           children,
-          // <div class={style.label} key="print-title">
-          //   <p class={style.primary}>
-          //     2023 Coastal Master Plan
-          //     <br />
-          //     Future Without Action - Draft
-          //   </p>
-          //   <p class={style.secondary}>
-          //     Land Change from Initial Conditions - Year 50
-          //     <br />
-          //     Higher Project Selection Scenario - S08
-          //   </p>
-          // </div>,
+          <div
+            class={style.label}
+            key="print-title"
+            style={{
+              fontSize: `${(12 * height) / 8.5 / 72}px`,
+              left: `${margin}px`,
+              bottom: `${margin}px`,
+            }}
+          >
+            <p class={style.primary}>{addLineBreaks(titles.primary)}</p>
+            <p class={style.secondary}>{addLineBreaks(titles.secondary)}</p>
+          </div>,
         ]}
       </div>
       <div class={style.buttons}>
