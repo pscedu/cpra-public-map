@@ -1,3 +1,9 @@
+const colorSwatch = (color) =>
+  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' " +
+  `width='50' height='20'><rect fill='${color.replace(
+    "#",
+    "%23"
+  )}' x='0' y='0' height='20' width='50' /></svg>`;
 export const servicesUrl = "https://tiles.mpdv-23.bridges2.psc.edu/services";
 export const projectListUrl = "/projects.csv";
 export const geocodeUrl = "https://mpdv-23.bridges2.psc.edu/nominatim/search";
@@ -35,7 +41,7 @@ export const projectTypeDescriptions = {
 };
 export const legends = {
   "Flood Depth": {
-    colors: [
+    images: [
       "#728D97",
       "#73B7EA",
       "#99D9A7",
@@ -43,7 +49,7 @@ export const legends = {
       "#E9B023",
       "#E56524",
       "#B73865",
-    ],
+    ].map(colorSwatch),
     labels: [
       "1 to < 4 feet",
       "4 to < 7 feet",
@@ -55,11 +61,22 @@ export const legends = {
     ],
   },
   "Land Change": {
-    colors: ["#4591ac", "#265118"],
+    images: ["#4591ac", "#265118"].map(colorSwatch),
     labels: ["Land Loss", "Land Gain"],
   },
   Projects: {
-    classes: ["di", "hr", "sr", "bs", "bh", "or", "rr", "sp", "lb", "mc"],
+    images: [
+      "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='20'><line x1='0' y1='10' x2='50' y2='10' stroke='%23ED6731' stroke-width='5' stroke-dasharray='9 4' /><circle fill='white' stroke='%23ED6731' stroke-width='4' cx='25' cy='10' r='6'/></svg>",
+      "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='20'><line x1='0' y1='10' x2='50' y2='10' stroke='%231DBEF0' stroke-width='5' stroke-dasharray='9 4' /><circle fill='white' stroke='%231DBEF0' stroke-width='4' cx='25' cy='10' r='6'/></svg>",
+      "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='20'><line x1='0' y1='10' x2='50' y2='10' stroke='%23404042' stroke-width='3' /><rect fill='white' stroke='%23404042' stroke-width='1' x='21' y='6' height='8' width='8' /></svg>",
+      "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='20'><line x1='0' y1='10' x2='50' y2='10' stroke='%23D9A73B' stroke-width='3' /></svg>",
+      "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='20'><line x1='0' y1='10' x2='50' y2='10' stroke='%23A2E3DF' stroke-width='3' /></svg>",
+      "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='20'><line x1='0' y1='10' x2='50' y2='10' stroke='%23EDA482' stroke-width='3' /></svg>",
+      "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='20'><line x1='0' y1='10' x2='50' y2='10' stroke='%231C4E7F' stroke-width='2' /></svg>",
+      "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='20'><line x1='0' y1='10' x2='50' y2='10' stroke='%2319A598' stroke-width='4' /></svg>",
+      colorSwatch("#5c913a"),
+      "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='20'><rect fill='%23e8ee9c' x='0' y='0' height='20' width='50' /><circle fill='%2394b147' stroke-width='4' cx='0' cy='0' r='3.5'/><circle fill='%2394b147' stroke-width='4' cx='20' cy='0' r='3.5'/><circle fill='%2394b147' stroke-width='4' cx='40' cy='0' r='3.5'/><circle fill='%2394b147' stroke-width='4' cx='10' cy='10' r='3.5'/><circle fill='%2394b147' stroke-width='4' cx='30' cy='10' r='3.5'/><circle fill='%2394b147' stroke-width='4' cx='50' cy='10' r='3.5'/><circle fill='%2394b147' stroke-width='4' cx='0' cy='20' r='3.5'/><circle fill='%2394b147' stroke-width='4' cx='20' cy='20' r='3.5'/><circle fill='%2394b147' stroke-width='4' cx='40' cy='20' r='3.5'/></svg>",
+    ],
     labels: [
       "Diversion",
       "Hydrologic Restoration",
@@ -86,7 +103,9 @@ export const legends = {
     ],
   },
   "Vegetation Type": {
-    colors: ["#5E823A", "#DAE86D", "#92CBE8", "#735753", "#0679D2"],
+    images: ["#5E823A", "#DAE86D", "#92CBE8", "#735753", "#0679D2"].map(
+      colorSwatch
+    ),
     labels: [
       "Fresh Forest",
       "Fresh Marsh",
