@@ -15,7 +15,6 @@ import Drawer from "../drawer";
 import Explore from "../explore";
 import Header from "../header";
 import Intro from "../intro";
-import Legend from "../legend";
 import Map from "../map";
 import Print from "../print";
 import Story from "../story";
@@ -146,13 +145,13 @@ const App = () => {
       {printing ? null : <Watermark>DRAFT</Watermark>}
       <Print
         layer={layer}
+        legends={config.legends}
         map={map}
         mapState={mapState}
         printing={printing}
         printText={config.printText}
         setPrinting={setPrinting}
       >
-        {printing ? null : <Legend legends={config.legends} layer={layer} />}
         <Map
           {...{
             layer,

@@ -1,20 +1,27 @@
 .legend {
-  background-color: white;
   bottom: 50px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0 0 4px;
   margin: 0;
   min-width: 10%;
-  padding: 10px 15px;
   position: absolute;
   right: 10px;
   z-index: 50;
 }
+.legend-inner {
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0 4px;
+  min-width: 10%;
+  padding: 1em 1.5em;
+}
 .legend-projects {
   display: none;
 }
+.legend-printing {
+  display: block;
+  bottom: auto;
+}
 .legend h2 {
   color: black;
-  font-size: 0.8rem;
+  font-size: 0.8em;
   font-weight: 400;
 }
 .legend ul {
@@ -22,16 +29,17 @@
 }
 .legend-item {
   list-style-type: none;
-  margin: 4px 0;
+  margin: 0.35em 0;
   padding: 0;
   white-space: nowrap;
 }
 .label {
   color: #666666;
-  font-size: 0.8rem;
+  font-size: 0.8em;
   text-transform: uppercase;
 }
 .symbol {
+  background-position: center;
   display: inline-block;
   height: 15px;
   margin: 0 10px 0 0;
@@ -39,20 +47,24 @@
   vertical-align: middle;
   width: 50px;
 }
+.legend-printing .symbol {
+  background-size: contain;
+  height: 1.6em;
+  width: 4em;
+}
 @media (min-width: 700px) {
   .legend {
     right: 20px;
   }
 }
 @media (min-width: 1000px) {
-  .legend {
+  .legend-interactive {
     right: 100px;
-    padding: 20px 30px;
   }
-  .legend-item {
+  .legend-interactive .legend-item {
     margin: 7px 0;
   }
-  .symbol {
+  .legend-interactive .symbol {
     height: 20px;
   }
 }

@@ -14,15 +14,29 @@ const getItems = (legend) =>
     );
   });
 
-const Legend = ({ legends, layer }) => {
+const Legend = ({ dpi, legends, layer, margin, printing }) => {
   const content = [];
-  const cssClass = style[`legend-${layer.replace(" ", "-").toLowerCase()}`];
+  const layerClass = style[`legend-${layer.replace(" ", "-").toLowerCase()}`];
+  const printingClass =
+    style[`legend-${printing ? "printing" : "interactive"}`];
+  const inlineStyle = !printing
+    ? {}
+    : {
+        fontSize: `${(dpi * 8) / 72}px`,
+        right: `${margin}px`,
+        top: `${margin}px`,
+      };
 
   if (layer && legends[layer])
     content.push(<h2>{layer}</h2>, <ul>{getItems(legends[layer])}</ul>);
 
   return content.length ? (
-    <section class={`${style.legend} ${cssClass}`}>{content}</section>
+    <section
+      class={`${style.legend} ${layerClass} ${printingClass}`}
+      style={inlineStyle}
+    >
+      <div class={style["legend-inner"]}>{content}</div>
+    </section>
   ) : null;
 };
 

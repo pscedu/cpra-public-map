@@ -1,8 +1,10 @@
 import { h } from "preact";
 import { useEffect, useState } from "preact/hooks";
 import { fireEvent, mapToImage } from "../../utils";
-import ActionButton from "../action-button";
 import style from "./style.css";
+
+import ActionButton from "../action-button";
+import Legend from "../legend";
 
 const hPadding = 200,
   wPadding = 100;
@@ -27,6 +29,7 @@ function addLineBreaks(values) {
 const Print = ({
   children,
   layer,
+  legends,
   map,
   mapState,
   printing,
@@ -55,6 +58,7 @@ const Print = ({
       bounds: map.getBounds(),
       width: 11 * dpi,
       height: 8.5 * dpi,
+      dpi,
       scaleFactor: (11 * dpi) / width,
       titles,
     });
@@ -70,18 +74,29 @@ const Print = ({
     });
   }, []);
 
-  const margin = (0.5 * height) / 8.5;
+  const dpi = height / 8.5;
+  const margin = 0.5 * dpi;
+  const legend = (
+    <Legend
+      dpi={dpi}
+      legends={legends}
+      layer={layer}
+      margin={margin}
+      printing={printing}
+    />
+  );
 
   return printing ? (
     <div class={style.print}>
       <div class={style.page} style={{ height, width }}>
         {[
+          legend,
           children,
           <div
             class={style.label}
             key="print-title"
             style={{
-              fontSize: `${(12 * height) / 8.5 / 72}px`,
+              fontSize: `${(12 * dpi) / 72}px`,
               left: `${margin}px`,
               bottom: `${margin}px`,
             }}
@@ -96,7 +111,7 @@ const Print = ({
             alt="Costal Protection and Restoration Authority"
             style={{
               bottom: `${margin}px`,
-              height: (0.5 * height) / 8.5,
+              height: 0.5 * dpi,
               right: `${margin}px`,
             }}
           />,
@@ -112,7 +127,7 @@ const Print = ({
       </div>
     </div>
   ) : (
-    children
+    [legend, children]
   );
 };
 

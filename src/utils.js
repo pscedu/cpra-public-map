@@ -65,9 +65,8 @@ export function gtag() {
 export const normalizeText = (text) =>
   text.toLowerCase().replace(/[^a-z0-9 ]/g, "");
 
-const drawLogo = (canvas, logoImage, margin = 0.5) => {
+const drawLogo = (canvas, dpi, logoImage, margin = 0.5) => {
   const ctx = canvas.getContext("2d");
-  const dpi = canvas.width / 11;
   const targetWidth = dpi * 0.5;
   const targetHeight = (logoImage.height * targetWidth) / logoImage.width;
   ctx.drawImage(
@@ -94,13 +93,12 @@ const drawText = ({
   ctx.fillText(text, x, y);
 };
 
-const drawTitles = (glCanvas, titles, margin = 0.5) => {
+const drawTitles = (glCanvas, dpi, titles, margin = 0.5) => {
   const canvas = document.createElement("canvas");
   canvas.height = glCanvas.height;
   canvas.width = glCanvas.width;
 
   const ctx = canvas.getContext("2d");
-  const dpi = canvas.width / 11;
   const options = {
     color: "#005371",
     ctx,
@@ -175,6 +173,7 @@ const loadPrintMap = (style, bounds, width, height) => {
 export const mapToImage = async ({
   style,
   bounds,
+  dpi,
   width,
   height,
   scaleFactor,
@@ -209,8 +208,8 @@ export const mapToImage = async ({
     loadPrintMap(style, bounds, width, height),
     loadImage("/assets/images/logo.png"),
   ]);
-  const canvas = drawTitles(map.getCanvas(), titles);
-  drawLogo(canvas, logoImage);
+  const canvas = drawTitles(map.getCanvas(), dpi, titles);
+  drawLogo(canvas, dpi, logoImage);
   const dataUrl = canvas.toDataURL();
   const container = map.getContainer();
   map.remove();
