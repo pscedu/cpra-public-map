@@ -65,6 +65,26 @@ export function gtag() {
 export const normalizeText = (text) =>
   text.toLowerCase().replace(/[^a-z0-9 ]/g, "");
 
+const drawLegend = (canvas, dpi, legend, margin = 0.5) => {
+  if (!legend) return;
+  const ctx = canvas.getContext("2d");
+  let y = margin * dpi;
+  let x = margin * dpi;
+  let width = 0;
+  let labelStyle = {
+    ctx,
+    fontFamily: "Helvetica Neue,arial,sans-serif",
+    fontSize: (8 * dpi) / 72,
+    fontWeight: "normal",
+    lineHeight: 1.35,
+  };
+  legend.labels.forEach((label) => {
+    width = Math.max(width, textWidth({ ...labelStyle, text: label }));
+  });
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(x + width, y, width, 100);
+};
+
 const drawLogo = (canvas, dpi, logoImage, margin = 0.5) => {
   const ctx = canvas.getContext("2d");
   const targetWidth = dpi * 0.5;
@@ -91,6 +111,11 @@ const drawText = ({
   ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
   ctx.fillStyle = color;
   ctx.fillText(text, x, y);
+};
+
+const textWidth = ({ ctx, text, fontFamily, fontSize, fontWeight }) => {
+  ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
+  return ctx.measureText(text).width;
 };
 
 const drawTitles = (glCanvas, dpi, titles, margin = 0.5) => {
@@ -174,6 +199,7 @@ export const mapToImage = async ({
   style,
   bounds,
   dpi,
+  legend,
   width,
   height,
   scaleFactor,
@@ -210,6 +236,7 @@ export const mapToImage = async ({
   ]);
   const canvas = drawTitles(map.getCanvas(), dpi, titles);
   drawLogo(canvas, dpi, logoImage);
+  drawLegend(canvas, dpi, legend);
   const dataUrl = canvas.toDataURL();
   const container = map.getContainer();
   map.remove();

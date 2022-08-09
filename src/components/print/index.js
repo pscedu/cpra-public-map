@@ -58,6 +58,7 @@ const Print = ({
       bounds: map.getBounds(),
       width: 11 * dpi,
       height: 8.5 * dpi,
+      legend: legends[layer],
       dpi,
       scaleFactor: (11 * dpi) / width,
       titles,
