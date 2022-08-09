@@ -25,7 +25,7 @@ const Story = ({
       currentIdx={slide}
       layer={layer}
       mapState={mapState}
-      navigation="dots"
+      navigation="tabs"
       projectMap={projectMap}
       setCurrentIdx={setSlide}
       updateMapState={updateMapState}
@@ -34,6 +34,7 @@ const Story = ({
         updateSlideState={updateMapState}
         slideState={mapState}
         layerSpec={layers["Projects"]}
+        title="Introduction"
       >
         <p>
           Louisiana's complex and fragile ecosystem is disappearing at an
@@ -61,6 +62,7 @@ const Story = ({
         slideState={mapState}
         scenario="S08"
         year="0"
+        title="Vegetation Type"
       >
         <p>
           One major challenge in parts of coastal Louisiana is the inland
@@ -84,6 +86,7 @@ const Story = ({
         slideState={mapState}
         scenario="S07"
         year="50"
+        title="Land Change"
       >
         <p>
           The combination of sea level rise, land subsidence, and other
@@ -109,6 +112,7 @@ const Story = ({
         scenario="S07"
         year="50"
         footer={aepGraphic}
+        title="Flood Depth"
       >
         <p>
           Coastal Louisiana experiences a wide range of storm intensities, from
@@ -128,6 +132,7 @@ const Story = ({
         layerSpec={layers["Projects"]}
         updateSlideState={updateMapState}
         slideState={mapState}
+        title="Projects"
       >
         <p>
           Restoration and flood risk reduction projects are key to addressing
@@ -153,6 +158,7 @@ const Story = ({
         layerSpec={layers["Projects"]}
         updateSlideState={updateMapState}
         slideState={mapState}
+        title="Next Steps"
       >
         <p>
           Use the map navigation features to learn more about 2023 Coastal

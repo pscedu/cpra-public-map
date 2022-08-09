@@ -1,9 +1,19 @@
 .slide-navigation {
   background-color: white;
+  width: 100%;
+}
+.nav-type-arrows {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .arrow {
-  position: absolute;
-  top: 50%;
+  background-color: transparent;
+  border: 0 none transparent;
+  color: #999999;
+  cursor: pointer;
+  font-size: 3rem;
+  margin: 0 0.75rem;
 }
 .prev {
   left: 15px;
@@ -11,22 +21,9 @@
 .next {
   right: 15px;
 }
-.bubble {
-  background-color: #274d36;
-  border: 0 none transparent;
-  border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.25) 0 0 8px;
-  color: white;
-  cursor: pointer;
-  display: inline-block;
-  font-size: 30px;
-  line-height: 36px;
-  padding: 2px 5px 8px;
-  text-decoration: none;
-  vertical-align: middle;
-}
 button.disabled {
-  background-color: #5c7967;
+  color: #dddddd;
+  cursor: inherit;
 }
 li,
 ul {
@@ -34,42 +31,7 @@ ul {
   margin: 0;
   padding: 0;
 }
-.nav-type-dots {
-  border-top: 1px solid #cccccc;
-  margin: 0;
-  padding: 20px 0;
-}
-.nav-type-dots ul {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-.nav-type-dots li {
-  padding: 0 8px;
-}
-.nav-type-dots nav button {
-  background-color: #d7d7d7;
-  border: 1px solid #bbbbbb;
-  border-radius: 7px;
-  cursor: pointer;
-  height: 14px;
-  width: 14px;
-}
-.nav-type-dots nav .active button {
-  border-color: #242424;
-  background-color: #3c3c3c;
-}
-.nav-type-dots nav button span {
-  border: 0 !important;
-  height: 1px !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  padding: 0 !important;
-  position: absolute !important;
-  width: 1px !important;
-}
 .nav-type-tabs ul {
-  border-top: 1px solid #274d36;
   display: flex;
   width: 100;
 }
@@ -77,8 +39,9 @@ ul {
 .nav-type-tabs ul button {
   display: block;
   font-size: 0.9rem;
-  text-align: center;
+  font-weight: 700;
   text-decoration: none;
+  text-transform: uppercase;
   width: 100%;
 }
 .nav-type-tabs ul li {
@@ -89,8 +52,8 @@ ul {
   border: 0 none transparent;
   color: #274d36;
   cursor: pointer;
-  text-align: center;
   padding: 15px;
+  text-align: left;
 }
 .nav-type-tabs ul li:first-child {
   border-left: 0 none transparent;
@@ -100,7 +63,6 @@ ul {
 }
 .nav-type-tabs .active button {
   color: white;
-  font-weight: 700;
 }
 .nav-type-tabs ion-icon {
   float: none;
@@ -108,11 +70,5 @@ ul {
   text-align: center;
 }
 .nav-type-tabs .inner {
-  display: none;
   margin-top: 5px;
-}
-@media (min-height: 600px) {
-  .nav-type-tabs .inner {
-    display: block;
-  }
 }

@@ -1,3 +1,6 @@
+:root {
+  --mpdv-app-margin: 50px;
+}
 html,
 body {
   -moz-osx-font-smoothing: grayscale;

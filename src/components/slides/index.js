@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { useEffect } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import style from "./style.css";
 
 import SlideNavigation from "../slide-navigation";
@@ -11,7 +11,6 @@ const selectValue = (values, currentValue) => {
 };
 
 const Slides = ({
-  arrows,
   children,
   cssClass,
   layer,
@@ -22,6 +21,7 @@ const Slides = ({
   currentIdx,
   setCurrentIdx,
 }) => {
+  const [drawerOpen, setDrawerOpen] = useState(true);
   const slides = Array.isArray(children) ? children : [children];
   let currentSlide = slides[currentIdx];
 
@@ -52,25 +52,43 @@ const Slides = ({
   }, [currentIdx]);
 
   return (
-    <div class={`${style.slides} ${cssClass || ""}`}>
-      <div
-        class={style.strip}
-        style={{
-          left: `-${currentIdx * 100}%`,
-          width: `${slides.length * 100}%`,
-        }}
-      >
-        {slides}
-      </div>
-      {slides.length > 1 ? (
+    <div
+      class={`${style.slides} ${cssClass || ""} ${
+        style[drawerOpen ? "open" : "closed"]
+      }`}
+    >
+      <div class={style.header}>
         <SlideNavigation
-          arrows={arrows}
           currentIdx={currentIdx}
-          navigationType={navigation}
+          navigationType="tabs"
           slides={slides}
           setCurrentIdx={setCurrentIdx}
         />
-      ) : null}
+        <button class={style.handle} onClick={() => setDrawerOpen(!drawerOpen)}>
+          <span class="sr-only">{drawerOpen ? "Close" : "Open"}</span>
+        </button>
+      </div>
+      {drawerOpen
+        ? [
+            <div
+              key="strip"
+              class={style.strip}
+              style={{
+                left: `-${currentIdx * 100}%`,
+                width: `${slides.length * 100}%`,
+              }}
+            >
+              {slides}
+            </div>,
+            <SlideNavigation
+              key="arrows"
+              currentIdx={currentIdx}
+              navigationType="arrows"
+              slides={slides}
+              setCurrentIdx={setCurrentIdx}
+            />,
+          ]
+        : null}
     </div>
   );
 };

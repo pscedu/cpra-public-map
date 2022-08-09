@@ -11,7 +11,6 @@ import {
   useServices,
 } from "./hooks";
 
-import Drawer from "../drawer";
 import Explore from "../explore";
 import Header from "../header";
 import Intro from "../intro";
@@ -167,11 +166,7 @@ const App = () => {
           }}
         />
       </Print>
-      {!printing ? (
-        <Drawer title={drawerTitle} open={true}>
-          {drawerContent}
-        </Drawer>
-      ) : null}
+      {!printing ? drawerContent : null}
     </div>
   );
 };
