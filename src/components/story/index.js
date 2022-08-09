@@ -25,7 +25,6 @@ const Story = ({
       currentIdx={slide}
       layer={layer}
       mapState={mapState}
-      navigation="tabs"
       projectMap={projectMap}
       setCurrentIdx={setSlide}
       updateMapState={updateMapState}

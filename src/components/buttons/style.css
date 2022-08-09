@@ -14,6 +14,7 @@
   justify-content: center;
   line-height: 1.5rem;
   padding: 5px 15px;
+  text-transform: uppercase;
   width: 100%;
 }
 .button:disabled {

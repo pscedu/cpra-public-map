@@ -15,7 +15,6 @@ const Slides = ({
   cssClass,
   layer,
   mapState,
-  navigation,
   projectMap,
   updateMapState,
   currentIdx,

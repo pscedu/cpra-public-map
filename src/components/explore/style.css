@@ -12,7 +12,7 @@
 .close-button::before {
   content: "\2716";
 }
-@media (min-width: 700px) {
+@media (min-width: 1000px) {
   .model-slide {
     align-items: stretch;
     display: flex;

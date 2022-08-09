@@ -3,7 +3,7 @@
   margin: 0;
   min-width: 10%;
   position: absolute;
-  right: 10px;
+  right: calc(50px + var(--mpdv-app-margin));
   z-index: 50;
 }
 .legend-inner {
@@ -53,14 +53,11 @@
   width: 4em;
 }
 @media (min-width: 700px) {
-  .legend {
-    right: 20px;
+  .legend-interactive {
+    bottom: var(--mpdv-app-margin);
   }
 }
 @media (min-width: 1000px) {
-  .legend-interactive {
-    right: 100px;
-  }
   .legend-interactive .legend-item {
     margin: 7px 0;
   }

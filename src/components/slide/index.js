@@ -57,8 +57,8 @@ const Slide = ({
       <Buttons
         analyticsId="scenario"
         choices={[
-          ["S07", "Lower", "partly-sunny"],
-          ["S08", "Higher", "rainy"],
+          ["S07", "Lower"],
+          ["S08", "Higher"],
         ]}
         label="Environmental Scenario"
         value={scenario}
@@ -72,8 +72,8 @@ const Slide = ({
       <Buttons
         analyticsId="group"
         choices={[
-          ["G500", "Without Further Action", "close"],
-          ["G603", "With 2023 Master Plan", "hammer"],
+          ["G500", "Without Further Action"],
+          ["G603", "With 2023 Master Plan"],
         ]}
         label="Project Implementation Scenario"
         value={group}

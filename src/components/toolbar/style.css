@@ -1,7 +1,7 @@
 .toolbar {
   background-color: #cccccc;
   bottom: 0;
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: flex-end;
   padding: 0 0 50px 0;
@@ -38,9 +38,4 @@
 }
 .mail {
   background-image: url("/assets/buttons/mail.png");
-}
-@media (min-width: 1000px) {
-  .toolbar {
-    display: flex;
-  }
 }

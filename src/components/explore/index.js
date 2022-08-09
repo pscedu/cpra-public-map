@@ -73,7 +73,6 @@ const Explore = ({
       currentIdx={currentIdx}
       layer={layer}
       mapState={mapState}
-      navigation="tabs"
       projectMap={projectMap}
       setCurrentIdx={setCurrentIdx}
       updateMapState={updateMapState}

@@ -1,14 +1,14 @@
 .slides {
-  bottom: var(--mpdv-app-margin);
+  bottom: 0;
   box-shadow: rgba(0, 0, 0, 0.25) 0 0 8px;
   display: flex;
   flex-direction: column;
-  left: var(--mpdv-app-margin);
+  left: 0;
   max-height: calc(100% - 100px);
   overflow-x: hidden;
   overflow-y: auto;
   position: absolute;
-  width: 50%;
+  right: 50px;
   z-index: 100;
 }
 .header {
@@ -63,4 +63,21 @@
   transform: rotate(-90deg);
   transform-origin: top left;
   width: 250px;
+}
+@media (min-width: 700px) {
+  .slides {
+    bottom: var(--mpdv-app-margin);
+    left: var(--mpdv-app-margin);
+    right: 30%;
+  }
+}
+@media (min-width: 1000px) {
+  .slides {
+    right: 40%;
+  }
+}
+@media (min-width: 1300px) {
+  .slides {
+    right: 50%;
+  }
 }

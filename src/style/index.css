@@ -1,5 +1,6 @@
 :root {
-  --mpdv-app-margin: 50px;
+  --mpdv-app-margin: 10px;
+  --mpdv-search-width: calc(100% - 70px);
 }
 html,
 body {
@@ -104,12 +105,25 @@ ion-icon {
   vertical-align: middle;
 }
 @media (min-width: 700px) {
+  :root {
+    --mpdv-app-margin: 20px;
+    --mpdv-search-width: 50%;
+  }
   html,
   body {
     font-size: 14px;
   }
 }
+@media (min-width: 1000px) {
+  :root {
+    --mpdv-app-margin: 50px;
+    --mpdv-search-width: 35%;
+  }
+}
 @media (min-width: 1600px) {
+  :root {
+    --mpdv-search-width: 25%;
+  }
   html,
   body {
     font-size: 16px;
