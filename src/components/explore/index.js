@@ -39,7 +39,7 @@ const Explore = ({
   };
 
   let projectsSlide = project ? (
-    <Slide tabTitle="Projects" layerSpec={layers["Projects"]} icon="cube">
+    <Slide tabTitle="Projects" layerSpec={layers["Projects"]}>
       <a class={style["close-button"]} href="#" onClick={clearProject}>
         <span class="sr-only">Close</span>
       </a>
