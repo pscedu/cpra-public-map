@@ -40,6 +40,12 @@ class Map extends Component {
 
     map.touchZoomRotate.disableRotation();
 
+    // eslint-disable-next-line no-undef
+    map.addControl(
+      new maplibregl.NavigationControl({ showCompass: false }),
+      "top-right"
+    );
+
     map.on("idle", () => {
       if (this.props.mapState.prevYear !== null)
         this.props.updateMapState({
@@ -101,8 +107,8 @@ class Map extends Component {
           bottom: 0,
           left: 0,
           position: "absolute",
-          right: 0,
-          top: 0,
+          right: "50px",
+          top: "47px",
         }}
       />
     );

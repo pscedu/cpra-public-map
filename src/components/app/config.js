@@ -165,7 +165,7 @@ export const mapDefaults = {
   bounds: [-93.845, 29.09, -89.175, 30.395],
   padding: {
     top: 50,
-    right: 100,
+    right: 50,
     bottom: 300,
     left: 50,
   },
