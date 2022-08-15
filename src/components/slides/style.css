@@ -16,10 +16,11 @@
   flex-direction: row;
 }
 .handle {
-  background-color: #274d36;
+  background-color: var(--mpdv-color-green-200);
   border: 0 none transparent;
+  border-left: 1px solid white;
   cursor: pointer;
-  color: white;
+  color: var(--mpdv-color-green-900);
   font-size: 1.4rem;
   text-align: center;
   width: 3rem;
@@ -36,33 +37,6 @@
   display: flex;
   flex-direction: row;
   position: relative;
-}
-.tab {
-  background-color: #54715f;
-  border: 0 none transparent;
-  margin: 0 3px 0 0;
-  position: relative;
-  text-decoration: none;
-  width: 40px;
-}
-.tab-active,
-.tab:hover,
-.tab:active {
-  background-color: #274d36;
-}
-.tab-inner {
-  color: white;
-  display: block;
-  font-size: 1rem;
-  font-weight: 700;
-  left: 10px;
-  position: relative;
-  text-align: left;
-  text-transform: uppercase;
-  top: 275px;
-  transform: rotate(-90deg);
-  transform-origin: top left;
-  width: 250px;
 }
 @media (min-width: 700px) {
   .slides {

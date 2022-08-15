@@ -39,7 +39,7 @@ const Explore = ({
   };
 
   let projectsSlide = project ? (
-    <Slide tabTitle="Projects" layerSpec={layers["Projects"]}>
+    <Slide tabTitle="Projects" layerSpec={layers["Projects"]} tabClass="green">
       <a class={style["close-button"]} href="#" onClick={clearProject}>
         <span class="sr-only">Close</span>
       </a>
@@ -58,6 +58,7 @@ const Explore = ({
       updateSlideState={updateMapState}
       slideState={mapState}
       yearStep={1}
+      tabClass="green"
     >
       <ProjectList
         mapState={mapState}

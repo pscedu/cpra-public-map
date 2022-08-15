@@ -1,6 +1,18 @@
 :root {
   --mpdv-app-margin: 10px;
   --mpdv-search-width: calc(100% - 70px);
+  --mpdv-color-primary: #284d36;
+  --mpdv-color-teal-200: #98cac8;
+  --mpdv-color-teal-500: #00847e;
+  --mpdv-color-teal-900: #083938;
+  --mpdv-color-green-200: #c6de89;
+  --mpdv-color-green-500: #607c37;
+  --mpdv-color-green-900: #3a421e;
+  --mpdv-color-gray-100: #f6f6f6;
+  --mpdv-color-gray-200: #ededee;
+  --mpdv-color-gray-500: #8a8c8e;
+  --mpdv-color-gray-600: #77787b;
+  --mpdv-color-gray-900: #414042;
 }
 html,
 body {

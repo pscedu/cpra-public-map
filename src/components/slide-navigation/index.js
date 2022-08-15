@@ -38,7 +38,9 @@ const SlideNavigation = ({
     const navItems = slides.map((slide, i) => (
       <li
         key={slide.props.id}
-        class={currentIdx == i ? style.active : style.inactive}
+        class={`${currentIdx == i ? style.active : style.inactive} ${
+          style[slide.props.tabClass] || "default"
+        }`}
       >
         <button onClick={() => setCurrentIdx(i)}>
           {slide.props.icon ? <ion-icon name={slide.props.icon} /> : null}

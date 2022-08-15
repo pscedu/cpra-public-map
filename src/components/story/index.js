@@ -132,6 +132,7 @@ const Story = ({
         updateSlideState={updateMapState}
         slideState={mapState}
         title="Projects"
+        tabClass="green"
       >
         <p>
           Restoration and flood risk reduction projects are key to addressing
@@ -158,6 +159,7 @@ const Story = ({
         updateSlideState={updateMapState}
         slideState={mapState}
         title="Next Steps"
+        tabClass="green"
       >
         <p>
           Use the map navigation features to learn more about 2023 Coastal
