@@ -52,6 +52,7 @@ ul {
   border: 0 none transparent;
   color: var(--mpdv-color-teal-900);
   cursor: pointer;
+  height: 100%;
   padding: 15px;
   text-align: left;
 }
