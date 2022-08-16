@@ -1,6 +1,7 @@
 .address-search {
   background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.15) 0 0 8px;
+  border: 1px solid var(--mpdv-color-gray-600);
+  border-radius: 3px;
   margin: 0;
   padding: 0;
   position: absolute;
@@ -11,7 +12,7 @@
 }
 .address-search input {
   border: 0 none transparent;
-  box-shadow: rgba(0, 0, 0, 0.15) 0 0 8px inset;
+  border-radius: 3px;
   font-size: 1rem;
   padding: 8px 60px 8px 30px;
   width: 100%;

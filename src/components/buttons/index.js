@@ -7,6 +7,7 @@ import Tooltip from "../tooltip";
 const Buttons = ({
   analyticsId,
   choices,
+  cssClass,
   disabled = false,
   help = null,
   label,
@@ -38,7 +39,7 @@ const Buttons = ({
   ));
 
   return (
-    <div class="input">
+    <div class={`input ${cssClass || "default"}`}>
       <label class="label">
         {label} {tooltip ? <Tooltip content={tooltip} /> : null}
       </label>

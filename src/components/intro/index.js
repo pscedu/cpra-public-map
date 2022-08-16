@@ -29,11 +29,7 @@ const Intro = ({ endTour, open, setOpen, startTour }) => {
               data viewer and the Master Plan process.
             </p>
             <p class={style.button}>
-              <ActionButton
-                icon="play"
-                action={tour}
-                cssClass={style["action-button"]}
-              >
+              <ActionButton action={tour} cssClass={style["action-button"]}>
                 Start Guided Tour
               </ActionButton>
             </p>
@@ -46,11 +42,7 @@ const Intro = ({ endTour, open, setOpen, startTour }) => {
               candidate projects and draft model results.
             </p>
             <p class={style.button}>
-              <ActionButton
-                icon="map"
-                action={explore}
-                cssClass={style["action-button"]}
-              >
+              <ActionButton action={explore} cssClass={style["action-button"]}>
                 Explore the Map
               </ActionButton>
             </p>

@@ -16,7 +16,7 @@
   max-width: 1200px;
 }
 .title {
-  background-color: #274d36;
+  background-color: var(--mpdv-color-primary);
   border: 0 none transparent;
   color: white;
   cursor: pointer;
