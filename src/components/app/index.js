@@ -153,6 +153,7 @@ const App = () => {
             mapDefaults: config.mapDefaults,
             map,
             mapState,
+            printing,
             projects,
             selection,
             services,

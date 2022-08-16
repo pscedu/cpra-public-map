@@ -107,8 +107,8 @@ class Map extends Component {
           bottom: 0,
           left: 0,
           position: "absolute",
-          right: "50px",
-          top: "47px",
+          right: this.props.printing ? 0 : "50px",
+          top: this.props.printing ? 0 : "47px",
         }}
       />
     );

@@ -119,6 +119,9 @@ ion-icon {
 .maplibregl-ctrl-top-right .maplibregl-ctrl {
   margin: 20px var(--mpdv-app-margin) 0 0;
 }
+.printing .maplibregl-ctrl-top-right {
+  display: none;
+}
 @media (min-width: 700px) {
   :root {
     --mpdv-app-margin: 20px;
