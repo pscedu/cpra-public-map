@@ -18,7 +18,6 @@ const stateProp = (propName, state = {}, updateState) => {
 const Slide = ({
   children,
   controls = [],
-  controlsPosition = "end",
   cssClass = "",
   footer,
   layerSpec,
@@ -102,11 +101,14 @@ const Slide = ({
 
   return (
     <section class={`${style.slide} ${cssClass}`}>
-      <h2 class={!title ? "sr-only" : ""}>{title || tabTitle}</h2>
-      {controlsPosition === "end" ? children : null}
-      <div class="slide-controls">{controlComponents}</div>
-      {controlsPosition !== "end" ? children : null}
-      {footer ? footer : null}
+      <div class={style.inner}>
+        <h2 class={!title ? "sr-only" : style.visible}>{title || tabTitle}</h2>
+        {controlComponents.length ? (
+          <div class={style.controls}>{controlComponents}</div>
+        ) : null}
+        {children}
+        {footer ? footer : null}
+      </div>
     </section>
   );
 };

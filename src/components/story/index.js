@@ -110,7 +110,6 @@ const Story = ({
         slideState={mapState}
         scenario="S07"
         year="50"
-        footer={aepGraphic}
         title="Flood Depth"
       >
         <p>

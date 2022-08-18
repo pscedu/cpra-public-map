@@ -4,7 +4,6 @@
 }
 input[type="range"],
 .ticks {
-  max-width: 300px;
   width: 100%;
   -webkit-appearance: none;
 }
