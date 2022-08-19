@@ -125,7 +125,7 @@ ion-icon {
 @media (min-width: 700px) {
   :root {
     --mpdv-app-margin: 30px;
-    --mpdv-search-width: 50%;
+    --mpdv-search-width: 40%;
   }
   html,
   body {
