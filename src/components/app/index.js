@@ -1,4 +1,5 @@
 import { h } from "preact";
+import style from "./style.css";
 import { useEffect, useState } from "preact/hooks";
 import { fireEvent, gtag, internal } from "../../utils";
 
@@ -120,7 +121,7 @@ const App = () => {
   }
 
   return (
-    <div id="app">
+    <div id="app" class={style.app}>
       <Header
         endTour={endTour}
         geocodeUrl={config.geocodeUrl}

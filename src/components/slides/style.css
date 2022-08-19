@@ -4,11 +4,10 @@
   display: flex;
   flex-direction: column;
   left: 0;
-  max-height: calc(50vh);
+  max-height: 50vh;
   overflow-x: hidden;
   overflow-y: auto;
-  position: absolute;
-  right: 50px;
+  right: 0;
   z-index: 100;
 }
 .header {
@@ -51,18 +50,20 @@
 }
 @media (min-height: 700px) {
   .slides {
-    max-height: calc(40vh);
+    max-height: 40vh;
   }
 }
 @media (min-height: 1000px) {
   .slides {
-    max-height: calc(30vh);
+    max-height: 30vh;
   }
 }
 @media (min-width: 700px) {
   .slides {
     bottom: var(--mpdv-app-margin);
     left: var(--mpdv-app-margin);
+    max-height: 50vh;
+    position: absolute;
     right: 30%;
   }
 }

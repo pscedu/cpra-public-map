@@ -6,7 +6,7 @@
   padding: 10px calc(var(--mpdv-app-margin) + var(--mpdv-search-width)) 10px
     var(--mpdv-app-margin);
   position: absolute;
-  right: 50px;
+  right: 0;
   top: 0;
   z-index: 150;
 }
@@ -53,6 +53,9 @@
   width: 0;
 }
 @media (min-width: 700px) {
+  .header {
+    right: 50px;
+  }
   .tour-buttons {
     position: static;
     width: 100%;

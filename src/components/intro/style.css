@@ -2,7 +2,7 @@
   background-color: white;
   height: 100%;
   overflow-y: auto;
-  padding: 25px 60px;
+  padding: calc(var(--mpdv-app-margin) * 0.5) var(--mpdv-app-margin);
   width: 100%;
 }
 .button {
@@ -21,13 +21,13 @@
     width: 50%;
   }
   .columns > div:first-child {
-    margin-right: 50px;
+    margin-right: var(--mpdv-app-margin);
   }
   .columns > div:last-child {
     border-left: 1px solid #dddddd;
-    padding-left: 50px;
+    padding-left: var(--mpdv-app-margin);
   }
   .buttons button {
-    margin: 0 50px;
+    margin: 0 var(--mpdv-app-margin);
   }
 }

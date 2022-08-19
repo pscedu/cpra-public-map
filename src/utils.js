@@ -18,6 +18,11 @@ export const fireEvent = (name, detail) => {
   window.dispatchEvent(event);
 };
 
+export const documentReady = (fn) =>
+  ["complete", "interactive"].indexOf(document.readyState) !== -1
+    ? setTimeout(fn, 1)
+    : document.addEventListener("DOMContentLoaded", fn);
+
 export const getProjectResult = (project) => {
   return {
     type: "project",

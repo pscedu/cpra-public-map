@@ -1,6 +1,7 @@
 import { h } from "preact";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useLayoutEffect, useState } from "preact/hooks";
 import style from "./style.css";
+import { fireEvent } from "../../utils";
 
 import SlideNavigation from "../slide-navigation";
 
@@ -49,6 +50,10 @@ const Slides = ({
     let project = projectMap[projectName];
     if (project) project.select();
   }, [currentIdx]);
+
+  useLayoutEffect(() => {
+    fireEvent("mapResize");
+  }, [drawerOpen]);
 
   return (
     <div
