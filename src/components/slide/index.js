@@ -85,7 +85,7 @@ const Slide = ({
     const choices = layerSpec.subtypes.map((name) => {
       let parts = name.split(" ");
       let last = parts.pop();
-      return [name, `${last}%`];
+      return [name, `${parseFloat(last)}%`];
     });
     controlComponents.push(
       <Buttons
