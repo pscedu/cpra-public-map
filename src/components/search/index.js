@@ -143,6 +143,7 @@ const Search = ({ geocodeUrl, searchIndex, setSelection }) => {
           },
         },
       });
+    if (result.type === "project") fireEvent("slidesOpenDrawer");
     gtag("event", "select_content", {
       content_type: (result.category || "OSM").toLowerCase(),
       item_id: result.name,

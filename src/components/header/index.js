@@ -1,7 +1,7 @@
 import { h } from "preact";
 import style from "./style.css";
 
-import ActionButton from "../action-button";
+import Buttons from "../buttons";
 import Search from "../search";
 
 const Header = ({
@@ -13,24 +13,20 @@ const Header = ({
   startTour,
   storySlide,
 }) => {
-  const tourButton = printing ? null : storySlide === null ? (
-    <ActionButton
-      analyticsId="header_tour"
-      icon="play"
-      action={startTour}
-      cssClass={style["action-button"]}
-    >
-      Start Guided Tour
-    </ActionButton>
-  ) : (
-    <ActionButton
-      analyticsId="header_explore"
-      icon="map"
-      action={endTour}
-      cssClass={style["action-button"]}
-    >
-      Explore the Map
-    </ActionButton>
+  const tourValue = storySlide === null ? "explore" : "tour";
+  const setTourValue = (value) => (value === "tour" ? startTour() : endTour());
+  const tourButtons = printing ? null : (
+    <Buttons
+      analyticsId="header-mode"
+      choices={[
+        ["tour", "Guided Tour"],
+        ["explore", "Explore"],
+      ]}
+      cssClass={style["tour-buttons"]}
+      label="Mode"
+      value={tourValue}
+      setValue={setTourValue}
+    />
   );
   return (
     <header class={style.header}>
@@ -38,13 +34,10 @@ const Header = ({
         <img src="/assets/images/logo.png" alt="CPRA" />
       </a>
       <h1>
-        <span class={style.title}>
-          Louisiana's Coastal Master Plan 2023{" "}
-          <span class={style.beta}>Beta</span>
-        </span>
+        <span class={style.title}>Louisiana's Coastal Master Plan 2023 </span>
       </h1>
       <div class={style.spacer} />
-      {tourButton}
+      {tourButtons}
       <Search
         geocodeUrl={geocodeUrl}
         searchIndex={searchIndex}

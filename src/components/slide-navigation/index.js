@@ -7,7 +7,7 @@ function arrow(targetIdx, slides, setCurrentIdx, cssClass, content) {
 
   return (
     <button
-      class={`${style.arrow} ${cssClass} ${style.bubble} ${
+      class={`${style.arrow} ${cssClass} ${
         hasTarget ? style.enabled : style.disabled
       }`}
       onClick={hasTarget ? () => setCurrentIdx(targetIdx) : null}
@@ -19,37 +19,43 @@ function arrow(targetIdx, slides, setCurrentIdx, cssClass, content) {
 }
 
 const SlideNavigation = ({
-  arrows,
   currentIdx,
   navigationType,
   setCurrentIdx,
   slides,
 }) => {
-  const arrowButtons = [];
-  if (arrows) {
+  const navContent = [];
+  if (navigationType === "arrows") {
     const next = currentIdx + 1;
     const prev = currentIdx - 1;
-    arrowButtons.push(
-      arrow(prev, slides, setCurrentIdx, style.prev, <span>&#171;</span>)
+    navContent.push(
+      arrow(prev, slides, setCurrentIdx, style.prev, <span>&#8249;</span>)
     );
-    arrowButtons.push(
-      arrow(next, slides, setCurrentIdx, style.next, <span>&#187;</span>)
+    navContent.push(
+      arrow(next, slides, setCurrentIdx, style.next, <span>&#8250;</span>)
+    );
+  } else {
+    const navItems = slides.map((slide, i) => (
+      <li
+        key={slide.props.id}
+        class={`${currentIdx == i ? style.active : style.inactive} ${
+          style[slide.props.tabClass] || "default"
+        }`}
+      >
+        <button onClick={() => setCurrentIdx(i)}>
+          {slide.props.icon ? <ion-icon name={slide.props.icon} /> : null}
+          <span class={style.inner}>
+            {slide.props.tabTitle || slide.props.title}
+          </span>
+        </button>
+      </li>
+    ));
+    navContent.push(
+      <nav>
+        <ul>{navItems}</ul>
+      </nav>
     );
   }
-
-  const navItems = slides.map((slide, i) => (
-    <li
-      key={slide.props.id}
-      class={currentIdx == i ? style.active : style.inactive}
-    >
-      <button onClick={() => setCurrentIdx(i)}>
-        {slide.props.icon ? <ion-icon name={slide.props.icon} /> : null}
-        <span class={style.inner}>
-          {slide.props.tabTitle || slide.props.title}
-        </span>
-      </button>
-    </li>
-  ));
 
   return (
     <div
@@ -57,10 +63,7 @@ const SlideNavigation = ({
         style["nav-type-" + navigationType]
       }`}
     >
-      {arrowButtons}
-      <nav>
-        <ul>{navItems}</ul>
-      </nav>
+      {navContent}
     </div>
   );
 };

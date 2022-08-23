@@ -1,7 +1,6 @@
 .slide {
-  background-color: white;
   overflow-y: auto;
-  padding: 25px 60px;
+  padding: calc(var(--mpdv-app-margin) * 0.5) var(--mpdv-app-margin);
   width: 100%;
 }
 a + .slide {
@@ -9,4 +8,15 @@ a + .slide {
 }
 .slide h2 {
   font-size: 1.5rem;
+}
+@media (min-width: 700px) {
+  .controls {
+    float: right;
+    margin: 0 0 calc(var(--mpdv-app-margin) * 0.5) var(--mpdv-app-margin);
+    min-width: 230px;
+    width: 35%;
+  }
+  h2.visible + .controls {
+    margin-top: -2.5rem;
+  }
 }

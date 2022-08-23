@@ -2,7 +2,6 @@ import { h } from "preact";
 import style from "./style.css";
 
 import Disclaimer from "../disclaimer";
-import ProjectDetail from "../project-detail";
 import ProjectList from "../project-list";
 import Slide from "../slide";
 import Slides from "../slides";
@@ -17,64 +16,29 @@ const viewOrder = [
 ];
 
 const Explore = ({
+  dismissOverlay,
   layer,
   mapState,
   layers,
+  overlaySlide,
   projectMap,
   projects,
   projectTypeDescriptions,
   projectTypes,
-  selection,
   updateMapState,
 }) => {
   if (!layers) return;
 
   const currentIdx = viewOrder.indexOf(mapState.view);
   const setCurrentIdx = (idx) => updateMapState({ view: viewOrder[idx] });
-  const project = projectMap[selection.project];
-
-  const clearProject = (e) => {
-    e.preventDefault();
-    fireEvent("searchClearResult");
-  };
-
-  let projectsSlide = project ? (
-    <Slide tabTitle="Projects" layerSpec={layers["Projects"]} icon="cube">
-      <a class={style["close-button"]} href="#" onClick={clearProject}>
-        <span class="sr-only">Close</span>
-      </a>
-      <ProjectDetail
-        project={project}
-        projectTypes={projectTypes}
-        projectTypeDescriptions={projectTypeDescriptions}
-      />
-    </Slide>
-  ) : (
-    <Slide
-      tabTitle="Projects"
-      layerSpec={layers["Projects"]}
-      icon="cube"
-      controls={["year"]}
-      controlsPosition="start"
-      updateSlideState={updateMapState}
-      slideState={mapState}
-      yearStep={1}
-    >
-      <ProjectList
-        mapState={mapState}
-        projects={projects}
-        projectTypeDescriptions={projectTypeDescriptions}
-        projectTypes={projectTypes}
-      />
-    </Slide>
-  );
 
   return (
     <Slides
       currentIdx={currentIdx}
+      dismissOverlay={dismissOverlay}
       layer={layer}
       mapState={mapState}
-      navigation="tabs"
+      overlaySlide={overlaySlide}
       projectMap={projectMap}
       setCurrentIdx={setCurrentIdx}
       updateMapState={updateMapState}
@@ -83,7 +47,6 @@ const Explore = ({
         controls={["scenario", "group", "year"]}
         controlsPosition="start"
         cssClass={style["model-slide"]}
-        icon="earth"
         layerSpec={layers["Land Change"]}
         updateSlideState={updateMapState}
         slideState={mapState}
@@ -97,7 +60,6 @@ const Explore = ({
         controls={["scenario", "group", "year"]}
         controlsPosition="start"
         cssClass={style["model-slide"]}
-        icon="leaf"
         layerSpec={layers["Vegetation Type"]}
         updateSlideState={updateMapState}
         slideState={mapState}
@@ -111,7 +73,6 @@ const Explore = ({
         controls={["scenario", "subtype", "year"]}
         controlsPosition="start"
         cssClass={style["model-slide"]}
-        icon="water"
         layerSpec={layers["Flood Depth"]}
         updateSlideState={updateMapState}
         slideState={mapState}
@@ -123,13 +84,28 @@ const Explore = ({
       </Slide>
       {/* <Slide
         controls={["scenario", "group", "year"]}
-        icon="people"
         layerSpec={{ name: "Social Vulnerability" }}
         updateSlideState={updateMapState}
         slideState={mapState}
         tabTitle="Social Vulnerability"
       /> */}
-      {projectsSlide}
+      <Slide
+        tabTitle="Projects"
+        layerSpec={layers["Projects"]}
+        controls={["year"]}
+        controlsPosition="start"
+        updateSlideState={updateMapState}
+        slideState={mapState}
+        yearStep={1}
+        tabClass="green"
+      >
+        <ProjectList
+          mapState={mapState}
+          projects={projects}
+          projectTypeDescriptions={projectTypeDescriptions}
+          projectTypes={projectTypes}
+        />
+      </Slide>
     </Slides>
   );
 };

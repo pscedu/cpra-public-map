@@ -1,6 +1,7 @@
 import { h } from "preact";
-import { useEffect } from "preact/hooks";
+import { useEffect, useLayoutEffect, useState } from "preact/hooks";
 import style from "./style.css";
+import { fireEvent } from "../../utils";
 
 import SlideNavigation from "../slide-navigation";
 
@@ -11,19 +12,24 @@ const selectValue = (values, currentValue) => {
 };
 
 const Slides = ({
-  arrows,
   children,
   cssClass,
+  dismissOverlay,
   layer,
   mapState,
-  navigation,
+  overlaySlide,
   projectMap,
   updateMapState,
   currentIdx,
   setCurrentIdx,
 }) => {
+  const [drawerOpen, setDrawerOpen] = useState(true);
   const slides = Array.isArray(children) ? children : [children];
   let currentSlide = slides[currentIdx];
+
+  useEffect(() => {
+    window.addEventListener("slidesOpenDrawer", () => setDrawerOpen(true));
+  }, []);
 
   let { layerSpec, projectName } = currentSlide.props;
   useEffect(() => {
@@ -51,26 +57,61 @@ const Slides = ({
     if (project) project.select();
   }, [currentIdx]);
 
+  useLayoutEffect(() => {
+    fireEvent("mapResize");
+  }, [drawerOpen]);
+
   return (
-    <div class={`${style.slides} ${cssClass || ""}`}>
-      <div
-        class={style.strip}
-        style={{
-          left: `-${currentIdx * 100}%`,
-          width: `${slides.length * 100}%`,
-        }}
-      >
-        {slides}
-      </div>
-      {slides.length > 1 ? (
+    <div
+      class={`${style.slides} ${cssClass || ""} ${
+        style[drawerOpen ? "open" : "closed"]
+      }`}
+    >
+      <div class={style.header}>
         <SlideNavigation
-          arrows={arrows}
           currentIdx={currentIdx}
-          navigationType={navigation}
+          navigationType="tabs"
           slides={slides}
           setCurrentIdx={setCurrentIdx}
         />
-      ) : null}
+        <button class={style.handle} onClick={() => setDrawerOpen(!drawerOpen)}>
+          <span class="sr-only">{drawerOpen ? "Close" : "Open"}</span>
+        </button>
+      </div>
+      {drawerOpen
+        ? [
+            <div
+              key="strip"
+              class={style.strip}
+              style={{
+                left: `-${currentIdx * 100}%`,
+                width: `${slides.length * 100}%`,
+              }}
+            >
+              {slides}
+            </div>,
+            overlaySlide ? (
+              <div class={style.overlay}>
+                <div class={style.header}>
+                  <div class={style["overlay-title"]}>
+                    {overlaySlide.props.tabTitle}
+                  </div>
+                  <button class={style.handle} onClick={dismissOverlay}>
+                    <span class="sr-only">Close</span>
+                  </button>
+                </div>
+                {overlaySlide}
+              </div>
+            ) : null,
+            <SlideNavigation
+              key="arrows"
+              currentIdx={currentIdx}
+              navigationType="arrows"
+              slides={slides}
+              setCurrentIdx={setCurrentIdx}
+            />,
+          ]
+        : null}
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import { h, Component } from "preact";
+import style from "./style.css";
 import { fireEvent } from "../../utils";
 import { getStyle } from "./mapstyle";
 
@@ -39,6 +40,12 @@ class Map extends Component {
     });
 
     map.touchZoomRotate.disableRotation();
+
+    map.addControl(
+      // eslint-disable-next-line no-undef
+      new maplibregl.NavigationControl({ showCompass: false }),
+      "top-right"
+    );
 
     map.on("idle", () => {
       if (this.props.mapState.prevYear !== null)
@@ -97,13 +104,7 @@ class Map extends Component {
   render() {
     return (
       <div
-        style={{
-          bottom: 0,
-          left: 0,
-          position: "absolute",
-          right: 0,
-          top: 0,
-        }}
+        class={`${style.map} ${this.props.printing ? style.printing : ""}`}
       />
     );
   }

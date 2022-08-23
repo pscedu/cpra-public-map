@@ -1,9 +1,8 @@
 .action-button {
-  background-color: #9fcc3b;
-  border: 1px solid #c5f164;
+  background-color: var(--mpdv-color-primary);
+  border: 0 none transparent;
   border-radius: 2px;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
-  color: #222222;
+  color: white;
   cursor: pointer;
   flex: 1 0 auto;
   font-weight: bold;

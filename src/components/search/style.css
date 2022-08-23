@@ -1,17 +1,18 @@
 .address-search {
   background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.15) 0 0 8px;
+  border: 1px solid var(--mpdv-color-gray-600);
+  border-radius: 3px;
   margin: 0;
   padding: 0;
   position: absolute;
-  right: 10px;
+  right: var(--mpdv-app-margin);
   top: 6px;
-  width: calc(100% - 55px);
+  width: var(--mpdv-search-width);
   z-index: 150;
 }
 .address-search input {
   border: 0 none transparent;
-  box-shadow: rgba(0, 0, 0, 0.15) 0 0 8px inset;
+  border-radius: 3px;
   font-size: 1rem;
   padding: 8px 60px 8px 30px;
   width: 100%;
@@ -68,22 +69,4 @@
   font-family: "Courier New", Courier, monospace;
   font-weight: bold;
   padding: 1px 10px;
-}
-@media (min-width: 700px) {
-  .address-search {
-    right: 20px;
-    width: 50%;
-  }
-}
-@media (min-width: 1000px) {
-  .address-search {
-    right: 50px;
-    width: 35%;
-  }
-}
-@media (min-width: 1600px) {
-  .address-search {
-    right: 100px;
-    width: 25%;
-  }
 }

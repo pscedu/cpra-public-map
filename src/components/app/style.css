@@ -1,0 +1,6 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  padding-top: 45px;
+  width: 100%;
+}

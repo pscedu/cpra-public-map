@@ -1,4 +1,5 @@
 import { h } from "preact";
+import style from "./style.css";
 import { useEffect, useState } from "preact/hooks";
 import { fireEvent, gtag, internal } from "../../utils";
 
@@ -11,12 +12,13 @@ import {
   useServices,
 } from "./hooks";
 
-import Drawer from "../drawer";
 import Explore from "../explore";
 import Header from "../header";
 import Intro from "../intro";
 import Map from "../map";
 import Print from "../print";
+import ProjectDetail from "../project-detail";
+import Slide from "../slide";
 import Story from "../story";
 import Toolbar from "../toolbar";
 import Watermark from "../watermark";
@@ -69,7 +71,7 @@ const App = () => {
     }
     updateMapStateHash(updates);
   };
-
+  const [introOpen, setIntroOpen] = useState(mapState.view == "slide-0");
   const layer = config.views[mapState.view].layer;
   const storySlide = mapState.view.startsWith("slide-")
     ? parseInt(mapState.view.replace("slide-", ""), 10)
@@ -91,18 +93,36 @@ const App = () => {
   };
   const endTour = () => setStorySlide(null);
 
+  const project = projectMap[selection.project];
+  const clearProject = (e) => {
+    e.preventDefault();
+    fireEvent("searchClearResult");
+  };
+  const overlaySlide = project ? (
+    <Slide
+      tabTitle="Project Details"
+      layerSpec={layers["Projects"]}
+      tabClass="green"
+    >
+      <ProjectDetail
+        project={project}
+        projectTypes={config.projectTypes}
+        projectTypeDescriptions={config.projectTypeDescriptions}
+      />
+    </Slide>
+  ) : null;
+
   let drawerContent;
-  if (mapState.view === "intro") {
-    drawerContent = <Intro endTour={endTour} startTour={startTour} />;
-  } else if (storySlide == null) {
+  if (storySlide == null) {
     drawerContent = (
       <Explore
+        dismissOverlay={clearProject}
         layer={layer}
+        overlaySlide={overlaySlide}
         projectMap={projectMap}
         projects={projects}
         projectTypeDescriptions={config.projectTypeDescriptions}
         projectTypes={config.projectTypes}
-        selection={selection}
         mapState={mapState}
         layers={layers}
         updateMapState={updateMapState}
@@ -111,8 +131,10 @@ const App = () => {
   } else {
     drawerContent = (
       <Story
+        dismissOverlay={clearProject}
         layer={layer}
         layers={layers}
+        overlaySlide={overlaySlide}
         projectMap={projectMap}
         mapState={mapState}
         slide={storySlide === null ? storySlide : parseInt(storySlide, 10)}
@@ -122,10 +144,8 @@ const App = () => {
     );
   }
 
-  const drawerTitle = config.views[mapState.view].title;
-
   return (
-    <div id="app">
+    <div id="app" class={style.app}>
       <Header
         endTour={endTour}
         geocodeUrl={config.geocodeUrl}
@@ -139,7 +159,7 @@ const App = () => {
         contactEmail={config.contactEmail}
         printing={printing}
         setPrinting={setPrinting}
-        updateMapState={updateMapState}
+        setIntroOpen={setIntroOpen}
         websiteUrl={config.websiteUrl}
       />
       {printing ? null : <Watermark>DRAFT</Watermark>}
@@ -158,6 +178,7 @@ const App = () => {
             mapDefaults: config.mapDefaults,
             map,
             mapState,
+            printing,
             projects,
             selection,
             services,
@@ -167,11 +188,13 @@ const App = () => {
           }}
         />
       </Print>
-      {!printing ? (
-        <Drawer title={drawerTitle} open={true}>
-          {drawerContent}
-        </Drawer>
-      ) : null}
+      <Intro
+        endTour={endTour}
+        startTour={startTour}
+        open={introOpen}
+        setOpen={setIntroOpen}
+      />
+      {!printing ? drawerContent : null}
     </div>
   );
 };

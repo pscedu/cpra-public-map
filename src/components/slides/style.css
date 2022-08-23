@@ -1,40 +1,115 @@
 .slides {
+  bottom: 0;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 0 8px;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  left: 0;
+  max-height: 50vh;
   overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
+  right: 0;
+  z-index: 100;
+}
+.header {
+  display: flex;
+  flex-direction: row;
+}
+.handle {
+  background-color: var(--mpdv-color-green-200);
+  border: 0 none transparent;
+  border-left: 1px solid white;
+  cursor: pointer;
+  color: var(--mpdv-color-green-900);
+  font-size: 1.4rem;
+  text-align: center;
+  width: 3rem;
+}
+.open .handle::after {
+  content: "\142F";
+}
+.closed .handle::after {
+  content: "\1431";
 }
 .strip {
-  align-items: stretch;
   background-color: white;
   display: flex;
   flex-direction: row;
+  overflow-y: auto;
   position: relative;
 }
-.tab {
-  background-color: #54715f;
-  border: 0 none transparent;
-  margin: 0 3px 0 0;
-  position: relative;
-  text-decoration: none;
-  width: 40px;
-}
-.tab-active,
-.tab:hover,
-.tab:active {
-  background-color: #274d36;
-}
-.tab-inner {
-  color: white;
+.strip::after {
+  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+  bottom: 0;
+  content: "";
   display: block;
-  font-size: 1rem;
+  height: calc(var(--mpdv-app-margin) * 0.5);
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+}
+.overlay {
+  background-color: white;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.overlay-title {
+  background-color: var(--mpdv-color-green-500);
+  border: 0 none transparent;
+  color: white;
+  cursor: pointer;
+  display: block;
+  font-family: var(--mpdv-font-family-heading);
+  font-size: 0.85rem;
   font-weight: 700;
-  left: 10px;
-  position: relative;
+  height: 100%;
+  overflow: hidden;
+  padding: 1rem;
   text-align: left;
+  text-decoration: none;
+  text-overflow: ellipsis;
   text-transform: uppercase;
-  top: 275px;
-  transform: rotate(-90deg);
-  transform-origin: top left;
-  width: 250px;
+  white-space: nowrap;
+  width: 100%;
+}
+.open .overlay .handle {
+  background-color: var(--mpdv-color-green-500);
+  border-left: 0 none transparent;
+}
+.open .overlay .handle::after {
+  color: white;
+  content: "\2A09";
+}
+@media (min-height: 700px) {
+  .slides {
+    max-height: 40vh;
+  }
+}
+@media (min-height: 1000px) {
+  .slides {
+    max-height: 30vh;
+  }
+}
+@media (min-width: 700px) {
+  .slides {
+    bottom: var(--mpdv-app-margin);
+    left: var(--mpdv-app-margin);
+    max-height: 50vh;
+    position: absolute;
+    right: 30%;
+  }
+}
+@media (min-width: 1000px) {
+  .slides {
+    right: 40%;
+  }
+}
+@media (min-width: 1300px) {
+  .slides {
+    right: 50%;
+  }
 }

@@ -18,7 +18,6 @@ const stateProp = (propName, state = {}, updateState) => {
 const Slide = ({
   children,
   controls = [],
-  controlsPosition = "end",
   cssClass = "",
   footer,
   layerSpec,
@@ -57,8 +56,8 @@ const Slide = ({
       <Buttons
         analyticsId="scenario"
         choices={[
-          ["S07", "Lower", "partly-sunny"],
-          ["S08", "Higher", "rainy"],
+          ["S07", "Lower"],
+          ["S08", "Higher"],
         ]}
         label="Environmental Scenario"
         value={scenario}
@@ -72,13 +71,12 @@ const Slide = ({
       <Buttons
         analyticsId="group"
         choices={[
-          ["G500", "Without Further Action", "close"],
-          ["G603", "With 2023 Master Plan", "hammer"],
+          ["G500", "Without Further Action"],
+          ["G603", "With 2023 Master Plan"],
         ]}
         label="Project Implementation Scenario"
         value={group}
         setValue={setGroup}
-        help="Coming soon!"
         tooltip="Select <strong>Future Without Action</strong> to view model results in a scenario without construction and/or operation of the recommended projects from the 2023 Coastal Master Plan. Select <strong>With 2023 Master Plan</strong> to view model results with implementation of the recommended projects from the 2023 Coastal Master Plan (i.e. assuming construction and operation of coastal restoration and flood protection projects as recommended in the Master Plan)."
       />
     );
@@ -87,7 +85,7 @@ const Slide = ({
     const choices = layerSpec.subtypes.map((name) => {
       let parts = name.split(" ");
       let last = parts.pop();
-      return [name, `${last}%`];
+      return [name, `${parseFloat(last)}%`];
     });
     controlComponents.push(
       <Buttons
@@ -103,11 +101,14 @@ const Slide = ({
 
   return (
     <section class={`${style.slide} ${cssClass}`}>
-      <h2 class={!title ? "sr-only" : ""}>{title || tabTitle}</h2>
-      {controlsPosition === "end" ? children : null}
-      <div class="slide-controls">{controlComponents}</div>
-      {controlsPosition !== "end" ? children : null}
-      {footer ? footer : null}
+      <div class={style.inner}>
+        <h2 class={!title ? "sr-only" : style.visible}>{title || tabTitle}</h2>
+        {controlComponents.length ? (
+          <div class={style.controls}>{controlComponents}</div>
+        ) : null}
+        {children}
+        {footer ? footer : null}
+      </div>
     </section>
   );
 };

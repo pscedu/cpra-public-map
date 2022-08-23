@@ -87,7 +87,7 @@ const Print = ({
   );
 
   return printing ? (
-    <div class={style.print}>
+    <div class={`${style.print} printing`}>
       <div class={style.page} style={{ height, width }}>
         {[
           legend,
@@ -118,12 +118,8 @@ const Print = ({
         ]}
       </div>
       <div class={style.buttons}>
-        <ActionButton icon="print" action={print}>
-          Print or Save
-        </ActionButton>
-        <ActionButton icon="close" action={() => setPrinting(false)}>
-          Cancel
-        </ActionButton>
+        <ActionButton action={print}>Print or Save</ActionButton>
+        <ActionButton action={() => setPrinting(false)}>Cancel</ActionButton>
       </div>
     </div>
   ) : (

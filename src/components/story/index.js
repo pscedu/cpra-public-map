@@ -1,31 +1,32 @@
 import { h } from "preact";
 import style from "./style.css";
 
-import AEPGraphic from "../aep-graphic";
 import ActionButton from "../action-button";
 import Slide from "../slide";
 import Slides from "../slides";
 
 const Story = ({
+  dismissOverlay,
   layer,
   layers,
   projectMap,
   mapState,
+  overlaySlide,
   slide,
   setSlide,
   updateMapState,
 }) => {
   if (!layers) return;
-  const aepGraphic = <AEPGraphic />;
   const endTour = () => setSlide(null);
   return (
     <Slides
       arrows={true}
       cssClass={style.story}
       currentIdx={slide}
+      dismissOverlay={dismissOverlay}
       layer={layer}
       mapState={mapState}
-      navigation="dots"
+      overlaySlide={overlaySlide}
       projectMap={projectMap}
       setCurrentIdx={setSlide}
       updateMapState={updateMapState}
@@ -34,6 +35,7 @@ const Story = ({
         updateSlideState={updateMapState}
         slideState={mapState}
         layerSpec={layers["Projects"]}
+        title="Introduction"
       >
         <p>
           Louisiana's complex and fragile ecosystem is disappearing at an
@@ -61,6 +63,7 @@ const Story = ({
         slideState={mapState}
         scenario="S08"
         year="0"
+        title="Vegetation Type"
       >
         <p>
           One major challenge in parts of coastal Louisiana is the inland
@@ -84,6 +87,7 @@ const Story = ({
         slideState={mapState}
         scenario="S07"
         year="50"
+        title="Land Change"
       >
         <p>
           The combination of sea level rise, land subsidence, and other
@@ -108,7 +112,7 @@ const Story = ({
         slideState={mapState}
         scenario="S07"
         year="50"
-        footer={aepGraphic}
+        title="Flood Depth"
       >
         <p>
           Coastal Louisiana experiences a wide range of storm intensities, from
@@ -128,6 +132,8 @@ const Story = ({
         layerSpec={layers["Projects"]}
         updateSlideState={updateMapState}
         slideState={mapState}
+        title="Projects"
+        tabClass="green"
       >
         <p>
           Restoration and flood risk reduction projects are key to addressing
@@ -153,6 +159,8 @@ const Story = ({
         layerSpec={layers["Projects"]}
         updateSlideState={updateMapState}
         slideState={mapState}
+        title="Next Steps"
+        tabClass="green"
       >
         <p>
           Use the map navigation features to learn more about 2023 Coastal

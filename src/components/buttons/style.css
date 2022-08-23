@@ -4,16 +4,18 @@
 }
 .button {
   align-items: center;
-  background-color: white;
-  border: 1px solid #274d36;
-  border-left: 0 none transparent;
-  color: #274d36;
+  background-color: var(--mpdv-color-gray-200);
+  border: 0 none transparent;
+  color: var(--mpdv-color-gray-900);
   cursor: pointer;
   display: flex;
   flex-direction: row;
+  font-weight: bold;
   justify-content: center;
   line-height: 1.5rem;
-  padding: 5px 15px;
+  padding: 0.3rem 1rem;
+  text-align: center;
+  text-transform: uppercase;
   width: 100%;
 }
 .button:disabled {
@@ -25,16 +27,10 @@
 }
 .button-label {
   line-height: 1.1rem;
-  text-align: left;
-}
-.button:first-child {
-  border-left: 1px solid #274d36;
-}
-.button:disabled:first-child {
-  border-left: 1px solid #aaaaaa;
+  text-align: center;
 }
 .active {
-  background-color: #274d36;
+  background-color: var(--mpdv-color-gray-600);
   color: white;
 }
 .active:disabled {

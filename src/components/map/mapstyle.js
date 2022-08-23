@@ -239,10 +239,10 @@ function projectLayers(show, filter, model, suffix = "") {
       source: "Base Map: Vector",
       "source-layer": "project_label",
       filter,
-      minzoom: 9,
+      minzoom: 8,
       layout: {
         "icon-image": ["get", "type"],
-        "icon-size": 2,
+        "icon-size": linearZoom(0.5, 2.5),
       },
     },
   ];
