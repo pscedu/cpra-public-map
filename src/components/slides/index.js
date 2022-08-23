@@ -14,8 +14,10 @@ const selectValue = (values, currentValue) => {
 const Slides = ({
   children,
   cssClass,
+  dismissOverlay,
   layer,
   mapState,
+  overlaySlide,
   projectMap,
   updateMapState,
   currentIdx,
@@ -24,6 +26,10 @@ const Slides = ({
   const [drawerOpen, setDrawerOpen] = useState(true);
   const slides = Array.isArray(children) ? children : [children];
   let currentSlide = slides[currentIdx];
+
+  useEffect(() => {
+    window.addEventListener("slidesOpenDrawer", () => setDrawerOpen(true));
+  }, []);
 
   let { layerSpec, projectName } = currentSlide.props;
   useEffect(() => {
@@ -84,6 +90,19 @@ const Slides = ({
             >
               {slides}
             </div>,
+            overlaySlide ? (
+              <div class={style.overlay}>
+                <div class={style.header}>
+                  <div class={style["overlay-title"]}>
+                    {overlaySlide.props.tabTitle}
+                  </div>
+                  <button class={style.handle} onClick={dismissOverlay}>
+                    <span class="sr-only">Close</span>
+                  </button>
+                </div>
+                {overlaySlide}
+              </div>
+            ) : null,
             <SlideNavigation
               key="arrows"
               currentIdx={currentIdx}

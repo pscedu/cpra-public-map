@@ -17,6 +17,8 @@ import Header from "../header";
 import Intro from "../intro";
 import Map from "../map";
 import Print from "../print";
+import ProjectDetail from "../project-detail";
+import Slide from "../slide";
 import Story from "../story";
 import Toolbar from "../toolbar";
 import Watermark from "../watermark";
@@ -91,16 +93,36 @@ const App = () => {
   };
   const endTour = () => setStorySlide(null);
 
+  const project = projectMap[selection.project];
+  const clearProject = (e) => {
+    e.preventDefault();
+    fireEvent("searchClearResult");
+  };
+  const overlaySlide = project ? (
+    <Slide
+      tabTitle="Project Details"
+      layerSpec={layers["Projects"]}
+      tabClass="green"
+    >
+      <ProjectDetail
+        project={project}
+        projectTypes={config.projectTypes}
+        projectTypeDescriptions={config.projectTypeDescriptions}
+      />
+    </Slide>
+  ) : null;
+
   let drawerContent;
   if (storySlide == null) {
     drawerContent = (
       <Explore
+        dismissOverlay={clearProject}
         layer={layer}
+        overlaySlide={overlaySlide}
         projectMap={projectMap}
         projects={projects}
         projectTypeDescriptions={config.projectTypeDescriptions}
         projectTypes={config.projectTypes}
-        selection={selection}
         mapState={mapState}
         layers={layers}
         updateMapState={updateMapState}
@@ -109,8 +131,10 @@ const App = () => {
   } else {
     drawerContent = (
       <Story
+        dismissOverlay={clearProject}
         layer={layer}
         layers={layers}
+        overlaySlide={overlaySlide}
         projectMap={projectMap}
         mapState={mapState}
         slide={storySlide === null ? storySlide : parseInt(storySlide, 10)}

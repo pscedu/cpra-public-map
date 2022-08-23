@@ -1,30 +1,32 @@
 import { h } from "preact";
 import style from "./style.css";
 
-import AEPGraphic from "../aep-graphic";
 import ActionButton from "../action-button";
 import Slide from "../slide";
 import Slides from "../slides";
 
 const Story = ({
+  dismissOverlay,
   layer,
   layers,
   projectMap,
   mapState,
+  overlaySlide,
   slide,
   setSlide,
   updateMapState,
 }) => {
   if (!layers) return;
-  const aepGraphic = <AEPGraphic />;
   const endTour = () => setSlide(null);
   return (
     <Slides
       arrows={true}
       cssClass={style.story}
       currentIdx={slide}
+      dismissOverlay={dismissOverlay}
       layer={layer}
       mapState={mapState}
+      overlaySlide={overlaySlide}
       projectMap={projectMap}
       setCurrentIdx={setSlide}
       updateMapState={updateMapState}

@@ -1,5 +1,4 @@
 .slide {
-  background-color: white;
   overflow-y: auto;
   padding: calc(var(--mpdv-app-margin) * 0.5) var(--mpdv-app-margin);
   width: 100%;
