@@ -43,7 +43,7 @@
 }
 @media (min-width: 700px) {
   .toolbar {
-    background-color: #cccccc;
+    background-color: var(--mpdv-color-gray-300);
     bottom: 0;
     box-shadow: none;
     justify-content: flex-end;

@@ -1,9 +1,8 @@
 import { h } from "preact";
 import { useEffect, useRef, useState } from "preact/hooks";
 import bbox from "@turf/bbox";
-import { bufferPoint, fireEvent, normalizeText } from "../../utils";
+import { bufferPoint, fireEvent, gtag, normalizeText } from "../../utils";
 import style from "./style.css";
-import { gtag } from "../../utils";
 
 const excludedCategories = ["railway"];
 
