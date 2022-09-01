@@ -38,6 +38,7 @@ const Toolbar = ({
         onClick={aboutClick}
         class={style.help}
       >
+        <ion-icon src="/assets/buttons/question.svg" />
         <span class="sr-only">About the Data Viewer</span>
       </button>
       <button
@@ -45,18 +46,19 @@ const Toolbar = ({
         onClick={printClick}
         class={style.print}
       >
-        <ion-icon name="print" />
+        <ion-icon src="/assets/buttons/print.svg" />
         <span class="sr-only">Print or Export Map</span>
       </button>
       <button
         title="Visit Master Plan Website"
         onClick={websiteClick}
-        clas={style.website}
+        class={style.website}
       >
-        <ion-icon name="globe" />
+        <ion-icon src="/assets/buttons/cpra.svg" />
         <span class="sr-only">Visit Master Plan Website</span>
       </button>
       <button title="E-mail Us" onClick={emailClick} class={style.mail}>
+        <ion-icon name="mail-outline" />
         <span class="sr-only">E-mail Us</span>
       </button>
     </div>

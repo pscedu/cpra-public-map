@@ -11,6 +11,10 @@
   z-index: 150;
 }
 .address-search input {
+  background-image: url("/assets/buttons/search.svg");
+  background-position: 5px 6px;
+  background-repeat: no-repeat;
+  background-size: 20px;
   border: 0 none transparent;
   border-radius: 3px;
   font-size: 1rem;

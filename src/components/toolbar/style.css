@@ -35,17 +35,11 @@
   margin: 0;
   pointer-events: none;
 }
-.help {
-  background-image: url("/assets/buttons/help.png");
-}
 .print {
   display: none;
 }
-.website {
-  background-color: white;
-}
-.mail {
-  background-image: url("/assets/buttons/mail.png");
+.website ion-icon {
+  font-size: 2rem;
 }
 @media (min-width: 700px) {
   .toolbar {

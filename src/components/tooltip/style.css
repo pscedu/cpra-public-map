@@ -1,9 +1,13 @@
 .tooltip {
   display: inline-block;
+  width: 1.25rem;
 }
 .tooltip ion-icon {
   color: #aaaaaa;
-  font-size: 0.9rem;
+  font-size: 1.25rem;
   pointer-events: none;
-  vertical-align: text-top;
+  vertical-align: middle;
+}
+label .tooltip:first-child {
+  margin: 0 5px 0 -25px;
 }

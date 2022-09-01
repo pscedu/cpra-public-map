@@ -34,8 +34,8 @@ const Year = ({ state, step = 10, tooltip, updateState, years }) => {
   return (
     <div class="input">
       <label class="label" for="year">
-        Year<span class={style.value}>: {state.year}</span>{" "}
-        {tooltip ? <Tooltip content={tooltip} /> : null}
+        {tooltip ? <Tooltip content={tooltip} /> : null} Year
+        <span class={style.value}>: {state.year}</span>
       </label>
       <div class={style.ticks}>{ticks}</div>
       <input

@@ -41,7 +41,7 @@ const Buttons = ({
   return (
     <div class={`input ${cssClass || "default"}`}>
       <label class="label">
-        {label} {tooltip ? <Tooltip content={tooltip} /> : null}
+        {tooltip ? <Tooltip content={tooltip} /> : null} {label}
       </label>
       <div class={style.buttons}>{buttons}</div>
       {help ? <p class={style.help}>{help}</p> : null}

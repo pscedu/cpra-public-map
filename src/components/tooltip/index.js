@@ -4,7 +4,7 @@ import tippy from "tippy.js";
 import style from "./style.css";
 import "tippy.js/dist/tippy.css";
 
-const Tooltip = ({ content, icon = "information-circle" }) => {
+const Tooltip = ({ content }) => {
   const handle = useRef(null);
   useEffect(() => {
     if (handle.current)
@@ -16,7 +16,7 @@ const Tooltip = ({ content, icon = "information-circle" }) => {
   return (
     <div class={style.tooltip}>
       <span class={style.handle} ref={handle}>
-        <ion-icon name={icon} />
+        <ion-icon src="/assets/buttons/info.svg" />
       </span>
     </div>
   );
