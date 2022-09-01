@@ -12,8 +12,12 @@
   --mpdv-color-teal-200: #98cac8;
   --mpdv-color-teal-500: #00847e;
   --mpdv-color-teal-900: #083938;
-  --mpdv-font-family-body: "Helvetica Neue", arial, sans-serif;
-  --mpdv-font-family-heading: Verdana, Geneva, Tahoma, sans-serif;
+  --mpdv-font-family-body: "Helvetica Neue Light", "Helvetica Neue", Tahoma,
+    Arial, sans-serif;
+  --mpdv-font-family-heading: Verdana, "Helvetica Neue Bold", "Helvetica Neue",
+    Arial, sans-serif;
+  --mpdv-font-weight-body: 200;
+  --mpdv-font-weight-heading: 600;
   --mpdv-search-width: calc(100% - 70px);
 }
 html,
@@ -24,7 +28,7 @@ body {
   color: #444;
   font-family: var(--mpdv-font-family-body);
   font-size: 12px;
-  font-weight: 400;
+  font-weight: var(--mpdv-font-weight-body);
   height: 100%;
   margin: 0;
   padding: 0;
@@ -44,6 +48,7 @@ h5,
 h6 {
   color: var(--mpdv-color-gray-900);
   font-family: var(--mpdv-font-family-heading);
+  font-weight: var(--mpdv-font-weight-heading);
   margin: 0 0 1rem;
   padding: 0;
 }
@@ -69,9 +74,11 @@ h2 {
 }
 input[type="text"] {
   font-family: var(--mpdv-font-family-body);
+  font-weight: var(--mpdv-font-weight-body);
 }
 button {
   font-family: var(--mpdv-font-family-heading);
+  font-weight: var(--mpdv-font-weight-heading);
 }
 .sr-only {
   border: 0 !important;
