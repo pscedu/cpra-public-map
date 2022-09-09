@@ -30,9 +30,9 @@
 }
 .arrow {
   background-color: transparent;
-  background-color: var(--mpdv-color-gray-600);
+  background-color: var(--mpdv-color-gray-200);
   border: 0 none transparent;
-  color: white;
+  color: var(--mpdv-color-gray-900);
   cursor: pointer;
   font-size: 2rem;
   padding: 0 0.75rem;
