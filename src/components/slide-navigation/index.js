@@ -25,13 +25,15 @@ const SlideNavigation = ({
   slides,
 }) => {
   const navContent = [];
+  const currentSlide = slides[currentIdx];
   if (navigationType === "arrows") {
     const next = currentIdx + 1;
     const prev = currentIdx - 1;
     navContent.push(
-      arrow(prev, slides, setCurrentIdx, style.prev, <span>&#8249;</span>)
-    );
-    navContent.push(
+      arrow(prev, slides, setCurrentIdx, style.prev, <span>&#8249;</span>),
+      <span class={style.current}>
+        {currentSlide.props.tabTitle || currentSlide.props.title}
+      </span>,
       arrow(next, slides, setCurrentIdx, style.next, <span>&#8250;</span>)
     );
   } else {
@@ -61,6 +63,8 @@ const SlideNavigation = ({
     <div
       class={`${style["slide-navigation"]} ${
         style["nav-type-" + navigationType]
+      } ${
+        style["nav-active-tab-" + (currentSlide.props.tabClass || "default")]
       }`}
     >
       {navContent}

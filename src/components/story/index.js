@@ -26,6 +26,7 @@ const Story = ({
       dismissOverlay={dismissOverlay}
       layer={layer}
       mapState={mapState}
+      navigationType="arrows"
       overlaySlide={overlaySlide}
       projectMap={projectMap}
       setCurrentIdx={setSlide}
@@ -35,7 +36,7 @@ const Story = ({
         updateSlideState={updateMapState}
         slideState={mapState}
         layerSpec={layers["Projects"]}
-        title="Introduction"
+        tabTitle="Introduction"
       >
         <p>
           Louisiana's complex and fragile ecosystem is disappearing at an
@@ -63,7 +64,7 @@ const Story = ({
         slideState={mapState}
         scenario="S08"
         year="0"
-        title="Vegetation Type"
+        tabTitle="Vegetation Type"
       >
         <p>
           One major challenge in parts of coastal Louisiana is the inland
@@ -87,7 +88,7 @@ const Story = ({
         slideState={mapState}
         scenario="S07"
         year="50"
-        title="Land Change"
+        tabTitle="Land Change"
       >
         <p>
           The combination of sea level rise, land subsidence, and other
@@ -112,7 +113,7 @@ const Story = ({
         slideState={mapState}
         scenario="S07"
         year="50"
-        title="Flood Depth"
+        tabTitle="Flood Depth"
       >
         <p>
           Coastal Louisiana experiences a wide range of storm intensities, from
@@ -132,7 +133,7 @@ const Story = ({
         layerSpec={layers["Projects"]}
         updateSlideState={updateMapState}
         slideState={mapState}
-        title="Projects"
+        tabTitle="Projects"
         tabClass="green"
       >
         <p>
@@ -159,7 +160,7 @@ const Story = ({
         layerSpec={layers["Projects"]}
         updateSlideState={updateMapState}
         slideState={mapState}
-        title="Next Steps"
+        tabTitle="Next Steps"
         tabClass="green"
       >
         <p>

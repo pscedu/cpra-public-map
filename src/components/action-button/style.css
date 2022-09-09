@@ -1,5 +1,5 @@
 .action-button {
-  background-color: var(--mpdv-color-primary);
+  background-color: var(--mpdv-color-gray-600);
   border: 0 none transparent;
   border-radius: 2px;
   color: white;

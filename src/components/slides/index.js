@@ -14,14 +14,15 @@ const selectValue = (values, currentValue) => {
 const Slides = ({
   children,
   cssClass,
+  currentIdx,
   dismissOverlay,
   layer,
   mapState,
+  navigationType = "tabs",
   overlaySlide,
   projectMap,
-  updateMapState,
-  currentIdx,
   setCurrentIdx,
+  updateMapState,
 }) => {
   const [drawerOpen, setDrawerOpen] = useState(true);
   const slides = Array.isArray(children) ? children : [children];
@@ -70,7 +71,7 @@ const Slides = ({
       <div class={style.header}>
         <SlideNavigation
           currentIdx={currentIdx}
-          navigationType="tabs"
+          navigationType={navigationType}
           slides={slides}
           setCurrentIdx={setCurrentIdx}
         />
@@ -103,13 +104,6 @@ const Slides = ({
                 {overlaySlide}
               </div>
             ) : null,
-            <SlideNavigation
-              key="arrows"
-              currentIdx={currentIdx}
-              navigationType="arrows"
-              slides={slides}
-              setCurrentIdx={setCurrentIdx}
-            />,
           ]
         : null}
     </div>
