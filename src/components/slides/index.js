@@ -71,13 +71,12 @@ const Slides = ({
       <div class={style.header}>
         <SlideNavigation
           currentIdx={currentIdx}
+          drawerOpen={drawerOpen}
           navigationType={navigationType}
+          setDrawerOpen={setDrawerOpen}
           slides={slides}
           setCurrentIdx={setCurrentIdx}
         />
-        <button class={style.handle} onClick={() => setDrawerOpen(!drawerOpen)}>
-          <span class="sr-only">{drawerOpen ? "Close" : "Open"}</span>
-        </button>
       </div>
       {drawerOpen
         ? [

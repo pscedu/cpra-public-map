@@ -1,8 +1,8 @@
 .action-button {
-  background-color: var(--mpdv-color-gray-200);
+  background-color: var(--mpdv-color-gray-600);
   border: 0 none transparent;
   border-radius: 2px;
-  color: var(--mpdv-color-gray-900);
+  color: white;
   cursor: pointer;
   flex: 1 0 auto;
   font-weight: bold;

@@ -1,23 +1,21 @@
 .slide-navigation {
   background-color: white;
-  width: 100%;
-}
-.nav-type-arrows {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  width: 100%;
 }
 .nav-type-arrows .current {
+  align-self: stretch;
   background-color: var(--mpdv-color-teal-500);
   border: 0 none transparent;
-  border-right: 1px solid white;
   color: white;
   display: block;
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-size: 0.9rem;
+  font-family: var(--mpdv-font-family-heading);
+  font-weight: var(--mpdv-font-weight-heading);
   height: 100%;
   overflow: hidden;
-  padding: 1rem;
+  padding: 0.75rem;
   text-align: left;
   text-decoration: none;
   text-overflow: ellipsis;
@@ -28,35 +26,49 @@
 .nav-active-tab-green .current {
   background-color: var(--mpdv-color-green-500);
 }
-.arrow {
-  background-color: transparent;
+.arrow,
+.handle {
   background-color: var(--mpdv-color-gray-200);
   border: 0 none transparent;
-  color: var(--mpdv-color-gray-900);
+  border-left: 1px solid white;
   cursor: pointer;
-  font-size: 2rem;
-  padding: 0 0.75rem;
+  color: var(--mpdv-color-gray-900);
+  font-size: 1.4rem;
+  flex: 0 0 auto;
+  text-align: center;
+  width: 3rem;
+}
+.arrow ion-icon,
+.handle ion-icon {
+  margin: 0;
 }
 .prev {
-  border-right: 1px solid white;
+  border-left: 0 none transparent;
   left: 15px;
 }
 .next {
   right: 15px;
 }
+.arrow,
+.handle {
+  background-color: var(--mpdv-color-teal-200);
+  color: var(--mpdv-color-teal-900);
+}
+.nav-active-tab-green .arrow,
+.nav-active-tab-green .handle,
+.nav-type-tabs .handle {
+  background-color: var(--mpdv-color-green-200);
+  color: var(--mpdv-color-green-900);
+}
 button.disabled {
-  background-color: var(--mpdv-color-gray-200);
-  color: var(--mpdv-color-gray-500);
   cursor: inherit;
+  opacity: 50%;
 }
 li,
 ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
-}
-.nav-type-tabs {
-  width: calc(100% - 3rem);
 }
 .nav-type-tabs ul {
   display: flex;
@@ -81,7 +93,7 @@ ul {
   color: var(--mpdv-color-teal-900);
   cursor: pointer;
   height: 100%;
-  padding: 1rem;
+  padding: 0.75rem;
   text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -109,9 +121,4 @@ ul {
 }
 .nav-type-tabs .inner {
   margin-top: 5px;
-}
-@media (min-width: 1000px) {
-  .arrow {
-    font-size: 2.5rem;
-  }
 }

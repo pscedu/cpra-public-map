@@ -20,8 +20,10 @@ function arrow(targetIdx, slides, setCurrentIdx, cssClass, content) {
 
 const SlideNavigation = ({
   currentIdx,
+  drawerOpen,
   navigationType,
   setCurrentIdx,
+  setDrawerOpen,
   slides,
 }) => {
   const navContent = [];
@@ -30,11 +32,23 @@ const SlideNavigation = ({
     const next = currentIdx + 1;
     const prev = currentIdx - 1;
     navContent.push(
-      arrow(prev, slides, setCurrentIdx, style.prev, <span>&#8249;</span>),
+      arrow(
+        prev,
+        slides,
+        setCurrentIdx,
+        style.prev,
+        <ion-icon name="chevron-back-outline" />
+      ),
       <span class={style.current}>
         {currentSlide.props.tabTitle || currentSlide.props.title}
       </span>,
-      arrow(next, slides, setCurrentIdx, style.next, <span>&#8250;</span>)
+      arrow(
+        next,
+        slides,
+        setCurrentIdx,
+        style.next,
+        <ion-icon name="chevron-forward-outline" />
+      )
     );
   } else {
     const navItems = slides.map((slide, i) => (
@@ -52,15 +66,11 @@ const SlideNavigation = ({
         </button>
       </li>
     ));
-    navContent.push(
-      <nav>
-        <ul>{navItems}</ul>
-      </nav>
-    );
+    navContent.push(<ul>{navItems}</ul>);
   }
 
   return (
-    <div
+    <nav
       class={`${style["slide-navigation"]} ${
         style["nav-type-" + navigationType]
       } ${
@@ -68,7 +78,11 @@ const SlideNavigation = ({
       }`}
     >
       {navContent}
-    </div>
+      <button class={style.handle} onClick={() => setDrawerOpen(!drawerOpen)}>
+        <ion-icon name={`chevron-${drawerOpen ? "down" : "up"}-outline`} />
+        <span class="sr-only">{drawerOpen ? "Close" : "Open"}</span>
+      </button>
+    </nav>
   );
 };
 
