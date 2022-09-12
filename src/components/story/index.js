@@ -39,50 +39,41 @@ const Story = ({
         tabTitle="Introduction"
       >
         <p>
-          Louisiana's complex and fragile ecosystem is disappearing at an
-          alarming rate. Between 1932 and 2016, Louisiana's coast{" "}
-          <a href="https://pubs.er.usgs.gov/publication/sim3381">
-            lost more than 1,866 square miles of land
-          </a>
-          . From 2004 through 2008 alone, more than 300 square miles of
-          marshland were lost to Hurricanes Katrina, Rita, Gustav, and Ike. The
-          major causes of this land loss include the effects of climate change,
-          sea level rise, subsidence, hurricanes, storm surges, disconnection of
-          the Mississippi River from coastal marshes, and human impacts.
+          Louisiana impacted by environmental change over time (link to past
+          change e.g., Brady&apos;s work) that causes challenges with changes to
+          landscape/habitat/veg, leads to land loss, community impacts including
+          flood risk/damages (you will advance through this guided tour by
+          clicking the right pointing arrow at the bottom of the panel).
         </p>
         <p>
-          The 2023 Coastal Master Plan sets an ambitious path to respond to the
-          loss of our coastal land and the threats from storm surge events. The
-          master plan, in its purest sense, is a list of projects that build or
-          maintain land and reduce risk to our communities.
+          First, we&apos;ll see what the future of Louisiana may look like
+          without any further restoration or risk reduction interventions by the
+          state.
         </p>
       </Slide>
       <Slide
         controls={["year"]}
-        layerSpec={layers["Vegetation Type"]}
+        group="G500"
+        layerSpec={layers["Land Change"]}
         updateSlideState={updateMapState}
         slideState={mapState}
-        scenario="S08"
         year="0"
-        tabTitle="Vegetation Type"
+        tabTitle="Environmental Change Over Time"
       >
         <p>
-          One major challenge in parts of coastal Louisiana is the inland
-          migration of salt water over time. As the salinity gradient from
-          coastal marshes to fresh forests is compromised, fresh and brackish
-          species are forced into smaller habitable areas or completely wiped
-          out. To inform restoration and resilience strategies in coastal
-          Louisiana, teams of scientists and engineers have built robust
-          technical models to predict vegetation change over time as a response
-          to anticipated salinity changes.
-        </p>
-        <p>
-          Use the slider below to see how we expect vegetation along the
-          Louisiana coast to change over a 50-year time period.
+          In order to plan for future change, predictive models are used. For
+          planning we look at 50 year window (you will use slider to see data at
+          different points in time). We also have uncertainty about how climate
+          will change, so we look at outcomes with different environmental
+          scenarios (you select lower or higher scenario to see differences
+          between possible future conditions). Lower is more moderate changes to
+          sea level rise and other climate variables, higher is more significant
+          changes from present conditions.
         </p>
       </Slide>
       <Slide
-        controls={["scenario"]}
+        controls={["year", "scenario"]}
+        group="G500"
         layerSpec={layers["Land Change"]}
         updateSlideState={updateMapState}
         slideState={mapState}
@@ -107,7 +98,8 @@ const Story = ({
         </p>
       </Slide>
       <Slide
-        controls={["subtype"]}
+        controls={["year", "subtype"]}
+        group="G500"
         layerSpec={layers["Flood Depth"]}
         updateSlideState={updateMapState}
         slideState={mapState}
@@ -128,6 +120,18 @@ const Story = ({
           from events of various intensities (measured in annual exceedance
           probability or AEP).
         </p>
+      </Slide>
+      <Slide
+        controls={["year", "subtype"]}
+        group="G500"
+        layerSpec={layers["Flood Depth"]}
+        updateSlideState={updateMapState}
+        slideState={mapState}
+        scenario="S07"
+        year="50"
+        tabTitle="Damages"
+      >
+        <p>Placeholder for EAD and EASD</p>
       </Slide>
       <Slide
         layerSpec={layers["Projects"]}
@@ -157,18 +161,77 @@ const Story = ({
         </p>
       </Slide>
       <Slide
+        controls={["year", "scenario"]}
+        group="G500"
+        layerSpec={layers["Land Change"]}
+        updateSlideState={updateMapState}
+        slideState={mapState}
+        scenario="S07"
+        year="50"
+        tabTitle="Land Change"
+        tabClass="green"
+      >
+        <p>
+          The combination of sea level rise, land subsidence, and other
+          environmental factors contributes significantly to rapid rates of land
+          loss in coastal Louisiana. As marsh is converted to open water, the
+          Louisiana coast loses habitat and its ability to suppress the impacts
+          of large storms. The rate of land change over time is uncertain to
+          some degree, so the 2023 Coastal Master Plan considers multiple future
+          environmental scenarios to ensure we prepare for a wide range of
+          possibilities.
+        </p>
+        <p>
+          Click the buttons below to view the modeled land change taking into
+          account <strong>Lower</strong> rates of environmental change over time
+          and <strong>Higher</strong> rates of environmental change over time.
+        </p>
+      </Slide>
+      <Slide
+        controls={["year", "subtype"]}
+        group="G603"
+        layerSpec={layers["Flood Depth"]}
+        updateSlideState={updateMapState}
+        slideState={mapState}
+        scenario="S07"
+        year="50"
+        tabTitle="Flood Depth"
+        tabClass="green"
+      >
+        <p>
+          Coastal Louisiana experiences a wide range of storm intensities, from
+          tropical storms to Category 5 hurricanes. To estimate future flooding
+          impacts, we model a range of storm intensities, sizes, and landfall
+          locations across the coast. This information, along with the relative
+          likelihood of each storm occurring, provides a rough idea of how
+          flooding could occur across Louisiana's coast over the next 50 years.
+        </p>
+        <p>
+          Use the buttons below to view the projected flood depths resulting
+          from events of various intensities (measured in annual exceedance
+          probability or AEP).
+        </p>
+      </Slide>
+      <Slide
+        controls={["year", "subtype"]}
+        group="G500"
+        layerSpec={layers["Flood Depth"]}
+        updateSlideState={updateMapState}
+        slideState={mapState}
+        scenario="S07"
+        year="50"
+        tabTitle="Damages"
+        tabClass="green"
+      >
+        <p>Placeholder for EAD and EASD</p>
+      </Slide>
+      <Slide
         layerSpec={layers["Projects"]}
         updateSlideState={updateMapState}
         slideState={mapState}
         tabTitle="Next Steps"
         tabClass="green"
       >
-        <p>
-          Use the map navigation features to learn more about 2023 Coastal
-          Master Plan candidate projects. You can navigate the map by clicking
-          and dragging, or click on a project to learn more. You can also search
-          for an address, city, parish, or project.
-        </p>
         <h3>Interested in seeing more data?</h3>
         <p class={style.button}>
           <ActionButton

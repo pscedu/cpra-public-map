@@ -127,26 +127,42 @@ export const views = {
     layer: "Projects",
   },
   "slide-0": {
-    title: "Executive Summary",
+    title: "Introduction",
     layer: "Projects",
   },
   "slide-1": {
-    title: "Vegetation Type",
-    layer: "Vegetation Type",
+    title: "Environmental Change Over Time",
+    layer: "Land Change",
   },
   "slide-2": {
     title: "Land Change",
     layer: "Land Change",
   },
   "slide-3": {
-    title: "Storm Surge-Based Flood Depths",
+    title: "Flood Depths",
     layer: "Flood Depth",
   },
   "slide-4": {
-    title: "Candidate Projects",
-    layer: "Projects",
+    title: "Damages",
+    layer: "Flood Depth",
   },
   "slide-5": {
+    title: "Projects",
+    layer: "Projects",
+  },
+  "slide-6": {
+    title: "Land Change",
+    layer: "Land Change",
+  },
+  "slide-7": {
+    title: "Flood Depths",
+    layer: "Flood Depth",
+  },
+  "slide-8": {
+    title: "Damages",
+    layer: "Flood Depth",
+  },
+  "slide-9": {
     title: "Navigating the Candidate Project Map",
     layer: "Projects",
   },
