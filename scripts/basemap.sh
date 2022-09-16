@@ -10,25 +10,25 @@ export GDAL_NUM_THREADS="ALL_CPUS"
 mkdir -p "$WORKING"
 mkdir -p "$TILES"
 
-# Merge the two land-water interface rasters.
-gdal_merge.py -o $WORKING/lwi_merged.tif \
-    $DATA/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_lndtyp.tif \
-    $DATA/InitialConditionLand-WaterInterface-AtchafalayaBasin.tif
+# # Merge the two land-water interface rasters.
+# gdal_merge.py -o $WORKING/lwi_merged.tif \
+#     $DATA/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_lndtyp.tif \
+#     $DATA/InitialConditionLand-WaterInterface-AtchafalayaBasin.tif
 
-# Colorize the merged land-water interface raster.
-cat > $WORKING/lwi.clr << EOF
-3 214 214 214
-2 255 255 255
-1 214 214 214
-0 0 0 0 0
-EOF
-gdaldem color-relief -alpha $WORKING/lwi_merged.tif $WORKING/lwi.clr $WORKING/lwi.tif
+# # Colorize the merged land-water interface raster.
+# cat > $WORKING/lwi.clr << EOF
+# 3 214 214 214
+# 2 255 255 255
+# 1 214 214 214
+# 0 0 0 0 0
+# EOF
+# gdaldem color-relief -alpha $WORKING/lwi_merged.tif $WORKING/lwi.clr $WORKING/lwi.tif
 
-# Tile the land-water interface raster.
-gdal_translate $WORKING/lwi.tif $TILES/lwi.mbtiles \
-    -of MBTILES -co ZOOM_LEVEL_STRATEGY=UPPER \
-    -co NAME="Base Map: Raster"
-gdaladdo $TILES/basemap-raster.mbtiles -r cubic
+# # Tile the land-water interface raster.
+# gdal_translate $WORKING/lwi.tif $TILES/lwi.mbtiles \
+#     -of MBTILES -co ZOOM_LEVEL_STRATEGY=UPPER \
+#     -co NAME="Base Map: Raster"
+# gdaladdo $TILES/basemap-raster.mbtiles -r cubic
 
 # Convert vector layers to GeoJSON.
 read -r -d '' road_sql << SQL
@@ -65,21 +65,21 @@ read -r -d '' community_label_sql << SQL
 select replace(replace(replace(replace(TextString, X'0A', ' '), X'0D', ' '),
         '  ', ' '), '  ', ' ') as text,
     'community' as type,
-    SHAPE
+    geom
 from Ref_Communities_CoastwideLocations
 SQL
 ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$community_label_sql" \
-    $WORKING/label.geojson $DATA/productionmap_formapping_arcmap.gdb
+    $WORKING/label.geojson $DATA/labels.gpkg
 
 read -r -d '' water_label_sql << SQL
 select replace(replace(replace(replace(TextString, X'0A', ' '), X'0D', ' '),
         '  ', ' '), '  ', ' ') as text,
     'water' as type,
-    SHAPE
+    geom
 from Ref_Waterbodies_CoastwideLocations
 SQL
 ogr2ogr -append -t_srs "EPSG:4326" -dialect sqlite -sql "$water_label_sql" \
-    $WORKING/label.geojson $DATA/productionmap_formapping_arcmap.gdb
+    $WORKING/label.geojson $DATA/labels.gpkg
 
 
 read -r -d '' project_sql << SQL
