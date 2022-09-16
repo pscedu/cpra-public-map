@@ -32,6 +32,9 @@ const SlideNavigation = ({
     const next = currentIdx + 1;
     const prev = currentIdx - 1;
     navContent.push(
+      <span class={style.current}>
+        {currentSlide.props.tabTitle || currentSlide.props.title}
+      </span>,
       arrow(
         prev,
         slides,
@@ -39,9 +42,6 @@ const SlideNavigation = ({
         style.prev,
         <ion-icon name="chevron-back-outline" />
       ),
-      <span class={style.current}>
-        {currentSlide.props.tabTitle || currentSlide.props.title}
-      </span>,
       arrow(
         next,
         slides,
