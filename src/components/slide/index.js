@@ -2,6 +2,7 @@ import { h } from "preact";
 import style from "./style.css";
 
 import Buttons from "../buttons";
+import Checkbox from "../checkbox";
 import Year from "../year";
 
 const stateProp = (propName, state = {}, updateState) => {
@@ -33,6 +34,11 @@ const Slide = ({
     updateSlideState
   );
   const [group, setGroup] = stateProp("group", slideState, updateSlideState);
+  const [projects, setProjects] = stateProp(
+    "projects",
+    slideState,
+    updateSlideState
+  );
   const [subtype, setSubtype] = stateProp(
     "subtype",
     slideState,
@@ -98,6 +104,16 @@ const Slide = ({
       />
     );
   }
+
+  if (controls.includes("projects"))
+    controlComponents.push(
+      <Checkbox
+        label="Show candidate projects"
+        value={projects}
+        setValue={setProjects}
+        disabled={slideState.group === "G500"}
+      />
+    );
 
   return (
     <section class={`${style.slide} ${cssClass}`}>

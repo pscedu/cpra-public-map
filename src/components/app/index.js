@@ -41,6 +41,7 @@ const App = () => {
       group: "G500",
       politicalBoundary: null,
       prevYear: null,
+      projects: "true",
       subtype: null,
       year: "50",
     },

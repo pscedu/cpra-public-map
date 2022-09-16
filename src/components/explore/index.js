@@ -44,7 +44,7 @@ const Explore = ({
       updateMapState={updateMapState}
     >
       <Slide
-        controls={["scenario", "group", "year"]}
+        controls={["scenario", "group", "year", "projects"]}
         controlsPosition="start"
         cssClass={style["model-slide"]}
         layerSpec={layers["Land Change"]}
@@ -57,7 +57,7 @@ const Explore = ({
         </div>
       </Slide>
       <Slide
-        controls={["scenario", "group", "year"]}
+        controls={["scenario", "group", "year", "projects"]}
         controlsPosition="start"
         cssClass={style["model-slide"]}
         layerSpec={layers["Vegetation Type"]}
@@ -70,7 +70,7 @@ const Explore = ({
         </div>
       </Slide>
       <Slide
-        controls={["scenario", "subtype", "year"]}
+        controls={["scenario", "subtype", "year", "projects"]}
         controlsPosition="start"
         cssClass={style["model-slide"]}
         layerSpec={layers["Flood Depth"]}

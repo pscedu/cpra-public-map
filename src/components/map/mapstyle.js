@@ -463,7 +463,8 @@ export function getStyle(services, mapState, layer, selection, maxBounds) {
         },
       },
       ...projectLayers(
-        layer == "Projects" || mapState.group !== "G500",
+        layer == "Projects" ||
+          (mapState.group !== "G500" && mapState.projects === "true"),
         ["<=", ["get", "year"], parseInt(mapState.year, 10)],
         layer !== "Projects"
       ),
