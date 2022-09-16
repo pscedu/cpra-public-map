@@ -15,7 +15,7 @@
   font-weight: var(--mpdv-font-weight-heading);
   height: 100%;
   overflow: hidden;
-  padding: 0.75rem;
+  padding: 0.5rem 0.75rem;
   text-align: left;
   text-decoration: none;
   text-overflow: ellipsis;
@@ -93,7 +93,7 @@ ul {
   color: var(--mpdv-color-teal-900);
   cursor: pointer;
   height: 100%;
-  padding: 0.75rem;
+  padding: 0.5rem 0.75rem;
   text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
