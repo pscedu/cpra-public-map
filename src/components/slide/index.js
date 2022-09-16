@@ -101,13 +101,15 @@ const Slide = ({
 
   return (
     <section class={`${style.slide} ${cssClass}`}>
+      <h2 class={!title ? "sr-only" : style.visible}>{title || tabTitle}</h2>
       <div class={style.inner}>
-        <h2 class={!title ? "sr-only" : style.visible}>{title || tabTitle}</h2>
         {controlComponents.length ? (
           <div class={style.controls}>{controlComponents}</div>
         ) : null}
-        {children}
-        {footer ? footer : null}
+        <div class={style.body}>
+          {children}
+          {footer ? footer : null}
+        </div>
       </div>
     </section>
   );
