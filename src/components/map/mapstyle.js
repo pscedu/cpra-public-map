@@ -320,7 +320,13 @@ export function getStyle(services, mapState, layer, selection, maxBounds) {
     mapState.subtype
   );
   const modelLayers = Object.values(services)
-    .filter((service) => service.name.indexOf("Base Map") == -1)
+    .filter(
+      (service) =>
+        !(
+          service.name.startsWith("Base Map") ||
+          service.name.startsWith("Damage")
+        )
+    )
     .map((service) => {
       return {
         id: service.name,
