@@ -59,7 +59,11 @@ export function useLayers(services) {
     if (!services) return;
     const specs = {};
     for (let service of Object.values(services)) {
-      if (service.name.indexOf("Base Map") != -1) continue;
+      if (
+        service.name.startsWith("Base Map") ||
+        service.name.startsWith("Damage")
+      )
+        continue;
       let [name, scenario, group, year, subtype] = service.name.split(" - ");
       let layer = (specs[name] = specs[name] || {
         name,
