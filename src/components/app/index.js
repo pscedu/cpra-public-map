@@ -36,13 +36,14 @@ const App = () => {
   const [map, setMap] = useState(null);
   const [mapState, updateMapStateHash] = useHashState(
     {
-      scenario: "S07",
-      view: "slide-0",
+      damage: "EAD",
       group: "G500",
       politicalBoundary: null,
       prevYear: null,
       projects: "true",
+      scenario: "S07",
       subtype: null,
+      view: "slide-0",
       year: "50",
     },
     ["prevYear"]

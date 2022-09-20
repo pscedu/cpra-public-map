@@ -28,6 +28,7 @@ const Slide = ({
   title,
   yearStep = 10,
 }) => {
+  const [damage, setDamage] = stateProp("damage", slideState, updateSlideState);
   const [scenario, setScenario] = stateProp(
     "scenario",
     slideState,
@@ -46,6 +47,7 @@ const Slide = ({
   );
 
   const controlComponents = [];
+
   if (controls.includes("year"))
     controlComponents.push(
       <Year
@@ -84,6 +86,20 @@ const Slide = ({
         value={group}
         setValue={setGroup}
         tooltip="Select <strong>Future Without Action</strong> to view model results in a scenario without construction and/or operation of the recommended projects from the 2023 Coastal Master Plan. Select <strong>With 2023 Master Plan</strong> to view model results with implementation of the recommended projects from the 2023 Coastal Master Plan (i.e. assuming construction and operation of coastal restoration and flood protection projects as recommended in the Master Plan)."
+      />
+    );
+
+  if (controls.includes("damage"))
+    controlComponents.push(
+      <Buttons
+        analyticsId="damage"
+        choices={[
+          ["EAD", "Dollars"],
+          ["EASD", "Structures"],
+        ]}
+        label="Damage Metric"
+        value={damage}
+        setValue={setDamage}
       />
     );
 

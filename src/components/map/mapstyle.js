@@ -351,6 +351,39 @@ export function getStyle(services, mapState, layer, selection, maxBounds) {
       };
     });
 
+  const damageLayers = [];
+  if (layer === "Damage") {
+    let damageProp =
+      `${mapState.damage.toLowerCase()}_` +
+      `${mapState.scenario.toLowerCase()}_${mapState.group.toLowerCase()}_` +
+      `year${mapState.year}`;
+    damageLayers.push({
+      id: `damage-polygon`,
+      type: "fill",
+      source: "Damage: Vector",
+      "source-layer": "damage",
+      paint: {
+        "fill-color": [
+          "step",
+          ["get", damageProp],
+          "#4E7872",
+          1000000,
+          "#3D9E8B",
+          10000000,
+          "#6CB686",
+          50000000,
+          "#B9D1A5",
+          100000000,
+          "#CDABC9",
+          500000000,
+          "#A46093",
+          1000000000,
+          "#77256D",
+        ],
+      },
+    });
+  }
+
   let selectedProjects = null;
   if (selection.project)
     selectedProjects = ["==", ["get", "name"], selection.project];
@@ -412,6 +445,7 @@ export function getStyle(services, mapState, layer, selection, maxBounds) {
         source: "Base Map: Raster",
       },
       ...modelLayers,
+      ...damageLayers,
       {
         id: "levee",
         type: "line",

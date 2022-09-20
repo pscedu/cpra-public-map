@@ -80,7 +80,7 @@ const Print = ({
     <Legend
       dpi={dpi}
       legends={legends}
-      layer={layer}
+      layer={layer === "Damage" ? `Damage: ${mapState.damage}` : layer}
       margin={margin}
       printing={printing}
     />

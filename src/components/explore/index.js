@@ -11,7 +11,7 @@ const viewOrder = [
   "land-change",
   "vegetation-type",
   "flood-depth",
-  // "social-vulnerability",
+  "damage",
   "projects",
 ];
 
@@ -82,13 +82,19 @@ const Explore = ({
           <Disclaimer />
         </div>
       </Slide>
-      {/* <Slide
-        controls={["scenario", "group", "year"]}
-        layerSpec={{ name: "Social Vulnerability" }}
+      <Slide
+        controls={["scenario", "group", "year", "damage", "projects"]}
+        controlsPosition="start"
+        cssClass={style["model-slide"]}
+        layerSpec={layers["Damage"]}
         updateSlideState={updateMapState}
         slideState={mapState}
-        tabTitle="Social Vulnerability"
-      /> */}
+        tabTitle="Damage"
+      >
+        <div class={style["slide-explanation"]}>
+          <Disclaimer />
+        </div>
+      </Slide>
       <Slide
         tabTitle="Projects"
         layerSpec={layers["Projects"]}
