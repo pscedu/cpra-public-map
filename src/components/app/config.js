@@ -167,8 +167,8 @@ export const views = {
     layer: "Flood Depth",
   },
   "slide-4": {
-    title: "Damages",
-    layer: "Flood Depth",
+    title: "Damage",
+    layer: "Damage",
   },
   "slide-5": {
     title: "Projects",
@@ -183,8 +183,8 @@ export const views = {
     layer: "Flood Depth",
   },
   "slide-8": {
-    title: "Damages",
-    layer: "Flood Depth",
+    title: "Damage",
+    layer: "Damage",
   },
   "slide-9": {
     title: "Navigating the Candidate Project Map",

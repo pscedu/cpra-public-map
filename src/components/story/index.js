@@ -122,14 +122,14 @@ const Story = ({
         </p>
       </Slide>
       <Slide
-        controls={["year", "subtype"]}
+        controls={["year", "damage"]}
         group="G500"
         layerSpec={layers["Flood Depth"]}
         updateSlideState={updateMapState}
         slideState={mapState}
         scenario="S07"
         year="50"
-        tabTitle="Damages"
+        tabTitle="Damage"
       >
         <p>Placeholder for EAD and EASD</p>
       </Slide>
@@ -213,14 +213,14 @@ const Story = ({
         </p>
       </Slide>
       <Slide
-        controls={["year", "subtype"]}
+        controls={["year", "damage"]}
         group="G500"
-        layerSpec={layers["Flood Depth"]}
+        layerSpec={layers["Damage"]}
         updateSlideState={updateMapState}
         slideState={mapState}
         scenario="S07"
         year="50"
-        tabTitle="Damages"
+        tabTitle="Damage"
         tabClass="green"
       >
         <p>Placeholder for EAD and EASD</p>
