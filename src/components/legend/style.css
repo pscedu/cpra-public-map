@@ -3,7 +3,7 @@
   margin: 0;
   min-width: 10%;
   position: absolute;
-  right: calc(50px + var(--mpdv-app-margin));
+  right: var(--mpdv-app-margin);
   z-index: 50;
 }
 .legend-inner {
@@ -11,9 +11,6 @@
   box-shadow: rgba(0, 0, 0, 0.1) 0 0 4px;
   min-width: 10%;
   padding: 1em 1.5em;
-}
-.legend-projects {
-  display: none;
 }
 .legend-printing {
   display: block;
@@ -55,6 +52,7 @@
 @media (min-width: 700px) {
   .legend-interactive {
     bottom: var(--mpdv-app-margin);
+    right: calc(50px + var(--mpdv-app-margin));
   }
 }
 @media (min-width: 1000px) {
@@ -63,10 +61,5 @@
   }
   .legend-interactive .symbol {
     height: 20px;
-  }
-}
-@media (min-width: 1600px) {
-  .legend-projects {
-    display: block;
   }
 }
