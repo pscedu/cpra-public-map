@@ -28,11 +28,11 @@
 }
 .arrow,
 .handle {
-  background-color: var(--mpdv-color-gray-200);
+  background-color: var(--mpdv-color-teal-500);
   border: 0 none transparent;
   border-left: 1px solid white;
   cursor: pointer;
-  color: var(--mpdv-color-gray-900);
+  color: white;
   font-size: 1.4rem;
   flex: 0 0 auto;
   text-align: center;
@@ -43,19 +43,15 @@
   margin: 0;
 }
 .prev {
-  border-left: 0 none transparent;
   left: 15px;
 }
 .next {
   right: 15px;
 }
-.arrow,
-.handle {
-  background-color: var(--mpdv-color-teal-200);
-  color: var(--mpdv-color-teal-900);
-}
 .nav-active-tab-green .arrow,
-.nav-active-tab-green .handle,
+.nav-active-tab-green .handle {
+  background-color: var(--mpdv-color-green-500);
+}
 .nav-type-tabs .handle {
   background-color: var(--mpdv-color-green-200);
   color: var(--mpdv-color-green-900);
