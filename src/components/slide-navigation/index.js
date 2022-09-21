@@ -79,7 +79,11 @@ const SlideNavigation = ({
     >
       {navContent}
       <button class={style.handle} onClick={() => setDrawerOpen(!drawerOpen)}>
-        <ion-icon name={`chevron-${drawerOpen ? "down" : "up"}-outline`} />
+        <ion-icon
+          class={style["icon-lg"]}
+          name={`chevron-${drawerOpen ? "down" : "up"}-outline`}
+        />
+        <ion-icon class={style["icon-md"]} src="/assets/buttons/legend.svg" />
         <span class="sr-only">{drawerOpen ? "Close" : "Open"}</span>
       </button>
     </nav>

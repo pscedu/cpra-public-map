@@ -122,3 +122,14 @@ ul {
 .nav-type-tabs .inner {
   margin-top: 5px;
 }
+.icon-lg {
+  display: none;
+}
+@media (min-width: 700px) {
+  .icon-md {
+    display: none;
+  }
+  .icon-lg {
+    display: inline-block;
+  }
+}
