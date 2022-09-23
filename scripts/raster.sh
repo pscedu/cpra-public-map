@@ -78,11 +78,15 @@ convert_raster () {
     raster_type="$2"
     raster_name="$3"
     mask="$4"
+    out_name="$5"
     in_name=$(basename "$in_path")
 
     echo "Converting $in_name..."
     color_path="$WORKING/$raster_type.clr"
-    out_name="${in_name%.tif}.mbtiles"
+
+    if [ -z "$out_name" ]; then
+        out_name="${in_name%.tif}.mbtiles"
+    fi
     out_path="$TILES/$out_name"
     working_tif_path="$WORKING/working.tif"
     working_tiles_path="$WORKING/$out_name"
@@ -142,4 +146,34 @@ do
     raster_name="Flood Depth - $s - $g - Year $year - Exceedance Probability $exceedance"
     convert_raster $in_path "CLARA" "$raster_name" \
         "/vsizip/$DATA/Lake_Mask.zip/Lake Mask/lake_mask_for_mapping.shp"
+done
+
+# Process historical land change rasters
+loss_breakpoints=(1 3 5 8 13 19)
+years=(1956 1975 1985 1995 2006 2015)
+gain_start=20
+
+for i in "${!loss_breakpoints[@]}"; do
+    loss_breakpoint=${loss_breakpoints[i]}
+    gain_breakpoint=$(($gain_start + $loss_breakpoint - 1))
+    year=${years[i]}
+
+    in_path="$DATA/historic_land_change/sim_3381_persistent_change_spatial_data_092616.img"
+    raster_type="historical_land_use_${year}"
+    raster_name="Historical Land Change - S07 - G500 - Year $year"
+
+    cat > "$WORKING/$raster_type.clr" << EOF
+-9999 0 0 0 0
+0.9 0 0 0 0
+1 69 145 172
+$loss_breakpoint.1 69 145 172
+$loss_breakpoint.2 0 0 0 0
+$(($gain_start - 1)).9 0 0 0 0
+$gain_start 38 81 24
+$gain_breakpoint.1 38 81 24
+$gain_breakpoint.2 0 0 0 0
+9999 0 0 0 0
+EOF
+
+    convert_raster $in_path "$raster_type" "$raster_name" "" "$raster_type.mbtiles"
 done
