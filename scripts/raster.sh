@@ -159,7 +159,7 @@ for i in "${!loss_breakpoints[@]}"; do
     year=${years[i]}
 
     in_path="$DATA/historic_land_change/sim_3381_persistent_change_spatial_data_092616.img"
-    raster_type="historical_land_use_${year}"
+    raster_type="historical_land_change_${year}"
     raster_name="Historical Land Change - S07 - G500 - Year $year"
 
     cat > "$WORKING/$raster_type.clr" << EOF
