@@ -48,7 +48,7 @@
   font-weight: 700;
   height: 100%;
   overflow: hidden;
-  padding: 1rem;
+  padding: 0.5rem 0.75rem;
   text-align: left;
   text-decoration: none;
   text-overflow: ellipsis;
@@ -56,9 +56,19 @@
   white-space: nowrap;
   width: 100%;
 }
+.header {
+  display: flex;
+}
 .open .overlay .handle {
   background-color: var(--mpdv-color-green-500);
-  border-left: 0 none transparent;
+  border: 0 none transparent;
+  border-left: 1px solid white;
+  cursor: pointer;
+  color: white;
+  font-size: 1.2rem;
+  flex: 0 0 auto;
+  text-align: center;
+  width: 3rem;
 }
 .open .overlay .handle::after {
   color: white;
