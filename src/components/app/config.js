@@ -82,7 +82,7 @@ export const legends = {
   },
   "Historical Land Change": {
     images: ["#4591ac", "#265118"].map(colorSwatch),
-    labels: ["Persistent land Loss", "Persistent Land Gain"],
+    labels: ["Persistent Land Loss", "Persistent Land Gain"],
   },
   "Land Change": {
     images: ["#4591ac", "#265118"].map(colorSwatch),
