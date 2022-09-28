@@ -84,7 +84,7 @@ export function useLayers(services) {
         layer.subtypes.sort((a, b) => toFloat(a) - toFloat(b));
 
     specs["Projects"] = { name: "Projects", years: [] };
-    specs["Damage"] = { name: "Projects", years: [] };
+    specs["Damage"] = { name: "Damage", years: [] };
     setLayers(specs);
   }, [services]);
   return layers;

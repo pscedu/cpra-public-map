@@ -152,7 +152,7 @@ export const views = {
   },
   "slide-0": {
     title: "Introduction",
-    layer: "Projects",
+    layer: "Historical Land Change",
   },
   "slide-1": {
     title: "Environmental Change Over Time",

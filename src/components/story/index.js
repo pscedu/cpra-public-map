@@ -33,9 +33,12 @@ const Story = ({
       updateMapState={updateMapState}
     >
       <Slide
+        group="G500"
+        scenario="S07"
+        year="2015"
         updateSlideState={updateMapState}
         slideState={mapState}
-        layerSpec={layers["Projects"]}
+        layerSpec={layers["Historical Land Change"]}
         tabTitle="Introduction"
       >
         <p>
@@ -54,6 +57,7 @@ const Story = ({
       <Slide
         controls={["year"]}
         group="G500"
+        scenario="S07"
         layerSpec={layers["Land Change"]}
         updateSlideState={updateMapState}
         slideState={mapState}
