@@ -60,8 +60,8 @@ input[type="range"]::-ms-thumb {
   width: 12px;
 }
 input[type="range"]::-webkit-slider-thumb {
-  background-color: #274d36;
-  border: 1px solid #274d36;
+  background-color: var(--mpdv-color-gray-600);
+  border: 1px solid var(--mpdv-color-gray-600);
   border-radius: 3px;
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
   height: 18px;
