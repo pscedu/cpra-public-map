@@ -16,11 +16,9 @@ const Slides = ({
   cssClass,
   currentIdx,
   dismissOverlay,
-  layer,
   mapState,
   navigationType = "tabs",
   overlaySlide,
-  projectMap,
   setCurrentIdx,
   updateMapState,
 }) => {
@@ -32,31 +30,29 @@ const Slides = ({
     window.addEventListener("slidesOpenDrawer", () => setDrawerOpen(true));
   }, []);
 
-  let { layerSpec, projectName } = currentSlide.props;
+  let { view } = currentSlide.props;
   useEffect(() => {
-    if (!layerSpec) return;
+    let layer = view.layer;
+    if (!layer) return;
     if (mapState.subtype) prevSubypes[layer] = mapState.subtype;
     let year = currentSlide.props.year || mapState.year;
     if (mapState.view !== "projects" && mapState.view !== "slide-0")
       year = Math.floor(year / 10) * 10;
     updateMapState({
       group: selectValue(
-        layerSpec.groups || [],
+        layer.groups || [],
         currentSlide.props.group || mapState.group
       ),
       scenario: selectValue(
-        layerSpec.scenarios || [],
+        layer.scenarios || [],
         currentSlide.props.scenario || mapState.scenario
       ),
       subtype:
-        (layerSpec.subtypes || []).length > 0
-          ? prevSubypes[layerSpec.name] || layerSpec.subtypes[0]
+        (layer.subtypes || []).length > 0
+          ? prevSubypes[layer.name] || layer.subtypes[0]
           : null,
       year,
     });
-
-    let project = projectMap[projectName];
-    if (project) project.select();
   }, [currentIdx]);
 
   useLayoutEffect(() => {

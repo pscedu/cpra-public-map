@@ -7,10 +7,10 @@ function linearZoom(min, max) {
 }
 
 function getLayerName(layer, scenario, group, year, subtype) {
-  let name = `${layer} - ${scenario} - ${group} - Year ${
+  let name = `${layer.name} - ${scenario} - ${group} - Year ${
     layer != "Historical Land Change" ? Math.floor(year / 10) * 10 : year
   }`;
-  if (subtype) name += ` - ${subtype}`;
+  if (subtype) name += ` - ${layer.subtypeName} ${subtype}`;
   return name;
 }
 
@@ -352,7 +352,7 @@ export function getStyle(services, mapState, layer, selection, maxBounds) {
     });
 
   const damageLayers = [];
-  if (layer === "Damage") {
+  if (layer.name === "Damage") {
     let damageProp =
       `${mapState.damage.toLowerCase()}_` +
       `${mapState.scenario.toLowerCase()}_${mapState.group.toLowerCase()}_` +
@@ -503,10 +503,10 @@ export function getStyle(services, mapState, layer, selection, maxBounds) {
         },
       },
       ...projectLayers(
-        layer == "Projects" ||
+        layer.name == "Projects" ||
           (mapState.group !== "G500" && mapState.projects === "true"),
         true,
-        layer !== "Projects"
+        layer.name !== "Projects"
       ),
       {
         id: "search-screen",

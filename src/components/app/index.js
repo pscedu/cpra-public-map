@@ -6,7 +6,6 @@ import { fireEvent, gtag, internal } from "../../utils";
 import * as config from "./config";
 import {
   useHashState,
-  useLayers,
   useProjects,
   useSearchIndex,
   useServices,
@@ -31,7 +30,6 @@ const App = () => {
 
   const searchIndex = useSearchIndex(projects);
   const services = useServices(config.servicesUrl);
-  const layers = useLayers(services);
   const [selection, setSelection] = useState({});
   const [map, setMap] = useState(null);
   const [mapState, updateMapStateHash] = useHashState(
@@ -74,7 +72,7 @@ const App = () => {
     updateMapStateHash(updates);
   };
   const [introOpen, setIntroOpen] = useState(mapState.view == "slide-0");
-  const layer = config.views[mapState.view].layer;
+  const view = config.views[mapState.view];
   const storySlide = mapState.view.startsWith("slide-")
     ? parseInt(mapState.view.replace("slide-", ""), 10)
     : null;
@@ -103,7 +101,7 @@ const App = () => {
   const overlaySlide = project ? (
     <Slide
       tabTitle="Project Details"
-      layerSpec={layers["Projects"]}
+      view={config.views.projects}
       tabClass="green"
     >
       <ProjectDetail
@@ -119,29 +117,27 @@ const App = () => {
     drawerContent = (
       <Explore
         dismissOverlay={clearProject}
-        layer={layer}
         overlaySlide={overlaySlide}
         projectMap={projectMap}
         projects={projects}
         projectTypeDescriptions={config.projectTypeDescriptions}
         projectTypes={config.projectTypes}
         mapState={mapState}
-        layers={layers}
         updateMapState={updateMapState}
+        views={config.views}
       />
     );
   } else {
     drawerContent = (
       <Story
         dismissOverlay={clearProject}
-        layer={layer}
-        layers={layers}
         overlaySlide={overlaySlide}
         projectMap={projectMap}
         mapState={mapState}
         slide={storySlide === null ? storySlide : parseInt(storySlide, 10)}
         setSlide={setStorySlide}
         updateMapState={updateMapState}
+        views={config.views}
       />
     );
   }
@@ -166,7 +162,7 @@ const App = () => {
       />
       {printing ? null : <Watermark>DRAFT</Watermark>}
       <Print
-        layer={layer}
+        layer={view.layer}
         legends={config.legends}
         map={map}
         mapState={mapState}
@@ -176,7 +172,7 @@ const App = () => {
       >
         <Map
           {...{
-            layer,
+            layer: view.layer,
             mapDefaults: config.mapDefaults,
             map,
             mapState,

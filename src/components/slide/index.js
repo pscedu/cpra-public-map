@@ -20,12 +20,9 @@ const Slide = ({
   children,
   controls = [],
   cssClass = "",
-  footer,
-  layerSpec,
   updateSlideState,
   slideState,
-  tabTitle,
-  title,
+  view,
   yearStep = 10,
 }) => {
   const [damage, setDamage] = stateProp("damage", slideState, updateSlideState);
@@ -54,7 +51,7 @@ const Slide = ({
         updateState={updateSlideState}
         state={slideState}
         step={yearStep}
-        years={layerSpec.years}
+        years={view.layer.years}
         tooltip="The Louisiana Coastal Master Plan utilizes technical models to predict coastal land change and flood risk over a 50-year period. Use the slider below to view decadal model results from initial conditions to 50 years into the future."
       />
     );
@@ -104,7 +101,7 @@ const Slide = ({
     );
 
   if (controls.includes("subtype")) {
-    const choices = layerSpec.subtypes.map((name) => {
+    const choices = view.layer.subtypes.map((name) => {
       let parts = name.split(" ");
       let last = parts.pop();
       return [name, `${parseFloat(last)}%`];
@@ -133,15 +130,12 @@ const Slide = ({
 
   return (
     <section class={`${style.slide} ${cssClass}`}>
-      <h2 class={!title ? "sr-only" : style.visible}>{title || tabTitle}</h2>
+      <h2 class={"sr-only"}>{view.title}</h2>
       <div class={style.inner}>
         {controlComponents.length ? (
           <div class={style.controls}>{controlComponents}</div>
         ) : null}
-        <div class={style.body}>
-          {children}
-          {footer ? footer : null}
-        </div>
+        <div class={style.body}>{children}</div>
       </div>
     </section>
   );

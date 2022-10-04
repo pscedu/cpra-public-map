@@ -46,7 +46,7 @@ const Print = ({
       `${printText.group[mapState.group]} - Draft`,
     ],
     secondary: [
-      `${printText.layer[layer] || layer} - Year ${mapState.year}`,
+      `${printText.layer[layer.name] || layer.name} - Year ${mapState.year}`,
       `${printText.scenario[mapState.scenario]} - ${mapState.scenario}`,
     ],
   };
@@ -80,7 +80,9 @@ const Print = ({
     <Legend
       dpi={dpi}
       legends={legends}
-      layer={layer === "Damage" ? `Damage: ${mapState.damage}` : layer}
+      layer={
+        layer.name === "Damage" ? `Damage: ${mapState.damage}` : layer.name
+      }
       margin={margin}
       printing={printing}
     />

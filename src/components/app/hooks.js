@@ -8,8 +8,6 @@ import {
 import { projectTypes } from "./config";
 import { getHashObject, getHashString } from "./hash";
 
-const toFloat = (value) => parseFloat(value.replace(/[^0-9.]/g, ""));
-
 export function useHashState(defaults, excluded = []) {
   const [value, setValue] = useState(getHashObject(defaults));
 
@@ -51,43 +49,6 @@ export function useHashVar(name, defaultValue) {
     updateObj(updates);
   };
   return [obj[name], setValue];
-}
-
-export function useLayers(services) {
-  const [layers, setLayers] = useState(null);
-  useEffect(() => {
-    if (!services) return;
-    const specs = {};
-    for (let service of Object.values(services)) {
-      if (
-        service.name.startsWith("Base Map") ||
-        service.name.startsWith("Damage")
-      )
-        continue;
-      let [name, scenario, group, year, subtype] = service.name.split(" - ");
-      let layer = (specs[name] = specs[name] || {
-        name,
-        groups: [],
-        scenarios: [],
-        subtypes: [],
-        years: [],
-      });
-      layer.years.push(year.replace("Year ", ""));
-      if (group && !layer.groups.includes(group)) layer.groups.push(group);
-      if (scenario && !layer.scenarios.includes(scenario))
-        layer.scenarios.push(scenario);
-      if (subtype && !layer.subtypes.includes(subtype))
-        layer.subtypes.push(subtype);
-    }
-    for (let layer of Object.values(specs))
-      if (layer.subtypes)
-        layer.subtypes.sort((a, b) => toFloat(a) - toFloat(b));
-
-    specs["Projects"] = { name: "Projects", years: [] };
-    specs["Damage"] = { name: "Damage", years: [] };
-    setLayers(specs);
-  }, [services]);
-  return layers;
 }
 
 export function useProjects(projectsUrl) {

@@ -12,7 +12,7 @@ function arrow(targetIdx, slides, setCurrentIdx, cssClass, content) {
       }`}
       onClick={hasTarget ? () => setCurrentIdx(targetIdx) : null}
     >
-      <span class="sr-only">{hasTarget ? target.props.title : null}</span>
+      <span class="sr-only">{hasTarget ? target.props.view.title : null}</span>
       {content}
     </button>
   );
@@ -32,9 +32,7 @@ const SlideNavigation = ({
     const next = currentIdx + 1;
     const prev = currentIdx - 1;
     navContent.push(
-      <span class={style.current}>
-        {currentSlide.props.tabTitle || currentSlide.props.title}
-      </span>,
+      <span class={style.current}>{currentSlide.props.view.title}</span>,
       arrow(
         prev,
         slides,
@@ -60,9 +58,7 @@ const SlideNavigation = ({
       >
         <button onClick={() => setCurrentIdx(i)}>
           {slide.props.icon ? <ion-icon name={slide.props.icon} /> : null}
-          <span class={style.inner}>
-            {slide.props.tabTitle || slide.props.title}
-          </span>
+          <span class={style.inner}>{slide.props.view.title}</span>
         </button>
       </li>
     ));

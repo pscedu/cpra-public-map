@@ -7,24 +7,20 @@ import Slides from "../slides";
 
 const Story = ({
   dismissOverlay,
-  layer,
-  layers,
   projectMap,
   mapState,
   overlaySlide,
   slide,
   setSlide,
   updateMapState,
+  views,
 }) => {
-  if (!layers) return;
   const endTour = () => setSlide(null);
   return (
     <Slides
-      arrows={true}
       cssClass={style.story}
       currentIdx={slide}
       dismissOverlay={dismissOverlay}
-      layer={layer}
       mapState={mapState}
       navigationType="arrows"
       overlaySlide={overlaySlide}
@@ -33,13 +29,9 @@ const Story = ({
       updateMapState={updateMapState}
     >
       <Slide
-        group="G500"
-        scenario="S07"
-        year="2015"
         updateSlideState={updateMapState}
         slideState={mapState}
-        layerSpec={layers["Historical Land Change"]}
-        tabTitle="Introduction"
+        view={views["slide-0"]}
       >
         <p>
           Louisiana impacted by environmental change over time (link to past
@@ -56,13 +48,9 @@ const Story = ({
       </Slide>
       <Slide
         controls={["year"]}
-        group="G500"
-        scenario="S07"
-        layerSpec={layers["Land Change"]}
         updateSlideState={updateMapState}
         slideState={mapState}
-        year="0"
-        tabTitle="Environmental Change Over Time"
+        view={views["slide-1"]}
       >
         <p>
           In order to plan for future change, predictive models are used. For
@@ -77,13 +65,9 @@ const Story = ({
       </Slide>
       <Slide
         controls={["year", "scenario"]}
-        group="G500"
-        layerSpec={layers["Land Change"]}
         updateSlideState={updateMapState}
         slideState={mapState}
-        scenario="S07"
-        year="50"
-        tabTitle="Land Change"
+        view={views["slide-2"]}
       >
         <p>
           The combination of sea level rise, land subsidence, and other
@@ -103,13 +87,9 @@ const Story = ({
       </Slide>
       <Slide
         controls={["year", "subtype"]}
-        group="G500"
-        layerSpec={layers["Flood Depth"]}
         updateSlideState={updateMapState}
         slideState={mapState}
-        scenario="S07"
-        year="50"
-        tabTitle="Flood Depth"
+        view={views["slide-3"]}
       >
         <p>
           Coastal Louisiana experiences a wide range of storm intensities, from
@@ -127,21 +107,16 @@ const Story = ({
       </Slide>
       <Slide
         controls={["year", "damage"]}
-        group="G500"
-        layerSpec={layers["Flood Depth"]}
         updateSlideState={updateMapState}
         slideState={mapState}
-        scenario="S07"
-        year="50"
-        tabTitle="Damage"
+        view={views["slide-4"]}
       >
         <p>Placeholder for EAD and EASD</p>
       </Slide>
       <Slide
-        layerSpec={layers["Projects"]}
         updateSlideState={updateMapState}
         slideState={mapState}
-        tabTitle="Projects"
+        view={views["slide-5"]}
         tabClass="green"
       >
         <p>
@@ -166,13 +141,9 @@ const Story = ({
       </Slide>
       <Slide
         controls={["year", "scenario"]}
-        group="G500"
-        layerSpec={layers["Land Change"]}
         updateSlideState={updateMapState}
         slideState={mapState}
-        scenario="S07"
-        year="50"
-        tabTitle="Land Change"
+        view={views["slide-6"]}
         tabClass="green"
       >
         <p>
@@ -193,13 +164,9 @@ const Story = ({
       </Slide>
       <Slide
         controls={["year", "subtype"]}
-        group="G603"
-        layerSpec={layers["Flood Depth"]}
         updateSlideState={updateMapState}
         slideState={mapState}
-        scenario="S07"
-        year="50"
-        tabTitle="Flood Depth"
+        view={views["slide-7"]}
         tabClass="green"
       >
         <p>
@@ -218,22 +185,17 @@ const Story = ({
       </Slide>
       <Slide
         controls={["year", "damage"]}
-        group="G500"
-        layerSpec={layers["Damage"]}
         updateSlideState={updateMapState}
         slideState={mapState}
-        scenario="S07"
-        year="50"
-        tabTitle="Damage"
+        view={views["slide-8"]}
         tabClass="green"
       >
         <p>Placeholder for EAD and EASD</p>
       </Slide>
       <Slide
-        layerSpec={layers["Projects"]}
         updateSlideState={updateMapState}
         slideState={mapState}
-        tabTitle="Next Steps"
+        view={views["slide-9"]}
         tabClass="green"
       >
         <h3>Interested in seeing more data?</h3>

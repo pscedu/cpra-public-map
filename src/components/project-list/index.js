@@ -1,11 +1,8 @@
 import { h } from "preact";
-import { useEffect, useState } from "preact/hooks";
 import { fireEvent, getProjectTypeResult, getRegionResult } from "../../utils";
 import style from "./style.css";
 
 const ProjectList = ({ projects, projectTypeDescriptions, projectTypes }) => {
-  const [filteredProjects, setFilteredProjects] = useState(projects);
-
   const selectProject = (e, project) => {
     e.preventDefault();
     project.select();
@@ -25,7 +22,7 @@ const ProjectList = ({ projects, projectTypeDescriptions, projectTypes }) => {
     });
   };
 
-  const projectRows = filteredProjects.map((project) => (
+  const projectRows = projects.map((project) => (
     <tr
       key={project.name}
       class={`${style.project} project-type-icon-${project.type.toLowerCase()}`}

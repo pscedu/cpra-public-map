@@ -16,18 +16,15 @@ const viewOrder = [
 
 const Explore = ({
   dismissOverlay,
-  layer,
   mapState,
-  layers,
   overlaySlide,
   projectMap,
   projects,
   projectTypeDescriptions,
   projectTypes,
   updateMapState,
+  views,
 }) => {
-  if (!layers) return;
-
   const currentIdx = viewOrder.indexOf(mapState.view);
   const setCurrentIdx = (idx) => updateMapState({ view: viewOrder[idx] });
 
@@ -35,7 +32,6 @@ const Explore = ({
     <Slides
       currentIdx={currentIdx}
       dismissOverlay={dismissOverlay}
-      layer={layer}
       mapState={mapState}
       overlaySlide={overlaySlide}
       projectMap={projectMap}
@@ -44,12 +40,9 @@ const Explore = ({
     >
       <Slide
         controls={["scenario", "group", "year", "projects"]}
-        controlsPosition="start"
-        cssClass={style["model-slide"]}
-        layerSpec={layers["Land Change"]}
         updateSlideState={updateMapState}
         slideState={mapState}
-        tabTitle="Land Change"
+        view={views["land-change"]}
       >
         <div class={style["slide-explanation"]}>
           <Disclaimer />
@@ -57,12 +50,9 @@ const Explore = ({
       </Slide>
       <Slide
         controls={["scenario", "group", "year", "projects"]}
-        controlsPosition="start"
-        cssClass={style["model-slide"]}
-        layerSpec={layers["Vegetation Type"]}
         updateSlideState={updateMapState}
         slideState={mapState}
-        tabTitle="Vegetation Type"
+        view={views["vegetation-type"]}
       >
         <div class={style["slide-explanation"]}>
           <Disclaimer />
@@ -70,12 +60,9 @@ const Explore = ({
       </Slide>
       <Slide
         controls={["scenario", "subtype", "year", "projects"]}
-        controlsPosition="start"
-        cssClass={style["model-slide"]}
-        layerSpec={layers["Flood Depth"]}
         updateSlideState={updateMapState}
         slideState={mapState}
-        tabTitle="Flood Depth"
+        view={views["flood-depth"]}
       >
         <div class={style["slide-explanation"]}>
           <Disclaimer />
@@ -83,23 +70,19 @@ const Explore = ({
       </Slide>
       <Slide
         controls={["scenario", "group", "year", "damage", "projects"]}
-        controlsPosition="start"
-        cssClass={style["model-slide"]}
-        layerSpec={layers["Damage"]}
         updateSlideState={updateMapState}
         slideState={mapState}
-        tabTitle="Damage"
+        view={views.damage}
       >
         <div class={style["slide-explanation"]}>
           <Disclaimer />
         </div>
       </Slide>
       <Slide
-        tabTitle="Projects"
-        layerSpec={layers["Projects"]}
         updateSlideState={updateMapState}
         slideState={mapState}
         tabClass="green"
+        view={views.projects}
       >
         <ProjectList
           projects={projects}
