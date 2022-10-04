@@ -98,15 +98,11 @@ const Explore = ({
       <Slide
         tabTitle="Projects"
         layerSpec={layers["Projects"]}
-        controls={["year"]}
-        controlsPosition="start"
         updateSlideState={updateMapState}
         slideState={mapState}
-        yearStep={1}
         tabClass="green"
       >
         <ProjectList
-          mapState={mapState}
           projects={projects}
           projectTypeDescriptions={projectTypeDescriptions}
           projectTypes={projectTypes}

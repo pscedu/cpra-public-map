@@ -3,21 +3,8 @@ import { useEffect, useState } from "preact/hooks";
 import { fireEvent, getProjectTypeResult, getRegionResult } from "../../utils";
 import style from "./style.css";
 
-const ProjectList = ({
-  mapState,
-  projects,
-  projectTypeDescriptions,
-  projectTypes,
-}) => {
+const ProjectList = ({ projects, projectTypeDescriptions, projectTypes }) => {
   const [filteredProjects, setFilteredProjects] = useState(projects);
-
-  useEffect(() => {
-    setFilteredProjects(
-      projects.filter(
-        (project) => parseInt(mapState.year, 10) >= project.yearmin
-      )
-    );
-  }, [mapState, projects]);
 
   const selectProject = (e, project) => {
     e.preventDefault();
