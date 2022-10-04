@@ -56,9 +56,10 @@
   background-color: var(--mpdv-color-green-200);
   color: var(--mpdv-color-green-900);
 }
-button.disabled {
+button.disabled,
+.nav-active-tab-green button.disabled {
+  background-color: var(--mpdv-color-gray-500);
   cursor: inherit;
-  opacity: 50%;
 }
 li,
 ul {
