@@ -16,11 +16,11 @@ const ProjectDetail = (props) => {
           {props.projectTypes[project.type]}
         </p>
         <p class={style.region}>
-          <ion-icon name="location" />
+          <ion-icon src="/assets/buttons/location.svg" />
           {project.region}
         </p>
         <p class={style.region}>
-          <ion-icon name="calendar" />
+          <ion-icon src="/assets/buttons/implementation_period.svg" />
           {project.yearmin == project.yearmax
             ? `Year ${project.yearmin}`
             : `Years ${project.yearmin} - ${project.yearmax}`}
