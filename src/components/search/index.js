@@ -1,7 +1,14 @@
 import { h } from "preact";
-import { useEffect, useRef, useState } from "preact/hooks";
+import { useContext, useEffect, useRef, useState } from "preact/hooks";
+import * as config from "../../helpers/config";
+import { State } from "../../helpers/state";
 import bbox from "@turf/bbox";
-import { bufferPoint, fireEvent, gtag, normalizeText } from "../../utils";
+import {
+  bufferPoint,
+  fireEvent,
+  gtag,
+  normalizeText,
+} from "../../helpers/utils";
 import style from "./style.css";
 
 const excludedCategories = ["railway"];
@@ -57,7 +64,8 @@ function formatResult(result) {
   ];
 }
 
-const Search = ({ geocodeUrl, searchIndex, setSelection }) => {
+const Search = () => {
+  const state = useContext(State);
   const input = useRef(null);
   const [text, setText] = useState("");
   const [hasResult, setHasResult] = useState(false);
@@ -86,18 +94,18 @@ const Search = ({ geocodeUrl, searchIndex, setSelection }) => {
   // Perform a search when text changes.
   useEffect(() => {
     (async () => {
-      const url = new URL(geocodeUrl);
+      const url = new URL(config.geocodeUrl);
       url.searchParams.append("q", text);
       url.searchParams.append("addressdetails", "1");
       url.searchParams.append("polygon_geojson", "1");
       const req = fetch(url.toString());
-      const results = getLocalResults(text, searchIndex);
+      const results = getLocalResults(text, state.searchIndex.value);
       const res = await req;
       results.push(...getOsmResults(await res.json()));
       setResults(results.slice(0, 5));
       setCurrentIdx(0);
     })();
-  }, [text, geocodeUrl, searchIndex]);
+  }, [text, state.searchIndex.value]);
 
   const select = (result) => {
     showResult(result);
@@ -108,7 +116,7 @@ const Search = ({ geocodeUrl, searchIndex, setSelection }) => {
   };
 
   const clear = () => {
-    setSelection({});
+    state.selection.value = {};
     if (input.current) input.current.value = "";
     setText("");
     setResults([]);
@@ -126,7 +134,7 @@ const Search = ({ geocodeUrl, searchIndex, setSelection }) => {
 
   const showResult = (result) => {
     const selection = result.selection || getOsmSelection(result.details);
-    setSelection(selection);
+    state.selection.value = selection;
 
     let bounds = result.bounds;
     if (selection.polygon) bounds = bbox(selection.polygon);

@@ -1,40 +1,28 @@
-import { h, Component } from "preact";
+import { h } from "preact";
+import { useContext, useLayoutEffect, useRef } from "preact/hooks";
+import { effect } from "@preact/signals";
 import style from "./style.css";
-import { fireEvent } from "../../utils";
+import * as config from "../../helpers/config";
+import { State } from "../../helpers/state";
+import { fireEvent } from "../../helpers/utils";
 import { getStyle } from "./mapstyle";
 
-class Map extends Component {
-  maxBounds = [-91.215 - 5, 29.41 - 3, -91.215 + 5, 29.41 + 3];
-  projectLayers = [
-    "project-polygon-lb",
-    "project-polygon-mc",
-    "project-line-bs-or-sr",
-    "project-line-di-hr",
-    "project-line-rr",
-    "project-line-sp",
-    "project-point-di-hr",
-    "project-point-sr",
-    "project-icon",
-    "project-label",
-  ];
-
-  shouldComponentUpdate(props) {
-    if (props.map) props.map.setStyle(this.getStyle(props));
-    return false;
-  }
-
-  componentDidMount() {
+const Map = () => {
+  const state = useContext(State);
+  const { mapDefaults, maxBounds, projectLayers } = config;
+  const container = useRef();
+  useLayoutEffect(() => {
     // eslint-disable-next-line no-undef
     let map = new maplibregl.Map({
-      bounds: this.props.mapDefaults.bounds,
-      container: this.base,
+      bounds: mapDefaults.bounds,
+      container: container.current,
       fitBoundsOptions: {
-        padding: this.props.mapDefaults.padding,
+        padding: mapDefaults.padding,
       },
-      style: this.props.services ? this.getStyle(this.props) : null,
+      style: getStyle(state),
       dragRotate: false,
       hash: "map",
-      maxBounds: this.maxBounds,
+      maxBounds,
       maxZoom: 12,
       minZoom: 6,
     });
@@ -47,25 +35,20 @@ class Map extends Component {
       "top-right"
     );
 
-    map.on("idle", () => {
-      if (this.props.mapState.prevYear !== null)
-        this.props.updateMapState({
-          prevYear: null,
-        });
-    });
+    // map.on("idle", () => {
+    //   if (this.props.mapState.prevYear !== null)
+    //     this.props.updateMapState({
+    //       prevYear: null,
+    //     });
+    // });
 
-    map.on("click", "search-screen", (e) => {
+    map.on("click", "search-screen", () => {
       fireEvent("searchClearResult");
     });
 
-    this.projectLayers.forEach((layerName) => {
+    projectLayers.forEach((layerName) => {
       map.on("click", layerName, (e) => {
-        if (!this.projectMap) {
-          this.projectMap = {};
-          for (let project of this.props.projects)
-            this.projectMap[project.name] = project;
-        }
-        let project = this.projectMap[e.features[0].properties.name];
+        let project = state.projectMap.value[e.features[0].properties.name];
         project.select();
       });
       map.on(
@@ -88,26 +71,19 @@ class Map extends Component {
       window.requestAnimationFrame(() => map.resize());
     });
 
-    this.props.setMap(map);
-  }
+    state.map.value = map;
+  }, []);
 
-  getStyle(props) {
-    return getStyle(
-      props.services,
-      props.mapState,
-      props.layer,
-      props.selection,
-      this.maxBounds
-    );
-  }
+  effect(() => {
+    if (state.map.value) state.map.value.setStyle(getStyle(state));
+  });
 
-  render() {
-    return (
-      <div
-        class={`${style.map} ${this.props.printing ? style.printing : ""}`}
-      />
-    );
-  }
-}
+  return (
+    <div
+      ref={container}
+      class={`${style.map} ${state.printing.value ? style.printing : ""}`}
+    />
+  );
+};
 
 export default Map;

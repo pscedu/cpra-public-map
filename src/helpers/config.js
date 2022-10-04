@@ -12,6 +12,19 @@ export const websiteUrl =
 export const contactEmail = ["mai", ["masterplan", "la.gov"].join("@")].join(
   "lto:"
 );
+export const maxBounds = [-91.215 - 5, 29.41 - 3, -91.215 + 5, 29.41 + 3];
+export const projectLayers = [
+  "project-polygon-lb",
+  "project-polygon-mc",
+  "project-line-bs-or-sr",
+  "project-line-di-hr",
+  "project-line-rr",
+  "project-line-sp",
+  "project-point-di-hr",
+  "project-point-sr",
+  "project-icon",
+  "project-label",
+];
 export const projectTypes = {
   BH: "Barrier Island Restoration",
   BS: "Bank Stabilization",

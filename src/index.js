@@ -1,4 +1,4 @@
 import "./style";
-import App from "./components/app";
+import ContextWrapper from "./components/context-wrapper";
 
-export default App;
+export default ContextWrapper;

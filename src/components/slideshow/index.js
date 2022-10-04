@@ -1,38 +1,52 @@
 import { h } from "preact";
+import { useContext } from "preact/hooks";
+import { State } from "../../helpers/state";
 import style from "./style.css";
 
 import ActionButton from "../action-button";
+import Disclaimer from "../disclaimer";
+import ProjectDetail from "../project-detail";
+import ProjectList from "../project-list";
 import Slide from "../slide";
 import Slides from "../slides";
 
-const Story = ({
-  dismissOverlay,
-  projectMap,
-  mapState,
-  overlaySlide,
-  slide,
-  setSlide,
-  updateMapState,
-  views,
-}) => {
-  const endTour = () => setSlide(null);
+const Slideshow = () => {
+  const { endTour } = useContext(State);
   return (
-    <Slides
-      cssClass={style.story}
-      currentIdx={slide}
-      dismissOverlay={dismissOverlay}
-      mapState={mapState}
-      navigationType="arrows"
-      overlaySlide={overlaySlide}
-      projectMap={projectMap}
-      setCurrentIdx={setSlide}
-      updateMapState={updateMapState}
-    >
+    <Slides>
       <Slide
-        updateSlideState={updateMapState}
-        slideState={mapState}
-        view={views["slide-0"]}
+        controls={["scenario", "group", "year", "projects"]}
+        viewName="land-change"
+        slideGroup="explore"
       >
+        <Disclaimer />
+      </Slide>
+      <Slide
+        controls={["scenario", "group", "year", "projects"]}
+        viewName="vegetation-type"
+        slideGroup="explore"
+      >
+        <Disclaimer />
+      </Slide>
+      <Slide
+        controls={["scenario", "subtype", "year", "projects"]}
+        viewName="flood-depth"
+        slideGroup="explore"
+      >
+        <Disclaimer />
+      </Slide>
+      <Slide
+        controls={["scenario", "group", "year", "damage", "projects"]}
+        viewName="damage"
+        slideGroup="explore"
+      >
+        <Disclaimer />
+      </Slide>
+      <Slide tabClass="green" viewName="projects" slideGroup="explore">
+        <ProjectList />
+      </Slide>
+
+      <Slide viewName="slide-0" slideGroup="tour">
         <p>
           Louisiana impacted by environmental change over time (link to past
           change e.g., Brady&apos;s work) that causes challenges with changes to
@@ -46,12 +60,7 @@ const Story = ({
           state.
         </p>
       </Slide>
-      <Slide
-        controls={["year"]}
-        updateSlideState={updateMapState}
-        slideState={mapState}
-        view={views["slide-1"]}
-      >
+      <Slide controls={["year"]} viewName="slide-1" slideGroup="tour">
         <p>
           In order to plan for future change, predictive models are used. For
           planning we look at 50 year window (you will use slider to see data at
@@ -65,9 +74,8 @@ const Story = ({
       </Slide>
       <Slide
         controls={["year", "scenario"]}
-        updateSlideState={updateMapState}
-        slideState={mapState}
-        view={views["slide-2"]}
+        viewName="slide-2"
+        slideGroup="tour"
       >
         <p>
           The combination of sea level rise, land subsidence, and other
@@ -87,9 +95,8 @@ const Story = ({
       </Slide>
       <Slide
         controls={["year", "subtype"]}
-        updateSlideState={updateMapState}
-        slideState={mapState}
-        view={views["slide-3"]}
+        viewName="slide-3"
+        slideGroup="tour"
       >
         <p>
           Coastal Louisiana experiences a wide range of storm intensities, from
@@ -105,20 +112,10 @@ const Story = ({
           probability or AEP).
         </p>
       </Slide>
-      <Slide
-        controls={["year", "damage"]}
-        updateSlideState={updateMapState}
-        slideState={mapState}
-        view={views["slide-4"]}
-      >
+      <Slide controls={["year", "damage"]} viewName="slide-4" slideGroup="tour">
         <p>Placeholder for EAD and EASD</p>
       </Slide>
-      <Slide
-        updateSlideState={updateMapState}
-        slideState={mapState}
-        view={views["slide-5"]}
-        tabClass="green"
-      >
+      <Slide viewName="slide-5" tabClass="green" slideGroup="tour">
         <p>
           Restoration and flood risk reduction projects are key to addressing
           the challenges that Louisiana will face over the next 50 years (and
@@ -141,10 +138,9 @@ const Story = ({
       </Slide>
       <Slide
         controls={["year", "scenario"]}
-        updateSlideState={updateMapState}
-        slideState={mapState}
-        view={views["slide-6"]}
+        viewName="slide-6"
         tabClass="green"
+        slideGroup="tour"
       >
         <p>
           The combination of sea level rise, land subsidence, and other
@@ -164,10 +160,9 @@ const Story = ({
       </Slide>
       <Slide
         controls={["year", "subtype"]}
-        updateSlideState={updateMapState}
-        slideState={mapState}
-        view={views["slide-7"]}
+        viewName="slide-7"
         tabClass="green"
+        slideGroup="tour"
       >
         <p>
           Coastal Louisiana experiences a wide range of storm intensities, from
@@ -185,19 +180,13 @@ const Story = ({
       </Slide>
       <Slide
         controls={["year", "damage"]}
-        updateSlideState={updateMapState}
-        slideState={mapState}
-        view={views["slide-8"]}
+        viewName="slide-8"
         tabClass="green"
+        slideGroup="tour"
       >
         <p>Placeholder for EAD and EASD</p>
       </Slide>
-      <Slide
-        updateSlideState={updateMapState}
-        slideState={mapState}
-        view={views["slide-9"]}
-        tabClass="green"
-      >
+      <Slide viewName="slide-9" tabClass="green" slideGroup="tour">
         <h3>Interested in seeing more data?</h3>
         <p class={style.button}>
           <ActionButton
@@ -209,8 +198,11 @@ const Story = ({
           </ActionButton>
         </p>
       </Slide>
+      <Slide title="Project Details" tabClass="green" slideGroup="project">
+        <ProjectDetail />
+      </Slide>
     </Slides>
   );
 };
 
-export default Story;
+export default Slideshow;

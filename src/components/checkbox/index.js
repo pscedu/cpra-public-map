@@ -1,6 +1,6 @@
 import { h } from "preact";
 import style from "./style.css";
-import { gtag } from "../../utils";
+import { gtag } from "../../helpers/utils";
 
 const Checkbox = ({
   analyticsId,

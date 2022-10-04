@@ -1,6 +1,7 @@
 import bboxPolygon from "@turf/bbox-polygon";
 import difference from "@turf/difference";
 import { feature, featureCollection } from "@turf/helpers";
+import * as config from "../../helpers/config";
 
 function linearZoom(min, max) {
   return ["interpolate", ["linear"], ["zoom"], 6, min, 12, max];
@@ -253,14 +254,25 @@ function rasterTileUrl(serviceUrl, prefix) {
   return `${serviceUrl.replace("//", sub)}/tiles/{z}/{x}/{y}.png`;
 }
 
-export function getStyle(services, mapState, layer, selection, maxBounds) {
-  if (services === null) return { version: 8, sources: {}, layers: [] };
+export function getStyle(state) {
+  const {
+    group,
+    politicalBoundary,
+    scenario,
+    selection,
+    services,
+    showProjects,
+    subtype,
+    view,
+    year,
+  } = state;
+  if (services.value === null) return { version: 8, sources: {}, layers: [] };
 
   const loc = document.location;
 
   // Prepare sources.
   const sources = {};
-  for (let service of Object.values(services)) {
+  for (let service of Object.values(services.value)) {
     let source;
     if (service.imageType == "pbf") {
       source = {
@@ -290,11 +302,11 @@ export function getStyle(services, mapState, layer, selection, maxBounds) {
     sources[service.name] = source;
   }
 
-  let searchFeatures = [bboxPolygon(maxBounds)];
-  if (selection.polygon)
+  let searchFeatures = [bboxPolygon(config.maxBounds)];
+  if (selection.value.polygon)
     searchFeatures = [
-      difference(searchFeatures[0], selection.polygon),
-      feature(selection.polygon, { type: "search" }),
+      difference(searchFeatures[0], selection.value.polygon),
+      feature(selection.value.polygon, { type: "search" }),
     ];
   searchFeatures[0].properties = { type: "screen" };
 
@@ -304,24 +316,24 @@ export function getStyle(services, mapState, layer, selection, maxBounds) {
   };
 
   // Prepare model layers.
-  let prevLayerName =
-    mapState.prevYear !== null
-      ? getLayerName(
-          layer,
-          mapState.scenario,
-          mapState.group,
-          mapState.prevYear,
-          mapState.subtype
-        )
-      : null;
+  let prevLayerName = null;
+  // mapState.prevYear !== null
+  //   ? getLayerName(
+  //       layer,
+  //       mapState.scenario,
+  //       mapState.group,
+  //       mapState.prevYear,
+  //       mapState.subtype
+  //     )
+  //   : null;
   let layerName = getLayerName(
-    layer,
-    mapState.scenario,
-    mapState.group,
-    mapState.year,
-    mapState.subtype
+    view.value.layer,
+    scenario.value,
+    group.value,
+    year.value,
+    subtype.value
   );
-  const modelLayers = Object.values(services)
+  const modelLayers = Object.values(services.value)
     .filter(
       (service) =>
         !(
@@ -352,11 +364,11 @@ export function getStyle(services, mapState, layer, selection, maxBounds) {
     });
 
   const damageLayers = [];
-  if (layer.name === "Damage") {
+  if (view.value.layer.name === "Damage") {
     let damageProp =
-      `${mapState.damage.toLowerCase()}_` +
-      `${mapState.scenario.toLowerCase()}_${mapState.group.toLowerCase()}_` +
-      `year${mapState.year}`;
+      `${subtype.value.toLowerCase()}_` +
+      `${scenario.value.toLowerCase()}_${group.value.toLowerCase()}_` +
+      `year${year.value}`;
     damageLayers.push({
       id: `damage-polygon`,
       type: "fill",
@@ -385,13 +397,15 @@ export function getStyle(services, mapState, layer, selection, maxBounds) {
   }
 
   let selectedProjects = null;
-  if (selection.project)
-    selectedProjects = ["==", ["get", "name"], selection.project];
-  if (selection.projectType)
-    selectedProjects = ["==", ["get", "type"], selection.projectType];
+  if (selection.value.project)
+    selectedProjects = ["==", ["get", "name"], selection.value.project];
+  if (selection.value.projectType)
+    selectedProjects = ["==", ["get", "type"], selection.value.projectType];
 
   const showSearch =
-    selection.polygon || selection.project || selection.projectType;
+    selection.value.polygon ||
+    selection.value.project ||
+    selection.value.projectType;
 
   return {
     version: 8,
@@ -485,7 +499,7 @@ export function getStyle(services, mapState, layer, selection, maxBounds) {
         type: "symbol",
         source: "Base Map: Vector",
         "source-layer": "label",
-        filter: mapState.politicalBoundary
+        filter: politicalBoundary.value
           ? ["==", "water", ["get", "type"]]
           : true,
         layout: {
@@ -503,10 +517,10 @@ export function getStyle(services, mapState, layer, selection, maxBounds) {
         },
       },
       ...projectLayers(
-        layer.name == "Projects" ||
-          (mapState.group !== "G500" && mapState.projects === "true"),
+        view.value.layer.name == "Projects" ||
+          (group.value !== "G500" && showProjects.value === "true"),
         true,
-        layer.name !== "Projects"
+        view.value.layer.name !== "Projects"
       ),
       {
         id: "search-screen",
@@ -536,7 +550,7 @@ export function getStyle(services, mapState, layer, selection, maxBounds) {
         },
       },
       ...projectLayers(selectedProjects, selectedProjects, false, "-selected"),
-      ...politicalBoundaryLayers(mapState.politicalBoundary),
+      ...politicalBoundaryLayers(politicalBoundary.value),
     ],
   };
 }

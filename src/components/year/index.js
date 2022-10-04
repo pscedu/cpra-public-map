@@ -2,7 +2,7 @@ import { h } from "preact";
 import style from "./style.css";
 
 import Tooltip from "../tooltip";
-import { gtag } from "../../utils";
+import { gtag } from "../../helpers/utils";
 
 let yearTimeout;
 

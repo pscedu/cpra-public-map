@@ -1,6 +1,6 @@
 import { h } from "preact";
 import style from "./style.css";
-import { gtag } from "../../utils";
+import { gtag } from "../../helpers/utils";
 
 const ActionButton = ({ action, analyticsId, children, cssClass, icon }) => {
   const onClick = () => {

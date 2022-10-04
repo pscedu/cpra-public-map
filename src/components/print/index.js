@@ -1,6 +1,8 @@
 import { h } from "preact";
-import { useEffect, useState } from "preact/hooks";
-import { fireEvent, mapToImage } from "../../utils";
+import { useContext, useEffect, useState } from "preact/hooks";
+import * as config from "../../helpers/config";
+import { State } from "../../helpers/state";
+import { fireEvent, mapToImage } from "../../helpers/utils";
 import style from "./style.css";
 
 import ActionButton from "../action-button";
@@ -26,16 +28,12 @@ function addLineBreaks(values) {
   ]);
 }
 
-const Print = ({
-  children,
-  layer,
-  legends,
-  map,
-  mapState,
-  printing,
-  printText,
-  setPrinting,
-}) => {
+const Print = ({ children }) => {
+  const { group, map, scenario, subtype, printing, view, year } =
+    useContext(State);
+  const layerName = view.value.layer.name;
+  const { legends, printText } = config;
+
   const [initialWidth, initialHeight] = getDimensions();
   const [height, setHeight] = useState(initialHeight);
   const [width, setWidth] = useState(initialWidth);
@@ -43,19 +41,19 @@ const Print = ({
   const titles = {
     primary: [
       "2023 Coastal Master Plan",
-      `${printText.group[mapState.group]} - Draft`,
+      `${printText.group[group.value]} - Draft`,
     ],
     secondary: [
-      `${printText.layer[layer.name] || layer.name} - Year ${mapState.year}`,
-      `${printText.scenario[mapState.scenario]} - ${mapState.scenario}`,
+      `${printText.layer[layerName] || layerName} - Year ${year.value}`,
+      `${printText.scenario[scenario.value]} - ${scenario.value}`,
     ],
   };
 
   const print = async () => {
     let dpi = 150;
     let imageUrl = await mapToImage({
-      style: map.getStyle(),
-      bounds: map.getBounds(),
+      style: map.value.getStyle(),
+      bounds: map.value.getBounds(),
       width: 11 * dpi,
       height: 8.5 * dpi,
       dpi,
@@ -80,15 +78,13 @@ const Print = ({
     <Legend
       dpi={dpi}
       legends={legends}
-      layer={
-        layer.name === "Damage" ? `Damage: ${mapState.damage}` : layer.name
-      }
+      layer={layerName === "Damage" ? `Damage: ${subtype.value}` : layerName}
       margin={margin}
-      printing={printing}
+      printing={printing.value}
     />
   );
 
-  return printing ? (
+  return printing.value ? (
     <div class={`${style.print} printing`}>
       <div class={style.page} style={{ height, width }}>
         {[
@@ -121,7 +117,9 @@ const Print = ({
       </div>
       <div class={style.buttons}>
         <ActionButton action={print}>Print or Save</ActionButton>
-        <ActionButton action={() => setPrinting(false)}>Cancel</ActionButton>
+        <ActionButton action={() => (printing.value = false)}>
+          Cancel
+        </ActionButton>
       </div>
     </div>
   ) : (

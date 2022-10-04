@@ -1,21 +1,17 @@
 import { h } from "preact";
+import { useContext } from "preact/hooks";
 import style from "./style.css";
+import { State } from "../../helpers/state";
 
 import Buttons from "../buttons";
 import Search from "../search";
 
-const Header = ({
-  endTour,
-  geocodeUrl,
-  printing,
-  searchIndex,
-  setSelection,
-  startTour,
-  storySlide,
-}) => {
-  const tourValue = storySlide === null ? "explore" : "tour";
-  const setTourValue = (value) => (value === "tour" ? startTour() : endTour());
-  const tourButtons = printing ? null : (
+const Header = () => {
+  const state = useContext(State);
+  const tourValue = state.storySlide.value === null ? "explore" : "tour";
+  const setTourValue = (value) =>
+    value === "tour" ? state.startTour() : state.endTour();
+  const tourButtons = state.printing.value ? null : (
     <Buttons
       analyticsId="header-mode"
       choices={[
@@ -38,11 +34,7 @@ const Header = ({
       </h1>
       <div class={style.spacer} />
       {tourButtons}
-      <Search
-        geocodeUrl={geocodeUrl}
-        searchIndex={searchIndex}
-        setSelection={setSelection}
-      />
+      <Search />
     </header>
   );
 };

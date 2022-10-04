@@ -1,5 +1,9 @@
 import { h } from "preact";
-import { fireEvent, getProjectTypeResult, getRegionResult } from "../../utils";
+import {
+  fireEvent,
+  getProjectTypeResult,
+  getRegionResult,
+} from "../../helpers/utils";
 import style from "./style.css";
 
 const ProjectList = ({ projects, projectTypeDescriptions, projectTypes }) => {

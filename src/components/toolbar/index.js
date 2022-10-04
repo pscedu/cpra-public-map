@@ -1,6 +1,9 @@
 import { h } from "preact";
+import { useContext } from "preact/hooks";
 import style from "./style.css";
-import { gtag } from "../../utils";
+import * as config from "../../helpers/config";
+import { State } from "../../helpers/state";
+import { gtag } from "../../helpers/utils";
 
 const trackClick = (button_id, button_text) =>
   gtag("event", "button_click", {
@@ -8,28 +11,23 @@ const trackClick = (button_id, button_text) =>
     button_text,
   });
 
-const Toolbar = ({
-  contactEmail,
-  printing,
-  setPrinting,
-  setIntroOpen,
-  websiteUrl,
-}) => {
+const Toolbar = () => {
+  const state = useContext(State);
   const aboutClick = () => {
-    setIntroOpen(true);
+    state.introOpen.value = true;
     trackClick("toolbar_about", "About the Data Viewer");
   };
   const printClick = () => {
-    setPrinting(!printing);
+    state.printing.value = !state.printing.value;
     trackClick("toolbar_website", "Visit Master Plan Website");
   };
   const websiteClick = () => {
     trackClick("toolbar_website", "Visit Master Plan Website");
-    window.location = websiteUrl;
+    window.location = config.websiteUrl;
   };
   const emailClick = () => {
     trackClick("toolbar_email", "E-mail Us");
-    window.location = contactEmail;
+    window.location = config.contactEmail;
   };
   return (
     <div class={style.toolbar}>
