@@ -74,12 +74,12 @@
   color: white;
   content: "\2A09";
 }
-@media (min-height: 700px) {
+@media (min-height: 700px), (min-width: 1300px) {
   .slides {
     max-height: 40vh;
   }
 }
-@media (min-height: 1000px) {
+@media (min-height: 1000px), (min-width: 1600px) {
   .slides {
     max-height: 30vh;
   }
@@ -88,7 +88,6 @@
   .slides {
     bottom: var(--mpdv-app-margin);
     left: var(--mpdv-app-margin);
-    max-height: 50vh;
     position: absolute;
     right: 30%;
   }

@@ -5,7 +5,6 @@ import Disclaimer from "../disclaimer";
 import ProjectList from "../project-list";
 import Slide from "../slide";
 import Slides from "../slides";
-import { fireEvent } from "../../utils";
 
 const viewOrder = [
   "land-change",
