@@ -42,7 +42,7 @@ const Slideshow = () => {
       >
         <Disclaimer />
       </Slide>
-      <Slide tabClass="green" viewName="projects" slideGroup="explore">
+      <Slide color="green" viewName="projects" slideGroup="explore">
         <ProjectList />
       </Slide>
 
@@ -115,7 +115,7 @@ const Slideshow = () => {
       <Slide controls={["year", "damage"]} viewName="slide-4" slideGroup="tour">
         <p>Placeholder for EAD and EASD</p>
       </Slide>
-      <Slide viewName="slide-5" tabClass="green" slideGroup="tour">
+      <Slide viewName="slide-5" color="green" slideGroup="tour">
         <p>
           Restoration and flood risk reduction projects are key to addressing
           the challenges that Louisiana will face over the next 50 years (and
@@ -139,7 +139,7 @@ const Slideshow = () => {
       <Slide
         controls={["year", "scenario"]}
         viewName="slide-6"
-        tabClass="green"
+        color="green"
         slideGroup="tour"
       >
         <p>
@@ -161,7 +161,7 @@ const Slideshow = () => {
       <Slide
         controls={["year", "subtype"]}
         viewName="slide-7"
-        tabClass="green"
+        color="green"
         slideGroup="tour"
       >
         <p>
@@ -181,12 +181,12 @@ const Slideshow = () => {
       <Slide
         controls={["year", "damage"]}
         viewName="slide-8"
-        tabClass="green"
+        color="green"
         slideGroup="tour"
       >
         <p>Placeholder for EAD and EASD</p>
       </Slide>
-      <Slide viewName="slide-9" tabClass="green" slideGroup="tour">
+      <Slide viewName="slide-9" color="green" slideGroup="tour">
         <h3>Interested in seeing more data?</h3>
         <p class={style.button}>
           <ActionButton
@@ -198,7 +198,7 @@ const Slideshow = () => {
           </ActionButton>
         </p>
       </Slide>
-      <Slide title="Project Details" tabClass="green" slideGroup="project">
+      <Slide title="Project Details" color="green" slideGroup="project">
         <ProjectDetail />
       </Slide>
     </Slides>

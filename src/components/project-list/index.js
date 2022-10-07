@@ -1,4 +1,7 @@
 import { h } from "preact";
+import { useContext } from "preact/hooks";
+import { projectTypes, projectTypeDescriptions } from "../../helpers/config";
+import { State } from "../../helpers/state";
 import {
   fireEvent,
   getProjectTypeResult,
@@ -6,27 +9,28 @@ import {
 } from "../../helpers/utils";
 import style from "./style.css";
 
-const ProjectList = ({ projects, projectTypeDescriptions, projectTypes }) => {
-  const selectProject = (e, project) => {
-    e.preventDefault();
-    project.select();
-  };
+const selectProject = (e, project) => {
+  e.preventDefault();
+  project.select();
+};
 
-  const selectProjectType = (e, project) => {
-    e.preventDefault();
-    fireEvent("searchSelectResult", {
-      result: getProjectTypeResult(project.type, projectTypes),
-    });
-  };
+const selectProjectType = (e, project) => {
+  e.preventDefault();
+  fireEvent("searchSelectResult", {
+    result: getProjectTypeResult(project.type, projectTypes),
+  });
+};
 
-  const selectRegion = (e, project) => {
-    e.preventDefault();
-    fireEvent("searchSelectResult", {
-      result: getRegionResult(project.region),
-    });
-  };
+const selectRegion = (e, project) => {
+  e.preventDefault();
+  fireEvent("searchSelectResult", {
+    result: getRegionResult(project.region),
+  });
+};
 
-  const projectRows = projects.map((project) => (
+const ProjectList = () => {
+  const { projects } = useContext(State);
+  const projectRows = (projects.value || []).map((project) => (
     <tr
       key={project.name}
       class={`${style.project} project-type-icon-${project.type.toLowerCase()}`}

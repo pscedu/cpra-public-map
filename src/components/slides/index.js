@@ -33,7 +33,10 @@ const Slides = ({ children }) => {
       drawerContents.push(
         <div class={style.overlay}>
           <div class={style.header}>
-            <SlideNavigation type="overlay" />
+            <SlideNavigation
+              currentSlide={overlays[0]}
+              navigationType="overlay"
+            />
           </div>
           {overlays[0]}
         </div>
@@ -45,7 +48,13 @@ const Slides = ({ children }) => {
       class={`${style.slides} ${style[drawerOpen.value ? "open" : "closed"]}`}
     >
       <div class={style.header}>
-        <SlideNavigation />
+        <SlideNavigation
+          currentSlide={currentSlide}
+          navigationType={
+            currentSlide.props.slideGroup === "tour" ? "arrows" : "tabs"
+          }
+          slides={slides}
+        />
       </div>
       {drawerContents}
     </div>

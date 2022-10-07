@@ -2,123 +2,66 @@
   background-color: white;
   display: flex;
   flex-direction: row;
+  font-size: 0.85rem;
+  justify-content: stretch;
   width: 100%;
 }
-.nav-type-arrows .current {
-  align-self: stretch;
-  background-color: var(--mpdv-color-teal-500);
+.button {
   border: 0 none transparent;
-  color: white;
-  display: block;
-  font-size: 0.9rem;
+  border-left: 1px solid white;
+  cursor: pointer;
+  flex: 1 1 auto;
   font-family: var(--mpdv-font-family-heading);
   font-weight: var(--mpdv-font-weight-heading);
   height: 100%;
   overflow: hidden;
   padding: 0.5rem 0.75rem;
   text-align: left;
-  text-decoration: none;
-  text-overflow: ellipsis;
   text-transform: uppercase;
+  text-overflow: ellipsis;
   white-space: nowrap;
-  width: 100%;
 }
-.nav-active-tab-green .current {
-  background-color: var(--mpdv-color-green-500);
+.button:first-child {
+  border-left: 0 none transparent;
 }
-.arrow,
-.handle {
-  background-color: var(--mpdv-color-teal-500);
-  border: 0 none transparent;
-  border-left: 1px solid white;
-  cursor: pointer;
-  color: white;
-  font-size: 1.4rem;
+.icon {
   flex: 0 0 auto;
+  padding: 0;
   text-align: center;
-  width: 3rem;
+  width: 3.5em;
 }
-.arrow ion-icon,
-.handle ion-icon {
-  margin: 0;
+.icon ion-icon {
+  margin-right: 0;
 }
-.prev {
-  left: 15px;
+.teal {
+  background-color: var(--mpdv-color-teal-200);
+  color: var(--mpdv-color-teal-900);
 }
-.next {
-  right: 15px;
+.teal.active {
+  background-color: var(--mpdv-color-teal-500);
+  color: white;
 }
-.nav-active-tab-green .arrow,
-.nav-active-tab-green .handle {
-  background-color: var(--mpdv-color-green-500);
-}
-.nav-type-tabs .handle {
+.green {
   background-color: var(--mpdv-color-green-200);
   color: var(--mpdv-color-green-900);
+}
+.green.active {
+  background-color: var(--mpdv-color-green-500);
+  color: white;
+}
+.button[disabled] {
+  background-color: var(--mpdv-color-gray-500);
+  cursor: inherit;
 }
 button.disabled,
 .nav-active-tab-green button.disabled {
   background-color: var(--mpdv-color-gray-500);
   cursor: inherit;
 }
-li,
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-.nav-type-tabs ul {
-  display: flex;
+.title {
   width: 100%;
 }
-.nav-type-tabs ul li,
-.nav-type-tabs ul button {
-  display: block;
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-decoration: none;
-  text-transform: uppercase;
-  width: 100%;
-}
-.nav-type-tabs ul li {
-  border-left: 1px solid white;
-  min-width: 0;
-}
-.nav-type-tabs ul button {
-  background-color: var(--mpdv-color-teal-200);
-  border: 0 none transparent;
-  color: var(--mpdv-color-teal-900);
-  cursor: pointer;
-  height: 100%;
-  padding: 0.5rem 0.75rem;
-  text-align: left;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.nav-type-tabs ul .green button {
-  background-color: var(--mpdv-color-green-200);
-  color: var(--mpdv-color-green-900);
-}
-.nav-type-tabs ul li:first-child {
-  border-left: 0 none transparent;
-}
-.nav-type-tabs .active button {
-  background-color: var(--mpdv-color-teal-500);
-  color: white;
-}
-.nav-type-tabs ul .green.active button {
-  background-color: var(--mpdv-color-green-500);
-  color: white;
-}
-.nav-type-tabs ion-icon {
-  float: none;
-  margin: 0;
-  text-align: center;
-}
-.nav-type-tabs .inner {
-  margin-top: 5px;
-}
+
 .icon-lg {
   display: none;
 }

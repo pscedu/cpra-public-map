@@ -1,89 +1,109 @@
 import { h } from "preact";
+import { useContext } from "preact/hooks";
+import { State } from "../../helpers/state";
+import { views } from "../../helpers/config";
 import style from "./style.css";
 
-function arrow(targetIdx, slides, setCurrentIdx, cssClass, content) {
-  const target = slides[targetIdx];
-  const hasTarget = target !== undefined;
+import SlideNavigationButton from "../slide-navigation-button";
 
-  return (
-    <button
-      class={`${style.arrow} ${cssClass} ${
-        hasTarget ? style.enabled : style.disabled
-      }`}
-      onClick={hasTarget ? () => setCurrentIdx(targetIdx) : null}
-    >
-      <span class="sr-only">{hasTarget ? target.props.view.title : null}</span>
-      {content}
-    </button>
-  );
-}
+const classes = (...cls) => cls.map((cl) => style[cl]).join(" ");
 
-const SlideNavigation = ({
-  currentIdx,
-  drawerOpen,
-  navigationType,
-  setCurrentIdx,
-  setDrawerOpen,
-  slides,
-}) => {
-  const navContent = [];
-  const currentSlide = slides[currentIdx];
-  if (navigationType === "arrows") {
-    const next = currentIdx + 1;
-    const prev = currentIdx - 1;
-    navContent.push(
-      <span class={style.current}>{currentSlide.props.view.title}</span>,
-      arrow(
-        prev,
-        slides,
-        setCurrentIdx,
-        style.prev,
+const SlideNavigation = ({ currentSlide, navigationType, slides }) => {
+  const { clearProject, drawerOpen } = useContext(State);
+  const buttons = [];
+  const currentIdx = slides.indexOf(currentSlide);
+
+  if (navigationType !== "tabs") {
+    buttons.push(
+      <span
+        class={classes(
+          "title",
+          "button",
+          "active",
+          currentSlide.props.color || "teal"
+        )}
+      >
+        {views[currentSlide.props.viewName].title}
+      </span>
+    );
+  }
+  if (navigationType === "overlay") {
+    buttons.push(
+      <SlideNavigationButton
+        cssClass={classes("button", "icon", "active", "green")}
+        action={clearProject}
+        label="Close"
+      >
+        <ion-icon name="close-outline" />
+      </SlideNavigationButton>
+    );
+  } else if (navigationType === "arrows") {
+    const cssClass = classes(
+      "button",
+      "icon",
+      "active",
+      currentSlide.props.color || "teal"
+    );
+    buttons.push(
+      <SlideNavigationButton
+        key="previous"
+        cssClass={cssClass}
+        label="Previous"
+        targetSlide={slides[currentIdx - 1]}
+      >
         <ion-icon name="chevron-back-outline" />
-      ),
-      arrow(
-        next,
-        slides,
-        setCurrentIdx,
-        style.next,
+      </SlideNavigationButton>,
+      <SlideNavigationButton
+        key="next"
+        cssClass={cssClass}
+        label="Next"
+        targetSlide={slides[currentIdx + 1]}
+      >
         <ion-icon name="chevron-forward-outline" />
-      )
+      </SlideNavigationButton>
     );
   } else {
-    const navItems = slides.map((slide, i) => (
-      <li
-        key={slide.props.id}
-        class={`${currentIdx == i ? style.active : style.inactive} ${
-          style[slide.props.tabClass] || "default"
-        }`}
-      >
-        <button onClick={() => setCurrentIdx(i)}>
-          {slide.props.icon ? <ion-icon name={slide.props.icon} /> : null}
-          <span class={style.inner}>{slide.props.view.title}</span>
-        </button>
-      </li>
-    ));
-    navContent.push(<ul>{navItems}</ul>);
+    buttons.push(
+      ...slides.map((slide, i) => {
+        const classList = ["button", slide.props.color || "teal"];
+        if (currentIdx == i) classList.push("active");
+        return (
+          <SlideNavigationButton
+            cssClass={classes(...classList)}
+            targetSlide={slide}
+            key={`${i}-${slide.props.viewName}`}
+          >
+            {views[slide.props.viewName].title}
+          </SlideNavigationButton>
+        );
+      })
+    );
   }
+  if (navigationType !== "overlay") {
+    const classList = ["button", "icon"];
+    if (navigationType === "arrows") {
+      classList.push(currentSlide.props.color || "teal", "active");
+    } else {
+      classList.push("green");
+    }
 
-  return (
-    <nav
-      class={`${style["slide-navigation"]} ${
-        style["nav-type-" + navigationType]
-      } ${
-        style["nav-active-tab-" + (currentSlide.props.tabClass || "default")]
-      }`}
-    >
-      {navContent}
-      <button class={style.handle} onClick={() => setDrawerOpen(!drawerOpen)}>
+    buttons.push(
+      <SlideNavigationButton
+        key="close"
+        cssClass={classes(...classList)}
+        action={() => (drawerOpen.value = !drawerOpen.value)}
+        label={drawerOpen.value ? "Close" : "Open"}
+      >
         <ion-icon
           class={style["icon-lg"]}
-          name={`chevron-${drawerOpen ? "down" : "up"}-outline`}
+          name={`chevron-${drawerOpen.value ? "down" : "up"}-outline`}
         />
         <ion-icon class={style["icon-md"]} src="/assets/buttons/legend.svg" />
-        <span class="sr-only">{drawerOpen ? "Close" : "Open"}</span>
-      </button>
-    </nav>
-  );
+      </SlideNavigationButton>
+    );
+  }
+
+  return <nav class={style["slide-navigation"]}>{buttons}</nav>;
 };
 
 export default SlideNavigation;
