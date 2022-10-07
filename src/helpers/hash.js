@@ -1,22 +1,39 @@
-export function getHashObject(defaults, all = false) {
-  const hash =
-    typeof window !== "undefined" ? window.location.hash.replace("#", "") : "";
-  const obj = { ...defaults };
-  hash
-    .split("&")
-    .map((part) => part.split("="))
-    .filter((kv) => all || kv[0] in defaults)
-    .forEach((kv) => {
-      obj[kv[0]] = decodeURIComponent(kv[1]);
-    });
-  return obj;
-}
+import { effect, signal } from "@preact/signals";
 
-export function getHashString(obj, defaults, excluded = []) {
-  obj = { ...getHashObject(defaults, true), ...obj };
-  let kv = Object.keys(obj)
-    .filter((k) => !(excluded.includes(k) || obj[k] == defaults[k]))
-    .map((k) => `${k}=${k == "map" ? obj[k] : encodeURIComponent(obj[k])}`)
-    .join("&");
-  return kv ? `#${kv}` : "";
-}
+const getHashParams = () =>
+  new URLSearchParams(window.location.hash.replace(/^#/, ""));
+
+export const hashSignal = (
+  hashKey,
+  defaultValue,
+  encoder = (val) => val,
+  decoder = (val) => val
+) => {
+  const getValue = () => {
+    const params = getHashParams();
+    return params.has(hashKey) ? decoder(params.get(hashKey)) : defaultValue;
+  };
+  const sig = signal(getValue());
+  effect(() =>
+    window.addEventListener("hashchange", () => (sig.value = getValue()), false)
+  );
+  effect(() => {
+    const params = getHashParams();
+    sig.value === defaultValue
+      ? params.delete(hashKey)
+      : params.set(hashKey, encoder(sig.value));
+    let hashString = params.toString();
+    // Fix encoding of map parameter.
+    if (params.has("map"))
+      hashString = hashString.replace(
+        /(^|&)map=[^&]+/,
+        `$1map=${params.get("map")}`
+      );
+    window.history.replaceState(
+      window.history.state,
+      "",
+      hashString ? `#${hashString}` : ""
+    );
+  });
+  return sig;
+};

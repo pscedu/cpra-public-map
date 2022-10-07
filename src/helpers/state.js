@@ -1,5 +1,6 @@
 import { createContext } from "preact";
 import { computed, effect, signal } from "@preact/signals";
+import { hashSignal } from "./hash";
 import {
   fireEvent,
   getProjectResult,
@@ -8,20 +9,21 @@ import {
 } from "./utils";
 import * as config from "./config";
 
-function hashSignal(hashKey, defaultValue) {
-  return signal(defaultValue);
-}
-
 export function createState() {
   console.log("createState");
   // SIGNALS
   const group = hashSignal("group", "G500");
   const politicalBoundary = hashSignal("political-boundary", null);
   const scenario = hashSignal("scenario", "S07");
-  const showProjects = hashSignal("show-projects", "true");
+  const showProjects = hashSignal(
+    "show-stations",
+    true,
+    (val) => (val ? "true" : "false"),
+    (val) => val === "true"
+  );
   const subtype = hashSignal("subtype", null);
   const viewName = hashSignal("view", "slide-0");
-  const year = hashSignal("year", 50);
+  const year = hashSignal("year", 50, (val) => val.toString(), parseInt);
 
   const drawerOpen = signal(true);
   const introOpen = signal(viewName.peek() === "slide-0");
