@@ -153,6 +153,7 @@ export const layers = {
     legend: legends["Damage"],
     nullYears: [],
     scenarios: ["S07", "S08"],
+    subtypes: ["EAD", "EASD"],
     type: "vector",
     years: [0, 10, 20, 30, 40, 50],
   },

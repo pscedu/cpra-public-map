@@ -1,11 +1,12 @@
 import { createContext } from "preact";
-import { computed, effect, signal } from "@preact/signals";
+import { batch, computed, effect, signal } from "@preact/signals";
 import { hashSignal } from "./hash";
 import {
   fireEvent,
   getProjectResult,
   getProjectTypeResult,
   getRegionResult,
+  selectValue,
 } from "./utils";
 import * as config from "./config";
 
@@ -99,32 +100,24 @@ export function createState() {
   //   fireEvent("mapResize");
   // }, [drawerOpen]);
 
-  // const prevSubypes = {};
-  // const selectValue = (values, currentValue) => {
-  //   if (values.includes(currentValue) || !values.length) return currentValue;
-  //   return values[0];
-  // };
-
-  //   if (mapState.subtype) prevSubypes[layer] = mapState.subtype;
-  //   let year = currentSlide.props.year || mapState.year;
-  //   if (mapState.view !== "projects" && mapState.view !== "slide-0")
-  //     year = Math.floor(year / 10) * 10;
-  //   updateMapState({
-  //     group: selectValue(
-  //       layer.groups || [],
-  //       currentSlide.props.group || mapState.group
-  //     ),
-  //     scenario: selectValue(
-  //       layer.scenarios || [],
-  //       currentSlide.props.scenario || mapState.scenario
-  //     ),
-  //     subtype:
-  //       (layer.subtypes || []).length > 0
-  //         ? prevSubypes[layer.name] || layer.subtypes[0]
-  //         : null,
-  //     year,
-  //   });
-  // }, [currentIdx]);
+  // Synchronize layer signals with available choices.
+  const prevSubypes = {};
+  effect(() => {
+    const layer = view.value.layer;
+    if (subtype.value) prevSubypes[viewName.value] = subtype.value;
+    batch(() => {
+      group.value = selectValue(layer.groups, view.value.group || group.value);
+      scenario.value = selectValue(
+        layer.scenarios,
+        view.value.scenario || scenario.value
+      );
+      subtype.value = selectValue(
+        layer.subtypes,
+        view.value.subtype || subtype.value || prevSubypes[layer.name]
+      );
+      year.value = selectValue(layer.years, view.value.year || year.value);
+    });
+  });
 
   // FUNCTIONS
   const setStorySlide = (idx) =>

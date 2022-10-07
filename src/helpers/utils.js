@@ -60,6 +60,12 @@ export const getRegionResult = (region) => {
   };
 };
 
+export const selectValue = (values, currentValue) => {
+  values = values || [];
+  if (values.includes(currentValue)) return currentValue;
+  return values.length ? values[0] : null;
+};
+
 window.dataLayer = window.dataLayer || [];
 export const internal = window.location.hostname.search("mpdv") === -1;
 export function gtag() {
