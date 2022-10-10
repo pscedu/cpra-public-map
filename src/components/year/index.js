@@ -1,4 +1,5 @@
 import { h } from "preact";
+import { useId } from "preact/hooks";
 import style from "./style.css";
 
 import Tooltip from "../tooltip";
@@ -6,14 +7,11 @@ import { gtag } from "../../helpers/utils";
 
 let yearTimeout;
 
-const Year = ({ state, step = 10, tooltip, updateState, years }) => {
+const Year = ({ signal, tooltip, years }) => {
+  const id = useId();
   const handleInput = (e) => {
-    const newYear = e.target.value;
-    const hasNewYear = years.indexOf(newYear) !== -1;
-    updateState({
-      year: newYear,
-      prevYear: hasNewYear ? state.year : null,
-    });
+    const newYear = years[parseInt(e.target.value, 10)];
+    signal.value = newYear;
     if (yearTimeout) clearTimeout(yearTimeout);
     yearTimeout = setTimeout(
       () =>
@@ -25,7 +23,7 @@ const Year = ({ state, step = 10, tooltip, updateState, years }) => {
     );
   };
 
-  const ticks = [0, 10, 20, 30, 40, 50].map((val) => (
+  const ticks = years.map((val) => (
     <span key={val} class="tick">
       {val}
     </span>
@@ -33,19 +31,18 @@ const Year = ({ state, step = 10, tooltip, updateState, years }) => {
 
   return (
     <div class="input">
-      <label class="label" for="year">
+      <label class="label" for={id}>
         {tooltip ? <Tooltip content={tooltip} /> : null} Year
-        <span class={style.value}>: {state.year}</span>
+        <span class={style.value}>: {signal.value}</span>
       </label>
       <div class={style.ticks}>{ticks}</div>
       <input
         type="range"
-        id="year"
+        id={id}
         name="year"
         min="0"
-        max="50"
-        step={step}
-        value={state.year}
+        max={years.length - 1}
+        value={years.indexOf(signal.value)}
         onInput={handleInput}
       />
     </div>

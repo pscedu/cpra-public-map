@@ -12,16 +12,14 @@ input[type="range"],
   display: flex;
   flex-direction: row;
   font-size: 0.8125rem;
+  left: -16px;
+  position: relative;
+  width: calc(100% + 32px);
 }
 .ticks span {
   display: block;
-  position: relative;
-  right: -5px;
-  text-align: right;
+  text-align: center;
   width: 100%;
-}
-.ticks span:first-child {
-  width: 10px;
 }
 input[type="range"]::-moz-range-track {
   background-color: var(--mpdv-color-gray-200);

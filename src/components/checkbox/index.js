@@ -1,26 +1,36 @@
 import { h } from "preact";
+import { useId } from "preact/hooks";
 import style from "./style.css";
 import { gtag } from "../../helpers/utils";
+
+import Tooltip from "../tooltip";
 
 const Checkbox = ({
   analyticsId,
   cssClass,
   disabled = false,
-  falseValue = "false",
+  falseValue = false,
   label,
-  trueValue = "true",
-  value,
-  setValue,
+  signal,
+  tooltip,
+  trueValue = true,
 }) => {
+  const id = useId();
   return (
     <div class={`${style.checkbox} ${cssClass || "default"}`}>
       <input
         type="checkbox"
-        checked={value === trueValue}
-        onChange={() => setValue(value === trueValue ? falseValue : trueValue)}
+        checked={signal.value === trueValue}
+        onChange={() =>
+          (signal.value = signal.value === trueValue ? falseValue : trueValue)
+        }
         disabled={disabled}
+        id={id}
       />
-      <label class="label">{label}</label>
+      <label class="label" for={id}>
+        {tooltip ? <Tooltip content={tooltip} /> : null}
+        {label}
+      </label>
     </div>
   );
 };

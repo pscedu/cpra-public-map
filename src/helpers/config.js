@@ -231,35 +231,35 @@ export const views = {
     layer: layers.historicalLandChange,
     group: "G500",
     scenario: "S07",
-    year: "2015",
+    year: 2015,
   },
   "slide-1": {
     title: "Environmental Change Over Time",
     layer: layers.landChange,
     group: "G500",
     scenario: "S07",
-    year: "0",
+    year: 0,
   },
   "slide-2": {
     title: "Land Change",
     layer: layers.landChange,
     group: "G500",
     scenario: "S07",
-    year: "50",
+    year: 50,
   },
   "slide-3": {
     title: "Flood Depth",
     layer: layers.floodDepth,
     group: "G500",
     scenario: "S07",
-    year: "50",
+    year: 50,
   },
   "slide-4": {
     title: "Damage",
     layer: layers.damage,
     group: "G500",
     scenario: "S07",
-    year: "50",
+    year: 50,
   },
   "slide-5": {
     title: "Projects",
@@ -270,25 +270,75 @@ export const views = {
     layer: layers.landChange,
     group: "G603",
     scenario: "S07",
-    year: "50",
+    year: 50,
   },
   "slide-7": {
     title: "Flood Depth",
     layer: layers.floodDepth,
     group: "G603",
     scenario: "S07",
-    year: "50",
+    year: 50,
   },
   "slide-8": {
     title: "Damage",
     layer: layers.damage,
     group: "G603",
     scenario: "S07",
-    year: "50",
+    year: 50,
   },
   "slide-9": {
     title: "Next Steps",
     layer: layers.projects,
+  },
+};
+export const controls = {
+  aep: {
+    type: "buttons",
+    stateVariable: "subtype",
+    label: "Annual Exceedance Probability",
+    choices: layers.floodDepth.subtypes.map((subtype) => [subtype, subtype]),
+    tooltip:
+      "Flood events are often reported in annual exceedance probability (AEP), which is the likelihood of a given flood event occurring in a year. For example, a very intense flood might be classified as a 500-year event, which means that it has a 1/500 chance (or 0.2% chance) of occurring in any given year. Use the buttons below to view the anticipated flood risk resulting from different possible events.",
+  },
+  damage: {
+    type: "buttons",
+    stateVariable: "subtype",
+    label: "Damage Metric",
+    choices: [
+      ["EAD", "Dollars"],
+      ["EASD", "Structures"],
+    ],
+  },
+  group: {
+    type: "buttons",
+    label: "Project Implementation Scenario",
+    choices: [
+      ["G500", "Without Further Action"],
+      ["G603", "With 2023 Master Plan"],
+    ],
+    tooltip:
+      "Select <strong>Future Without Action</strong> to view model results in a scenario without construction and/or operation of the recommended projects from the 2023 Coastal Master Plan. Select <strong>With 2023 Master Plan</strong> to view model results with implementation of the recommended projects from the 2023 Coastal Master Plan (i.e. assuming construction and operation of coastal restoration and flood protection projects as recommended in the Master Plan).",
+  },
+  projects: {
+    type: "checkbox",
+    stateVariable: "showProjects",
+    label: "Show candidate projects",
+    disabled: (state) => state.group.value === "G500",
+  },
+  scenario: {
+    type: "buttons",
+    label: "Environmental Scenario",
+    choices: [
+      ["S07", "Lower"],
+      ["S08", "Higher"],
+    ],
+    tooltip:
+      "Future land change and flood risk depends on environmental factors including precipitation, sea level rise, and land subsidence rates. Given the uncertainty in predicting environmental factors, the Louisiana Coastal Master Plan considers many possible future scenarios. Use the buttons below to view model results under a <strong>Lower Scenario</strong> (representing lower rates of sea level rise, land subsidence, etc.) and a <strong>Higher Scenario</strong> (representing higher rates of sea level rise, land subsidence, etc.).",
+  },
+  year: {
+    type: "year",
+    tooltip:
+      "The Louisiana Coastal Master Plan utilizes technical models to predict coastal land change and flood risk over a 50-year period. Use the slider below to view decadal model results from initial conditions to 50 years into the future.",
   },
 };
 export const mapDefaults = {

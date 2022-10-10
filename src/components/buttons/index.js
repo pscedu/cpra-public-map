@@ -13,8 +13,13 @@ const Buttons = ({
   label,
   value,
   setValue,
+  signal,
   tooltip,
 }) => {
+  if (signal && !value && !setValue) {
+    value = signal.value;
+    setValue = (value) => (signal.value = value);
+  }
   const buttons = choices.map(([buttonValue, buttonLabel, buttonIcon]) => (
     <button
       key={buttonValue}

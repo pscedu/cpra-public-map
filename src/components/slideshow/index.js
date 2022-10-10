@@ -29,7 +29,7 @@ const Slideshow = () => {
         <Disclaimer />
       </Slide>
       <Slide
-        controls={["scenario", "subtype", "year", "projects"]}
+        controls={["scenario", "aep", "year", "projects"]}
         viewName="flood-depth"
         slideGroup="explore"
       >
@@ -46,7 +46,7 @@ const Slideshow = () => {
         <ProjectList />
       </Slide>
 
-      <Slide viewName="slide-0" slideGroup="tour">
+      <Slide viewName="slide-0" slideGroup="tour" controls={["year"]}>
         <p>
           Louisiana impacted by environmental change over time (link to past
           change e.g., Brady&apos;s work) that causes challenges with changes to
@@ -93,11 +93,7 @@ const Slideshow = () => {
           and <strong>Higher</strong> rates of environmental change over time.
         </p>
       </Slide>
-      <Slide
-        controls={["year", "subtype"]}
-        viewName="slide-3"
-        slideGroup="tour"
-      >
+      <Slide controls={["year", "aep"]} viewName="slide-3" slideGroup="tour">
         <p>
           Coastal Louisiana experiences a wide range of storm intensities, from
           tropical storms to Category 5 hurricanes. To estimate future flooding
@@ -159,7 +155,7 @@ const Slideshow = () => {
         </p>
       </Slide>
       <Slide
-        controls={["year", "subtype"]}
+        controls={["year", "aep"]}
         viewName="slide-7"
         color="green"
         slideGroup="tour"

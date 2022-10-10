@@ -17,7 +17,7 @@ export function createState() {
   const politicalBoundary = hashSignal("political-boundary", null);
   const scenario = hashSignal("scenario", "S07");
   const showProjects = hashSignal(
-    "show-stations",
+    "show-projects",
     true,
     (val) => (val ? "true" : "false"),
     (val) => val === "true"

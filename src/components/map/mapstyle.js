@@ -8,9 +8,7 @@ function linearZoom(min, max) {
 }
 
 function getLayerName(layer, scenario, group, year, subtype) {
-  let name = `${layer.name} - ${scenario} - ${group} - Year ${
-    layer != "Historical Land Change" ? Math.floor(year / 10) * 10 : year
-  }`;
+  let name = `${layer.name} - ${scenario} - ${group} - Year ${year}`;
   if (subtype) name += ` - ${layer.subtypeName} ${subtype}`;
   return name;
 }
@@ -518,7 +516,7 @@ export function getStyle(state) {
       },
       ...projectLayers(
         view.value.layer.name == "Projects" ||
-          (group.value !== "G500" && showProjects.value === "true"),
+          (group.value !== "G500" && showProjects.value),
         true,
         view.value.layer.name !== "Projects"
       ),
