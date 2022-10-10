@@ -46,8 +46,6 @@ const Search = () => {
         : searchText.value;
   });
 
-  // setCurrentIdx(0);
-
   return (
     <div class={style["address-search"]}>
       <label for="address-search" class="sr-only">

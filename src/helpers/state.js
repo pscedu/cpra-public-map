@@ -10,6 +10,8 @@ import {
   getProjectResult,
   getProjectTypeResult,
   getRegionResult,
+  gtag,
+  internal,
   selectValue,
 } from "./utils";
 import * as config from "./config";
@@ -159,16 +161,38 @@ export function createState() {
         if (selection.value.polygon) bounds = bbox(selection.value.polygon);
         if (bounds) mapFitBounds(bounds);
         if (result.type === "project") drawerOpen.value = true;
-        // gtag("event", "select_content", {
-        //   content_type: (result.category || "OSM").toLowerCase(),
-        //   item_id: result.name,
-        // });
+        gtag("event", "select_content", {
+          content_type: (result.category || "OSM").toLowerCase(),
+          item_id: result.name,
+        });
       } else {
         // Reset search when the result is cleared.
         searchText.value = "";
       }
       searchResults.value = [];
     });
+  });
+
+  // Track analytics when the view changes.
+  const baseUrl = window.location.href.replace(window.location.hash, "");
+  let analyticsStarted = false;
+  effect(() => {
+    if (!analyticsStarted) {
+      // Send initial analytics configuration.
+      gtag("js", new Date());
+      gtag("config", "G-B9C4QG8HKV", {
+        debug_mode: internal,
+        send_page_view: false,
+        traffic_type: internal ? "internal" : "external",
+      });
+      analyticsStarted = true;
+    }
+    // Generate an analytics page view when the view changes.
+    gtag("set", "page_location", `${baseUrl}#view=${viewName.value}`);
+    gtag("set", "page_title", config.views[viewName.value].title);
+    gtag("event", "page_view");
+    if (viewName.value === "slide-0") gtag("event", "tutorial_begin");
+    if (viewName.value === "slide-9") gtag("event", "tutorial_complete");
   });
 
   // FUNCTIONS
@@ -213,7 +237,6 @@ export function createState() {
       setStorySlide(0);
     });
     mapFitBounds(config.mapDefaults.bounds);
-    // gtag("event", "tutorial_begin");
   };
 
   return {
