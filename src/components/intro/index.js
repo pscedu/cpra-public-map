@@ -1,28 +1,30 @@
 import { h } from "preact";
 import { useContext } from "preact/hooks";
+import { batch } from "@preact/signals";
 import style from "./style.css";
 import { State } from "../../helpers/state";
-import { fireEvent } from "../../helpers/utils";
 
 import ActionButton from "../action-button";
 import Disclaimer from "../disclaimer";
 import Modal from "../modal";
 
 const Intro = () => {
-  const state = useContext(State);
+  const { endTour, introOpen, startTour } = useContext(State);
   const tour = () => {
-    state.startTour();
-    state.introOpen.value = false;
-    fireEvent("drawerSetOpen", { open: true });
+    batch(() => {
+      startTour();
+      introOpen.value = false;
+    });
   };
   const explore = () => {
-    state.endTour();
-    state.introOpen.value = false;
-    fireEvent("drawerSetOpen", { open: true });
+    batch(() => {
+      endTour();
+      introOpen.value = false;
+    });
   };
   return (
     <Modal
-      open={state.introOpen.value}
+      open={introOpen.value}
       title="Welcome to the Master Plan Data Viewer"
     >
       <div class={style.intro}>

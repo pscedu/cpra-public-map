@@ -2,7 +2,7 @@ import { h } from "preact";
 import { useContext, useEffect, useState } from "preact/hooks";
 import * as config from "../../helpers/config";
 import { State } from "../../helpers/state";
-import { fireEvent, mapToImage } from "../../helpers/utils";
+import { mapToImage } from "../../helpers/utils";
 import style from "./style.css";
 
 import ActionButton from "../action-button";
@@ -29,7 +29,7 @@ function addLineBreaks(values) {
 }
 
 const Print = ({ children }) => {
-  const { group, map, scenario, subtype, printing, view, year } =
+  const { group, map, mapResize, scenario, subtype, printing, view, year } =
     useContext(State);
   const layerName = view.value.layer.name;
   const { legends, printText } = config;
@@ -68,7 +68,7 @@ const Print = ({ children }) => {
       const [newWidth, newHeight] = getDimensions();
       setHeight(newHeight);
       setWidth(newWidth);
-      fireEvent("mapResize");
+      mapResize();
     });
   }, []);
 

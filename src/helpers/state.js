@@ -1,8 +1,12 @@
 import { createContext } from "preact";
 import { batch, computed, effect, signal } from "@preact/signals";
+import bbox from "@turf/bbox";
 import { hashSignal } from "./hash";
 import {
-  fireEvent,
+  getLocalResults,
+  getMapPadding,
+  getOsmResults,
+  getOsmSelection,
   getProjectResult,
   getProjectTypeResult,
   getRegionResult,
@@ -11,7 +15,6 @@ import {
 import * as config from "./config";
 
 export function createState() {
-  console.log("createState");
   // SIGNALS
   const group = hashSignal("group", "G500");
   const politicalBoundary = hashSignal("political-boundary", null);
@@ -29,9 +32,11 @@ export function createState() {
   const drawerOpen = signal(true);
   const introOpen = signal(viewName.peek() === "slide-0");
   const map = signal(null);
-  const selection = signal({});
   const printing = signal(false);
   const projects = signal([]);
+  const searchResult = signal(null);
+  const searchResults = signal([]);
+  const searchText = signal("");
   const services = signal(null);
 
   // COMPUTED SIGNALS
@@ -42,6 +47,13 @@ export function createState() {
   });
 
   const project = computed(() => projectMap[selection.value.project]);
+
+  const selection = computed(() =>
+    searchResult.value
+      ? searchResult.value.selection ||
+        getOsmSelection(searchResult.value.details)
+      : {}
+  );
 
   const searchIndex = computed(() => {
     const projectTypeItems = Object.keys(config.projectTypes).map((pt) =>
@@ -82,10 +94,18 @@ export function createState() {
     projects.value = rows.map((row) => {
       let project = {};
       for (let i in headers) project[headers[i]] = row[i];
-      project.select = () =>
-        fireEvent("searchSelectResult", {
-          result: getProjectResult(project),
-        });
+      project.select = (type) => {
+        if (type === "type") {
+          searchResult.value = getProjectTypeResult(
+            project.type,
+            config.projectTypes
+          );
+        } else if (type === "region") {
+          searchResult.value = getRegionResult(project.region);
+        } else {
+          searchResult.value = getProjectResult(project);
+        }
+      };
       return project;
     });
   });
@@ -95,10 +115,6 @@ export function createState() {
     const res = await fetch(config.servicesUrl);
     services.value = await res.json();
   });
-
-  // useLayoutEffect(() => {
-  //   fireEvent("mapResize");
-  // }, [drawerOpen]);
 
   // Synchronize layer signals with available choices.
   const prevSubypes = {};
@@ -119,36 +135,97 @@ export function createState() {
     });
   });
 
+  // Perform a search when text changes.
+  effect(async () => {
+    const url = new URL(config.geocodeUrl);
+    url.searchParams.append("q", searchText.value);
+    url.searchParams.append("addressdetails", "1");
+    url.searchParams.append("polygon_geojson", "1");
+    const req = fetch(url.toString());
+    const results = getLocalResults(searchText.value, searchIndex.value);
+    const res = await req;
+    results.push(
+      ...getOsmResults(await res.json(), config.searchExcludedCategories)
+    );
+    searchResults.value = results.slice(0, 5);
+  });
+
+  // Update the map and search results when the selected search result changes.
+  effect(() => {
+    const result = searchResult.value;
+    batch(() => {
+      if (result) {
+        let bounds = result.bounds;
+        if (selection.value.polygon) bounds = bbox(selection.value.polygon);
+        if (bounds) mapFitBounds(bounds);
+        if (result.type === "project") drawerOpen.value = true;
+        // gtag("event", "select_content", {
+        //   content_type: (result.category || "OSM").toLowerCase(),
+        //   item_id: result.name,
+        // });
+      } else {
+        // Reset search when the result is cleared.
+        searchText.value = "";
+      }
+      searchResults.value = [];
+    });
+  });
+
   // FUNCTIONS
+  const clearProject = (e) => {
+    e.preventDefault();
+    searchResult.value = null;
+  };
+
+  const clearSearch = () => {
+    batch(() => {
+      searchResult.value = null;
+      searchText.value = "";
+      searchResults.value = [];
+    });
+  };
+
+  const endTour = () => {
+    batch(() => {
+      drawerOpen.value = true;
+      setStorySlide(null);
+    });
+  };
+
+  const mapFitBounds = (bounds) => {
+    if (map.value)
+      map.value.fitBounds(bounds, {
+        padding: getMapPadding(),
+      });
+  };
+
+  const mapResize = () => {
+    if (map.value) map.value.resize();
+  };
+
   const setStorySlide = (idx) =>
     (viewName.value = idx === null ? "land-change" : `slide-${idx}`);
 
   const startTour = () => {
-    fireEvent("searchClearResult");
-    fireEvent("mapFitBounds", {
-      bounds: config.mapDefaults.bounds,
-      options: {
-        padding: config.mapDefaults.padding,
-      },
+    batch(() => {
+      searchResult.value = null;
+      drawerOpen.value = true;
+      setStorySlide(0);
     });
-    setStorySlide(0);
+    mapFitBounds(config.mapDefaults.bounds);
     // gtag("event", "tutorial_begin");
-  };
-
-  const endTour = () => setStorySlide(null);
-
-  const clearProject = (e) => {
-    e.preventDefault();
-    fireEvent("searchClearResult");
   };
 
   return {
     clearProject,
+    clearSearch,
     drawerOpen,
     endTour,
     group,
     introOpen,
     map,
+    mapFitBounds,
+    mapResize,
     politicalBoundary,
     printing,
     project,
@@ -156,6 +233,9 @@ export function createState() {
     projects,
     scenario,
     searchIndex,
+    searchResult,
+    searchResults,
+    searchText,
     selection,
     services,
     setStorySlide,

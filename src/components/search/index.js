@@ -1,56 +1,8 @@
 import { h } from "preact";
-import { useContext, useEffect, useRef, useState } from "preact/hooks";
-import * as config from "../../helpers/config";
+import { useSignalEffect, useSignal } from "@preact/signals";
+import { useContext, useRef } from "preact/hooks";
 import { State } from "../../helpers/state";
-import bbox from "@turf/bbox";
-import {
-  bufferPoint,
-  fireEvent,
-  gtag,
-  normalizeText,
-} from "../../helpers/utils";
 import style from "./style.css";
-
-const excludedCategories = ["railway"];
-
-function getLocalResults(text, searchIndex) {
-  let needles = normalizeText(text)
-    .split(" ")
-    .filter((part) => part.length);
-
-  return searchIndex.filter((entry) => {
-    if (needles.length == 0) return false;
-    for (let needle of needles)
-      if (entry.haystack.indexOf(needle) === -1) return false;
-    return true;
-  });
-}
-
-function getOsmResults(json) {
-  return json
-    .filter((result) => excludedCategories.indexOf(result.category) === -1)
-    .map((result) => {
-      const addr = result.address;
-      let primary = addr[result.category];
-      let secondary =
-        addr.neighbourhood || addr.town || addr.city || addr.county || null;
-      if (!primary)
-        primary = [addr.house_number, addr.road]
-          .filter((part) => part !== undefined)
-          .join(" ");
-
-      if (primary == "") {
-        primary = secondary;
-        secondary = null;
-      }
-      return {
-        type: "osm",
-        name: primary,
-        category: secondary,
-        details: result,
-      };
-    });
-}
 
 function formatResult(result) {
   return [
@@ -65,97 +17,36 @@ function formatResult(result) {
 }
 
 const Search = () => {
-  const state = useContext(State);
+  const { clearSearch, searchResult, searchResults, searchText } =
+    useContext(State);
   const input = useRef(null);
-  const [text, setText] = useState("");
-  const [hasResult, setHasResult] = useState(false);
-  const [results, setResults] = useState([]);
-  const [currentIdx, setCurrentIdx] = useState(0);
-  const [focused, setFocused] = useState(false);
+  const currentIdx = useSignal(0);
+  const focused = useSignal(false);
 
-  useEffect(() => {
-    window.addEventListener("searchSelectResult", (e) => {
-      setHasResult(true);
-      select(e.detail.result);
-    });
-    window.addEventListener("searchClearResult", clear);
-  }, []);
+  const reset = () => {
+    currentIdx.value = 0;
+    clearSearch();
+  };
 
   const keyUp = async (e) => {
     // Select the active result when enter is pressed.
-    if (e.keyCode === 13) return select(results[currentIdx]);
-    if (e.keyCode === 38 && currentIdx > 0)
-      return setCurrentIdx(currentIdx - 1);
-    if (e.keyCode === 40 && currentIdx < results.length - 1)
-      return setCurrentIdx(currentIdx + 1);
-    setText(e.target.value);
+    const results = searchResults.value;
+    const idx = currentIdx.value;
+    if (e.keyCode === 13) return (searchResult.value = results[idx]);
+    if (e.keyCode === 27) return reset();
+    if (e.keyCode === 38 && idx > 0) return currentIdx.value--;
+    if (e.keyCode === 40 && idx < results.length - 1) return currentIdx.value++;
+    searchText.value = e.target.value;
   };
 
-  // Perform a search when text changes.
-  useEffect(() => {
-    (async () => {
-      const url = new URL(config.geocodeUrl);
-      url.searchParams.append("q", text);
-      url.searchParams.append("addressdetails", "1");
-      url.searchParams.append("polygon_geojson", "1");
-      const req = fetch(url.toString());
-      const results = getLocalResults(text, state.searchIndex.value);
-      const res = await req;
-      results.push(...getOsmResults(await res.json()));
-      setResults(results.slice(0, 5));
-      setCurrentIdx(0);
-    })();
-  }, [text, state.searchIndex.value]);
+  useSignalEffect(() => {
+    if (input.current)
+      input.current.value = searchResult.value
+        ? searchResult.value.name
+        : searchText.value;
+  });
 
-  const select = (result) => {
-    showResult(result);
-    if (input.current) input.current.value = result.name;
-    setResults([]);
-    setCurrentIdx(0);
-    setHasResult(true);
-  };
-
-  const clear = () => {
-    state.selection.value = {};
-    if (input.current) input.current.value = "";
-    setText("");
-    setResults([]);
-    setCurrentIdx(0);
-    setHasResult(false);
-  };
-
-  const getOsmSelection = (details) => {
-    const polygon =
-      details.category == "boundary"
-        ? details.geojson
-        : bufferPoint(parseFloat(details.lon), parseFloat(details.lat), 1609);
-    return { polygon };
-  };
-
-  const showResult = (result) => {
-    const selection = result.selection || getOsmSelection(result.details);
-    state.selection.value = selection;
-
-    let bounds = result.bounds;
-    if (selection.polygon) bounds = bbox(selection.polygon);
-    if (bounds)
-      fireEvent("mapFitBounds", {
-        bounds,
-        options: {
-          padding: {
-            top: 150,
-            right: 200,
-            bottom: 400,
-            left: 150,
-          },
-        },
-      });
-    if (result.type === "project") fireEvent("slidesOpenDrawer");
-    gtag("event", "select_content", {
-      content_type: (result.category || "OSM").toLowerCase(),
-      item_id: result.name,
-    });
-  };
+  // setCurrentIdx(0);
 
   return (
     <div class={style["address-search"]}>
@@ -166,17 +57,20 @@ const Search = () => {
         type="text"
         id="address-search"
         placeholder="Search by address, project, or region"
+        onKeyDown={(e) =>
+          [13, 27, 38, 40].includes(e.keyCode) && e.preventDefault()
+        }
         onKeyUp={keyUp}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
+        onFocus={() => (focused.value = true)}
+        onBlur={() => (focused.value = false)}
         ref={input}
       />
-      {hasResult || text.length > 0 ? (
-        <button class={style["clear"]} onClick={clear}>
+      {searchResult.value || searchText.value.length > 0 ? (
+        <button class={style["clear"]} onClick={reset}>
           <span class="sr-only">Clear</span>
         </button>
       ) : null}
-      {text.length == 0 && focused ? (
+      {searchText.value.length == 0 && focused.value ? (
         <div class={style["instructions"]}>
           <p>These are examples of things you can find:</p>
           <ul class={style["examples"]}>
@@ -211,16 +105,18 @@ const Search = () => {
           </ul>
         </div>
       ) : null}
-      {results.length ? (
+      {searchResults.value.length ? (
         <ul class={style["results"]}>
-          {results.map((result, i) => (
+          {searchResults.value.map((result, i) => (
             <li
               key={result}
               class={`${style["result"]} ${
-                style[i == currentIdx ? "active" : "inactive"]
+                style[i == currentIdx.value ? "active" : "inactive"]
               }`}
-              onClick={() => select(result)}
-              onMouseEnter={() => setCurrentIdx(i)}
+              onClick={() => (searchResult.value = result)}
+              onMouseEnter={() => {
+                currentIdx.value = i;
+              }}
             >
               {formatResult(result)}
             </li>

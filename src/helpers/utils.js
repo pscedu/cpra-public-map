@@ -13,16 +13,6 @@ export const bufferPoint = (xDeg, yDeg, radius, segments = 32) => {
   return { type: "Polygon", coordinates: [ring] };
 };
 
-export const fireEvent = (name, detail) => {
-  const event = new CustomEvent(name, { detail });
-  window.dispatchEvent(event);
-};
-
-export const documentReady = (fn) =>
-  ["complete", "interactive"].indexOf(document.readyState) !== -1
-    ? setTimeout(fn, 1)
-    : document.addEventListener("DOMContentLoaded", fn);
-
 export const getProjectResult = (project) => {
   return {
     type: "project",
@@ -227,3 +217,60 @@ export const mapToImage = async ({
   document.body.removeChild(container);
   return dataUrl;
 };
+
+export function getLocalResults(text, searchIndex) {
+  let needles = normalizeText(text)
+    .split(" ")
+    .filter((part) => part.length);
+
+  return searchIndex.filter((entry) => {
+    if (needles.length == 0) return false;
+    for (let needle of needles)
+      if (entry.haystack.indexOf(needle) === -1) return false;
+    return true;
+  });
+}
+
+export function getOsmResults(json, excludedCategories) {
+  return json
+    .filter((result) => excludedCategories.indexOf(result.category) === -1)
+    .map((result) => {
+      const addr = result.address;
+      let primary = addr[result.category];
+      let secondary =
+        addr.neighbourhood || addr.town || addr.city || addr.county || null;
+      if (!primary)
+        primary = [addr.house_number, addr.road]
+          .filter((part) => part !== undefined)
+          .join(" ");
+
+      if (primary == "") {
+        primary = secondary;
+        secondary = null;
+      }
+      return {
+        type: "osm",
+        name: primary,
+        category: secondary,
+        details: result,
+      };
+    });
+}
+
+export function getOsmSelection(details) {
+  const polygon =
+    details.category == "boundary"
+      ? details.geojson
+      : bufferPoint(parseFloat(details.lon), parseFloat(details.lat), 1609);
+  return { polygon };
+}
+
+export function getMapPadding() {
+  const slides = document.getElementById("slides");
+  return {
+    top: 50,
+    right: 50,
+    bottom: window.innerHeight - slides.offsetTop + 50,
+    left: 50,
+  };
+}

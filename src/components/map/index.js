@@ -4,7 +4,7 @@ import { effect } from "@preact/signals";
 import style from "./style.css";
 import * as config from "../../helpers/config";
 import { State } from "../../helpers/state";
-import { fireEvent } from "../../helpers/utils";
+import { getMapPadding } from "../../helpers/utils";
 import { getStyle } from "./mapstyle";
 
 const Map = () => {
@@ -17,7 +17,7 @@ const Map = () => {
       bounds: mapDefaults.bounds,
       container: container.current,
       fitBoundsOptions: {
-        padding: mapDefaults.padding,
+        padding: getMapPadding(),
       },
       style: getStyle(state),
       dragRotate: false,
@@ -42,9 +42,7 @@ const Map = () => {
     //     });
     // });
 
-    map.on("click", "search-screen", () => {
-      fireEvent("searchClearResult");
-    });
+    map.on("click", "search-screen", () => state.clearSearch());
 
     projectLayers.forEach((layerName) => {
       map.on("click", layerName, (e) => {
@@ -61,14 +59,6 @@ const Map = () => {
         layerName,
         () => (map.getCanvas().style.cursor = "")
       );
-    });
-
-    window.addEventListener("mapFitBounds", (e) =>
-      map.fitBounds(e.detail.bounds, e.detail.options)
-    );
-
-    window.addEventListener("mapResize", () => {
-      window.requestAnimationFrame(() => map.resize());
     });
 
     state.map.value = map;

@@ -2,30 +2,11 @@ import { h } from "preact";
 import { useContext } from "preact/hooks";
 import { projectTypes, projectTypeDescriptions } from "../../helpers/config";
 import { State } from "../../helpers/state";
-import {
-  fireEvent,
-  getProjectTypeResult,
-  getRegionResult,
-} from "../../helpers/utils";
 import style from "./style.css";
 
-const selectProject = (e, project) => {
+const select = (e, project, type) => {
   e.preventDefault();
-  project.select();
-};
-
-const selectProjectType = (e, project) => {
-  e.preventDefault();
-  fireEvent("searchSelectResult", {
-    result: getProjectTypeResult(project.type, projectTypes),
-  });
-};
-
-const selectRegion = (e, project) => {
-  e.preventDefault();
-  fireEvent("searchSelectResult", {
-    result: getRegionResult(project.region),
-  });
+  project.select(type);
 };
 
 const ProjectList = () => {
@@ -36,17 +17,17 @@ const ProjectList = () => {
       class={`${style.project} project-type-icon-${project.type.toLowerCase()}`}
     >
       <td class={style.name}>
-        <a href="#" onClick={(e) => selectProject(e, project)}>
+        <a href="#" onClick={(e) => select(e, project)}>
           {project.name}
         </a>
       </td>
       <td class={style.type} title={projectTypeDescriptions[project.type]}>
-        <a href="#" onClick={(e) => selectProjectType(e, project)}>
+        <a href="#" onClick={(e) => select(e, project, "type")}>
           {projectTypes[project.type]}
         </a>
       </td>
       <td class={style.region}>
-        <a href="#" onClick={(e) => selectRegion(e, project)}>
+        <a href="#" onClick={(e) => select(e, project, "region")}>
           {project.region}
         </a>
       </td>

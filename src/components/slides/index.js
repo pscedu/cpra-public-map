@@ -45,6 +45,7 @@ const Slides = ({ children }) => {
 
   return (
     <div
+      id="slides"
       class={`${style.slides} ${style[drawerOpen.value ? "open" : "closed"]}`}
     >
       <div class={style.header}>
