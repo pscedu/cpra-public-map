@@ -16,14 +16,18 @@ const App = () => {
 
   return (
     <div id="app" class={style.app}>
-      <Header />
-      <Toolbar />
-      {state.printing.value ? null : <Watermark>DRAFT</Watermark>}
-      <Print>
-        <Map />
-      </Print>
+      <div class={style.row}>
+        <div class={style.main}>
+          <Header />
+          <Print>
+            <Map />
+          </Print>
+          {state.printing.value ? null : <Slideshow />}
+          {state.printing.value ? null : <Watermark>DRAFT</Watermark>}
+        </div>
+        <Toolbar />
+      </div>
       <Intro />
-      {state.printing.value ? null : <Slideshow />}
     </div>
   );
 };

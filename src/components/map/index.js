@@ -1,6 +1,5 @@
 import { h } from "preact";
 import { useContext, useLayoutEffect, useRef } from "preact/hooks";
-import style from "./style.css";
 import * as config from "../../helpers/config";
 import { State } from "../../helpers/state";
 import { getMapPadding } from "../../helpers/utils";
@@ -12,7 +11,6 @@ const Map = () => {
     map,
     politicalBoundary,
     prevLayerInfo,
-    printing,
     scenario,
     selection,
     services,
@@ -64,7 +62,7 @@ const Map = () => {
   return (
     <div
       ref={container}
-      class={`${style.map} ${printing.value ? style.printing : ""}`}
+      style={{ flex: "1 0 0", height: "100vh", width: "100%" }}
     />
   );
 };

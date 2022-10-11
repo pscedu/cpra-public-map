@@ -1,6 +1,12 @@
-.app {
+.row {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100%;
+}
+.main {
+  align-items: stretch;
   display: flex;
   flex-direction: column;
-  padding-top: 45px;
   width: 100%;
 }

@@ -1,13 +1,11 @@
 .header {
   background-color: var(--mpdv-color-gray-100);
   display: flex;
-  left: 0;
   margin: 0;
-  padding: 10px calc(var(--mpdv-app-margin) + var(--mpdv-search-width)) 10px
-    var(--mpdv-app-margin);
-  position: absolute;
-  right: 0;
-  top: 0;
+  padding: 10px calc(var(--mpdv-app-margin) + 10px + var(--mpdv-search-width))
+    10px var(--mpdv-app-margin);
+  position: relative;
+  width: 100%;
   z-index: 150;
 }
 .logo {
@@ -56,9 +54,6 @@
   width: 0;
 }
 @media (min-width: 700px) {
-  .header {
-    right: 50px;
-  }
   .tour-buttons {
     position: static;
     width: 100%;

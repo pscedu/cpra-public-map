@@ -44,13 +44,10 @@
 @media (min-width: 700px) {
   .toolbar {
     background-color: var(--mpdv-color-gray-300);
-    bottom: 0;
     box-shadow: none;
     justify-content: flex-end;
-    padding: 0 0 50px 0;
-    position: fixed;
-    right: 0;
-    top: 0;
+    padding: 0 0 var(--mpdv-app-margin) 0;
+    position: static;
     width: 50px;
   }
   .toolbar button {
