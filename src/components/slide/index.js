@@ -41,12 +41,12 @@ const createControl = (controlName, view, state) => {
     );
 };
 
-const Slide = ({ children, controls = [], viewName }) => {
+const Slide = ({ children, controls = [], title, viewName }) => {
   const state = useContext(State);
   const view = views[viewName];
   return (
     <section class={style.slide}>
-      <h2 class={"sr-only"}>{view.title}</h2>
+      <h2 class={"sr-only"}>{title || view.title}</h2>
       <div class={style.inner}>
         {controls.length ? (
           <div class={style.controls}>

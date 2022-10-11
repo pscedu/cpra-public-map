@@ -11,7 +11,7 @@ const classes = (...cls) => cls.map((cl) => style[cl]).join(" ");
 const SlideNavigation = ({ currentSlide, navigationType, slides }) => {
   const { clearProject, drawerOpen } = useContext(State);
   const buttons = [];
-  const currentIdx = slides.indexOf(currentSlide);
+  const currentIdx = slides ? slides.indexOf(currentSlide) : 0;
 
   if (navigationType !== "tabs") {
     buttons.push(
@@ -23,7 +23,7 @@ const SlideNavigation = ({ currentSlide, navigationType, slides }) => {
           currentSlide.props.color || "teal"
         )}
       >
-        {views[currentSlide.props.viewName].title}
+        {currentSlide.props.title || views[currentSlide.props.viewName].title}
       </span>
     );
   }

@@ -52,7 +52,7 @@ export function createState() {
     return projectMap;
   });
 
-  const project = computed(() => projectMap[selection.value.project]);
+  const project = computed(() => projectMap.value[selection.value.project]);
 
   const selection = computed(() =>
     searchResult.value

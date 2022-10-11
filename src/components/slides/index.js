@@ -8,12 +8,12 @@ import SlideNavigation from "../slide-navigation";
 const Slides = ({ children }) => {
   const { drawerOpen, viewName } = useContext(State);
   const currentSlide = children.filter(
-    (slide) => slide.props.viewName === viewName.value
+    (slide) => slide && slide.props.viewName === viewName.value
   )[0];
   const slides = children.filter(
-    (slide) => slide.props.slideGroup === currentSlide.props.slideGroup
+    (slide) => slide && slide.props.slideGroup === currentSlide.props.slideGroup
   );
-  const overlays = children.filter((slide) => slide.props.overlay);
+  const overlays = children.filter((slide) => slide && slide.props.overlay);
   const currentIdx = slides.indexOf(currentSlide);
   const drawerContents = [];
   if (drawerOpen.value) {

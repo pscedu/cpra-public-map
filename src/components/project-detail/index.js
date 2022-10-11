@@ -1,32 +1,36 @@
 import { h } from "preact";
+import { useContext } from "preact/hooks";
+import { State } from "../../helpers/state";
+import { projectTypeDescriptions, projectTypes } from "../../helpers/config";
 import style from "./style.css";
 
-const ProjectDetail = (props) => {
-  const project = props.project;
+const ProjectDetail = () => {
+  const { project } = useContext(State);
+  const { description, name, region, type, yearmax, yearmin } = project.value;
   return (
     <div class={style["project-detail"]}>
-      <h2 class={style.name}>{project.name}</h2>
+      <h2 class={style.name}>{name}</h2>
       <div class={style.metadata}>
         <p
-          title={props.projectTypeDescriptions[project.type]}
+          title={projectTypeDescriptions[type]}
           class={`${
             style["project-type"]
-          } project-type-icon-${project.type.toLowerCase()}`}
+          } project-type-icon-${type.toLowerCase()}`}
         >
-          {props.projectTypes[project.type]}
+          {projectTypes[type]}
         </p>
         <p class={style.region}>
           <ion-icon src="/assets/buttons/location.svg" />
-          {project.region}
+          {region}
         </p>
         <p class={style.region}>
           <ion-icon src="/assets/buttons/implementation_period.svg" />
-          {project.yearmin == project.yearmax
-            ? `Year ${project.yearmin}`
-            : `Years ${project.yearmin} - ${project.yearmax}`}
+          {yearmin == yearmax
+            ? `Year ${yearmin}`
+            : `Years ${yearmin} - ${yearmax}`}
         </p>
       </div>
-      {project.description ? <p>{project.description}</p> : null}
+      {description ? <p>{description}</p> : null}
     </div>
   );
 };

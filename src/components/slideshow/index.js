@@ -11,7 +11,7 @@ import Slide from "../slide";
 import Slides from "../slides";
 
 const Slideshow = () => {
-  const { endTour } = useContext(State);
+  const { endTour, project } = useContext(State);
   return (
     <Slides>
       <Slide
@@ -194,9 +194,11 @@ const Slideshow = () => {
           </ActionButton>
         </p>
       </Slide>
-      <Slide title="Project Details" color="green" slideGroup="project">
-        <ProjectDetail />
-      </Slide>
+      {project.value ? (
+        <Slide title="Project Details" color="green" overlay={true}>
+          <ProjectDetail />
+        </Slide>
+      ) : null}
     </Slides>
   );
 };
