@@ -23,6 +23,7 @@ export const projectLayers = [
   "project-point-di-hr",
   "project-point-sr",
   "project-icon",
+  "project-icon-dot",
   "project-label",
 ];
 export const projectTypes = {
