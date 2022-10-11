@@ -315,7 +315,9 @@ export function getStyle({
 
   // Prepare model layers.
   let prevLayerName =
-    prevLayerInfo.value !== null ? getLayerName(...prevLayerInfo.value) : null;
+    prevLayerInfo && prevLayerInfo.value
+      ? getLayerName(...prevLayerInfo.value)
+      : null;
   let layerName = getLayerName(
     view.value.layer,
     scenario.value,
