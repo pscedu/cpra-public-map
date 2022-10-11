@@ -1,7 +1,7 @@
 import bboxPolygon from "@turf/bbox-polygon";
 import difference from "@turf/difference";
 import { feature, featureCollection } from "@turf/helpers";
-import * as config from "../../helpers/config";
+import * as config from "./config";
 
 function linearZoom(min, max) {
   return ["interpolate", ["linear"], ["zoom"], 6, min, 12, max];
@@ -252,19 +252,19 @@ function rasterTileUrl(serviceUrl, prefix) {
   return `${serviceUrl.replace("//", sub)}/tiles/{z}/{x}/{y}.png`;
 }
 
-export function getStyle(state) {
-  const {
-    group,
-    politicalBoundary,
-    scenario,
-    selection,
-    services,
-    showProjects,
-    subtype,
-    view,
-    year,
-  } = state;
-  if (services.value === null) return { version: 8, sources: {}, layers: [] };
+export function getStyle({
+  group,
+  politicalBoundary,
+  prevLayerInfo,
+  scenario,
+  selection,
+  services,
+  showProjects,
+  subtype,
+  view,
+  year,
+}) {
+  if (!services.value) return { version: 8, sources: {}, layers: [] };
 
   const loc = document.location;
 
@@ -314,16 +314,8 @@ export function getStyle(state) {
   };
 
   // Prepare model layers.
-  let prevLayerName = null;
-  // mapState.prevYear !== null
-  //   ? getLayerName(
-  //       layer,
-  //       mapState.scenario,
-  //       mapState.group,
-  //       mapState.prevYear,
-  //       mapState.subtype
-  //     )
-  //   : null;
+  let prevLayerName =
+    prevLayerInfo.value !== null ? getLayerName(...prevLayerInfo.value) : null;
   let layerName = getLayerName(
     view.value.layer,
     scenario.value,

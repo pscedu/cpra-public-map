@@ -2,6 +2,7 @@ import { createContext } from "preact";
 import { batch, computed, effect, signal } from "@preact/signals";
 import bbox from "@turf/bbox";
 import { hashSignal } from "./hash";
+import { getStyle } from "./mapstyle";
 import {
   getLocalResults,
   getMapPadding,
@@ -15,6 +16,8 @@ import {
   selectValue,
 } from "./utils";
 import * as config from "./config";
+
+let layerInfoCache = null;
 
 export function createState() {
   // SIGNALS
@@ -34,6 +37,7 @@ export function createState() {
   const drawerOpen = signal(true);
   const introOpen = signal(viewName.peek() === "slide-0");
   const map = signal(null);
+  const prevLayerInfo = signal(null);
   const printing = signal(false);
   const projects = signal([]);
   const searchResult = signal(null);
@@ -193,6 +197,67 @@ export function createState() {
     gtag("event", "page_view");
     if (viewName.value === "slide-0") gtag("event", "tutorial_begin");
     if (viewName.value === "slide-9") gtag("event", "tutorial_complete");
+  });
+
+  // Store information about the previous layer.
+  effect(() => {
+    prevLayerInfo.value = (view.value.layer.nullYears || []).includes(
+      year.value
+    )
+      ? null
+      : layerInfoCache;
+    layerInfoCache = [
+      view.value.layer,
+      scenario.value,
+      group.value,
+      year.value,
+      subtype.value,
+    ];
+  });
+
+  // Add map event handlers.
+  effect(() => {
+    if (!map.value) return;
+
+    // Unset the previous layer when the map becomes idle.
+    map.value.on("idle", () => (prevLayerInfo.value = null));
+
+    // Set layer click handlers.
+    map.value.on("click", "search-screen", () => clearSearch());
+    config.projectLayers.forEach((layerName) => {
+      map.value.on("click", layerName, (e) =>
+        projectMap.peek()[e.features[0].properties.name].select()
+      );
+      map.value.on(
+        "mouseenter",
+        layerName,
+        () => (map.value.getCanvas().style.cursor = "pointer")
+      );
+      map.value.on(
+        "mouseleave",
+        layerName,
+        () => (map.value.getCanvas().style.cursor = "")
+      );
+    });
+  });
+
+  // Update the map style when the state changes.
+  effect(() => {
+    if (map.value)
+      map.value.setStyle(
+        getStyle({
+          group,
+          politicalBoundary,
+          prevLayerInfo,
+          scenario,
+          selection,
+          services,
+          showProjects,
+          subtype,
+          view,
+          year,
+        })
+      );
   });
 
   // FUNCTIONS
