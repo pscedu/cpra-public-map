@@ -37,8 +37,19 @@ group by project.DisplayID,
 SQL
 
 read -r -d '' project_type_sql << SQL
-select 'project-type:' || lower(project.ProjectTypeCode) as id,
-    project.ProjectTypeCode as name,
+select 'project-type:' || lower(ProjectTypeCode) as id,
+    case when ProjectTypeCode = 'BH' then 'Barrier Island Restoration'
+        when ProjectTypeCode = 'BS' then 'Bank Stabilization'
+        when ProjectTypeCode = 'DI' then 'Diversion'
+        when ProjectTypeCode = 'HR' then 'Hydrologic Restoration'
+        when ProjectTypeCode = 'IP' then 'Integrated Project'
+        when ProjectTypeCode = 'LB' then 'Landbridge'
+        when ProjectTypeCode = 'MC' then 'Marsh Creation'
+        when ProjectTypeCode = 'NR' then 'Non-Structural Risk Reduction'
+        when ProjectTypeCode = 'OR' then 'Oyster Reef Restoration'
+        when ProjectTypeCode = 'RR' then 'Ridge Restoration'
+        when ProjectTypeCode = 'SP' then 'Shoreline Protection'
+        when ProjectTypeCode = 'SR' then 'Structural Risk Reduction' end as name,
     'Project Type' as type,
     st_minx(st_collect(geom)) as xmin,
     st_miny(st_collect(geom)) as ymin,
