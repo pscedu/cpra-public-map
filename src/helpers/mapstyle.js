@@ -527,28 +527,6 @@ export function getStyle({
           "line-width": 1.333,
         },
       },
-      {
-        id: "label",
-        type: "symbol",
-        source: "Base Map: Vector",
-        "source-layer": "label",
-        filter: politicalBoundary.value
-          ? ["==", "water", ["get", "type"]]
-          : true,
-        layout: {
-          "text-field": ["get", "text"],
-          "text-size": ["case", ["==", "community", ["get", "type"]], 16, 13],
-          "text-font": [
-            "case",
-            ["==", "community", ["get", "type"]],
-            ["literal", ["Franklin Gothic Demi Regular"]],
-            ["literal", ["Franklin Gothic Book Regular"]],
-          ],
-        },
-        paint: {
-          "text-color": "#444444",
-        },
-      },
       ...projectLayers(
         view.value.layer.name == "Projects" ||
           (group.value !== "G500" && showProjects.value),
@@ -584,6 +562,28 @@ export function getStyle({
       },
       ...projectLayers(selectedProjects, selectedProjects, false, "-selected"),
       ...politicalBoundaryLayers(politicalBoundary.value),
+      {
+        id: "label",
+        type: "symbol",
+        source: "Base Map: Vector",
+        "source-layer": "label",
+        filter: politicalBoundary.value
+          ? ["==", "water", ["get", "type"]]
+          : true,
+        layout: {
+          "text-field": ["get", "text"],
+          "text-size": ["case", ["==", "community", ["get", "type"]], 16, 13],
+          "text-font": [
+            "case",
+            ["==", "community", ["get", "type"]],
+            ["literal", ["Franklin Gothic Demi Regular"]],
+            ["literal", ["Franklin Gothic Book Regular"]],
+          ],
+        },
+        paint: {
+          "text-color": "#444444",
+        },
+      },
     ],
   };
 }
