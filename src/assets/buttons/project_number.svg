@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 59.419998 56.340004"
+   version="1.1"
+   id="svg15"
+   width="59.419998"
+   height="56.340004"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs4">
+    <style
+       id="style2">.cls-1{fill:none;stroke:#737474;stroke-linecap:round;stroke-miterlimit:10;stroke-width:4.5px;}</style>
+  </defs>
+  <g
+     id="NARRATIVE_BOX_ICONS"
+     data-name="NARRATIVE BOX ICONS"
+     transform="translate(-20.290001,-22.280001)">
+    <line
+       class="cls-1"
+       x1="61.029999"
+       y1="29.530001"
+       x2="53.439999"
+       y2="71.370003"
+       id="line6" />
+    <line
+       class="cls-1"
+       x1="46.560001"
+       y1="29.530001"
+       x2="38.970001"
+       y2="71.370003"
+       id="line8" />
+    <line
+       class="cls-1"
+       x1="72.459999"
+       y1="44.48"
+       x2="27.540001"
+       y2="44.23"
+       id="line10" />
+    <line
+       class="cls-1"
+       x1="72.459999"
+       y1="57.07"
+       x2="27.540001"
+       y2="56.830002"
+       id="line12" />
+  </g>
+</svg>
