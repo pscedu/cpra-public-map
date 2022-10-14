@@ -61,6 +61,15 @@ SQL
 ogr2ogr -t_srs "EPSG:4326" -sql "$state_sql" \
     $WORKING/state.geojson $DATA/backgroundlayers_formapping_arcmap.gdb
 
+read -r -d '' region_sql << SQL
+select UNIT as name,
+    BASIN as basin
+from MP2023_regions
+SQL
+ogr2ogr -t_srs "EPSG:4326" -sql "$region_sql" \
+    $WORKING/region.geojson \
+    /vsizip/$DATA/MP_Regions_Shapefile.zip/MP_Regions_Shapefile/MP2023_regions.shp
+
 read -r -d '' community_label_sql << SQL
 select replace(replace(replace(replace(TextString, X'0A', ' '), X'0D', ' '),
         '  ', ' '), '  ', ' ') as text,
@@ -213,6 +222,7 @@ tippecanoe -zg -o $TILES/basemap-vector.mbtiles \
     $WORKING/project_point.geojson \
     $WORKING/project_line.geojson \
     $WORKING/project_polygon.geojson \
+    $WORKING/region.geojson \
     $WORKING/label.geojson \
     $WORKING/road.geojson \
     $WORKING/levee.geojson \
