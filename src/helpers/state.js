@@ -126,7 +126,7 @@ export function createState() {
   const prevSubtypes = {};
   effect(() => {
     const layer = view.value.layer;
-    if (subtype.peek() && layer.subtypes.includes(subtype.peek()))
+    if (subtype.peek() && (layer.subtypes || []).includes(subtype.peek()))
       prevSubtypes[viewName.value] = subtype.peek();
     batch(() => {
       group.value = selectValue(layer.groups, view.value.group || group.value);
@@ -137,7 +137,7 @@ export function createState() {
       subtype.value = selectValue(
         layer.subtypes,
         view.value.subtype ||
-          (layer.subtypes.includes(subtype.value)
+          ((layer.subtypes || []).includes(subtype.value)
             ? subtype.value
             : prevSubtypes[viewName.value])
       );
