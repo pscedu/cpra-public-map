@@ -76,10 +76,10 @@ const Search = () => {
               <strong>Address:</strong>{" "}
               <span class={style["example"]}>1300 Perdido St, New Orleans</span>
             </li>
-            {/* <li>
+            <li>
               <strong>LA House or Senate District:</strong>{" "}
               <span class={style["example"]}>House-53</span>
-            </li> */}
+            </li>
             <li>
               <strong>Parish:</strong>{" "}
               <span class={style["example"]}>Terrebonne Parish</span>
@@ -96,10 +96,10 @@ const Search = () => {
               <strong>Region:</strong>{" "}
               <span class={style["example"]}>Central Coast</span>
             </li>
-            {/* <li>
+            <li>
               <strong>U.S. Congressional District:</strong>{" "}
               <span class={style["example"]}>US-2</span>
-            </li> */}
+            </li>
           </ul>
         </div>
       ) : null}

@@ -6,6 +6,7 @@ const colorSwatch = (color) =>
   )}' x='0' y='0' height='20' width='50' /></svg>`;
 export const servicesUrl = "https://tiles.mpdv-23.bridges2.psc.edu/services";
 export const projectListUrl = "/projects.csv";
+export const searchIndexUrl = "/search.csv";
 export const geocodeUrl = "https://mpdv-23.bridges2.psc.edu/nominatim/search";
 export const websiteUrl =
   "https://coastal.la.gov/our-plan/2023-coastal-master-plan/";

@@ -13,43 +13,6 @@ export const bufferPoint = (xDeg, yDeg, radius, segments = 32) => {
   return { type: "Polygon", coordinates: [ring] };
 };
 
-export const getProjectResult = (project) => {
-  return {
-    type: "project",
-    name: project.name,
-    category: "Project",
-    haystack: normalizeText(project.name),
-    bounds: [project.xmin, project.ymin, project.xmax, project.ymax].map(
-      parseFloat
-    ),
-    selection: {
-      project: project.name,
-    },
-  };
-};
-
-export const getProjectTypeResult = (typeKey, projectTypes) => {
-  return {
-    type: "project-type",
-    name: projectTypes[typeKey],
-    category: "Project Type",
-    haystack: normalizeText(projectTypes[typeKey]),
-    selection: {
-      projectType: typeKey,
-    },
-  };
-};
-
-export const getRegionResult = (region) => {
-  return {
-    type: "region",
-    name: region,
-    category: "Region",
-    haystack: normalizeText(region),
-    selection: { region },
-  };
-};
-
 export const selectValue = (values, currentValue) => {
   values = values || [];
   if (values.includes(currentValue)) return currentValue;
@@ -269,6 +232,25 @@ export function getMapPadding() {
         : 50,
     left: 50,
   };
+}
+
+// CSV parsing
+export async function fetchCSV(url) {
+  const res = await fetch(url);
+  const rows = (await res.text())
+    .split("\n")
+    .filter((row) => row.length)
+    .map((row) =>
+      row
+        .split(/(?!\B"[^"]*),(?![^"]*"\B)/g)
+        .map((cell) => cell.replace(/"/g, ""))
+    );
+  const headers = rows.shift();
+  return rows.map((row) => {
+    const obj = {};
+    for (let i in headers) obj[headers[i]] = row[i];
+    return obj;
+  });
 }
 
 // Analytics
