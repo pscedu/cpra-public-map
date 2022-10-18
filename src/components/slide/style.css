@@ -9,6 +9,10 @@ a + .slide {
 .slide h2 {
   font-size: 1.5rem;
 }
+.slide strong {
+  font-weight: 600;
+  font-style: italic;
+}
 
 @media (min-width: 700px) {
   .inner {

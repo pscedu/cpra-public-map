@@ -137,7 +137,10 @@ export function createState() {
         layer.subtypes,
         view.value.subtype || subtype.value || prevSubypes[layer.name]
       );
-      year.value = selectValue(layer.years, view.value.year || year.value);
+      year.value = selectValue(
+        layer.years,
+        view.value.year === undefined ? year.value : view.value.year
+      );
     });
   });
 
