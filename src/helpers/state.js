@@ -4,6 +4,7 @@ import bbox from "@turf/bbox";
 import { hashSignal } from "./hash";
 import { getStyle } from "./mapstyle";
 import {
+  fetchCSV,
   getLocalResults,
   getMapPadding,
   getOsmResults,
@@ -13,6 +14,7 @@ import {
   getRegionResult,
   gtag,
   internal,
+  normalizeText,
   selectValue,
 } from "./utils";
 import * as config from "./config";
@@ -40,6 +42,7 @@ export function createState() {
   const prevLayerInfo = signal(null);
   const printing = signal(false);
   const projects = signal([]);
+  const searchIndex = signal([]);
   const searchResult = signal(null);
   const searchResults = signal([]);
   const searchText = signal("");
@@ -54,26 +57,18 @@ export function createState() {
 
   const project = computed(() => projectMap.value[selection.value.project]);
 
+  const searchIndexMap = computed(() => {
+    const result = {};
+    searchIndex.value.forEach((row) => (result[row.id] = row));
+    return result;
+  });
+
   const selection = computed(() =>
     searchResult.value
       ? searchResult.value.selection ||
         getOsmSelection(searchResult.value.details)
       : {}
   );
-
-  const searchIndex = computed(() => {
-    const projectTypeItems = Object.keys(config.projectTypes).map((pt) =>
-      getProjectTypeResult(pt, config.projectTypes)
-    );
-    const regions = [];
-    const projectItems = (projects.value || []).map((project) => {
-      if (!regions.includes(project.region)) regions.push(project.region);
-      return getProjectResult(project);
-    });
-    regions.sort();
-    const regionItems = regions.map(getRegionResult);
-    return [...projectTypeItems, ...regionItems, ...projectItems];
-  });
 
   const storySlide = computed(() =>
     viewName.value.startsWith("slide-")
@@ -86,20 +81,7 @@ export function createState() {
   // EFFECTS
   // Load projects from CSV.
   effect(async () => {
-    const res = await fetch(config.projectListUrl);
-    const rows = (await res.text())
-      .split("\n")
-      .filter((row) => row.length)
-      .map((row) =>
-        row
-          .split(/(?!\B"[^"]*),(?![^"]*"\B)/g)
-          .map((cell) => cell.replace(/"/g, ""))
-      );
-    const headers = rows.shift();
-
-    projects.value = rows.map((row) => {
-      let project = {};
-      for (let i in headers) project[headers[i]] = row[i];
+    projects.value = (await fetchCSV(config.projectListUrl)).map((project) => {
       project.select = (type) => {
         if (type === "type") {
           searchResult.value = getProjectTypeResult(
@@ -114,6 +96,26 @@ export function createState() {
       };
       return project;
     });
+  });
+
+  // Load search index from CSV.
+  effect(async () => {
+    const rows = await fetchCSV(config.searchIndexUrl);
+    searchIndex.value = rows.map((row) => {
+      const [idKey, idValue] = row.id.split(":");
+      return {
+        id: row.id,
+        type: idKey,
+        category: row.type,
+        name: row.name,
+        haystack: normalizeText(row.name),
+        bounds: [row.xmin, row.ymin, row.xmax, row.ymax].map(parseFloat),
+        selection: {
+          [idKey]: idValue,
+        },
+      };
+    });
+    console.log(searchIndex.value);
   });
 
   // Load services.
