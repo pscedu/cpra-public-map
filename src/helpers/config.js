@@ -252,6 +252,7 @@ export const views = {
     layer: layers.floodDepth,
     group: "G500",
     scenario: "S07",
+    subtype: "10.0",
     year: 0,
   },
   "slide-4": {
@@ -259,6 +260,7 @@ export const views = {
     layer: layers.damage,
     group: "G500",
     scenario: "S07",
+    subtype: "AED",
     year: 0,
   },
   "slide-5": {
@@ -277,6 +279,7 @@ export const views = {
     layer: layers.floodDepth,
     group: "G603",
     scenario: "S07",
+    subtype: "10.0",
     year: 0,
   },
   "slide-8": {
@@ -284,6 +287,7 @@ export const views = {
     layer: layers.damage,
     group: "G603",
     scenario: "S07",
+    subtype: "AED",
     year: 0,
   },
   "slide-9": {
