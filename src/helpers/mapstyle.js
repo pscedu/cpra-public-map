@@ -399,7 +399,7 @@ export function getStyle({
   const damageLayers = [];
   if (view.value.layer.name === "Damage") {
     let damageProp =
-      `${subtype.value.toLowerCase()}_` +
+      `${(subtype.value || "AED").toLowerCase()}_` +
       `${scenario.value.toLowerCase()}_${group.value.toLowerCase()}_` +
       `year${year.value}`;
     damageLayers.push({
