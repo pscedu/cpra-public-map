@@ -123,10 +123,11 @@ export function createState() {
   });
 
   // Synchronize layer signals with available choices.
-  const prevSubypes = {};
+  const prevSubtypes = {};
   effect(() => {
     const layer = view.value.layer;
-    if (subtype.value) prevSubypes[viewName.value] = subtype.value;
+    if (subtype.peek() && layer.subtypes.includes(subtype.peek()))
+      prevSubtypes[viewName.value] = subtype.peek();
     batch(() => {
       group.value = selectValue(layer.groups, view.value.group || group.value);
       scenario.value = selectValue(
@@ -135,7 +136,10 @@ export function createState() {
       );
       subtype.value = selectValue(
         layer.subtypes,
-        view.value.subtype || subtype.value || prevSubypes[layer.name]
+        view.value.subtype ||
+          (layer.subtypes.includes(subtype.value)
+            ? subtype.value
+            : prevSubtypes[viewName.value])
       );
       year.value = selectValue(
         layer.years,
