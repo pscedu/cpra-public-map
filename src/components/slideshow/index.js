@@ -97,7 +97,11 @@ const Slideshow = () => {
           possible future outcomes.
         </p>
       </Slide>
-      <Slide controls={["year", "aep"]} viewName="slide-3" slideGroup="tour">
+      <Slide
+        controls={["year", "scenario", "aep"]}
+        viewName="slide-3"
+        slideGroup="tour"
+      >
         <p>
           Land loss is not the only challenge facing coastal Louisiana. Storm
           surge-based flooding brings waters into coastal communities and can
@@ -107,14 +111,18 @@ const Slideshow = () => {
           next 50 years if no action is taken.
         </p>
         <p>
-          Use the <strong>year</strong> slider and buttons to see how flood
-          depths change over time under different scenarios. You can also view
-          projected flood depths resulting from storm events of various
-          intensities (measured in{" "}
+          Adjust the <strong>year</strong> slider and{" "}
+          <strong>environmental scenario</strong> to see how flood depths change
+          over time under different scenarios. You can also view projected flood
+          depths resulting from storm events of various intensities (measured in{" "}
           <strong>annual exceedance probability</strong> or AEP).
         </p>
       </Slide>
-      <Slide controls={["year", "damage"]} viewName="slide-4" slideGroup="tour">
+      <Slide
+        controls={["year", "scenario", "damage"]}
+        viewName="slide-4"
+        slideGroup="tour"
+      >
         <p>
           Future storm surge-based flooding damages can be estimated by
           considering flood depths and the number and type of assets flooded in
@@ -126,9 +134,9 @@ const Slideshow = () => {
         </p>
         <p>
           Both damage metrics are projected over time and for different
-          scenarios and event AEPs. Use the <strong>year</strong> slider to see
-          how damages may change into the future for both{" "}
-          <strong>damage metrics</strong>.
+          scenarios and event AEPs. Adjust the <strong>year</strong> slider and{" "}
+          <strong>environmental scenario</strong> to see how damages may change
+          into the future for both <strong>damage metrics</strong>.
         </p>
       </Slide>
       <Slide viewName="slide-5" color="green" slideGroup="tour">
