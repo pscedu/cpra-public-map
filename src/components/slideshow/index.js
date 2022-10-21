@@ -158,7 +158,7 @@ const Slideshow = () => {
         </p>
       </Slide>
       <Slide
-        controls={["year", "group"]}
+        controls={["year", "scenario", "group"]}
         viewName="slide-6"
         color="green"
         slideGroup="tour"
@@ -178,7 +178,7 @@ const Slideshow = () => {
         </p>
       </Slide>
       <Slide
-        controls={["year", "aep", "group"]}
+        controls={["year", "scenario", "aep", "group"]}
         viewName="slide-7"
         color="green"
         slideGroup="tour"
@@ -198,7 +198,7 @@ const Slideshow = () => {
         </p>
       </Slide>
       <Slide
-        controls={["year", "damage", "group"]}
+        controls={["year", "scenario", "damage", "group"]}
         viewName="slide-8"
         color="green"
         slideGroup="tour"
