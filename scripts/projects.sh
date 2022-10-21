@@ -8,17 +8,13 @@ export GDAL_CACHEMAX="80%"
 export GDAL_NUM_THREADS="ALL_CPUS"
 
 read -r -d '' project_sql << SQL
-select project.DisplayID as display_id, 
+select project.DisplayID as displayId, 
     project.ProjectName as name,
     max(ProjectTypeCode) as type,
     max(Region) as region,
     max(metadata.ProjectDescription) as description,
     coalesce(min(ip.year), 21) as yearmin,
-    coalesce(max(ip.year), 50) as yearmax,
-    st_minx(st_collect(geom)) as xmin,
-    st_miny(st_collect(geom)) as ymin,
-    st_maxx(st_collect(geom)) as xmax,
-    st_maxy(st_collect(geom)) as ymax
+    coalesce(max(ip.year), 50) as yearmax
 from (
     select DisplayID,
         ProjectID,
@@ -72,6 +68,9 @@ ogr2ogr -append $WORKING/projects.gpkg \
 ogr2ogr -append $WORKING/projects.gpkg $DATA/implementation_period.csv
 
 # Export CSV.
-ogr2ogr -dialect sqlite -sql "$project_sql" \
+ogr2ogr -f CSV \
+    -dialect sqlite \
+    -sql "$project_sql" \
+    -lco SEPARATOR=TAB \
     $STATIC/projects.csv \
     $WORKING/projects.gpkg

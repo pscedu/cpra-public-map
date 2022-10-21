@@ -109,7 +109,7 @@ export function createState() {
         category: row.type,
         name: row.name,
         haystack: normalizeText(row.name),
-        bounds: [row.xmin, row.ymin, row.xmax, row.ymax].map(parseFloat),
+        bounds: [row.xmin, row.ymin, row.xmax, row.ymax],
         selection: {
           [idKey]: idValue,
         },
