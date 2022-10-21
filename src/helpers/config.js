@@ -292,7 +292,7 @@ export const views = {
   },
   "slide-9": {
     title: "Time to Explore",
-    layer: layers.damage,
+    layer: layers.projects,
   },
 };
 export const controls = {
