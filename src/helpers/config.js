@@ -232,7 +232,7 @@ export const views = {
     layer: layers.historicalLandChange,
     group: "G500",
     scenario: "S07",
-    year: 2015,
+    year: 1932,
   },
   "slide-1": {
     title: "A Continuing Crisis",
