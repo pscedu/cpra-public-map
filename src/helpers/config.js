@@ -54,7 +54,7 @@ export const projectTypeDescriptions = {
   SR: "Structural Risk Reduction projects reduce flood risk by acting as physical barriers against storm surge. These systems can include earthen levees, floodwalls, floodgates, and pumping stations.",
 };
 export const legends = {
-  "Damage: EAD": {
+  "Damage: EADD": {
     images: [
       "#4E7872",
       "#3D9E8B",
