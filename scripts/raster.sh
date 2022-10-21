@@ -149,8 +149,8 @@ do
 done
 
 # Process historical land change rasters
-loss_breakpoints=(1 3 5 8 13 19)
-years=(1956 1975 1985 1995 2006 2015)
+loss_breakpoints=(0 1 3 5 8 13 19)
+years=(1932 1956 1975 1985 1995 2006 2015)
 gain_start=20
 
 for i in "${!loss_breakpoints[@]}"; do
@@ -163,15 +163,14 @@ for i in "${!loss_breakpoints[@]}"; do
     raster_name="Historical Land Change - S07 - G500 - Year $year"
 
     cat > "$WORKING/$raster_type.clr" << EOF
--9999 0 0 0 0
-0.9 0 0 0 0
-1 69 145 172
-$loss_breakpoint.1 69 145 172
-$loss_breakpoint.2 0 0 0 0
-$(($gain_start - 1)).9 0 0 0 0
-$gain_start 38 81 24
-$gain_breakpoint.1 38 81 24
-$gain_breakpoint.2 0 0 0 0
+0 0 0 0 0
+0.1 69 145 172
+$loss_breakpoint.2 69 145 172
+$loss_breakpoint.3 214 214 214
+$(($gain_start - 1)).4 214 214 214
+$(($gain_start - 1)).5 38 81 24
+$gain_breakpoint.6 38 81 24
+$gain_breakpoint.7 0 0 0 0
 9999 0 0 0 0
 EOF
 
