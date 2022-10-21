@@ -170,37 +170,44 @@ ogr2ogr -append -t_srs "EPSG:4326" -where "FUNCSTAT = 'N'" \
     -nlt MultiPolygon \
     /vsizip/$DATA/tl_2021_22_sldu.zip/tl_2021_22_sldu.shp
 
-# Export CSV.
+# Compile output into a single layer.
 ogr2ogr -dialect sqlite -sql "$project_sql" \
-    $STATIC/search.csv \
+    $WORKING/search-index.gpkg \
+    -nln search \
     $WORKING/search.gpkg
 
 ogr2ogr -append -dialect sqlite -sql "$project_type_sql" \
-    $STATIC \
+    $WORKING/search-index.gpkg \
     -nln search \
     $WORKING/search.gpkg
 
 ogr2ogr -append -dialect sqlite -sql "$region_sql" \
-    $STATIC \
+    $WORKING/search-index.gpkg \
     -nln search \
     $WORKING/search.gpkg
 
 ogr2ogr -append -dialect sqlite -sql "$parish_sql" \
-    $STATIC \
+    $WORKING/search-index.gpkg \
     -nln search \
     $WORKING/search.gpkg
 
 ogr2ogr -append -dialect sqlite -sql "$uscd_sql" \
-    $STATIC \
+    $WORKING/search-index.gpkg \
     -nln search \
     $WORKING/search.gpkg
 
 ogr2ogr -append -dialect sqlite -sql "$lash_sql" \
-    $STATIC \
+    $WORKING/search-index.gpkg \
     -nln search \
     $WORKING/search.gpkg
 
 ogr2ogr -append -dialect sqlite -sql "$lass_sql" \
-    $STATIC \
+    $WORKING/search-index.gpkg \
     -nln search \
     $WORKING/search.gpkg
+
+# Export CSV.
+ogr2ogr $STATIC/search.csv \
+    -lco SEPARATOR=TAB \
+    $WORKING/search-index.gpkg \
+    search

@@ -234,7 +234,7 @@ export function getMapPadding() {
   };
 }
 
-// CSV parsing
+// Tab-delimited CSV parsing
 export async function fetchCSV(url) {
   const res = await fetch(url);
   const rows = (await res.text())
@@ -242,8 +242,12 @@ export async function fetchCSV(url) {
     .filter((row) => row.length)
     .map((row) =>
       row
-        .split(/(?!\B"[^"]*),(?![^"]*"\B)/g)
-        .map((cell) => cell.replace(/"/g, ""))
+        .split("\t")
+        .map((cell) =>
+          /^[-0-9]/.test(cell)
+            ? parseFloat(cell)
+            : cell.replace(/(^")|("$)/g, "")
+        )
     );
   const headers = rows.shift();
   return rows.map((row) => {
