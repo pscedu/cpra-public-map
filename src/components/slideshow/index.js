@@ -61,7 +61,7 @@ const Slideshow = () => {
           changed the map since 1932.
         </p>
       </Slide>
-      <Slide controls={["year"]} viewName="slide-1" slideGroup="tour">
+      <Slide viewName="slide-1" slideGroup="tour">
         <p>
           Unfortunately, science shows that as sea level rises and storms
           increase in intensity due to climate change, additional land loss is

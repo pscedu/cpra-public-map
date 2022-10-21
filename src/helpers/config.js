@@ -173,7 +173,7 @@ export const layers = {
     groups: ["G500"],
     name: "Historical Land Change",
     legend: legends["Historical Land Change"],
-    nullYears: [1932],
+    nullYears: [],
     scenarios: ["S07"],
     type: "raster",
     years: [1932, 1956, 1975, 1985, 1995, 2006, 2015],
@@ -236,9 +236,10 @@ export const views = {
   },
   "slide-1": {
     title: "A Continuing Crisis",
-    layer: layers.historicalLandChange,
+    layer: layers.landChange,
     group: "G500",
     scenario: "S07",
+    year: 0,
   },
   "slide-2": {
     title: "Land Change Without Action",
