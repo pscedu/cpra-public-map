@@ -29,14 +29,14 @@ const Slideshow = () => {
         <Disclaimer />
       </Slide>
       <Slide
-        controls={["year", "scenario", "group", "aep", "projects"]}
+        controls={["year", "scenario", "aep", "group", "projects"]}
         viewName="flood-depth"
         slideGroup="explore"
       >
         <Disclaimer />
       </Slide>
       <Slide
-        controls={["year", "scenario", "group", "damage", "projects"]}
+        controls={["year", "scenario", "damage", "group", "projects"]}
         viewName="damage"
         slideGroup="explore"
       >
