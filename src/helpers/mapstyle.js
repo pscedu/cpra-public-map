@@ -104,13 +104,13 @@ function projectLayers(show, filter, model, suffix = "") {
     },
     // Bank stabilization and structural risk reduction lines
     {
-      id: `project-line-bs-or-sr${suffix}`,
+      id: `project-line-bs-sr${suffix}`,
       type: "line",
       source: "Base Map: Vector",
       "source-layer": "project_line",
       filter: [
         "all",
-        ["in", ["get", "type"], ["literal", ["BS", "OR", "SR"]]],
+        ["in", ["get", "type"], ["literal", ["BS", "SR"]]],
         filter,
       ],
       paint: {
@@ -118,8 +118,6 @@ function projectLayers(show, filter, model, suffix = "") {
           "case",
           ["==", ["get", "type"], "BS"],
           "#D9A73B",
-          ["==", ["get", "type"], "OR"],
-          "#EDA482",
           "#404042",
         ]),
         "line-width": mod(modelStrokeWidth, linearZoom(2, 5)),
@@ -216,7 +214,7 @@ function projectLayers(show, filter, model, suffix = "") {
       type: "symbol",
       source: "Base Map: Vector",
       "source-layer": "project_label",
-      filter,
+      filter: ["all", ["!=", ["get", "type"], "OR"], filter],
       minzoom: 9,
       layout: {
         "text-anchor": "top",
@@ -237,7 +235,7 @@ function projectLayers(show, filter, model, suffix = "") {
       type: "symbol",
       source: "Base Map: Vector",
       "source-layer": "project_label",
-      filter,
+      filter: ["all", ["!=", ["get", "type"], "OR"], filter],
       minzoom: 10,
       layout: {
         "icon-image": ["get", "type"],
@@ -249,7 +247,7 @@ function projectLayers(show, filter, model, suffix = "") {
       type: "circle",
       source: "Base Map: Vector",
       "source-layer": "project_label",
-      filter,
+      filter: ["all", ["!=", ["get", "type"], "OR"], filter],
       maxzoom: 10,
       minzoom: 8,
       paint: {

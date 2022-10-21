@@ -16,7 +16,7 @@ export const maxBounds = [-91.215 - 5, 29.41 - 3, -91.215 + 5, 29.41 + 3];
 export const projectLayers = [
   "project-polygon-lb",
   "project-polygon-mc",
-  "project-line-bs-or-sr",
+  "project-line-bs-sr",
   "project-line-di-hr",
   "project-line-rr",
   "project-line-sp",
