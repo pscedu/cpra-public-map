@@ -315,13 +315,13 @@ export const controls = {
   },
   group: {
     type: "buttons",
-    label: "Project Implementation Scenario",
+    label: "Plan Implementation Scenario",
     choices: [
-      ["G500", "Without Further Action"],
-      ["G603", "With 2023 Master Plan"],
+      ["G500", "Without Plan"],
+      ["G603", "With Plan"],
     ],
     tooltip:
-      "Select <strong>Future Without Action</strong> to view model results in a scenario without construction and/or operation of the recommended projects from the 2023 Coastal Master Plan. Select <strong>With 2023 Master Plan</strong> to view model results with implementation of the recommended projects from the 2023 Coastal Master Plan (i.e. assuming construction and operation of coastal restoration and flood protection projects as recommended in the Master Plan).",
+      "Select <strong>Without Plan</strong> to view model results in a scenario without construction and/or operation of the recommended projects from the 2023 Coastal Master Plan. Select <strong>With Plan</strong> to view model results with implementation of the recommended projects from the 2023 Coastal Master Plan (i.e. assuming construction and operation of coastal restoration and flood protection projects as recommended in the Master Plan).",
   },
   projects: {
     type: "checkbox",

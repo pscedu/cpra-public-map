@@ -171,10 +171,10 @@ const Slideshow = () => {
           ground.
         </p>
         <p>
-          Change the <strong>project implementation scenario</strong> and use
-          the <strong>year</strong> slider to compare a future without action to
-          a future with the master plan over time and see the impact of
-          investment in the coast.
+          Change the <strong>plan implementation scenario</strong> and use the{" "}
+          <strong>year</strong> slider to compare a future without action to a
+          future with the master plan over time and see the impact of investment
+          in the coast.
         </p>
       </Slide>
       <Slide
@@ -190,10 +190,10 @@ const Slideshow = () => {
           during surge events.
         </p>
         <p>
-          Change the <strong>project implementation scenario</strong> and use
-          the <strong>year</strong> slider to see the impact of investment in
-          the coast. You can also view changes to projected flood depths
-          resulting from storm events of various intensities (measured in{" "}
+          Change the <strong>plan implementation scenario</strong> and use the{" "}
+          <strong>year</strong> slider to see the impact of investment in the
+          coast. You can also view changes to projected flood depths resulting
+          from storm events of various intensities (measured in{" "}
           <strong>annual exceedance probability</strong> or AEP).
         </p>
       </Slide>
@@ -210,7 +210,7 @@ const Slideshow = () => {
           Coastal Master Plan.
         </p>
         <p>
-          Change the <strong>project implementation scenario</strong>to see the
+          Change the <strong>plan implementation scenario</strong>to see the
           impact of investment in the coast. Change the{" "}
           <strong>damage metric</strong> and use the <strong>year</strong>{" "}
           slider to see how the master plan changes damage values into the
