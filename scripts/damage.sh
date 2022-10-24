@@ -61,10 +61,16 @@ select community_id,
 	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as easd_s08_g603_year30,
 	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as easd_s08_g603_year40,
 	cast(round(sum(case when year = 50 then p50_EAD_ST else 0 end)) as integer) as easd_s08_g603_year50,
-	st_union(community.geom) as geom
+	st_difference(st_union(community.geom), mask.geom) as geom
 from damage
 join community
 	on damage.community_id = community.MP_Community_ID
+join (
+	select st_collect(geom) as geom
+	from river_mask
+	group by true
+) as mask
+	on true
 group by community_id
 SQL
 ogr2ogr -t_srs "EPSG:4326" -sql "$damage_sql" \
