@@ -135,6 +135,15 @@ for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_*_*_*2_W_FFIBS.tif; do
     convert_raster $in_path "FFIBS" "Vegetation Type - $s - $g - Year $year"
 done
 
+# Create a combined river and lake mask for flood depth.
+ogr2ogr $WORKING/flood_depth_mask.gpkg \
+    "/vsizip/$DATA/Lake_Mask.zip/Lake Mask/lake_mask_for_mapping.shp" \
+    -nln flood_depth_mask
+
+ogr2ogr -append $WORKING/flood_depth_mask.gpkg \
+    /vsizip/$DATA/MississippiRiver_mask_for_mapping.zip/MississippiRiver_mask_for_mapping/MississippiRiver_mask_for_mapping.shp \
+    -nln flood_depth_mask
+
 # Process flood depth rasters
 for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_*_*_*_CLARA_*_aep_depths_ft.tif
 do
@@ -145,7 +154,7 @@ do
     exceedance=$(basename "$in_path" | cut -d "_" -f12)
     raster_name="Flood Depth - $s - $g - Year $year - Exceedance Probability $exceedance"
     convert_raster $in_path "CLARA" "$raster_name" \
-        "/vsizip/$DATA/Lake_Mask.zip/Lake Mask/lake_mask_for_mapping.shp"
+        "$WORKING/flood_depth_mask.gpkg"
 done
 
 # Process historical land change rasters
