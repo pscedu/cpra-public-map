@@ -9,9 +9,6 @@ import {
   getMapPadding,
   getOsmResults,
   getOsmSelection,
-  getProjectResult,
-  getProjectTypeResult,
-  getRegionResult,
   gtag,
   internal,
   normalizeText,
@@ -79,24 +76,9 @@ export function createState() {
   const view = computed(() => config.views[viewName]);
 
   // EFFECTS
+  effect(() => console.log("searchResult", searchResult.value));
   // Load projects from CSV.
-  effect(async () => {
-    projects.value = (await fetchCSV(config.projectListUrl)).map((project) => {
-      project.select = (type) => {
-        if (type === "type") {
-          searchResult.value = getProjectTypeResult(
-            project.type,
-            config.projectTypes
-          );
-        } else if (type === "region") {
-          searchResult.value = getRegionResult(project.region);
-        } else {
-          searchResult.value = getProjectResult(project);
-        }
-      };
-      return project;
-    });
-  });
+  effect(async () => (projects.value = await fetchCSV(config.projectListUrl)));
 
   // Load search index from CSV.
   effect(async () => {
@@ -294,6 +276,10 @@ export function createState() {
     if (map.value) map.value.resize();
   };
 
+  const setSearchResult = (key) => {
+    searchResult.value = searchIndexMap.value[key] || null;
+  };
+
   const setStorySlide = (idx) =>
     (viewName.value = idx === null ? "land-change" : `slide-${idx}`);
 
@@ -328,6 +314,7 @@ export function createState() {
     searchText,
     selection,
     services,
+    setSearchResult,
     setStorySlide,
     showProjects,
     startTour,

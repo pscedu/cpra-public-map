@@ -11,7 +11,7 @@ read -r -d '' project_sql << SQL
 select project.DisplayID as displayId, 
     project.ProjectName as name,
     max(ProjectTypeCode) as type,
-    max(Region) as region,
+    max(RegionCode) as region,
     max(metadata.ProjectDescription) as description,
     coalesce(min(ip.year), 21) as yearmin,
     coalesce(max(ip.year), 50) as yearmax
@@ -21,7 +21,7 @@ from (
         ElementID,
         ProjectName,
         ProjectTypeCode,
-        Region,
+        RegionCode,
         Shape as geom
     from Points
     where ActiveProject = 1
@@ -30,7 +30,7 @@ from (
         ElementID,
         ProjectName,
         ProjectTypeCode,
-        Region,
+        RegionCode,
         Shape as geom
     from Lines
     where ActiveProject = 1
@@ -39,7 +39,7 @@ from (
         ElementID,
         ProjectName,
         ProjectTypeCode,
-        Region,
+        RegionCode,
         Shape as geom
     from Polygons
     where ActiveProject = 1
