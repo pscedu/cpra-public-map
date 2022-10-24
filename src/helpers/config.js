@@ -303,7 +303,7 @@ export const controls = {
     label: "Annual Exceedance Probability",
     choices: layers.floodDepth.subtypes.map((subtype) => [subtype, subtype]),
     tooltip:
-      "Flood events are often reported in annual exceedance probability (AEP), which is the likelihood of a given flood event occurring in a year. For example, a very intense flood might be classified as a 500-year event, which means that it has a 1/500 chance (or 0.2% chance) of occurring in any given year. Use the buttons below to view the anticipated flood risk resulting from different possible events.",
+      "<p>To estimate future flooding potential, we included a range of storm intensities, sizes, and landfall locations across the coast. This information, along with the relative likelihood of each storm occurring, gave us a rough idea of how flooding could occur across Louisiana’s coast over the next 50 years.</p><p>To put these figures in context, Hurricane Katrina (2005) produced storm surge that rated as a 100-year event in Plaquemines and St Bernard Parish, while as a 50-year event in Orleans Parish. Hurricane Rita (2005) produced storm surge that rated as 100-year event in Terrebonne, St. Mary, and Vermillion. Hurricane Ike (2008) produced a storm surge that rated as a 50-year event in Cameron Parish.</p>",
   },
   damage: {
     type: "buttons",
@@ -313,6 +313,8 @@ export const controls = {
       ["EAD", "Dollars"],
       ["EASD", "Structures"],
     ],
+    tooltip:
+      "<p>Future storm surge-based flooding damages can be estimated by considering flood depths and the number and type of assets flooded in events across the coast. The cost of these damages in dollars is called Estimated Annual Damages, Dollars or EADD. Another way to quantify damages is to count how many whole and partial structures are damaged from an event and sum them to determine Estimated Annual Structural Damage, or EASD.</p><p>Both damage metrics are projected over time and for different scenarios and event AEPs.</p>",
   },
   group: {
     type: "buttons",
@@ -322,7 +324,7 @@ export const controls = {
       ["G603", "With Plan"],
     ],
     tooltip:
-      "Select <strong>Without Plan</strong> to view model results in a scenario without construction and/or operation of the recommended projects from the 2023 Coastal Master Plan. Select <strong>With Plan</strong> to view model results with implementation of the recommended projects from the 2023 Coastal Master Plan (i.e. assuming construction and operation of coastal restoration and flood protection projects as recommended in the Master Plan).",
+      "<p>Select <strong>Without Plan</strong> to look at model outputs projecting the future if we do not implement any of the projects recommended in the 2023 Coastal Master Plan. Select <strong>With Plan</strong> to look at model outputs with the final plan projects in place.</p>",
   },
   projects: {
     type: "checkbox",
@@ -338,12 +340,12 @@ export const controls = {
       ["S08", "Higher"],
     ],
     tooltip:
-      "Future land change and flood risk depends on environmental factors including precipitation, sea level rise, and land subsidence rates. Given the uncertainty in predicting environmental factors, the Louisiana Coastal Master Plan considers many possible future scenarios. Use the buttons below to view model results under a <strong>Lower Scenario</strong> (representing lower rates of sea level rise, land subsidence, etc.) and a <strong>Higher Scenario</strong> (representing higher rates of sea level rise, land subsidence, etc.).",
+      "<p>Because we don&apos;t know what the future will bring, the 2023 Coastal Master Plan developed different environmental scenarios to capture possible coastal conditions. These scenarios reflect the different ways that future conditions could affect our ability to protect communities and build land.</p><p><strong>Lower Scenario:</strong> Assumes moderate changes in the factors over the next 50 years, including moderate rates of sea level rise and subsidence.</p><p><strong>Higher Scenario:</strong> Assumes more dramatic changes in the factors over the next 50 years, particularly higher rates of sea level rise and subsidence.</p><p>Factors included in future environmental scenarios: Sea level rise, subsidence, storm intensity, rainfall, tributary hydrology, temperature, and evapotranspiration.</p><p> More information on environmental scenarios, will be available in an appendix to the 2023 Coastal Master Plan.</p>",
   },
   year: {
     type: "year",
     tooltip:
-      "The Louisiana Coastal Master Plan utilizes technical models to predict coastal land change and flood risk over a 50-year period. Use the slider below to view decadal model results from initial conditions to 50 years into the future.",
+      "<p>Use the time slider to explore model outputs from initial conditions to 50 years into the future. Data is available at 10-year increments.</p>",
   },
 };
 export const mapDefaults = {

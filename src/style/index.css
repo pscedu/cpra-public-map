@@ -138,6 +138,9 @@ ion-icon {
 .printing .maplibregl-ctrl-top-right {
   display: none;
 }
+.tippy-content strong {
+  font-weight: bold;
+}
 @media (min-width: 700px) {
   :root {
     --mpdv-app-margin: 30px;
