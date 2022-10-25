@@ -7,14 +7,17 @@ STATIC="./src/static"
 export GDAL_CACHEMAX="80%"
 export GDAL_NUM_THREADS="ALL_CPUS"
 
+# Load .env file.
+export $(cat .env | xargs)
+
 read -r -d '' project_sql << SQL
 select project.DisplayID as display_id, 
     project.ProjectName as name,
     max(ProjectTypeCode) as type,
     max(Region) as region,
-    max(metadata.ProjectDescription) as description,
-    coalesce(min(ip.year), 21) as yearmin,
-    coalesce(max(ip.year), 50) as yearmax,
+    max(metadata.Description) as description,
+    coalesce(min(project.StartYear_FWOA), 21) as yearmin,
+    coalesce(max(project.StartYear_FWOA), 50) as yearmax,
     st_minx(st_collect(geom)) as xmin,
     st_miny(st_collect(geom)) as ymin,
     st_maxx(st_collect(geom)) as xmax,
@@ -26,33 +29,33 @@ from (
         ProjectName,
         ProjectTypeCode,
         Region,
+        StartYear_FWOA,
         Shape as geom
     from Points
-    where ActiveProject = 1
+    where ModelGroup = 516
     union select DisplayID,
         ProjectID,
         ElementID,
         ProjectName,
         ProjectTypeCode,
         Region,
+        StartYear_FWOA,
         Shape as geom
     from Lines
-    where ActiveProject = 1
+    where ModelGroup = 516
     union select DisplayID,
         ProjectID,
         ElementID,
         ProjectName,
         ProjectTypeCode,
         Region,
+        StartYear_FWOA,
         Shape as geom
     from Polygons
-    where ActiveProject = 1
+    where ModelGroup = 516
 ) as project
 left join metadata
     on project.DisplayID = metadata.DisplayID
-left join implementation_period as ip
-    on project.ProjectID = ip.ProjectID
-        and (ip.ElementID = '' or project.ElementID = ip.ElementID)
 group by project.DisplayID,
     project.ProjectName
 SQL
@@ -64,12 +67,9 @@ ogr2ogr -t_srs "EPSG:4326" \
 
 # Add metadata.
 ogr2ogr -append $WORKING/projects.gpkg \
-    "$DATA/MP23 Project Metadata and Costs_20220406.xlsx" \
+    PG:"dbname='$PG_DB' host='$PG_HOST' user='$PG_USER' password='$PG_PASSWORD'" \
     -nln "metadata" \
-    "ProjectMetadata"
-
-# Add implementation period data.
-ogr2ogr -append $WORKING/projects.gpkg $DATA/implementation_period.csv
+    "pct.ProjectMetadata"
 
 # Export CSV.
 ogr2ogr -dialect sqlite -sql "$project_sql" \

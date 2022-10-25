@@ -93,6 +93,7 @@ ogr2ogr -append -t_srs "EPSG:4326" -dialect sqlite -sql "$water_label_sql" \
 
 read -r -d '' project_sql << SQL
 select ProjectName as name,
+    DisplayID as display_id,
     case when ProjectTypeCode = 'IP' then (
         case when ProjectName = 'Manchac Wetland Restoration and Maurepas Landbridge'
                 then 'MC' 
@@ -102,25 +103,22 @@ select ProjectName as name,
             when ElementTypeCode in ('BS', 'MC', 'OR', 'RR', 'SP') then ElementTypeCode
             else 'IP' end
         ) else ProjectTypeCode end as type,
-    case when ip.Year is null then 21 else ip.Year end as year,
     Shape as geom
 from LAYER as project
-left join implementation_period as ip
-  on project.ProjectID = ip.ProjectID
-    and (ip.ElementID = '' or project.ElementID = ip.ElementID)
-where ActiveProject = 1
+where ModelGroup = 516
 SQL
 
 read -r -d '' project_label_sql << SQL
 select name,
+    display_id,
     type,
-    min(year) as year,
     st_pointonsurface(st_collect(geom)) as geom
 from (
     ${project_sql/LAYER/Points}
     union ${project_sql/LAYER/Lines}
     union ${project_sql/LAYER/Polygons})
 as points group by name,
+    display_id,
     type
 SQL
 
@@ -129,9 +127,6 @@ ogr2ogr -t_srs "EPSG:4326" \
     $WORKING/projects.gpkg \
     $DATA/ProjectDevelopmentGeodatabase_forMapping.gdb
 
-# Add implementation period data.
-ogr2ogr -append $WORKING/projects.gpkg $DATA/implementation_period.csv
-
 ogr2ogr -dialect sqlite -sql "${project_sql/LAYER/Points}" \
     $WORKING/project_point.geojson $WORKING/projects.gpkg
 
@@ -139,7 +134,7 @@ ogr2ogr -dialect sqlite -sql "${project_sql/LAYER/Lines}" \
     $WORKING/project_line.geojson $WORKING/projects.gpkg
 
 ogr2ogr -dialect sqlite \
-    -sql "select name, type, year, st_union(geom) as geom from (${project_sql/LAYER/Polygons}) as polygons group by name, type, year" \
+    -sql "select name, display_id, type, st_union(geom) as geom from (${project_sql/LAYER/Polygons}) as polygons group by name, display_id, type" \
     $WORKING/project_polygon.geojson $WORKING/projects.gpkg
 
 ogr2ogr -dialect sqlite -sql "$project_label_sql" \
