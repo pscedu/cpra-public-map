@@ -54,7 +54,8 @@ export const projectTypeDescriptions = {
   SR: "Structural Risk Reduction projects reduce flood risk by acting as physical barriers against storm surge. These systems can include earthen levees, floodwalls, floodgates, and pumping stations.",
 };
 export const legends = {
-  "Damage: EADD": {
+  ead: {
+    title: "Damage: EADD",
     images: [
       "#4E7872",
       "#3D9E8B",
@@ -74,7 +75,29 @@ export const legends = {
       "$1B to < $3B",
     ],
   },
-  "Flood Depth": {
+  easd: {
+    title: "Damage: EASD",
+    images: [
+      "#4d5a78",
+      "#3d609e",
+      "#6ba8b6",
+      "#a5d1b5",
+      "#cdabac",
+      "#a36560",
+      "#772528",
+    ].map(colorSwatch),
+    labels: [
+      "0 to 49",
+      "50 to 99",
+      "100 to 249",
+      "250 to 499",
+      "500 to 999",
+      "1,000 to 4,999",
+      "5,000 or more",
+    ],
+  },
+  floodDepth: {
+    title: "Flood Depth",
     images: [
       "#728D97",
       "#73B7EA",
@@ -94,15 +117,18 @@ export const legends = {
       "21+ feet",
     ],
   },
-  "Historical Land Change": {
+  historicalLandChange: {
+    title: "Historical Land Change",
     images: ["#4591ac", "#265118"].map(colorSwatch),
     labels: ["Persistent Land Loss", "Persistent Land Gain"],
   },
-  "Land Change": {
+  landChange: {
+    title: "Land Change",
     images: ["#4591ac", "#265118"].map(colorSwatch),
     labels: ["Land Loss", "Land Gain"],
   },
-  Projects: {
+  projects: {
+    title: "Projects",
     images: [
       "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='20'><line x1='0' y1='10' x2='50' y2='10' stroke='%23ED6731' stroke-width='5' stroke-dasharray='9 4' /><circle fill='white' stroke='%23ED6731' stroke-width='4' cx='25' cy='10' r='6'/></svg>",
       "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='50' height='20'><line x1='0' y1='10' x2='50' y2='10' stroke='%231DBEF0' stroke-width='5' stroke-dasharray='9 4' /><circle fill='white' stroke='%231DBEF0' stroke-width='4' cx='25' cy='10' r='6'/></svg>",
@@ -134,7 +160,8 @@ export const legends = {
       projectTypeDescriptions.MC,
     ],
   },
-  "Vegetation Type": {
+  vegetationType: {
+    title: "Vegetation Type",
     images: ["#5E823A", "#DAE86D", "#92CBE8", "#735753", "#0679D2"].map(
       colorSwatch
     ),
@@ -154,7 +181,7 @@ export const layers = {
       fwa: "G516",
     },
     name: "Damage",
-    legend: legends["Damage"],
+    legend: (subtype) => (subtype === "EAD" ? legends.ead : legends.easd),
     nullYears: [],
     scenarios: {
       lower: "S07",
@@ -169,7 +196,7 @@ export const layers = {
       fwoa: "G500",
     },
     name: "Flood Depth",
-    legend: legends["Land Change"],
+    legend: () => legends.floodDepth,
     nullYears: [],
     scenarios: {
       lower: "S07",
@@ -185,7 +212,7 @@ export const layers = {
       fwoa: "G500",
     },
     name: "Historical Land Change",
-    legend: legends["Historical Land Change"],
+    legend: () => legends.historicalLandChange,
     nullYears: [],
     scenarios: {
       lower: "S07",
@@ -199,7 +226,7 @@ export const layers = {
       fwa: "G603",
     },
     name: "Land Change",
-    legend: legends["Land Change"],
+    legend: () => legends.landChange,
     nullYears: [0],
     scenarios: {
       lower: "S07",
@@ -214,7 +241,7 @@ export const layers = {
       fwa: "G603",
     },
     name: "Projects",
-    legend: legends["Projects"],
+    legend: () => legends.projects,
     nullYears: [0],
     scenarios: {
       lower: "S07",
@@ -229,7 +256,7 @@ export const layers = {
       fwa: "G603",
     },
     name: "Vegetation Type",
-    legend: legends["Vegetation Type"],
+    legend: () => legends.vegetationType,
     nullYears: [],
     scenarios: {
       lower: "S07",

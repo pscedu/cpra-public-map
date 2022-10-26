@@ -77,8 +77,7 @@ const Print = ({ children }) => {
   const legend = (
     <Legend
       dpi={dpi}
-      legends={legends}
-      layer={layerName === "Damage" ? `Damage: ${subtype.value}` : layerName}
+      spec={view.value.layer.legend(subtype.value)}
       margin={margin}
       printing={printing.value}
     />

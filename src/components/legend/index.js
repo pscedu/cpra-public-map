@@ -1,11 +1,11 @@
 import { h } from "preact";
 import style from "./style.css";
 
-const getItems = (legend) =>
-  legend.labels.map((label, i) => {
+const getItems = (spec) =>
+  spec.labels.map((label, i) => {
     const css = {};
-    css.backgroundImage = `url("${legend.images[i]}")`;
-    const tooltip = legend.tooltips ? { title: legend.tooltips[i] } : {};
+    css.backgroundImage = `url("${spec.images[i]}")`;
+    const tooltip = spec.tooltips ? { title: spec.tooltips[i] } : {};
     return (
       <li key={label} class={style["legend-item"]} {...tooltip}>
         <span class={style.symbol} style={css} />
@@ -14,9 +14,8 @@ const getItems = (legend) =>
     );
   });
 
-const Legend = ({ dpi, legends, layer, margin, printing }) => {
+const Legend = ({ dpi, margin, spec, printing }) => {
   const content = [];
-  const layerClass = style[`legend-${layer.replace(" ", "-").toLowerCase()}`];
   const printingClass =
     style[`legend-${printing ? "printing" : "interactive"}`];
   const inlineStyle = !printing
@@ -27,14 +26,10 @@ const Legend = ({ dpi, legends, layer, margin, printing }) => {
         top: `${margin}px`,
       };
 
-  if (layer && legends[layer])
-    content.push(<h2>{layer}</h2>, <ul>{getItems(legends[layer])}</ul>);
+  if (spec) content.push(<h2>{spec.title}</h2>, <ul>{getItems(spec)}</ul>);
 
   return content.length ? (
-    <section
-      class={`${style.legend} ${layerClass} ${printingClass}`}
-      style={inlineStyle}
-    >
+    <section class={`${style.legend} ${printingClass}`} style={inlineStyle}>
       <div class={style["legend-inner"]}>{content}</div>
     </section>
   ) : null;
