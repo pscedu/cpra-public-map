@@ -10,71 +10,98 @@ export GDAL_NUM_THREADS="ALL_CPUS"
 mkdir -p "$WORKING"
 mkdir -p "$TILES"
 
+# Load .env file.
+export $(cat .env | xargs)
+
 # Convert vector layers to GeoJSON.
 read -r -d '' damage_sql << SQL
-select community_id,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as ead_s07_g500_year0,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as ead_s07_g500_year10,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as ead_s07_g500_year20,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as ead_s07_g500_year30,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as ead_s07_g500_year40,
-	cast(round(sum(case when year = 50 then p50_EAD_ST else 0 end)) as integer) as ead_s07_g500_year50,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as ead_s08_g500_year0,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as ead_s08_g500_year10,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as ead_s08_g500_year20,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as ead_s08_g500_year30,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as ead_s08_g500_year40,
-	cast(round(sum(case when year = 50 then p50_EAD_ST else 0 end)) as integer) as ead_s08_g500_year50,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as ead_s07_g603_year0,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as ead_s07_g603_year10,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as ead_s07_g603_year20,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as ead_s07_g603_year30,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as ead_s07_g603_year40,
-	cast(round(sum(case when year = 50 then p50_EAD_ST else 0 end)) as integer) as ead_s07_g603_year50,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as ead_s08_g603_year0,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as ead_s08_g603_year10,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as ead_s08_g603_year20,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as ead_s08_g603_year30,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as ead_s08_g603_year40,
-	cast(round(sum(case when year = 50 then p50_EAD_ST else 0 end)) as integer) as ead_s08_g603_year50,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as easd_s07_g500_year0,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as easd_s07_g500_year10,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as easd_s07_g500_year20,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as easd_s07_g500_year30,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as easd_s07_g500_year40,
-	cast(round(sum(case when year = 50 then p50_EAD_ST else 0 end)) as integer) as easd_s07_g500_year50,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as easd_s08_g500_year0,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as easd_s08_g500_year10,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as easd_s08_g500_year20,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as easd_s08_g500_year30,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as easd_s08_g500_year40,
-	cast(round(sum(case when year = 50 then p50_EAD_ST else 0 end)) as integer) as easd_s08_g500_year50,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as easd_s07_g603_year0,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as easd_s07_g603_year10,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as easd_s07_g603_year20,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as easd_s07_g603_year30,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as easd_s07_g603_year40,
-	cast(round(sum(case when year = 50 then p50_EAD_ST else 0 end)) as integer) as easd_s07_g603_year50,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as easd_s08_g603_year0,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as easd_s08_g603_year10,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as easd_s08_g603_year20,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as easd_s08_g603_year30,
-	cast(round(sum(case when year = 1 then p50_EAD_ST else 0 end)) as integer) as easd_s08_g603_year40,
-	cast(round(sum(case when year = 50 then p50_EAD_ST else 0 end)) as integer) as easd_s08_g603_year50,
-	st_difference(st_union(community.geom), mask.geom) as geom
+select "CommunityID",
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 500 and "Year_FWOA" = 1 then "EAD_50" else 0 end)) as bigint) as ead_s07_g500_year0,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 500 and "Year_FWOA" = 10 then "EAD_50" else 0 end)) as bigint) as ead_s07_g500_year10,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 500 and "Year_FWOA" = 20 then "EAD_50" else 0 end)) as bigint) as ead_s07_g500_year20,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 500 and "Year_FWOA" = 30 then "EAD_50" else 0 end)) as bigint) as ead_s07_g500_year30,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 500 and "Year_FWOA" = 40 then "EAD_50" else 0 end)) as bigint) as ead_s07_g500_year40,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 500 and "Year_FWOA" = 50 then "EAD_50" else 0 end)) as bigint) as ead_s07_g500_year50,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 500 and "Year_FWOA" = 1 then "EAD_50" else 0 end)) as bigint) as ead_s08_g500_year0,
+	cast(round(sum(case when "Scenario" = 8 and "ModelGroup" = 500 and "Year_FWOA" = 10 then "EAD_50" else 0 end)) as bigint) as ead_s08_g500_year10,
+	cast(round(sum(case when "Scenario" = 8 and "ModelGroup" = 500 and "Year_FWOA" = 20 then "EAD_50" else 0 end)) as bigint) as ead_s08_g500_year20,
+	cast(round(sum(case when "Scenario" = 8 and "ModelGroup" = 500 and "Year_FWOA" = 30 then "EAD_50" else 0 end)) as bigint) as ead_s08_g500_year30,
+	cast(round(sum(case when "Scenario" = 8 and "ModelGroup" = 500 and "Year_FWOA" = 40 then "EAD_50" else 0 end)) as bigint) as ead_s08_g500_year40,
+	cast(round(sum(case when "Scenario" = 8 and "ModelGroup" = 500 and "Year_FWOA" = 50 then "EAD_50" else 0 end)) as bigint) as ead_s08_g500_year50,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 516 and "Year_FWOA" = 1 then "EAD_50" else 0 end)) as bigint) as ead_s07_g516_year0,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 516 and "Year_FWOA" = 10 then "EAD_50" else 0 end)) as bigint) as ead_s07_g516_year10,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 516 and "Year_FWOA" = 20 then "EAD_50" else 0 end)) as bigint) as ead_s07_g516_year20,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 516 and "Year_FWOA" = 30 then "EAD_50" else 0 end)) as bigint) as ead_s07_g516_year30,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 516 and "Year_FWOA" = 40 then "EAD_50" else 0 end)) as bigint) as ead_s07_g516_year40,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 516 and "Year_FWOA" = 50 then "EAD_50" else 0 end)) as bigint) as ead_s07_g516_year50,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 516 and "Year_FWOA" = 1 then "EAD_50" else 0 end)) as bigint) as ead_s08_g516_year0,
+	cast(round(sum(case when "Scenario" = 8 and "ModelGroup" = 516 and "Year_FWOA" = 10 then "EAD_50" else 0 end)) as bigint) as ead_s08_g516_year10,
+	cast(round(sum(case when "Scenario" = 8 and "ModelGroup" = 516 and "Year_FWOA" = 20 then "EAD_50" else 0 end)) as bigint) as ead_s08_g516_year20,
+	cast(round(sum(case when "Scenario" = 8 and "ModelGroup" = 516 and "Year_FWOA" = 30 then "EAD_50" else 0 end)) as bigint) as ead_s08_g516_year30,
+	cast(round(sum(case when "Scenario" = 8 and "ModelGroup" = 516 and "Year_FWOA" = 40 then "EAD_50" else 0 end)) as bigint) as ead_s08_g516_year40,
+	cast(round(sum(case when "Scenario" = 8 and "ModelGroup" = 516 and "Year_FWOA" = 50 then "EAD_50" else 0 end)) as bigint) as ead_s08_g516_year50,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 500 and "Year_FWOA" = 1 then "EASD_50" else 0 end)) as bigint) as easd_s07_g500_year0,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 500 and "Year_FWOA" = 10 then "EASD_50" else 0 end)) as bigint) as easd_s07_g500_year10,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 500 and "Year_FWOA" = 20 then "EASD_50" else 0 end)) as bigint) as easd_s07_g500_year20,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 500 and "Year_FWOA" = 30 then "EASD_50" else 0 end)) as bigint) as easd_s07_g500_year30,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 500 and "Year_FWOA" = 40 then "EASD_50" else 0 end)) as bigint) as easd_s07_g500_year40,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 500 and "Year_FWOA" = 50 then "EASD_50" else 0 end)) as bigint) as easd_s07_g500_year50,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 500 and "Year_FWOA" = 1 then "EASD_50" else 0 end)) as bigint) as easd_s08_g500_year0,
+	cast(round(sum(case when "Scenario" = 8 and "ModelGroup" = 500 and "Year_FWOA" = 10 then "EASD_50" else 0 end)) as bigint) as easd_s08_g500_year10,
+	cast(round(sum(case when "Scenario" = 8 and "ModelGroup" = 500 and "Year_FWOA" = 20 then "EASD_50" else 0 end)) as bigint) as easd_s08_g500_year20,
+	cast(round(sum(case when "Scenario" = 8 and "ModelGroup" = 500 and "Year_FWOA" = 30 then "EASD_50" else 0 end)) as bigint) as easd_s08_g500_year30,
+	cast(round(sum(case when "Scenario" = 8 and "ModelGroup" = 500 and "Year_FWOA" = 40 then "EASD_50" else 0 end)) as bigint) as easd_s08_g500_year40,
+	cast(round(sum(case when "Scenario" = 8 and "ModelGroup" = 500 and "Year_FWOA" = 50 then "EASD_50" else 0 end)) as bigint) as easd_s08_g500_year50,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 516 and "Year_FWOA" = 1 then "EASD_50" else 0 end)) as bigint) as easd_s07_g516_year0,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 516 and "Year_FWOA" = 10 then "EASD_50" else 0 end)) as bigint) as easd_s07_g516_year10,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 516 and "Year_FWOA" = 20 then "EASD_50" else 0 end)) as bigint) as easd_s07_g516_year20,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 516 and "Year_FWOA" = 30 then "EASD_50" else 0 end)) as bigint) as easd_s07_g516_year30,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 516 and "Year_FWOA" = 40 then "EASD_50" else 0 end)) as bigint) as easd_s07_g516_year40,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 516 and "Year_FWOA" = 50 then "EASD_50" else 0 end)) as bigint) as easd_s07_g516_year50,
+	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 516 and "Year_FWOA" = 1 then "EASD_50" else 0 end)) as bigint) as easd_s08_g516_year0,
+	cast(round(sum(case when "Scenario" = 8 and "ModelGroup" = 516 and "Year_FWOA" = 10 then "EASD_50" else 0 end)) as bigint) as easd_s08_g516_year10,
+	cast(round(sum(case when "Scenario" = 8 and "ModelGroup" = 516 and "Year_FWOA" = 20 then "EASD_50" else 0 end)) as bigint) as easd_s08_g516_year20,
+	cast(round(sum(case when "Scenario" = 8 and "ModelGroup" = 516 and "Year_FWOA" = 30 then "EASD_50" else 0 end)) as bigint) as easd_s08_g516_year30,
+	cast(round(sum(case when "Scenario" = 8 and "ModelGroup" = 516 and "Year_FWOA" = 40 then "EASD_50" else 0 end)) as bigint) as easd_s08_g516_year40,
+	cast(round(sum(case when "Scenario" = 8 and "ModelGroup" = 516 and "Year_FWOA" = 50 then "EASD_50" else 0 end)) as bigint) as easd_s08_g516_year50
+from clara.risk
+group by "CommunityID"
+SQL
+
+ogr2ogr -t_srs "EPSG:4326" -sql "$damage_sql" \
+    $WORKING/damage.gpkg \
+		PG:"dbname='$PG_DB' host='$PG_HOST' user='$PG_USER' password='$PG_PASSWORD'" \
+		-nln "damage"
+
+ogr2ogr -append -t_srs "EPSG:4326" \
+    $WORKING/damage.gpkg \
+		$DATA/Community_Splits_20220823.gdb \
+		-nln "community" \
+		"MP2023_Communities_CLARA_split_20220823_ORIGINAL"
+		# "MP2023_Communities_CLARA_split_20220823_ORIGINAL"
+
+ogr2ogr -append -t_srs "EPSG:4326" \
+    $WORKING/damage.gpkg \
+		/vsizip/$DATA/MississippiRiver_mask_for_mapping.zip/MississippiRiver_mask_for_mapping/MississippiRiver_mask_for_mapping.shp \
+		-nln "mask"
+
+read -r -d '' combined_sql << SQL
+select damage.*,
+	st_difference(st_union(community.SHAPE), mask_dissolve.geom) as geom
 from damage
 join community
-	on damage.community_id = community.MP_Community_ID
+	on damage.CommunityID = community.MP_Community_ID
 join (
 	select st_collect(geom) as geom
-	from river_mask
+	from mask
 	group by true
-) as mask
+) as mask_dissolve
 	on true
-group by community_id
+group by damage.CommunityID
 SQL
-ogr2ogr -t_srs "EPSG:4326" -sql "$damage_sql" \
-    $WORKING/damage.geojson $DATA/damage.gpkg
+
+ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$combined_sql" \
+	$WORKING/damage.geojson $WORKING/damage.gpkg
 
 # Generate vector tiles.
 echo "Generating vector tiles..."
