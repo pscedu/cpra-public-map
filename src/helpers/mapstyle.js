@@ -395,9 +395,39 @@ export function getStyle({
     });
 
   const damageLayers = [];
+  const eadRamp = [
+    "#4E7872",
+    1000000,
+    "#3D9E8B",
+    10000000,
+    "#6CB686",
+    50000000,
+    "#B9D1A5",
+    100000000,
+    "#CDABC9",
+    500000000,
+    "#A46093",
+    1000000000,
+    "#77256D",
+  ];
+  const easdRamp = [
+    "#4d5a78",
+    50,
+    "#3d609e",
+    100,
+    "#6ba8b6",
+    250,
+    "#a5d1b5",
+    500,
+    "#cdabac",
+    1000,
+    "#a36560",
+    5000,
+    "#772528",
+  ];
   if (view.value.layer.name === "Damage") {
     let damageProp =
-      `${(subtype.value || "AED").toLowerCase()}_` +
+      `${(subtype.value || "EAD").toLowerCase()}_` +
       `${view.value.layer.scenarios[scenario.value].toLowerCase()}_` +
       `${view.value.layer.groups[group.value].toLowerCase()}_` +
       `year${year.value}`;
@@ -410,19 +440,7 @@ export function getStyle({
         "fill-color": [
           "step",
           ["get", damageProp],
-          "#4E7872",
-          1000000,
-          "#3D9E8B",
-          10000000,
-          "#6CB686",
-          50000000,
-          "#B9D1A5",
-          100000000,
-          "#CDABC9",
-          500000000,
-          "#A46093",
-          1000000000,
-          "#77256D",
+          ...(subtype.value === "EAD" ? eadRamp : easdRamp),
         ],
       },
     });
