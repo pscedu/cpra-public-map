@@ -149,59 +149,92 @@ export const legends = {
 };
 export const layers = {
   damage: {
-    groups: ["G500", "G603"],
+    groups: {
+      fwoa: "G500",
+      fwa: "G516",
+    },
     name: "Damage",
     legend: legends["Damage"],
     nullYears: [],
-    scenarios: ["S07", "S08"],
+    scenarios: {
+      lower: "S07",
+      higher: "S08",
+    },
     subtypes: ["EAD", "EASD"],
     type: "vector",
     years: [0, 10, 20, 30, 40, 50],
   },
   floodDepth: {
-    groups: ["G500"],
+    groups: {
+      fwoa: "G500",
+    },
     name: "Flood Depth",
     legend: legends["Land Change"],
     nullYears: [],
-    scenarios: ["S07", "S08"],
+    scenarios: {
+      lower: "S07",
+      higher: "S08",
+    },
     subtypeName: "Exceedance Probability",
     subtypes: ["10.0", "2.0", "1.0", "0.2"],
     type: "raster",
     years: [0, 10, 20, 30, 40, 50],
   },
   historicalLandChange: {
-    groups: ["G500"],
+    groups: {
+      fwoa: "G500",
+    },
     name: "Historical Land Change",
     legend: legends["Historical Land Change"],
     nullYears: [],
-    scenarios: ["S07"],
+    scenarios: {
+      lower: "S07",
+    },
     type: "raster",
     years: [1932, 1956, 1975, 1985, 1995, 2006, 2015],
   },
   landChange: {
-    groups: ["G500", "G603"],
+    groups: {
+      fwoa: "G500",
+      fwa: "G603",
+    },
     name: "Land Change",
     legend: legends["Land Change"],
     nullYears: [0],
-    scenarios: ["S07", "S08"],
+    scenarios: {
+      lower: "S07",
+      higher: "S08",
+    },
     type: "raster",
     years: [0, 10, 20, 30, 40, 50],
   },
   projects: {
-    groups: ["G500"],
+    groups: {
+      fwoa: "G500",
+      fwa: "G603",
+    },
     name: "Projects",
     legend: legends["Projects"],
     nullYears: [0],
-    scenarios: ["S07", "S08"],
+    scenarios: {
+      lower: "S07",
+      higher: "S08",
+    },
     type: "vector",
     years: [...Array(51).keys()],
   },
   vegetationType: {
-    groups: ["G500", "G603"],
+    groups: {
+      fwoa: "G500",
+      fwa: "G603",
+    },
     name: "Vegetation Type",
     legend: legends["Vegetation Type"],
     nullYears: [],
-    scenarios: ["S07", "S08"],
+    scenarios: {
+      lower: "S07",
+      higher: "S08",
+    },
     type: "raster",
     years: [0, 10, 20, 30, 40, 50],
   },
@@ -230,37 +263,37 @@ export const views = {
   "slide-0": {
     title: "A History of Change",
     layer: layers.historicalLandChange,
-    group: "G500",
-    scenario: "S07",
+    group: "fwoa",
+    scenario: "lower",
     year: 1932,
   },
   "slide-1": {
     title: "A Continuing Crisis",
     layer: layers.landChange,
-    group: "G500",
-    scenario: "S07",
+    group: "fwoa",
+    scenario: "lower",
     year: 0,
   },
   "slide-2": {
     title: "Land Change Without Action",
     layer: layers.landChange,
-    group: "G500",
-    scenario: "S07",
+    group: "fwoa",
+    scenario: "lower",
     year: 0,
   },
   "slide-3": {
     title: "Flood Depth Without Action",
     layer: layers.floodDepth,
-    group: "G500",
-    scenario: "S07",
+    group: "fwoa",
+    scenario: "lower",
     subtype: "10.0",
     year: 0,
   },
   "slide-4": {
     title: "Estimated Damages Without Action",
     layer: layers.damage,
-    group: "G500",
-    scenario: "S07",
+    group: "fwoa",
+    scenario: "lower",
     subtype: "AED",
     year: 0,
   },
@@ -271,23 +304,23 @@ export const views = {
   "slide-6": {
     title: "Land Change With the Master Plan",
     layer: layers.landChange,
-    group: "G603",
-    scenario: "S07",
+    group: "fwa",
+    scenario: "lower",
     year: 0,
   },
   "slide-7": {
     title: "Flood Depth With the Master Plan",
     layer: layers.floodDepth,
-    group: "G603",
-    scenario: "S07",
+    group: "fwa",
+    scenario: "lower",
     subtype: "10.0",
     year: 0,
   },
   "slide-8": {
     title: "Estimated Damages With the Master Plan",
     layer: layers.damage,
-    group: "G603",
-    scenario: "S07",
+    group: "fwa",
+    scenario: "lower",
     subtype: "AED",
     year: 0,
   },
@@ -320,8 +353,8 @@ export const controls = {
     type: "buttons",
     label: "Plan Implementation Scenario",
     choices: [
-      ["G500", "Without Plan"],
-      ["G603", "With Plan"],
+      ["fwoa", "Without Plan"],
+      ["fwa", "With Plan"],
     ],
     tooltip:
       "<p>Select <strong>Without Plan</strong> to look at model outputs projecting the future if we do not implement any of the projects recommended in the 2023 Coastal Master Plan. Select <strong>With Plan</strong> to look at model outputs with the final plan projects in place.</p>",
@@ -330,14 +363,14 @@ export const controls = {
     type: "checkbox",
     stateVariable: "showProjects",
     label: "Show candidate projects",
-    disabled: (state) => state.group.value === "G500",
+    disabled: (state) => state.group.value === "fwoa",
   },
   scenario: {
     type: "buttons",
     label: "Environmental Scenario",
     choices: [
-      ["S07", "Lower"],
-      ["S08", "Higher"],
+      ["lower", "Lower"],
+      ["higher", "Higher"],
     ],
     tooltip:
       "<p>Because we don&apos;t know what the future will bring, the 2023 Coastal Master Plan developed different environmental scenarios to capture possible coastal conditions. These scenarios reflect the different ways that future conditions could affect our ability to protect communities and build land.</p><p><strong>Lower Scenario:</strong> Assumes moderate changes in the factors over the next 50 years, including moderate rates of sea level rise and subsidence.</p><p><strong>Higher Scenario:</strong> Assumes more dramatic changes in the factors over the next 50 years, particularly higher rates of sea level rise and subsidence.</p><p>Factors included in future environmental scenarios: Sea level rise, subsidence, storm intensity, rainfall, tributary hydrology, temperature, and evapotranspiration.</p><p> More information on environmental scenarios, will be available in an appendix to the 2023 Coastal Master Plan.</p>",
@@ -353,16 +386,16 @@ export const mapDefaults = {
 };
 export const printText = {
   group: {
-    G500: "Future Without Action",
-    G603: "Future With Action",
+    fwoa: "Future Without Action",
+    fwa: "Future With Action",
   },
   layer: {
     "Land Change": "Land Change from Initial Conditions",
     Projects: "Candidate Projects",
   },
   scenario: {
-    S07: "Lower Project Selection Scenario",
-    S08: "Higher Project Selection Scenario",
+    lower: "Lower Project Selection Scenario",
+    higher: "Higher Project Selection Scenario",
   },
 };
 

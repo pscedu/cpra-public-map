@@ -8,7 +8,7 @@ function linearZoom(min, max) {
 }
 
 function getLayerName(layer, scenario, group, year, subtype) {
-  let name = `${layer.name} - ${scenario} - ${group} - Year ${year}`;
+  let name = `${layer.name} - ${layer.scenarios[scenario]} - ${layer.groups[group]} - Year ${year}`;
   if (subtype) name += ` - ${layer.subtypeName} ${subtype}`;
   return name;
 }
@@ -398,7 +398,8 @@ export function getStyle({
   if (view.value.layer.name === "Damage") {
     let damageProp =
       `${(subtype.value || "AED").toLowerCase()}_` +
-      `${scenario.value.toLowerCase()}_${group.value.toLowerCase()}_` +
+      `${view.value.layer.scenarios[scenario.value].toLowerCase()}_` +
+      `${view.value.layer.groups[group.value].toLowerCase()}_` +
       `year${year.value}`;
     damageLayers.push({
       id: `damage-polygon`,
@@ -527,7 +528,7 @@ export function getStyle({
       },
       ...projectLayers(
         view.value.layer.name == "Projects" ||
-          (group.value !== "G500" && showProjects.value),
+          (group.value !== "fwoa" && showProjects.value),
         true,
         view.value.layer.name !== "Projects"
       ),

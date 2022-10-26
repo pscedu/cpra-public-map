@@ -21,9 +21,9 @@ let layerInfoCache = null;
 
 export function createState() {
   // SIGNALS
-  const group = hashSignal("group", "G500");
+  const group = hashSignal("group", "fwoa");
   const politicalBoundary = hashSignal("political-boundary", null);
-  const scenario = hashSignal("scenario", "S07");
+  const scenario = hashSignal("scenario", "lower");
   const showProjects = hashSignal(
     "show-projects",
     true,
@@ -129,9 +129,12 @@ export function createState() {
     if (subtype.peek() && (layer.subtypes || []).includes(subtype.peek()))
       prevSubtypes[viewName.value] = subtype.peek();
     batch(() => {
-      group.value = selectValue(layer.groups, view.value.group || group.value);
+      group.value = selectValue(
+        Object.keys(layer.groups),
+        view.value.group || group.value
+      );
       scenario.value = selectValue(
-        layer.scenarios,
+        Object.keys(layer.scenarios),
         view.value.scenario || scenario.value
       );
       subtype.value = selectValue(
