@@ -63,14 +63,53 @@ cat > $WORKING/lndchg.clr << EOF
 0 0 0 0 0
 EOF
 
-# Land type color map
-cat > $WORKING/lndtyp.clr << EOF
-5 0 155 127
-4 128 128 128
-3 255 255 0
-2 0 0 139
-1 0 100 0
-0 0 0 0 0
+# Land type diff color map
+cat > $WORKING/lndtypdiff.clr << EOF
+-9999 0 0 0 0
+111 0 0 0 0
+112 0 240 240
+113 0 0 0 0
+121 153 193 4
+122 69 145 172
+123 153 193 4
+131 0 0 0 0
+132 0 240 240
+133 0 0 0 0
+211 38 81 24
+212 0 240 240
+213 38 81 24
+221 38 81 24
+222 0 0 0 0
+223 38 81 24
+231 38 81 24
+232 0 240 240
+233 38 81 24
+311 0 0 0 0
+312 0 240 240
+313 0 0 0 0
+321 153 193 4
+322 69 145 172
+323 153 193 4
+331 0 0 0 0
+332 0 240 240
+333 0 0 0 0
+444 0 0 0 0
+511 0 0 0 0
+512 0 240 240
+513 0 0 0 0
+515 0 0 0 0
+521 153 193 4
+522 69 145 172
+523 153 193 4
+525 153 193 4
+531 0 0 0 0
+532 0 240 240
+533 0 0 0 0
+535 0 0 0 0
+551 0 0 0 0
+552 0 240 240
+553 0 0 0 0
+555 0 0 0 0
 EOF
 
 convert_raster () {
@@ -125,6 +164,14 @@ for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_*_02_*2_W_lndchg.tif; do
     g=$(basename "$in_path" | cut -d "_" -f3)
     year=$(($(basename "$in_path" | cut -d "_" -f10)-2))
     convert_raster $in_path "lndchg" "Land Change - $s - $g - Year $year"
+done
+
+# Process land type diff rasters
+for in_path in $DATA/MP2023_S*_G*_C000_U00_V00_SLA_*_02_*2_W_lndtypdiff.tif; do
+    s=$(basename "$in_path" | cut -d "_" -f2)
+    g=$(basename "$in_path" | cut -d "_" -f3)
+    year=$(($(basename "$in_path" | cut -d "_" -f10)-2))
+    convert_raster $in_path "lndtypdiff" "Land Change - $s - $g - Year $year"
 done
 
 # Process vegatation type rasters
