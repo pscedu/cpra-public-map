@@ -9,6 +9,7 @@ const Map = () => {
   const {
     group,
     map,
+    printing,
     politicalBoundary,
     prevLayerInfo,
     scenario,
@@ -62,7 +63,11 @@ const Map = () => {
   return (
     <div
       ref={container}
-      style={{ flex: "1 0 0", height: "100vh", width: "100%" }}
+      style={{
+        flex: "1 0 0",
+        height: printing.value ? "100%" : "100vh",
+        width: "100%",
+      }}
     />
   );
 };

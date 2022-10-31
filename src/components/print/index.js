@@ -32,7 +32,7 @@ const Print = ({ children }) => {
   const { group, map, mapResize, scenario, subtype, printing, view, year } =
     useContext(State);
   const layerName = view.value.layer.name;
-  const { legends, printText } = config;
+  const { printText } = config;
 
   const [initialWidth, initialHeight] = getDimensions();
   const [height, setHeight] = useState(initialHeight);
