@@ -317,7 +317,7 @@ export const views = {
     year: 0,
   },
   "slide-4": {
-    title: "Estimated Damages Without Action",
+    title: "Expected Annual Damage Without Action",
     layer: layers.damage,
     group: "fwoa",
     scenario: "lower",
@@ -344,7 +344,7 @@ export const views = {
     year: 0,
   },
   "slide-8": {
-    title: "Estimated Damages With the Master Plan",
+    title: "Expected Annual Damage With the Master Plan",
     layer: layers.damage,
     group: "fwa",
     scenario: "lower",
