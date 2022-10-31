@@ -36,7 +36,11 @@ const createControl = (controlName, view, state) => {
       <Year
         signal={state.year}
         tooltip={spec.tooltip}
-        years={view.layer.years}
+        years={
+          view.layer.years instanceof Function
+            ? view.layer.years(state.group.value)
+            : view.layer.years
+        }
       />
     );
 };

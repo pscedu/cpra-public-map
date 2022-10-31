@@ -233,7 +233,8 @@ export const layers = {
       higher: "S08",
     },
     type: "raster",
-    years: [0, 10, 20, 30, 40, 50],
+    years: (group) =>
+      group === "fwoa" ? [0, 10, 20, 30, 40, 50] : [0, 10, 20],
   },
   projects: {
     groups: {
@@ -263,7 +264,8 @@ export const layers = {
       higher: "S08",
     },
     type: "raster",
-    years: [0, 10, 20, 30, 40, 50],
+    years: (group) =>
+      group === "fwoa" ? [0, 10, 20, 30, 40, 50] : [0, 10, 20],
   },
 };
 export const views = {
