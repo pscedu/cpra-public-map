@@ -32,7 +32,7 @@ from (
         StartYear_FWOA,
         Shape as geom
     from Points
-    where ModelGroup = 516
+    where ModelGroup = 516 and ImplementationPeriod = 1
     union select DisplayID,
         ProjectID,
         ElementID,
@@ -42,7 +42,7 @@ from (
         StartYear_FWOA,
         Shape as geom
     from Lines
-    where ModelGroup = 516
+    where ModelGroup = 516 and ImplementationPeriod = 1
     union select DisplayID,
         ProjectID,
         ElementID,
@@ -52,7 +52,7 @@ from (
         StartYear_FWOA,
         Shape as geom
     from Polygons
-    where ModelGroup = 516
+    where ModelGroup = 516 and ImplementationPeriod = 1
 ) as project
 left join metadata
     on project.DisplayID = metadata.DisplayID
