@@ -19,62 +19,65 @@ const Slideshow = () => {
         viewName="land-change"
         slideGroup="explore"
       >
-        <Disclaimer />
+        <Disclaimer type="long" />
       </Slide>
       <Slide
         controls={["year", "scenario", "group", "projects"]}
         viewName="vegetation-type"
         slideGroup="explore"
       >
-        <Disclaimer />
+        <Disclaimer type="long" />
       </Slide>
       <Slide
         controls={["year", "scenario", "aep", "projects"]}
         viewName="flood-depth"
         slideGroup="explore"
       >
-        <Disclaimer />
+        <Disclaimer type="long" />
       </Slide>
       <Slide
         controls={["year", "scenario", "damage", "projects"]}
         viewName="damage"
         slideGroup="explore"
       >
-        <Disclaimer />
+        <Disclaimer type="long" />
       </Slide>
       <Slide color="green" viewName="projects" slideGroup="explore">
         <ProjectList />
       </Slide>
 
       <Slide viewName="slide-0" slideGroup="tour" controls={["year"]}>
+        <Disclaimer />
         <p>
           Louisiana&apos;s map has changed significantly over the past century,
-          with what was land changing into open water in many areas. Between
-          1932 and 2015, over <strong style={{ color: "red" }}>XXXX</strong>{" "}
-          square miles of coastal land has been lost. This loss is a result of
-          many factors&mdash;the impacts of leveeing the Mississippi River and
-          reducing sediment transport, cutting navigation and oil and gas
-          industry canals, and climate change.
+          with what was land changing into open water in many areas.{" "}
+          <a href="https://pubs.er.usgs.gov/publication/sim3381">
+            Between 1932 and 2015, over 440 square miles of coastal land has
+            been lost.
+          </a>{" "}
+          This loss is a result of many factors&mdash;the impacts of leveeing
+          the Mississippi River and reducing sediment transport, cutting
+          navigation and oil and gas industry canals, and climate change.
         </p>
         <p>
           Use the <strong>year</strong> slider to see how land loss (blue) has
-          changed the map since 1932.
+          changed the landscape since 1932.
         </p>
       </Slide>
       <Slide viewName="slide-1" slideGroup="tour">
+        <Disclaimer />
         <p>
-          Unfortunately, science shows that as sea level rises and storms
-          increase in intensity due to climate change, additional land loss is
-          still a threat to coastal Louisiana. Land change over time is
-          uncertain to some degree, so the 2023 Coastal Master Plan considers
-          multiple future environmental scenarios to ensure we prepare for a
-          wide range of possibilities.
+          As sea level rises and storms increase in intensity due to climate
+          change, land loss will continue to be a threat to coastal Louisiana.
+          Land change over time is uncertain to some degree, so the 2023 Coastal
+          Master Plan considers multiple future environmental scenarios to
+          ensure we prepare for a wide range of possibilities.
         </p>
         <p>
           In the next few slides, we&apos;ll take a look at projections of land
           change over time under a lower (more moderate) and higher (more
-          severe) scenario to understand what Louisiana may look like in the
-          future.
+          severe) scenario to understand what coastal Louisiana may look like in
+          the future.
         </p>
       </Slide>
       <Slide
@@ -82,18 +85,17 @@ const Slideshow = () => {
         viewName="slide-2"
         slideGroup="tour"
       >
+        <Disclaimer />
         <p>
-          Continued sea level rise, along with land subsidence and other
-          environmental factors will contribute to future land loss in coastal
-          Louisiana. As marsh is converted to open water, the Louisiana coast
-          loses habitat and its ability to suppress the impacts of large storms.
-          The threat of significant land loss underlines the importance of
-          taking action to address coastal challenges.
+          As marsh is converted to open water, the Louisiana coast loses wetland
+          habitat and its ability to help reduce the surge and wave impacts of
+          storms. The threat of significant land loss underlines the importance
+          of taking action to address coastal challenges.
         </p>
         <p>
           Use the <strong>year</strong> slider to view modeled land change over
           time. Compare the land loss maps at the same point in time under
-          different <strong>environmental scenarios</strong> to see different
+          different <strong>environmental scenarios</strong> to see a range of
           possible future outcomes.
         </p>
       </Slide>
@@ -102,6 +104,7 @@ const Slideshow = () => {
         viewName="slide-3"
         slideGroup="tour"
       >
+        <Disclaimer />
         <p>
           Land loss is not the only challenge facing coastal Louisiana. Storm
           surge-based flooding brings waters into coastal communities and can
@@ -123,14 +126,15 @@ const Slideshow = () => {
         viewName="slide-4"
         slideGroup="tour"
       >
+        <Disclaimer />
         <p>
           Future storm surge-based flooding damages can be estimated by
           considering flood depths and the number and type of assets flooded in
-          events across the coast. The cost of these damages in dollars is
-          called Estimated Annual Damages, Dollars or EADD. Another way to
-          quantify damages is to count how many whole and partial structures are
-          damaged from an event and sum them to determine Estimated Annual
-          Structural Damage, or EASD.
+          events across the coast. The cost of these damages is the Expected
+          Annual Damage in Dollars or EADD. Another way to quantify damages is
+          to count how many whole and partial structures are damaged from an
+          event and sum them to determine the Expected Annual Structural Damage,
+          or EASD.
         </p>
         <p>
           Both damage metrics are projected over time and for different
@@ -140,21 +144,25 @@ const Slideshow = () => {
         </p>
       </Slide>
       <Slide viewName="slide-5" color="green" slideGroup="tour">
+        <Disclaimer />
         <p>
-          Clearly, if no action is taken, coastal Louisiana will face
-          significant challenges that may have negative impacts on lives and
+          If no action is taken, coastal Louisiana will face significant
+          challenges that may negatively impact residents&apos; lives and
           livelihoods into the future. The 2023 Coastal Master Plan was
           developed in order to conceptualize, evaluate, and ultimately select
           promising restoration and risk reduction projects to address these
           challenges.
         </p>
         <p>
-          A suite of <strong style={{ color: "red" }}>XXX</strong> projects have
-          been selected for the master plan from a list of 131 candidate
-          projects. Projects that were selected were projected to have benefits
-          for the coast regardless of which scenario they were evaluated under.
-          The projects can be seen in the map above and the impact of these
-          projects is discussed in the next few slides.
+          From 131 candidate projects, a suite of restoration and risk reduction
+          projects have been selected for the 2023 Coastal Master Plan. Projects
+          that were selected were shown to have benefits for coastal Louisiana
+          regardless of which scenario they were evaluated under.{" "}
+          <span style={{ color: "red" }}>
+            Projects selected for the plan&apos;s first implementation period
+            (years 1-20) can be seen in the map above and the impact of these
+            projects is discussed in the following slides.
+          </span>
         </p>
       </Slide>
       <Slide
@@ -163,12 +171,12 @@ const Slideshow = () => {
         color="green"
         slideGroup="tour"
       >
+        <Disclaimer />
         <p>
-          When implemented, the master plan is projected to reduce land loss and
-          build or maintain <strong style={{ color: "red" }}>XXX-XXX</strong> sq
-          miles of coastal land over the 50 year model window. This is in
-          addition to the benefits expected from projects in progress and on the
-          ground.
+          Projects included in the master plan&apos;s first implementation
+          period are expected to reduce land loss and build or maintain coastal
+          wetland. This is in addition to the benefits expected from projects in
+          progress and those that are already on the ground.
         </p>
         <p>
           Change the <strong>plan implementation scenario</strong> and use the{" "}
@@ -177,12 +185,13 @@ const Slideshow = () => {
           in the coast.
         </p>
       </Slide>
-      <Slide
+      {/* <Slide
         controls={["year", "scenario", "aep"]}
         viewName="slide-7"
         color="green"
         slideGroup="tour"
       >
+        <Disclaimer />
         <p>
           Structural risk reductions projects can reduce storm surge-based flood
           depths in locations across coastal Louisiana. By building a physical
@@ -203,11 +212,12 @@ const Slideshow = () => {
         color="green"
         slideGroup="tour"
       >
+        <Disclaimer />
         <p>
-          Like flood depths, damages can be reduced to implementation of master
-          plan projects. Reduction in both the cost and number of structures
-          damaged during storm events is a significant benefit of the 2023
-          Coastal Master Plan.
+          Like flood depths, economic and structural damages can be reduced to
+          implementation of master plan projects. Reduction in both the cost and number
+          of structures damaged during storm events is a significant benefit of the
+          2023 Coastal Master Plan.
         </p>
         <p>
           Change the <strong>plan implementation scenario</strong>to see the
@@ -216,10 +226,11 @@ const Slideshow = () => {
           slider to see how the master plan changes damage values into the
           future.
         </p>
-      </Slide>
+      </Slide> */}
       <Slide viewName="slide-9" color="green" slideGroup="tour">
+        <Disclaimer type="risk" />
         <p>
-          The future coast of Louisiana is going to be experienced as different
+          The future coast of Louisiana is going to be experienced differently
           than today&apos;s coast. Through the development of the 2023 Coastal
           Master Plan, projections of coastal change illustrate how challenging
           those changes may be. Fortunately, the restoration and risk reduction

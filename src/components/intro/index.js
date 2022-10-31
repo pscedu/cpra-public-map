@@ -28,6 +28,7 @@ const Intro = () => {
       title="Welcome to the 2023 Coastal Master Plan Data Viewer"
     >
       <div class={style.intro}>
+        <Disclaimer type="long" />
         <p>
           This is an interactive online companion to Louisiana&apos;s 2023
           Coastal Master Plan. This data viewer presents projections of coastal
@@ -60,7 +61,6 @@ const Intro = () => {
             </p>
           </div>
         </div>
-        <Disclaimer />
       </div>
     </Modal>
   );
