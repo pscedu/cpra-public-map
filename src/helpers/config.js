@@ -222,8 +222,8 @@ export const layers = {
   },
   landChange: {
     groups: {
-      fwoa: "G500",
-      fwa: "G603",
+      fwoa: "G514",
+      fwa: "G515",
     },
     name: "Land Change",
     legend: () => legends.landChange,
@@ -237,8 +237,8 @@ export const layers = {
   },
   projects: {
     groups: {
-      fwoa: "G500",
-      fwa: "G603",
+      fwoa: "G514",
+      fwa: "G515",
     },
     name: "Projects",
     legend: () => legends.projects,
@@ -252,8 +252,8 @@ export const layers = {
   },
   vegetationType: {
     groups: {
-      fwoa: "G500",
-      fwa: "G603",
+      fwoa: "G514",
+      fwa: "G515",
     },
     name: "Vegetation Type",
     legend: () => legends.vegetationType,
