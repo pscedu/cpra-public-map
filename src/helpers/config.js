@@ -124,8 +124,8 @@ export const legends = {
   },
   landChange: {
     title: "Land Change",
-    images: ["#4591ac", "#265118"].map(colorSwatch),
-    labels: ["Land Loss", "Land Gain"],
+    images: ["#4591ac", "#00f0f0", "#99c104", "#265118"].map(colorSwatch),
+    labels: ["Land Loss", "Induced Loss", "Land Maintained", "Land Gain"],
   },
   projects: {
     title: "Projects",
