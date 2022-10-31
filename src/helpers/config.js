@@ -178,7 +178,6 @@ export const layers = {
   damage: {
     groups: {
       fwoa: "G500",
-      fwa: "G516",
     },
     name: "Damage",
     legend: (subtype) => (subtype === "EAD" ? legends.ead : legends.easd),
