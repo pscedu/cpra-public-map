@@ -158,7 +158,7 @@ const Slideshow = () => {
           projects have been selected for the 2023 Coastal Master Plan. Projects
           that were selected were shown to have benefits for coastal Louisiana
           regardless of which scenario they were evaluated under.{" "}
-          <span style={{ color: "red" }}>
+          <span style={{ color: "#9e1821" }}>
             Projects selected for the plan&apos;s first implementation period
             (years 1-20) can be seen in the map above and the impact of these
             projects is discussed in the following slides.
