@@ -19,6 +19,8 @@ const createControl = (controlName, view, state) => {
         label={spec.label}
         signal={sig}
         tooltip={spec.tooltip}
+        disabled={spec.disabled || false}
+        help={spec.help}
       />
     );
   if (spec.type === "checkbox")

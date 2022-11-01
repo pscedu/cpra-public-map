@@ -387,6 +387,19 @@ export const controls = {
     tooltip:
       "<p>Select <strong>Without Plan</strong> to look at model outputs projecting the future if we do not implement any of the projects recommended in the 2023 Coastal Master Plan. Select <strong>With Plan</strong> to look at model outputs with the final plan projects in place.</p>",
   },
+  groupdisabled: {
+    type: "buttons",
+    disabled: true,
+    stateVariable: "group",
+    label: "Plan Implementation Scenario",
+    choices: [
+      ["fwoa", "Without Plan"],
+      ["fwa", "With Plan"],
+    ],
+    help: "With Plan data coming soon!",
+    tooltip:
+      "<p>Select <strong>Without Plan</strong> to look at model outputs projecting the future if we do not implement any of the projects recommended in the 2023 Coastal Master Plan. Select <strong>With Plan</strong> to look at model outputs with the final plan projects in place.</p>",
+  },
   projects: {
     type: "checkbox",
     stateVariable: "showProjects",
