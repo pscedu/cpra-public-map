@@ -50,6 +50,7 @@ const Map = () => {
     });
 
     mlgl.touchZoomRotate.disableRotation();
+    mlgl.touchPitch.disable();
 
     mlgl.addControl(
       // eslint-disable-next-line no-undef
