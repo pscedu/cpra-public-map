@@ -98,7 +98,12 @@ const SlideNavigation = ({ currentSlide, navigationType, slides }) => {
           class={style["icon-lg"]}
           name={`chevron-${drawerOpen.value ? "down" : "up"}-outline`}
         />
-        <ion-icon class={style["icon-md"]} src="/assets/buttons/legend.svg" />
+        <ion-icon
+          class={style["icon-md"]}
+          src={`/assets/buttons/legend${
+            navigationType === "arrows" ? "" : "-green"
+          }.svg`}
+        />
       </SlideNavigationButton>
     );
   }
