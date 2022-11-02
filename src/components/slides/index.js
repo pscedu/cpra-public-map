@@ -1,12 +1,15 @@
 import { h } from "preact";
-import { useContext } from "preact/hooks";
+import { useContext, useLayoutEffect } from "preact/hooks";
 import { State } from "../../helpers/state";
 import style from "./style.css";
 
 import SlideNavigation from "../slide-navigation";
 
 const Slides = ({ children }) => {
-  const { drawerOpen, viewName } = useContext(State);
+  const { drawerOpen, mapResize, viewName } = useContext(State);
+  // Resize the map after the drawer opens or closes.
+  useLayoutEffect(() => mapResize(), [drawerOpen.value]);
+
   const currentSlide = children.filter(
     (slide) => slide && slide.props.viewName === viewName.value
   )[0];
