@@ -12,7 +12,7 @@ export const websiteUrl =
 export const contactEmail = ["mai", ["masterplan", "la.gov"].join("@")].join(
   "lto:"
 );
-export const maxBounds = [-91.215 - 5, 29.41 - 3, -91.215 + 5, 29.41 + 3];
+export const maxBounds = [-91.215 - 5, 29.41 - 3.5, -91.215 + 5, 29.41 + 3.5];
 export const projectLayers = [
   "project-polygon-lb",
   "project-polygon-mc",

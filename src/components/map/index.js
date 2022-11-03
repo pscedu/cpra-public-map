@@ -46,7 +46,7 @@ const Map = () => {
       hash: "map",
       maxBounds,
       maxZoom: 12,
-      minZoom: 6,
+      minZoom: 3,
     });
 
     mlgl.touchZoomRotate.disableRotation();

@@ -263,7 +263,10 @@ export function getMapPadding() {
   return {
     top: 50,
     right: 50,
-    bottom: slides ? window.innerHeight - slides.offsetTop + 50 : 50,
+    bottom:
+      slides && window.innerWidth >= 700
+        ? window.innerHeight - slides.offsetTop + 50
+        : 50,
     left: 50,
   };
 }
