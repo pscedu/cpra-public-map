@@ -1,6 +1,6 @@
 import { h } from "preact";
 import style from "./style.css";
-import { useContext } from "preact/hooks";
+import { useContext, useLayoutEffect } from "preact/hooks";
 import { State } from "../../helpers/state";
 
 import Header from "../header";
@@ -12,7 +12,8 @@ import Toolbar from "../toolbar";
 import Watermark from "../watermark";
 
 const App = () => {
-  const state = useContext(State);
+  const { layoutRendered, printing } = useContext(State);
+  useLayoutEffect(() => (layoutRendered.value = true));
 
   return (
     <div id="app" class={style.app}>
@@ -22,8 +23,8 @@ const App = () => {
           <Print>
             <Map />
           </Print>
-          {state.printing.value ? null : <Slideshow />}
-          {state.printing.value ? null : <Watermark>DRAFT</Watermark>}
+          {printing.value ? null : <Slideshow />}
+          {printing.value ? null : <Watermark>DRAFT</Watermark>}
         </div>
         <Toolbar />
       </div>
