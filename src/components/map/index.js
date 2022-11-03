@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { useContext, useEffect, useRef } from "preact/hooks";
+import { useContext, useLayoutEffect, useRef } from "preact/hooks";
 import * as config from "../../helpers/config";
 import { State } from "../../helpers/state";
 import { getMapPadding } from "../../helpers/utils";
@@ -8,7 +8,6 @@ import { getStyle } from "../../helpers/mapstyle";
 const Map = () => {
   const {
     group,
-    layoutRendered,
     map,
     printing,
     politicalBoundary,
@@ -23,36 +22,32 @@ const Map = () => {
   } = useContext(State);
   const { mapDefaults, maxBounds } = config;
   const container = useRef();
-  useEffect(() => {
-    if (!(layoutRendered.value && container.current)) return;
+  useLayoutEffect(() => {
     // eslint-disable-next-line no-undef
-    let mlgl = new maplibregl.Map(
-      {
-        bounds: mapDefaults.bounds,
-        container: container.current,
-        fitBoundsOptions: {
-          padding: getMapPadding(),
-        },
-        style: getStyle({
-          group,
-          politicalBoundary,
-          prevLayerInfo,
-          scenario,
-          selection,
-          services,
-          showProjects,
-          subtype,
-          view,
-          year,
-        }),
-        dragRotate: false,
-        hash: "map",
-        maxBounds,
-        maxZoom: 12,
-        minZoom: 3,
+    let mlgl = new maplibregl.Map({
+      bounds: mapDefaults.bounds,
+      container: container.current,
+      fitBoundsOptions: {
+        padding: getMapPadding(),
       },
-      [layoutRendered.value, container.current]
-    );
+      style: getStyle({
+        group,
+        politicalBoundary,
+        prevLayerInfo,
+        scenario,
+        selection,
+        services,
+        showProjects,
+        subtype,
+        view,
+        year,
+      }),
+      dragRotate: false,
+      hash: "map",
+      maxBounds,
+      maxZoom: 12,
+      minZoom: 3,
+    });
 
     mlgl.touchZoomRotate.disableRotation();
     mlgl.touchPitch.disable();
@@ -64,7 +59,10 @@ const Map = () => {
     );
 
     map.value = mlgl;
-  }, []);
+
+    const resizeMapObs = new ResizeObserver(() => mlgl.resize());
+    resizeMapObs.observe(container.current);
+  });
 
   return (
     <div

@@ -36,7 +36,6 @@ export function createState() {
 
   const drawerOpen = signal(true);
   const introOpen = signal(viewName.peek() === "slide-0");
-  const layoutRendered = signal(false);
   const map = signal(null);
   const prevLayerInfo = signal(null);
   const printing = signal(false);
@@ -324,7 +323,6 @@ export function createState() {
     endTour,
     group,
     introOpen,
-    layoutRendered,
     map,
     mapFitBounds,
     mapResize,

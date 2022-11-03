@@ -1,6 +1,6 @@
 import { h } from "preact";
 import style from "./style.css";
-import { useContext, useLayoutEffect } from "preact/hooks";
+import { useContext } from "preact/hooks";
 import { State } from "../../helpers/state";
 
 import Header from "../header";
@@ -12,8 +12,7 @@ import Toolbar from "../toolbar";
 import Watermark from "../watermark";
 
 const App = () => {
-  const { layoutRendered, printing } = useContext(State);
-  useLayoutEffect(() => (layoutRendered.value = true));
+  const { printing } = useContext(State);
 
   return (
     <div id="app" class={style.app}>
