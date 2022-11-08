@@ -48,7 +48,7 @@ export function createState() {
   // COMPUTED SIGNALS
   const projectMap = computed(() => {
     const projectMap = {};
-    projects.value.forEach((proj) => (projectMap[proj.name] = proj));
+    projects.value.forEach((proj) => (projectMap[proj.displayId] = proj));
     return projectMap;
   });
 
