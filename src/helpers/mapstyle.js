@@ -448,7 +448,7 @@ export function getStyle({
 
   let selectedProjects = null;
   if (selection.value.project)
-    selectedProjects = ["==", ["get", "name"], selection.value.project];
+    selectedProjects = ["==", ["get", "display_id"], selection.value.project];
   if (selection.value.projectType)
     selectedProjects = ["==", ["get", "type"], selection.value.projectType];
 
