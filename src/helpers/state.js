@@ -1,6 +1,7 @@
 import { createContext } from "preact";
 import { batch, computed, effect, signal } from "@preact/signals";
 import bbox from "@turf/bbox";
+import Fuse from "fuse.js";
 import { hashSignal } from "./hash";
 import { getStyle } from "./mapstyle";
 import {
@@ -11,7 +12,6 @@ import {
   getOsmSelection,
   gtag,
   internal,
-  normalizeText,
   selectValue,
 } from "./utils";
 import * as config from "./config";
@@ -46,6 +46,17 @@ export function createState() {
   const services = signal(null);
 
   // COMPUTED SIGNALS
+  const fuse = computed(() =>
+    searchIndex.value.length
+      ? new Fuse(searchIndex.value, {
+          keys: [
+            { name: "name", weight: 0.8 },
+            { name: "category", weight: 0.2 },
+          ],
+        })
+      : null
+  );
+
   const projectMap = computed(() => {
     const projectMap = {};
     projects.value.forEach((proj) => (projectMap[proj.displayId] = proj));
@@ -90,7 +101,6 @@ export function createState() {
         type: idKey,
         category: row.type,
         name: row.name,
-        haystack: normalizeText(row.name),
         bounds: [row.xmin, row.ymin, row.xmax, row.ymax],
         selection: {
           [idKey]: idValue,
@@ -144,12 +154,12 @@ export function createState() {
     url.searchParams.append("addressdetails", "1");
     url.searchParams.append("polygon_geojson", "1");
     const req = fetch(url.toString());
-    const results = getLocalResults(searchText.value, searchIndex.value);
+    const results = getLocalResults(searchText.value, fuse.value);
     const res = await req;
     results.push(
       ...getOsmResults(await res.json(), config.searchExcludedCategories)
     );
-    searchResults.value = results.slice(0, 5);
+    searchResults.value = results.slice(0, 8);
   });
 
   // Update the map and search results when the selected search result changes.
@@ -315,6 +325,7 @@ export function createState() {
     clearSearch,
     drawerOpen,
     endTour,
+    fuse,
     group,
     introOpen,
     map,
