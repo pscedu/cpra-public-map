@@ -54,6 +54,17 @@ export const projectTypeDescriptions = {
   SP: "Shoreline Protection provided by near-shore rock breakwaters reduces wave energies on shorelines surrounding open bays, lakes, sounds, and bayous.",
   SR: "Structural Risk Reduction projects reduce flood risk by acting as physical barriers against storm surge. These systems can include earthen levees, floodwalls, floodgates, and pumping stations.",
 };
+export const regions = {
+  ba: "Barataria",
+  cc: "Central Coast",
+  ch: "Chenier Plain",
+  po: "Pontchartrain",
+  te: "Terrebonne",
+};
+export const regionsLookup = Object.keys(regions).reduce(
+  (obj, k) => ({ ...obj, [regions[k]]: k }),
+  {}
+);
 export const legends = {
   ead: {
     title: "Damage: EADD",

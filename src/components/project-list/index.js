@@ -1,6 +1,10 @@
 import { h } from "preact";
 import { useContext } from "preact/hooks";
-import { projectTypes, projectTypeDescriptions } from "../../helpers/config";
+import {
+  projectTypes,
+  projectTypeDescriptions,
+  regionsLookup,
+} from "../../helpers/config";
 import { State } from "../../helpers/state";
 import style from "./style.css";
 
@@ -42,7 +46,7 @@ const ProjectList = () => {
         <td class={style.region}>
           <a
             href="#"
-            onClick={(e) => select(e, "region", project.region.toLowerCase())}
+            onClick={(e) => select(e, "region", regionsLookup[project.region])}
           >
             {project.region}
           </a>
