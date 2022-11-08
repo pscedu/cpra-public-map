@@ -20,17 +20,17 @@ from (
         ProjectName,
         Shape as geom
     from Points
-    where ActiveProject = 1
+    where ModelGroup = 516 and ImplementationPeriod = 1
     union select DisplayID,
         ProjectName,
         Shape as geom
     from Lines
-    where ActiveProject = 1
+    where ModelGroup = 516 and ImplementationPeriod = 1
     union select DisplayID,
         ProjectName,
         Shape as geom
     from Polygons
-    where ActiveProject = 1
+    where ModelGroup = 516 and ImplementationPeriod = 1
 ) as project
 group by project.DisplayID,
     project.ProjectName
@@ -59,15 +59,15 @@ from (
     select ProjectTypeCode,
         Shape as geom
     from Points
-    where ActiveProject = 1
+    where ModelGroup = 516 and ImplementationPeriod = 1
     union select ProjectTypeCode,
         Shape as geom
     from Lines
-    where ActiveProject = 1
+    where ModelGroup = 516 and ImplementationPeriod = 1
     union select ProjectTypeCode,
         Shape as geom
     from Polygons
-    where ActiveProject = 1
+    where ModelGroup = 516 and ImplementationPeriod = 1
 ) as project
 group by ProjectTypeCode
 SQL
