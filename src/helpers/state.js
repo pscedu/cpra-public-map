@@ -221,8 +221,14 @@ export function createState() {
     // Set layer click handlers.
     map.value.on("click", "search-screen", () => clearSearch());
     config.projectLayers.forEach((layerName) => {
-      map.value.on("click", layerName, (e) =>
-        projectMap.peek()[e.features[0].properties.name].select()
+      map.value.on(
+        "click",
+        layerName,
+        (e) =>
+          (searchResult.value =
+            searchIndexMap.value[
+              `project:${e.features[0].properties.display_id}`
+            ])
       );
       map.value.on(
         "mouseenter",
