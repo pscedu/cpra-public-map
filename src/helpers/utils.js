@@ -230,13 +230,7 @@ export async function fetchCSV(url) {
     .split("\n")
     .filter((row) => row.length)
     .map((row) =>
-      row
-        .split("\t")
-        .map((cell) =>
-          /^[-0-9]/.test(cell)
-            ? parseFloat(cell)
-            : cell.replace(/(^")|("$)/g, "")
-        )
+      row.split("\t").map((cell) => cell.replace(/(^")|("$)/g, ""))
     );
   const headers = rows.shift();
   return rows.map((row) => {
