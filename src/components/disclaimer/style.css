@@ -4,8 +4,9 @@
   display: flex;
   flex-direction: row;
   font-size: 0.9rem;
+  justify-content: flex-start;
 }
 .disclaimer ion-icon {
-  flex: 1 0 auto;
+  flex: 0 0 auto;
   align-self: center;
 }
