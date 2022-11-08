@@ -25,8 +25,7 @@ from (
         ProjectName,
         ProjectTypeCode,
         Region,
-        StartYear_FWOA,
-        Shape as geom
+        StartYear_FWOA
     from Points
     where ModelGroup = 516 and ImplementationPeriod = 1
     union select DisplayID,
@@ -35,8 +34,7 @@ from (
         ProjectName,
         ProjectTypeCode,
         Region,
-        StartYear_FWOA,
-        Shape as geom
+        StartYear_FWOA
     from Lines
     where ModelGroup = 516 and ImplementationPeriod = 1
     union select DisplayID,
@@ -45,8 +43,7 @@ from (
         ProjectName,
         ProjectTypeCode,
         Region,
-        StartYear_FWOA,
-        Shape as geom
+        StartYear_FWOA
     from Polygons
     where ModelGroup = 516 and ImplementationPeriod = 1
 ) as project
