@@ -6,7 +6,7 @@ import style from "./style.css";
 
 const ProjectDetail = () => {
   const { project } = useContext(State);
-  const { description, display_id, name, region, type, yearmax, yearmin } =
+  const { description, displayId, name, region, type, yearmax, yearmin } =
     project.value;
   return (
     <div class={style["project-detail"]}>
@@ -38,7 +38,7 @@ const ProjectDetail = () => {
             aria-label="Project Number"
             src="/assets/buttons/project_number.svg"
           />
-          {display_id}
+          {displayId}
         </p>
       </div>
       {description ? <p>{description}</p> : null}
