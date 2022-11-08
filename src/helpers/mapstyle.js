@@ -449,13 +449,17 @@ export function getStyle({
   let selectedProjects = null;
   if (selection.value.project)
     selectedProjects = ["==", ["get", "display_id"], selection.value.project];
-  if (selection.value.projectType)
-    selectedProjects = ["==", ["get", "type"], selection.value.projectType];
+  if (selection.value["project-type"])
+    selectedProjects = [
+      "==",
+      ["get", "type"],
+      selection.value["project-type"].toUpperCase(),
+    ];
 
   const showSearch =
     selection.value.polygon ||
     selection.value.project ||
-    selection.value.projectType;
+    selection.value["project-type"];
 
   return {
     version: 8,
