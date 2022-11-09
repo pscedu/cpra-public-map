@@ -14,11 +14,10 @@
   --mpdv-color-teal-200: #9bcbc9;
   --mpdv-color-teal-500: #04847e;
   --mpdv-color-teal-900: #053938;
-  --mpdv-font-family-body: "Helvetica Neue Light", "Helvetica Neue", Tahoma,
-    Arial, sans-serif;
+  --mpdv-font-family-body: "Helvetica Neue", Tahoma, Arial, sans-serif;
   --mpdv-font-family-heading: Verdana, "Helvetica Neue Bold", "Helvetica Neue",
     Arial, sans-serif;
-  --mpdv-font-weight-body: 200;
+  --mpdv-font-weight-body: 400;
   --mpdv-font-weight-heading: 600;
   --mpdv-search-width: calc(100% - 70px);
 }
