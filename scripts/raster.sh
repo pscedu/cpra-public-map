@@ -10,7 +10,7 @@ mkdir -p "$TILES"
 # CLARA color map
 cat > $WORKING/CLARA.clr << EOF
 -9999.999 0 0 0 0
--0.999 0 0 0 0
+0.999 0 0 0 0
 1.000 114 141 151
 3.999 114 141 151
 4.000 115 183 234
