@@ -193,7 +193,6 @@ export const layers = {
   floodDepth: {
     groups: {
       fwoa: "G500",
-      fwa: "G515",
     },
     name: "Flood Depth",
     legend: () => legends.floodDepth,
@@ -205,8 +204,7 @@ export const layers = {
     subtypeName: "Exceedance Probability",
     subtypes: ["10.0", "2.0", "1.0", "0.2"],
     type: "raster",
-    years: (group) =>
-      group === "fwoa" ? [0, 10, 20, 30, 40, 50] : [0, 10, 20],
+    years: [0, 10, 20, 30, 40, 50],
   },
   historicalLandChange: {
     groups: {

@@ -29,7 +29,7 @@ const Slideshow = () => {
         <Disclaimer type="long" />
       </Slide>
       <Slide
-        controls={["year", "scenario", "aep", "group", "projects"]}
+        controls={["year", "scenario", "aep", "groupdisabled", "projects"]}
         viewName="flood-depth"
         slideGroup="explore"
       >
@@ -185,8 +185,8 @@ const Slideshow = () => {
           in the coast.
         </p>
       </Slide>
-      <Slide
-        controls={["year", "scenario", "aep", "group"]}
+      {/* <Slide
+        controls={["year", "scenario", "aep"]}
         viewName="slide-7"
         color="green"
         slideGroup="tour"
@@ -206,7 +206,7 @@ const Slideshow = () => {
           <strong>annual exceedance probability</strong> or AEP).
         </p>
       </Slide>
-      {/* <Slide
+      <Slide
         controls={["year", "scenario", "damage"]}
         viewName="slide-8"
         color="green"
