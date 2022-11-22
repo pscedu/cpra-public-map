@@ -13,41 +13,6 @@ function getLayerName(layer, scenario, group, year, subtype) {
   return name;
 }
 
-function politicalBoundaryLayers(politicalBoundary) {
-  if (!politicalBoundary) return [];
-  let prefix = politicalBoundary == "parish" ? "" : "District ";
-  return [
-    {
-      id: "political-boundary-line",
-      type: "line",
-      source: "Base Map: Vector",
-      "source-layer": `${politicalBoundary}_line`,
-      paint: {
-        "line-color": "#444444",
-        "line-dasharray": [2, 1],
-        "line-width": 2,
-      },
-    },
-    {
-      id: "political-boundary-label",
-      type: "symbol",
-      source: "Base Map: Vector",
-      "source-layer": `${politicalBoundary}_label`,
-      layout: {
-        "text-field": ["concat", prefix, ["get", "text"]],
-        "text-size": 15,
-        "text-font": ["Franklin Gothic Demi Regular"],
-      },
-      paint: {
-        "text-color": "#444444",
-        "text-halo-blur": 1,
-        "text-halo-color": "#ffffff",
-        "text-halo-width": 2,
-      },
-    },
-  ];
-}
-
 function projectLayers(show, filter, model, suffix = "") {
   if (!show) return [];
   const mod = (yesModel, noModel) => (model ? yesModel : noModel);
@@ -293,7 +258,6 @@ function rasterTileUrl(serviceUrl, prefix) {
 
 export function getStyle({
   group,
-  politicalBoundary,
   prevLayerInfo,
   scenario,
   selection,
@@ -339,18 +303,94 @@ export function getStyle({
     sources[service.name] = source;
   }
 
-  let searchFeatures = [bboxPolygon(config.maxBounds)];
-  if (selection.value.polygon)
-    searchFeatures = [
-      difference(searchFeatures[0], selection.value.polygon),
-      feature(selection.value.polygon, { type: "search" }),
+  // Selected projects
+  const selectionType = Object.keys(selection.value)[0];
+  let selectedProjects = null;
+  if (selection.value.project)
+    selectedProjects = ["==", ["get", "display_id"], selection.value.project];
+  if (selection.value["project-type"])
+    selectedProjects = [
+      "==",
+      ["get", "type"],
+      selection.value["project-type"].toUpperCase(),
     ];
-  searchFeatures[0].properties = { type: "screen" };
 
-  sources["search"] = {
+  // Search geometries
+  let searchFeatures = [];
+  if (selectedProjects) {
+    searchFeatures.push(bboxPolygon(config.maxBounds));
+  } else if (selectionType) {
+    const polygon =
+      selection.value.polygon ||
+      bboxPolygon(config.layerExtents[selectionType]);
+    searchFeatures.push(difference(bboxPolygon(config.maxBounds), polygon));
+    if (selection.value.polygon)
+      searchFeatures.push(feature(selection.value.polygon, { type: "search" }));
+  }
+  if (searchFeatures.length) searchFeatures[0].properties = { type: "screen" };
+
+  sources.search = {
     type: "geojson",
     data: featureCollection(searchFeatures),
   };
+
+  // Prepare search layers.
+  const searchLayers = [];
+  const searchPaint = {
+    "line-color": "#000000",
+    "line-dasharray": [1, 1],
+    "line-width": 2,
+  };
+  const searchScreenPaint = {
+    "fill-color": "#ffffff",
+    "fill-opacity": 0.7,
+  };
+  if (searchFeatures.length) {
+    searchLayers.push({
+      id: "search-screen",
+      source: "search",
+      type: "fill",
+      filter: ["==", "screen", ["get", "type"]],
+      paint: searchScreenPaint,
+    });
+    if (config.layerExtents[selectionType])
+      searchLayers.push(
+        {
+          id: "search-outer",
+          source: "Base Map: Vector",
+          "source-layer": "outer",
+          type: "fill",
+          filter: ["==", selectionType, ["get", "type"]],
+          paint: searchScreenPaint,
+        },
+        {
+          id: "search-inner",
+          source: "Base Map: Vector",
+          "source-layer": selectionType,
+          type: "fill",
+          filter: ["!=", selection.value[selectionType], ["get", "id"]],
+          paint: searchScreenPaint,
+        }
+      );
+    if (searchFeatures.length > 1) {
+      searchLayers.push({
+        id: "search",
+        source: "search",
+        type: "line",
+        filter: ["==", "search", ["get", "type"]],
+        paint: searchPaint,
+      });
+    } else if (config.layerExtents[selectionType]) {
+      searchLayers.push({
+        id: "search",
+        source: "Base Map: Vector",
+        "source-layer": selectionType,
+        type: "line",
+        filter: ["==", selection.value[selectionType], ["get", "id"]],
+        paint: searchPaint,
+      });
+    }
+  }
 
   // Prepare model layers.
   let prevLayerName =
@@ -446,17 +486,6 @@ export function getStyle({
     });
   }
 
-  let selectedProjects = null;
-  if (selection.value.project)
-    selectedProjects = ["==", ["get", "name"], selection.value.project];
-  if (selection.value.projectType)
-    selectedProjects = ["==", ["get", "type"], selection.value.projectType];
-
-  const showSearch =
-    selection.value.polygon ||
-    selection.value.project ||
-    selection.value.projectType;
-
   return {
     version: 8,
     sprite: `${loc.origin}/style/sprite?cache=20220630`,
@@ -550,43 +579,13 @@ export function getStyle({
         true,
         view.value.layer.name !== "Projects"
       ),
-      {
-        id: "search-screen",
-        source: "search",
-        type: "fill",
-        filter: ["==", "screen", ["get", "type"]],
-        paint: {
-          "fill-color": "#ffffff",
-          "fill-opacity": 0.7,
-        },
-        layout: {
-          visibility: showSearch ? "visible" : "none",
-        },
-      },
-      {
-        id: "search",
-        source: "search",
-        type: "line",
-        filter: ["==", "search", ["get", "type"]],
-        paint: {
-          "line-color": "#000000",
-          "line-dasharray": [1, 1],
-          "line-width": 2,
-        },
-        layout: {
-          visibility: showSearch ? "visible" : "none",
-        },
-      },
+      ...searchLayers,
       ...projectLayers(selectedProjects, selectedProjects, false, "-selected"),
-      ...politicalBoundaryLayers(politicalBoundary.value),
       {
         id: "label",
         type: "symbol",
         source: "Base Map: Vector",
         "source-layer": "label",
-        filter: politicalBoundary.value
-          ? ["==", "water", ["get", "type"]]
-          : true,
         layout: {
           "text-field": ["get", "text"],
           "text-size": ["case", ["==", "community", ["get", "type"]], 16, 13],

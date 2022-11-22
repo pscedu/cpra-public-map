@@ -8,6 +8,7 @@ data/
 fonts/
 node_modules/
 src/static/projects.csv
+src/static/search.csv
 src/static/style/glyphs
 tiles/
 working/

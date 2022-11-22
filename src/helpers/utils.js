@@ -13,51 +13,11 @@ export const bufferPoint = (xDeg, yDeg, radius, segments = 32) => {
   return { type: "Polygon", coordinates: [ring] };
 };
 
-export const getProjectResult = (project) => {
-  return {
-    type: "project",
-    name: project.name,
-    category: "Project",
-    haystack: normalizeText(project.name),
-    bounds: [project.xmin, project.ymin, project.xmax, project.ymax].map(
-      parseFloat
-    ),
-    selection: {
-      project: project.name,
-    },
-  };
-};
-
-export const getProjectTypeResult = (typeKey, projectTypes) => {
-  return {
-    type: "project-type",
-    name: projectTypes[typeKey],
-    category: "Project Type",
-    haystack: normalizeText(projectTypes[typeKey]),
-    selection: {
-      projectType: typeKey,
-    },
-  };
-};
-
-export const getRegionResult = (region) => {
-  return {
-    type: "region",
-    name: region,
-    category: "Region",
-    haystack: normalizeText(region),
-    selection: { region },
-  };
-};
-
 export const selectValue = (values, currentValue) => {
   values = values || [];
   if (values.includes(currentValue)) return currentValue;
   return values.length ? values[0] : null;
 };
-
-export const normalizeText = (text) =>
-  text.toLowerCase().replace(/[^a-z0-9 ]/g, "");
 
 const drawLogo = (canvas, dpi, logoImage, margin = 0.5) => {
   const ctx = canvas.getContext("2d");
@@ -211,40 +171,31 @@ export const mapToImage = async ({
   return dataUrl;
 };
 
-export function getLocalResults(text, searchIndex) {
-  let needles = normalizeText(text)
-    .split(" ")
-    .filter((part) => part.length);
-
-  return searchIndex.filter((entry) => {
-    if (needles.length == 0) return false;
-    for (let needle of needles)
-      if (entry.haystack.indexOf(needle) === -1) return false;
-    return true;
-  });
+export function getLocalResults(text, fuse, limit = 5) {
+  let res = fuse
+    ? fuse.search(text, { limit }).map((result) => result.item)
+    : [];
+  return res;
 }
 
 export function getOsmResults(json, excludedCategories) {
   return json
-    .filter((result) => excludedCategories.indexOf(result.category) === -1)
+    .filter(
+      (result) =>
+        excludedCategories.indexOf(result.category) === -1 &&
+        // Eliminate duplicate parish results.
+        !(
+          result.category === "boundary" &&
+          result.type === "administrative" &&
+          result.address.county &&
+          result.display_name.match(/,/g).length === 1
+        )
+    )
     .map((result) => {
-      const addr = result.address;
-      let primary = addr[result.category];
-      let secondary =
-        addr.neighbourhood || addr.town || addr.city || addr.county || null;
-      if (!primary)
-        primary = [addr.house_number, addr.road]
-          .filter((part) => part !== undefined)
-          .join(" ");
-
-      if (primary == "") {
-        primary = secondary;
-        secondary = null;
-      }
       return {
         type: "osm",
-        name: primary,
-        category: secondary,
+        name: "",
+        category: result.display_name,
         details: result,
       };
     });
@@ -269,6 +220,23 @@ export function getMapPadding() {
         : 50,
     left: 50,
   };
+}
+
+// Tab-delimited CSV parsing
+export async function fetchCSV(url) {
+  const res = await fetch(url);
+  const rows = (await res.text())
+    .split("\n")
+    .filter((row) => row.length)
+    .map((row) =>
+      row.split("\t").map((cell) => cell.replace(/(^")|("$)/g, ""))
+    );
+  const headers = rows.shift();
+  return rows.map((row) => {
+    const obj = {};
+    for (let i in headers) obj[headers[i]] = row[i];
+    return obj;
+  });
 }
 
 // Analytics

@@ -30,7 +30,9 @@
 .result {
   cursor: pointer;
   list-style-type: none;
+  overflow: hidden;
   padding: 5px 30px;
+  text-overflow: ellipsis;
   white-space: nowrap;
   width: 100%;
 }

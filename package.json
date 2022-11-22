@@ -6,7 +6,7 @@
   "scripts": {
     "build": "preact build --no-prerender --no-sw",
     "serve": "sirv build --port 8080 --cors --single",
-    "dev": "preact watch --no-sw",
+    "dev": "NODE_OPTIONS=--openssl-legacy-provider preact watch --no-sw",
     "lint": "eslint src",
     "test": "jest"
   },
@@ -21,7 +21,6 @@
     "enzyme-adapter-preact-pure": "^2.0.0",
     "eslint": "^6.0.1",
     "eslint-config-preact": "^1.1.0",
-    "fontnik": "^0.6.0",
     "jest": "^24.9.0",
     "jest-preset-preact": "^1.0.0",
     "preact-cli": "^3.0.0",
@@ -34,6 +33,7 @@
     "@turf/bbox-polygon": "^6.5.0",
     "@turf/difference": "^6.5.0",
     "@turf/helpers": "^6.5.0",
+    "fuse.js": "^6.6.2",
     "preact": "^10.3.2",
     "preact-render-to-string": "^5.1.4",
     "preact-router": "^3.2.1",

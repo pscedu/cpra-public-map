@@ -6,6 +6,7 @@ const colorSwatch = (color) =>
   )}' x='0' y='0' height='20' width='50' /></svg>`;
 export const servicesUrl = "https://tiles.mpdv-23.bridges2.psc.edu/services";
 export const projectListUrl = "/projects.csv";
+export const searchIndexUrl = "/search.csv";
 export const geocodeUrl = "https://mpdv-23.bridges2.psc.edu/nominatim/search";
 export const websiteUrl =
   "https://coastal.la.gov/our-plan/2023-coastal-master-plan/";
@@ -53,6 +54,17 @@ export const projectTypeDescriptions = {
   SP: "Shoreline Protection provided by near-shore rock breakwaters reduces wave energies on shorelines surrounding open bays, lakes, sounds, and bayous.",
   SR: "Structural Risk Reduction projects reduce flood risk by acting as physical barriers against storm surge. These systems can include earthen levees, floodwalls, floodgates, and pumping stations.",
 };
+export const regions = {
+  ba: "Barataria",
+  cc: "Central Coast",
+  ch: "Chenier Plain",
+  po: "Pontchartrain",
+  te: "Terrebonne",
+};
+export const regionsLookup = Object.keys(regions).reduce(
+  (obj, k) => ({ ...obj, [regions[k]]: k }),
+  {}
+);
 export const legends = {
   ead: {
     title: "Damage: EADD",
@@ -426,6 +438,13 @@ export const controls = {
 };
 export const mapDefaults = {
   bounds: [-93.845, 29.09, -89.175, 30.395],
+};
+export const layerExtents = {
+  lash: [-94.043357, 28.855122, -88.758384, 33.01962],
+  lass: [-94.043357, 28.855122, -88.758384, 33.01962],
+  parish: [-94.043357, 28.855122, -88.758384, 33.01962],
+  region: [-93.929393, 28.854357, -88.758337, 30.482013],
+  uscd: [-94.043357, 28.855122, -88.758384, 33.01962],
 };
 export const printText = {
   group: {

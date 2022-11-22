@@ -1,16 +1,15 @@
 import { createContext } from "preact";
 import { batch, computed, effect, signal } from "@preact/signals";
 import bbox from "@turf/bbox";
+import Fuse from "fuse.js";
 import { hashSignal } from "./hash";
 import { getStyle } from "./mapstyle";
 import {
+  fetchCSV,
   getLocalResults,
   getMapPadding,
   getOsmResults,
   getOsmSelection,
-  getProjectResult,
-  getProjectTypeResult,
-  getRegionResult,
   gtag,
   internal,
   selectValue,
@@ -40,19 +39,37 @@ export function createState() {
   const prevLayerInfo = signal(null);
   const printing = signal(false);
   const projects = signal([]);
+  const searchIndex = signal([]);
   const searchResult = signal(null);
   const searchResults = signal([]);
   const searchText = signal("");
   const services = signal(null);
 
   // COMPUTED SIGNALS
+  const fuse = computed(() =>
+    searchIndex.value.length
+      ? new Fuse(searchIndex.value, {
+          keys: [
+            { name: "name", weight: 0.8 },
+            { name: "category", weight: 0.2 },
+          ],
+        })
+      : null
+  );
+
   const projectMap = computed(() => {
     const projectMap = {};
-    projects.value.forEach((proj) => (projectMap[proj.name] = proj));
+    projects.value.forEach((proj) => (projectMap[proj.displayId] = proj));
     return projectMap;
   });
 
   const project = computed(() => projectMap.value[selection.value.project]);
+
+  const searchIndexMap = computed(() => {
+    const result = {};
+    searchIndex.value.forEach((row) => (result[row.id] = row));
+    return result;
+  });
 
   const selection = computed(() =>
     searchResult.value
@@ -60,20 +77,6 @@ export function createState() {
         getOsmSelection(searchResult.value.details)
       : {}
   );
-
-  const searchIndex = computed(() => {
-    const projectTypeItems = Object.keys(config.projectTypes).map((pt) =>
-      getProjectTypeResult(pt, config.projectTypes)
-    );
-    const regions = [];
-    const projectItems = (projects.value || []).map((project) => {
-      if (!regions.includes(project.region)) regions.push(project.region);
-      return getProjectResult(project);
-    });
-    regions.sort();
-    const regionItems = regions.map(getRegionResult);
-    return [...projectTypeItems, ...regionItems, ...projectItems];
-  });
 
   const storySlide = computed(() =>
     viewName.value.startsWith("slide-")
@@ -85,34 +88,23 @@ export function createState() {
 
   // EFFECTS
   // Load projects from CSV.
-  effect(async () => {
-    const res = await fetch(config.projectListUrl);
-    const rows = (await res.text())
-      .split("\n")
-      .filter((row) => row.length)
-      .map((row) =>
-        row
-          .split(/(?!\B"[^"]*),(?![^"]*"\B)/g)
-          .map((cell) => cell.replace(/"/g, ""))
-      );
-    const headers = rows.shift();
+  effect(async () => (projects.value = await fetchCSV(config.projectListUrl)));
 
-    projects.value = rows.map((row) => {
-      let project = {};
-      for (let i in headers) project[headers[i]] = row[i];
-      project.select = (type) => {
-        if (type === "type") {
-          searchResult.value = getProjectTypeResult(
-            project.type,
-            config.projectTypes
-          );
-        } else if (type === "region") {
-          searchResult.value = getRegionResult(project.region);
-        } else {
-          searchResult.value = getProjectResult(project);
-        }
+  // Load search index from CSV.
+  effect(async () => {
+    const rows = await fetchCSV(config.searchIndexUrl);
+    searchIndex.value = rows.map((row) => {
+      const [idKey, idValue] = row.id.split(":");
+      return {
+        id: row.id,
+        type: idKey,
+        category: row.type,
+        name: row.name,
+        bounds: [row.xmin, row.ymin, row.xmax, row.ymax],
+        selection: {
+          [idKey]: idValue,
+        },
       };
-      return project;
     });
   });
 
@@ -160,12 +152,12 @@ export function createState() {
     url.searchParams.append("addressdetails", "1");
     url.searchParams.append("polygon_geojson", "1");
     const req = fetch(url.toString());
-    const results = getLocalResults(searchText.value, searchIndex.value);
+    const results = getLocalResults(searchText.value, fuse.value);
     const res = await req;
     results.push(
       ...getOsmResults(await res.json(), config.searchExcludedCategories)
     );
-    searchResults.value = results.slice(0, 5);
+    searchResults.value = results.slice(0, 8);
   });
 
   // Update the map and search results when the selected search result changes.
@@ -237,8 +229,14 @@ export function createState() {
     // Set layer click handlers.
     map.value.on("click", "search-screen", () => clearSearch());
     config.projectLayers.forEach((layerName) => {
-      map.value.on("click", layerName, (e) =>
-        projectMap.peek()[e.features[0].properties.name].select()
+      map.value.on(
+        "click",
+        layerName,
+        (e) =>
+          (searchResult.value =
+            searchIndexMap.value[
+              `project:${e.features[0].properties.display_id}`
+            ])
       );
       map.value.on(
         "mouseenter",
@@ -304,6 +302,10 @@ export function createState() {
     if (map.value) map.value.resize();
   };
 
+  const setSearchResult = (key) => {
+    searchResult.value = searchIndexMap.value[key] || null;
+  };
+
   const setStorySlide = (idx) =>
     (viewName.value = idx === null ? "land-change" : `slide-${idx}`);
 
@@ -321,6 +323,7 @@ export function createState() {
     clearSearch,
     drawerOpen,
     endTour,
+    fuse,
     group,
     introOpen,
     map,
@@ -338,6 +341,7 @@ export function createState() {
     searchText,
     selection,
     services,
+    setSearchResult,
     setStorySlide,
     showProjects,
     startTour,
