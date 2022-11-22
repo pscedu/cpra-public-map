@@ -78,7 +78,7 @@ const Search = () => {
             </li>
             <li>
               <strong>LA House or Senate District:</strong>{" "}
-              <span class={style["example"]}>House-53</span>
+              <span class={style["example"]}>State House District 49</span>
             </li>
             <li>
               <strong>Parish:</strong>{" "}
@@ -86,7 +86,7 @@ const Search = () => {
             </li>
             <li>
               <strong>Project Name:</strong>{" "}
-              <span class={style["example"]}>Lower Barataria Landbridge</span>
+              <span class={style["example"]}>Morganza to the Gulf</span>
             </li>
             <li>
               <strong>Project Type:</strong>{" "}
@@ -98,7 +98,7 @@ const Search = () => {
             </li>
             <li>
               <strong>U.S. Congressional District:</strong>{" "}
-              <span class={style["example"]}>US-2</span>
+              <span class={style["example"]}>Congressional District 1</span>
             </li>
           </ul>
         </div>
