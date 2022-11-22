@@ -227,7 +227,9 @@ export function createState() {
     map.value.on("idle", () => (prevLayerInfo.value = null));
 
     // Set layer click handlers.
-    map.value.on("click", "search-screen", () => clearSearch());
+    ["search-screen", "search-inner", "search-outer"].forEach((layer) =>
+      map.value.on("click", layer, () => clearSearch())
+    );
     config.projectLayers.forEach((layerName) => {
       map.value.on(
         "click",
