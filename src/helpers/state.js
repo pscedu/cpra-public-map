@@ -87,7 +87,6 @@ export function createState() {
   const view = computed(() => config.views[viewName]);
 
   // EFFECTS
-  effect(() => console.log("searchResult", searchResult.value));
   // Load projects from CSV.
   effect(async () => (projects.value = await fetchCSV(config.projectListUrl)));
 
@@ -107,7 +106,6 @@ export function createState() {
         },
       };
     });
-    console.log(searchIndex.value);
   });
 
   // Load services.

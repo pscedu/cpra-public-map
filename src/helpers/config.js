@@ -437,6 +437,13 @@ export const controls = {
 export const mapDefaults = {
   bounds: [-93.845, 29.09, -89.175, 30.395],
 };
+export const layerExtents = {
+  lash: [-94.043357, 28.855122, -88.758384, 33.01962],
+  lass: [-94.043357, 28.855122, -88.758384, 33.01962],
+  parish: [-94.043357, 28.855122, -88.758384, 33.01962],
+  region: [-93.929393, 28.854357, -88.758337, 30.482013],
+  uscd: [-94.043357, 28.855122, -88.758384, 33.01962],
+};
 export const printText = {
   group: {
     fwoa: "Future Without Action",

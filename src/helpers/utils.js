@@ -175,7 +175,6 @@ export function getLocalResults(text, fuse, limit = 5) {
   let res = fuse
     ? fuse.search(text, { limit }).map((result) => result.item)
     : [];
-  console.log(res);
   return res;
 }
 

@@ -10,26 +10,6 @@ export GDAL_NUM_THREADS="ALL_CPUS"
 mkdir -p "$WORKING"
 mkdir -p "$TILES"
 
-# Merge the two land-water interface rasters.
-gdal_merge.py -o $WORKING/lwi_merged.tif \
-    $DATA/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_lndtyp.tif \
-    $DATA/InitialConditionLand-WaterInterface-AtchafalayaBasin.tif
-
-# Colorize the merged land-water interface raster.
-cat > $WORKING/lwi.clr << EOF
-3 214 214 214
-2 255 255 255
-1 214 214 214
-0 0 0 0 0
-EOF
-gdaldem color-relief -alpha $WORKING/lwi_merged.tif $WORKING/lwi.clr $WORKING/lwi.tif
-
-# Tile the land-water interface raster.
-gdal_translate $WORKING/lwi.tif $TILES/lwi.mbtiles \
-    -of MBTILES -co ZOOM_LEVEL_STRATEGY=UPPER \
-    -co NAME="Base Map: Raster"
-gdaladdo $TILES/basemap-raster.mbtiles -r cubic
-
 # Convert vector layers to GeoJSON.
 read -r -d '' road_sql << SQL
 select fullname as name,
@@ -60,15 +40,6 @@ from Basemap_GOM_States
 SQL
 ogr2ogr -t_srs "EPSG:4326" -sql "$state_sql" \
     $WORKING/state.geojson $DATA/backgroundlayers_formapping_arcmap.gdb
-
-read -r -d '' region_sql << SQL
-select UNIT as name,
-    BASIN as basin
-from MP2023_regions
-SQL
-ogr2ogr -t_srs "EPSG:4326" -sql "$region_sql" \
-    $WORKING/region.geojson \
-    /vsizip/$DATA/MP_Regions_Shapefile.zip/MP_Regions_Shapefile/MP2023_regions.shp
 
 read -r -d '' community_label_sql << SQL
 select replace(replace(replace(replace(TextString, X'0A', ' '), X'0D', ' '),
@@ -140,62 +111,129 @@ ogr2ogr -dialect sqlite \
 ogr2ogr -dialect sqlite -sql "$project_label_sql" \
     $WORKING/project_label.geojson $WORKING/projects.gpkg
 
-read -r -d '' parish_label_sql << SQL
-select NAME as text,
-    st_pointonsurface(geometry) as geom
+# Prepare search layers.
+read -r -d '' region_sql << SQL
+select lower(BASIN) as id,
+    geometry as geom
+from MP2023_regions
+SQL
+ogr2ogr -t_srs "EPSG:4326" -sql "$region_sql" -dialect sqlite \
+    $WORKING/region.geojson \
+    /vsizip/$DATA/MP_Regions_Shapefile.zip/MP_Regions_Shapefile/MP2023_regions.shp
+
+read -r -d '' parish_sql << SQL
+select COUNTYFP as id
 from tl_2021_us_county
 where STATEFP = '22'
 SQL
-ogr2ogr -t_srs "EPSG:4326" -dialect "sqlite" -sql "$parish_label_sql" \
-    $WORKING/parish_label.geojson \
+ogr2ogr -t_srs "EPSG:4326" -sql "$parish_sql" \
+    $WORKING/parish.geojson \
     /vsizip/$DATA/tl_2021_us_county.zip/tl_2021_us_county.shp
 
-ogr2ogr -t_srs "EPSG:4326" -where "STATEFP = '22'" \
-    $WORKING/parish.geojson /vsizip/$DATA/tl_2021_us_county.zip/tl_2021_us_county.shp
-
-python3 ./scripts/poly2line.py $WORKING/parish.geojson $WORKING/parish_line.geojson
-
-read -r -d '' uscd_label_sql << SQL
-select cast(cast(CD116FP as integer) as character(3)) as text,
-    st_pointonsurface(geometry) as geom
+read -r -d '' uscd_sql << SQL
+select CD116FP as id
 from tl_2021_us_cd116
 where STATEFP = '22'
 SQL
-ogr2ogr -t_srs "EPSG:4326" -dialect "sqlite" -sql "$uscd_label_sql" \
-    $WORKING/uscd_label.geojson /vsizip/$DATA/tl_2021_us_cd116.zip/tl_2021_us_cd116.shp
+ogr2ogr -t_srs "EPSG:4326" -sql "$uscd_sql" \
+    $WORKING/uscd.geojson \
+    /vsizip/$DATA/tl_2021_us_cd116.zip/tl_2021_us_cd116.shp
 
-ogr2ogr -t_srs "EPSG:4326" -where "STATEFP = '22'" \
-    $WORKING/uscd.geojson /vsizip/$DATA/tl_2021_us_cd116.zip/tl_2021_us_cd116.shp
-
-python3 ./scripts/poly2line.py $WORKING/uscd.geojson $WORKING/uscd_line.geojson
-
-read -r -d '' lash_label_sql << SQL
-select cast(cast(SLDLST as integer) as character(3)) as text,
-    st_pointonsurface(geometry) as geom
+read -r -d '' lash_sql << SQL
+select SLDLST as id
 from tl_2021_22_sldl
 where FUNCSTAT = 'N'
 SQL
-ogr2ogr -t_srs "EPSG:4326" -dialect "sqlite" -sql "$lash_label_sql" \
-    $WORKING/lash_label.geojson /vsizip/$DATA/tl_2021_22_sldl.zip/tl_2021_22_sldl.shp
+ogr2ogr -t_srs "EPSG:4326" -sql "$lash_sql" \
+    $WORKING/lash.geojson \
+    /vsizip/$DATA/tl_2021_22_sldl.zip/tl_2021_22_sldl.shp
 
-ogr2ogr -t_srs "EPSG:4326" -where "FUNCSTAT = 'N'" \
-    $WORKING/lash.geojson /vsizip/$DATA/tl_2021_22_sldl.zip/tl_2021_22_sldl.shp
-
-python3 ./scripts/poly2line.py $WORKING/lash.geojson $WORKING/lash_line.geojson
-
-read -r -d '' lass_label_sql << SQL
-select cast(cast(SLDUST as integer) as character(3)) as text,
-    centroid(geometry) as geom
+read -r -d '' lass_sql << SQL
+select SLDUST as id
 from tl_2021_22_sldu
 where FUNCSTAT = 'N'
 SQL
-ogr2ogr -t_srs "EPSG:4326" -dialect "sqlite" -sql "$lass_label_sql" \
-    $WORKING/lass_label.geojson /vsizip/$DATA/tl_2021_22_sldu.zip/tl_2021_22_sldu.shp
+ogr2ogr -t_srs "EPSG:4326" -sql "$lass_sql" \
+    $WORKING/lass.geojson \
+    /vsizip/$DATA/tl_2021_22_sldu.zip/tl_2021_22_sldu.shp
 
-ogr2ogr -t_srs "EPSG:4326" -where "FUNCSTAT = 'N'" \
-    $WORKING/lass.geojson /vsizip/$DATA/tl_2021_22_sldu.zip/tl_2021_22_sldu.shp
+# Generate polygons for areas outside the searchable geometries.
+# This is necessary to create the overlay effect on the map.
+read -r -d '' parish_sql << SQL
+select ST_Difference(ST_Envelope(ST_Collect(geometry)), ST_Collect(geometry)) as geom
+from tl_2021_us_county
+where STATEFP = '22'
+group by true
+SQL
+ogr2ogr -t_srs "EPSG:4326" -dialect "sqlite" -sql "$parish_sql" \
+    $WORKING/outer.gpkg \
+    -nln parish \
+    /vsizip/$DATA/tl_2021_us_county.zip/tl_2021_us_county.shp
 
-python3 ./scripts/poly2line.py $WORKING/lass.geojson $WORKING/lass_line.geojson
+read -r -d '' uscd_sql << SQL
+select ST_Difference(ST_Envelope(ST_Collect(geometry)), ST_Collect(geometry)) as geom
+from tl_2021_us_cd116
+where STATEFP = '22'
+group by true
+SQL
+ogr2ogr -append -t_srs "EPSG:4326" -dialect "sqlite" -sql "$uscd_sql" \
+    $WORKING/outer.gpkg \
+    -nln uscd \
+    /vsizip/$DATA/tl_2021_us_cd116.zip/tl_2021_us_cd116.shp
+
+read -r -d '' lash_sql << SQL
+select ST_Difference(ST_Envelope(ST_Collect(geometry)), ST_Collect(geometry)) as geom
+from tl_2021_22_sldl
+where FUNCSTAT = 'N'
+group by true
+SQL
+ogr2ogr -append -t_srs "EPSG:4326" -dialect "sqlite" -sql "$lash_sql" \
+    $WORKING/outer.gpkg \
+    -nln lash \
+    /vsizip/$DATA/tl_2021_22_sldl.zip/tl_2021_22_sldl.shp
+
+read -r -d '' lass_sql << SQL
+select ST_Difference(ST_Envelope(ST_Collect(geometry)), ST_Collect(geometry)) as geom
+from tl_2021_22_sldu
+where FUNCSTAT = 'N'
+group by true
+SQL
+ogr2ogr -append -t_srs "EPSG:4326" -dialect "sqlite" -sql "$lass_sql" \
+    $WORKING/outer.gpkg \
+    -nln lass \
+    /vsizip/$DATA/tl_2021_22_sldu.zip/tl_2021_22_sldu.shp
+
+read -r -d '' region_sql << SQL
+select ST_Difference(ST_Buffer(ST_Envelope(ST_Collect(geometry)), 0), ST_Buffer(ST_Collect(geometry), 0)) as geom
+from MP2023_regions
+group by true
+SQL
+ogr2ogr -append -t_srs "EPSG:4326" -dialect "sqlite" -sql "$region_sql" \
+    $WORKING/outer.gpkg \
+    -nln region \
+    /vsizip/$DATA/MP_Regions_Shapefile.zip/MP_Regions_Shapefile/MP2023_regions.shp
+
+read -r -d '' outer_sql << SQL
+select 'parish' as type,
+    geom
+from parish
+union select 'uscd' as type,
+    geom
+from uscd
+union select 'lash' as type,
+    geom
+from lash
+union select 'lass' as type,
+    geom
+from lass
+union select 'region' as type,
+    geom
+from region
+SQL
+ogr2ogr -t_srs "EPSG:4326" -dialect "sqlite" -sql "$outer_sql" \
+    $WORKING/outer.geojson \
+    -nln outer \
+    $WORKING/outer.gpkg
 
 # Generate vector tiles.
 echo "Generating vector tiles..."
@@ -205,19 +243,16 @@ tippecanoe -zg -o $TILES/basemap-vector.mbtiles \
     --extend-zooms-if-still-dropping \
     --base-zoom=7 \
     -n "Base Map: Vector" \
-    $WORKING/parish_label.geojson \
-    $WORKING/uscd_label.geojson \
-    $WORKING/lash_label.geojson \
-    $WORKING/lass_label.geojson \
+    $WORKING/parish.geojson \
+    $WORKING/uscd.geojson \
+    $WORKING/lash.geojson \
+    $WORKING/lass.geojson \
+    $WORKING/region.geojson \
+    $WORKING/outer.geojson \
     $WORKING/project_label.geojson \
-    $WORKING/parish_line.geojson \
-    $WORKING/uscd_line.geojson \
-    $WORKING/lash_line.geojson \
-    $WORKING/lass_line.geojson \
     $WORKING/project_point.geojson \
     $WORKING/project_line.geojson \
     $WORKING/project_polygon.geojson \
-    $WORKING/region.geojson \
     $WORKING/label.geojson \
     $WORKING/road.geojson \
     $WORKING/levee.geojson \
