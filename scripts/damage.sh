@@ -15,7 +15,7 @@ export $(cat .env | xargs)
 
 # Convert vector layers to GeoJSON.
 read -r -d '' damage_sql << SQL
-select "CommunityID",
+select "CommunityID" as community_id,
 	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 500 and "Year_FWOA" = 1 then "EAD_50" else 0 end)) as bigint) as ead_s07_g500_year0,
 	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 500 and "Year_FWOA" = 10 then "EAD_50" else 0 end)) as bigint) as ead_s07_g500_year10,
 	cast(round(sum(case when "Scenario" = 7 and "ModelGroup" = 500 and "Year_FWOA" = 20 then "EAD_50" else 0 end)) as bigint) as ead_s07_g500_year20,
@@ -77,8 +77,7 @@ ogr2ogr -append -t_srs "EPSG:4326" \
     $WORKING/damage.gpkg \
 		$DATA/Community_Splits_20220823.gdb \
 		-nln "community" \
-		"MP2023_Communities_CLARA_split_20220823_ORIGINAL"
-		# "MP2023_Communities_CLARA_split_20220823_ORIGINAL"
+		"MP2023_Communities_CLARA_split_20220823_FINAL_ID"
 
 ogr2ogr -append -t_srs "EPSG:4326" \
     $WORKING/damage.gpkg \
@@ -90,18 +89,79 @@ select damage.*,
 	st_difference(st_union(community.SHAPE), mask_dissolve.geom) as geom
 from damage
 join community
-	on damage.CommunityID = community.MP_Community_ID
+	on damage.community_id = community.MP_Community_ID
 join (
 	select st_collect(geom) as geom
 	from mask
 	group by true
 ) as mask_dissolve
 	on true
-group by damage.CommunityID
+group by damage.community_id
 SQL
 
 ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$combined_sql" \
-	$WORKING/damage.geojson $WORKING/damage.gpkg
+	$WORKING/damage.geojson \
+	-nln damage \
+	$WORKING/damage.gpkg
+
+read -r -d '' damage_point_sql << SQL
+select community_id,
+	ead_s07_g500_year0,
+	ead_s07_g500_year10,
+	ead_s07_g500_year20,
+	ead_s07_g500_year30,
+	ead_s07_g500_year40,
+	ead_s07_g500_year50,
+	ead_s08_g500_year0,
+	ead_s08_g500_year10,
+	ead_s08_g500_year20,
+	ead_s08_g500_year30,
+	ead_s08_g500_year40,
+	ead_s08_g500_year50,
+	ead_s07_g516_year0,
+	ead_s07_g516_year10,
+	ead_s07_g516_year20,
+	ead_s07_g516_year30,
+	ead_s07_g516_year40,
+	ead_s07_g516_year50,
+	ead_s08_g516_year0,
+	ead_s08_g516_year10,
+	ead_s08_g516_year20,
+	ead_s08_g516_year30,
+	ead_s08_g516_year40,
+	ead_s08_g516_year50,
+	easd_s07_g500_year0,
+	easd_s07_g500_year10,
+	easd_s07_g500_year20,
+	easd_s07_g500_year30,
+	easd_s07_g500_year40,
+	easd_s07_g500_year50,
+	easd_s08_g500_year0,
+	easd_s08_g500_year10,
+	easd_s08_g500_year20,
+	easd_s08_g500_year30,
+	easd_s08_g500_year40,
+	easd_s08_g500_year50,
+	easd_s07_g516_year0,
+	easd_s07_g516_year10,
+	easd_s07_g516_year20,
+	easd_s07_g516_year30,
+	easd_s07_g516_year40,
+	easd_s07_g516_year50,
+	easd_s08_g516_year0,
+	easd_s08_g516_year10,
+	easd_s08_g516_year20,
+	easd_s08_g516_year30,
+	easd_s08_g516_year40,
+	easd_s08_g516_year50,
+	st_pointonsurface(geometry) as geom
+from damage
+SQL
+
+ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$damage_point_sql" \
+	$WORKING/damage_point.geojson \
+	-nln damage_point \
+	$WORKING/damage.geojson
 
 # Generate vector tiles.
 echo "Generating vector tiles..."
@@ -111,4 +171,5 @@ tippecanoe -zg -o $TILES/damage-vector.mbtiles \
     --extend-zooms-if-still-dropping \
     --base-zoom=7 \
     -n "Damage: Vector" \
-    $WORKING/damage.geojson
+    $WORKING/damage.geojson \
+		$WORKING/damage_point.geojson

@@ -466,24 +466,54 @@ export function getStyle({
     "#701231",
   ];
   if (view.value.layer.name === "Damage") {
-    let damageProp =
+    const damageProp =
       `${(subtype.value || "EAD").toLowerCase()}_` +
       `${view.value.layer.scenarios[scenario.value].toLowerCase()}_` +
       `${view.value.layer.groups[group.value].toLowerCase()}_` +
       `year${year.value}`;
-    damageLayers.push({
-      id: `damage-polygon`,
-      type: "fill",
-      source: "Damage: Vector",
-      "source-layer": "damage",
-      paint: {
-        "fill-color": [
-          "step",
-          ["get", damageProp],
-          ...(subtype.value === "EAD" ? eadRamp : easdRamp),
-        ],
+    const damageLabelExpression =
+      (subtype.value || "EAD") === "EAD"
+        ? [
+            "concat",
+            "$",
+            ["number-format", ["get", damageProp], { locale: "en-US" }],
+          ]
+        : ["get", damageProp];
+    damageLayers.push(
+      {
+        id: `damage-polygon`,
+        type: "fill",
+        source: "Damage: Vector",
+        "source-layer": "damage",
+        paint: {
+          "fill-color": [
+            "step",
+            ["get", damageProp],
+            ...(subtype.value === "EAD" ? eadRamp : easdRamp),
+          ],
+          "fill-outline-color": "#bbbbbb",
+        },
       },
-    });
+      {
+        id: `damage-label`,
+        type: "symbol",
+        source: "Damage: Vector",
+        "source-layer": "damage_point",
+        minzoom: 10,
+        layout: {
+          "text-field": damageLabelExpression,
+          "text-size": 14,
+          "text-font": ["Franklin Gothic Demi Regular"],
+          "text-overlap": "always",
+        },
+        paint: {
+          "text-color": "#222222",
+          "text-halo-blur": 0.5,
+          "text-halo-color": "rgba(255, 255, 255, 1)",
+          "text-halo-width": 1,
+        },
+      }
+    );
   }
 
   return {
