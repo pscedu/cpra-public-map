@@ -69,13 +69,13 @@ export const legends = {
   ead: {
     title: "Damage: EADD",
     images: [
-      "#4E7872",
-      "#3D9E8B",
-      "#6CB686",
-      "#B9D1A5",
-      "#CDABC9",
-      "#A46093",
-      "#77256D",
+      "#DDC5E0",
+      "#CCAAD1",
+      "#B282BA",
+      "#A064A9",
+      "#5D4795",
+      "#423575",
+      "#221F53",
     ].map(colorSwatch),
     labels: [
       "$0 to < $1M",
@@ -90,13 +90,13 @@ export const legends = {
   easd: {
     title: "Damage: EASD",
     images: [
-      "#4d5a78",
-      "#3d609e",
-      "#6ba8b6",
-      "#a5d1b5",
-      "#cdabac",
-      "#a36560",
-      "#772528",
+      "#FEDB9E",
+      "#FBBC76",
+      "#F7903B",
+      "#F36F41",
+      "#DC4840",
+      "#BA233E",
+      "#701231",
     ].map(colorSwatch),
     labels: [
       "0 to 49",

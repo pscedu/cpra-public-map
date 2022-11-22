@@ -436,34 +436,34 @@ export function getStyle({
 
   const damageLayers = [];
   const eadRamp = [
-    "#4E7872",
+    "#DDC5E0",
     1000000,
-    "#3D9E8B",
+    "#CCAAD1",
     10000000,
-    "#6CB686",
+    "#B282BA",
     50000000,
-    "#B9D1A5",
+    "#A064A9",
     100000000,
-    "#CDABC9",
+    "#5D4795",
     500000000,
-    "#A46093",
+    "#423575",
     1000000000,
-    "#77256D",
+    "#221F53",
   ];
   const easdRamp = [
-    "#4d5a78",
+    "#FEDB9E",
     50,
-    "#3d609e",
+    "#FBBC76",
     100,
-    "#6ba8b6",
+    "#F7903B",
     250,
-    "#a5d1b5",
+    "#F36F41",
     500,
-    "#cdabac",
+    "#DC4840",
     1000,
-    "#a36560",
+    "#BA233E",
     5000,
-    "#772528",
+    "#701231",
   ];
   if (view.value.layer.name === "Damage") {
     let damageProp =
