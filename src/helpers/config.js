@@ -456,8 +456,8 @@ export const printText = {
     Projects: "Candidate Projects",
   },
   scenario: {
-    lower: "Lower Project Selection Scenario",
-    higher: "Higher Project Selection Scenario",
+    lower: "Lower Environmental Scenario",
+    higher: "Higher Environmental Scenario",
   },
 };
 

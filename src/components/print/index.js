@@ -25,7 +25,7 @@ const Print = ({ children }) => {
     ],
     secondary: [
       `${printText.layer[layerName] || layerName} - Year ${year.value}`,
-      `${printText.scenario[scenario.value]} - ${scenario.value}`,
+      `${printText.scenario[scenario.value]}`,
     ],
   };
 
