@@ -190,6 +190,7 @@ export const layers = {
   damage: {
     groups: {
       fwoa: "G500",
+      fwa: "G515",
     },
     name: "Damage",
     legend: (subtype) => (subtype === "EAD" ? legends.ead : legends.easd),
@@ -200,7 +201,8 @@ export const layers = {
     },
     subtypes: ["EAD", "EASD"],
     type: "vector",
-    years: [0, 10, 20, 30, 40, 50],
+    years: (group) =>
+      group === "fwoa" ? [0, 10, 20, 30, 40, 50] : [0, 10, 20],
   },
   floodDepth: {
     groups: {

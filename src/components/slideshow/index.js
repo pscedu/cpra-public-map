@@ -36,7 +36,7 @@ const Slideshow = () => {
         <Disclaimer type="long" />
       </Slide>
       <Slide
-        controls={["year", "scenario", "damage", "groupdisabled", "projects"]}
+        controls={["year", "scenario", "damage", "group", "projects"]}
         viewName="damage"
         slideGroup="explore"
       >
@@ -206,7 +206,7 @@ const Slideshow = () => {
           <strong>annual exceedance probability</strong> or AEP).
         </p>
       </Slide>
-      {/* <Slide
+      <Slide
         controls={["year", "scenario", "damage"]}
         viewName="slide-8"
         color="green"
@@ -215,9 +215,9 @@ const Slideshow = () => {
         <Disclaimer />
         <p>
           Like flood depths, economic and structural damages can be reduced to
-          implementation of master plan projects. Reduction in both the cost and number
-          of structures damaged during storm events is a significant benefit of the
-          2023 Coastal Master Plan.
+          implementation of master plan projects. Reduction in both the cost and
+          number of structures damaged during storm events is a significant
+          benefit of the 2023 Coastal Master Plan.
         </p>
         <p>
           Change the <strong>plan implementation scenario</strong>to see the
@@ -226,7 +226,7 @@ const Slideshow = () => {
           slider to see how the master plan changes damage values into the
           future.
         </p>
-      </Slide> */}
+      </Slide>
       <Slide viewName="slide-9" color="green" slideGroup="tour">
         <Disclaimer type="risk" />
         <p>
