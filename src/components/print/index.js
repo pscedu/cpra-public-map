@@ -2,31 +2,11 @@ import { h } from "preact";
 import { useContext, useEffect, useState } from "preact/hooks";
 import * as config from "../../helpers/config";
 import { State } from "../../helpers/state";
-import { mapToImage } from "../../helpers/utils";
+import { addLineBreaks, getDimensions, mapToImage } from "../../helpers/print";
 import style from "./style.css";
 
 import ActionButton from "../action-button";
 import Legend from "../legend";
-
-const hPadding = 200,
-  wPadding = 100;
-function getDimensions() {
-  const vh = window.innerHeight,
-    vw = window.innerWidth,
-    vhh = vh - hPadding,
-    vhw = (vhh * 11) / 8.5,
-    vww = vw - wPadding,
-    vwh = (vww * 8.5) / 11;
-
-  return [Math.min(vhw, vww), Math.min(vhh, vwh)];
-}
-
-function addLineBreaks(values) {
-  return values.map((value, i) => [
-    value,
-    i === values.length - 1 ? null : <br />,
-  ]);
-}
 
 const Print = ({ children }) => {
   const { group, map, mapResize, scenario, subtype, printing, view, year } =
