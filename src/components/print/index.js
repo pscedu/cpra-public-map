@@ -29,6 +29,13 @@ const Print = ({ children }) => {
     ],
   };
 
+  const fileName = `${titles.primary.join(" ")} ${titles.secondary.join(
+    " "
+  )}.png`
+    .toLowerCase()
+    .replace(/ - /g, "-")
+    .replace(/ /g, "-");
+
   const print = async () => {
     let dpi = 150;
     let imageUrl = await mapToImage({
@@ -41,7 +48,12 @@ const Print = ({ children }) => {
       scaleFactor: (11 * dpi) / width,
       titles,
     });
-    window.open(imageUrl);
+    const link = document.createElement("a");
+    link.download = fileName;
+    link.href = imageUrl;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   useEffect(() => {
@@ -96,7 +108,7 @@ const Print = ({ children }) => {
         ]}
       </div>
       <div class={style.buttons}>
-        <ActionButton action={print}>Print or Save</ActionButton>
+        <ActionButton action={print}>Download Image</ActionButton>
         <ActionButton action={() => (printing.value = false)}>
           Cancel
         </ActionButton>
