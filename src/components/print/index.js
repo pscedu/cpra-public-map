@@ -37,6 +37,7 @@ const Print = ({ children }) => {
       width: 11 * dpi,
       height: 8.5 * dpi,
       dpi,
+      legend: view.value.layer.legend(subtype.value),
       scaleFactor: (11 * dpi) / width,
       titles,
     });

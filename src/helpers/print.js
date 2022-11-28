@@ -1,7 +1,65 @@
 const hPadding = 200,
   wPadding = 100;
 
-const drawLogo = (canvas, dpi, logoImage, margin = 0.5) => {
+async function drawLegend(canvas, dpi, legend, margin = 0.5) {
+  if (!legend) return;
+  const ctx = canvas.getContext("2d");
+
+  // Calculate the dimensions of the legend box, and draw the background.
+  let title = legend.title.toUpperCase();
+  let em = (8 * dpi) / 72;
+  let labelStyle = {
+    ctx,
+    color: "#666666",
+    fontFamily: "Helvetica Neue,arial,sans-serif",
+    fontSize: (8 * dpi) / 72,
+    fontWeight: "normal",
+    lineHeight: 2,
+  };
+  let titleStyle = {
+    ...labelStyle,
+    color: "#000000",
+    lineHeight: 3,
+  };
+  let height = titleStyle.fontSize * titleStyle.lineHeight;
+  let width = textWidth({ ...titleStyle, text: title }) + 4 * em;
+  legend.labels.forEach((label) => {
+    height += labelStyle.fontSize * labelStyle.lineHeight;
+    width = Math.max(width, textWidth({ ...labelStyle, text: label }) + 4 * em);
+  });
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(
+    canvas.width - dpi * margin - width - 2 * em,
+    dpi * margin,
+    width + 2 * em,
+    height + 2 * em
+  );
+
+  const images = await Promise.all(legend.images.map((src) => loadImage(src)));
+
+  // Draw the legend labels.
+  let x = canvas.width - dpi * margin - width - em;
+  let y = dpi * margin + em;
+  drawText({
+    ...titleStyle,
+    text: title,
+    x,
+    y: y + 0.5 * titleStyle.lineHeight * titleStyle.fontSize,
+  });
+  y += titleStyle.fontSize * titleStyle.lineHeight;
+  legend.labels.forEach(async (label, i) => {
+    ctx.drawImage(images[i], x, y);
+    drawText({
+      ...labelStyle,
+      text: label,
+      x: x + 4 * em,
+      y: y + 0.5 * labelStyle.lineHeight * labelStyle.fontSize,
+    });
+    y += labelStyle.fontSize * labelStyle.lineHeight;
+  });
+}
+
+function drawLogo(canvas, dpi, logoImage, margin = 0.5) {
   const ctx = canvas.getContext("2d");
   const targetWidth = dpi * 0.5;
   const targetHeight = (logoImage.height * targetWidth) / logoImage.width;
@@ -12,9 +70,9 @@ const drawLogo = (canvas, dpi, logoImage, margin = 0.5) => {
     targetWidth,
     targetHeight
   );
-};
+}
 
-const drawText = ({
+function drawText({
   ctx,
   text,
   fontFamily,
@@ -23,13 +81,13 @@ const drawText = ({
   color,
   x,
   y,
-}) => {
+}) {
   ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
   ctx.fillStyle = color;
   ctx.fillText(text, x, y);
-};
+}
 
-const drawTitles = (glCanvas, dpi, titles, margin = 0.5) => {
+function drawTitles(glCanvas, dpi, titles, margin = 0.5) {
   const canvas = document.createElement("canvas");
   canvas.height = glCanvas.height;
   canvas.width = glCanvas.width;
@@ -72,17 +130,17 @@ const drawTitles = (glCanvas, dpi, titles, margin = 0.5) => {
   });
 
   return canvas;
-};
+}
 
-const loadImage = (url) => {
+function loadImage(url) {
   const img = new Image();
   return new Promise((resolve) => {
     img.onload = () => resolve(img);
     img.src = url;
   });
-};
+}
 
-const loadPrintMap = (style, bounds, width, height) => {
+function loadPrintMap(style, bounds, width, height) {
   return new Promise((resolve) => {
     let container = document.createElement("div");
     container.style.height = `${height}px`;
@@ -104,7 +162,12 @@ const loadPrintMap = (style, bounds, width, height) => {
 
     map.on("load", () => resolve(map));
   });
-};
+}
+
+function textWidth({ ctx, text, fontFamily, fontSize, fontWeight }) {
+  ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
+  return ctx.measureText(text).width;
+}
 
 export function addLineBreaks(values) {
   return values.map((value, i) => [
@@ -128,6 +191,7 @@ export async function mapToImage({
   style,
   bounds,
   dpi,
+  legend,
   width,
   height,
   scaleFactor,
@@ -164,6 +228,7 @@ export async function mapToImage({
   ]);
   const canvas = drawTitles(map.getCanvas(), dpi, titles);
   drawLogo(canvas, dpi, logoImage);
+  await drawLegend(canvas, dpi, legend);
   const dataUrl = canvas.toDataURL();
   const container = map.getContainer();
   map.remove();
