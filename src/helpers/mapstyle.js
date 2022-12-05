@@ -3,6 +3,18 @@ import difference from "@turf/difference";
 import { feature, featureCollection } from "@turf/helpers";
 import * as config from "./config";
 
+function damageStepExpression(divisor, maxLength, suffix) {
+  return [
+    "concat",
+    [
+      "number-format",
+      ["/", ["var", "rounded"], divisor],
+      { "min-fraction-digits": ["-", maxLength, ["var", "digits"]] },
+    ],
+    suffix,
+  ];
+}
+
 function linearZoom(min, max) {
   return ["interpolate", ["linear"], ["zoom"], 6, min, 12, max];
 }
@@ -471,14 +483,42 @@ export function getStyle({
       `${view.value.layer.scenarios[scenario.value].toLowerCase()}_` +
       `${view.value.layer.groups[group.value].toLowerCase()}_` +
       `year${year.value}`;
+    const damageValueExpression = [
+      "let",
+      "digits",
+      ["length", ["to-string", ["get", damageProp]]],
+      [
+        "let",
+        "rounded",
+        [
+          "*",
+          [
+            "round",
+            [
+              "*",
+              ["get", damageProp],
+              ["^", 10, ["*", -1, ["-", ["var", "digits"], 3]]],
+            ],
+          ],
+          ["^", 10, ["-", ["var", "digits"], 3]],
+        ],
+        [
+          "step",
+          ["var", "digits"],
+          ["to-string", ["var", "rounded"]],
+          4,
+          damageStepExpression(1000, 6, "K"),
+          7,
+          damageStepExpression(1000000, 9, "M"),
+          10,
+          damageStepExpression(1000000000, 12, "B"),
+        ],
+      ],
+    ];
     const damageLabelExpression =
       (subtype.value || "EAD") === "EAD"
-        ? [
-            "concat",
-            "$",
-            ["number-format", ["get", damageProp], { locale: "en-US" }],
-          ]
-        : ["get", damageProp];
+        ? ["concat", "$", damageValueExpression]
+        : damageValueExpression;
     damageLayers.push(
       {
         id: `damage-polygon`,
