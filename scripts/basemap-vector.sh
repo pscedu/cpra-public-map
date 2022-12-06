@@ -41,26 +41,9 @@ SQL
 ogr2ogr -t_srs "EPSG:4326" -sql "$state_sql" \
     $WORKING/state.geojson $DATA/backgroundlayers_formapping_arcmap.gdb
 
-read -r -d '' community_label_sql << SQL
-select replace(replace(replace(replace(TextString, X'0A', ' '), X'0D', ' '),
-        '  ', ' '), '  ', ' ') as text,
-    'community' as type,
-    geom
-from Ref_Communities_CoastwideLocations
-SQL
-ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$community_label_sql" \
-    $WORKING/label.geojson $DATA/labels.gpkg
-
-read -r -d '' water_label_sql << SQL
-select replace(replace(replace(replace(TextString, X'0A', ' '), X'0D', ' '),
-        '  ', ' '), '  ', ' ') as text,
-    'water' as type,
-    geom
-from Ref_Waterbodies_CoastwideLocations
-SQL
-ogr2ogr -append -t_srs "EPSG:4326" -dialect sqlite -sql "$water_label_sql" \
-    $WORKING/label.geojson $DATA/labels.gpkg
-
+ogr2ogr -s_srs "EPSG:4326" -t_srs "EPSG:4326" \
+    -oo KEEP_GEOM_COLUMNS=NO -oo X_POSSIBLE_NAMES=x -oo Y_POSSIBLE_NAMES=y \
+    $WORKING/label.geojson $DATA/labels.csv
 
 read -r -d '' project_sql << SQL
 select ProjectName as name,
