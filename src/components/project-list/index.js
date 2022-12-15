@@ -23,7 +23,7 @@ const ProjectList = () => {
     )
     .map((project) => (
       <tr
-        key={project.name}
+        key={project.displayId}
         class={`${
           style.project
         } project-type-icon-${project.type.toLowerCase()}`}
