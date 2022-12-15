@@ -51,7 +51,7 @@ left join metadata
     on project.DisplayID = metadata.DisplayID
 group by project.DisplayID,
     project.ProjectName
-order by project.ProjectName
+order by project.ProjectName, StartYear_FWOA
 SQL
 
 # Reproject project data to WGS 84.
