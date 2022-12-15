@@ -59,7 +59,7 @@ select ProjectName as name,
         ) else ProjectTypeCode end as type,
     Shape as geom
 from LAYER as project
-where ModelGroup = 516 and ImplementationPeriod = 1
+where ModelGroup = 521
 SQL
 
 read -r -d '' project_label_sql << SQL

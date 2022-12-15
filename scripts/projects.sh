@@ -14,7 +14,7 @@ read -r -d '' project_sql << SQL
 select project.DisplayID as displayId, 
     project.ProjectName as name,
     max(ProjectTypeCode) as type,
-    max(Region) as region,
+    max(project.Region) as region,
     max(metadata.Description) as description,
     coalesce(min(project.StartYear_FWOA), 21) as yearmin,
     coalesce(max(project.StartYear_FWOA), 50) as yearmax
@@ -27,7 +27,7 @@ from (
         Region,
         StartYear_FWOA
     from Points
-    where ModelGroup = 516 and ImplementationPeriod = 1
+    where ModelGroup = 521
     union select DisplayID,
         ProjectID,
         ElementID,
@@ -36,7 +36,7 @@ from (
         Region,
         StartYear_FWOA
     from Lines
-    where ModelGroup = 516 and ImplementationPeriod = 1
+    where ModelGroup = 521
     union select DisplayID,
         ProjectID,
         ElementID,
@@ -45,7 +45,7 @@ from (
         Region,
         StartYear_FWOA
     from Polygons
-    where ModelGroup = 516 and ImplementationPeriod = 1
+    where ModelGroup = 521
 ) as project
 left join metadata
     on project.DisplayID = metadata.DisplayID
