@@ -38,6 +38,31 @@ function projectLayers(show, filter, model, suffix = "") {
     "rgba(0, 0, 0, 0.15)"
   );
   return [
+    // Diversion polygon
+    {
+      id: `project-polygon-di${suffix}`,
+      type: "fill",
+      source: "Base Map: Vector",
+      "source-layer": "project_polygon",
+      filter: ["all", ["==", ["get", "type"], "DI"], filter],
+      paint: {
+        "fill-color": mod(modelFillColor, "#ed6731"),
+        "fill-opacity": mod(1, 0.2),
+      },
+    },
+    // Diversion polygon outline
+    {
+      id: `project-polygon-di-outline${suffix}`,
+      type: "line",
+      source: "Base Map: Vector",
+      "source-layer": "project_polygon",
+      filter: ["all", ["==", ["get", "type"], "DI"], filter],
+      paint: {
+        "line-color": mod(modelStrokeColor, "#ed6731"),
+        "line-dasharray": [2, 1],
+        "line-width": mod(modelStrokeWidth, linearZoom(1, 3)),
+      },
+    },
     // Landbridge polygon
     {
       id: `project-polygon-lb${suffix}`,

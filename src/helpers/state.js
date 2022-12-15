@@ -241,7 +241,7 @@ export function createState() {
             ])
       );
       map.value.on(
-        "mouseenter",
+        "mousemove",
         layerName,
         () => (map.value.getCanvas().style.cursor = "pointer")
       );
