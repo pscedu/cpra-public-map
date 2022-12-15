@@ -190,7 +190,7 @@ export const layers = {
   damage: {
     groups: {
       fwoa: "G500",
-      fwa: "G515",
+      fwa: "G516",
     },
     name: "Damage",
     legend: (subtype) => (subtype === "EAD" ? legends.ead : legends.easd),
@@ -201,13 +201,12 @@ export const layers = {
     },
     subtypes: ["EAD", "EASD"],
     type: "vector",
-    years: (group) =>
-      group === "fwoa" ? [0, 10, 20, 30, 40, 50] : [0, 10, 20],
+    years: [0, 10, 20, 30, 40, 50],
   },
   floodDepth: {
     groups: {
       fwoa: "G500",
-      fwa: "G515",
+      fwa: "G516",
     },
     name: "Flood Depth",
     legend: () => legends.floodDepth,
@@ -219,8 +218,7 @@ export const layers = {
     subtypeName: "Exceedance Probability",
     subtypes: ["10.0", "2.0", "1.0", "0.2"],
     type: "raster",
-    years: (group) =>
-      group === "fwoa" ? [0, 10, 20, 30, 40, 50] : [0, 10, 20],
+    years: [0, 10, 20, 30, 40, 50],
   },
   historicalLandChange: {
     groups: {
@@ -237,8 +235,8 @@ export const layers = {
   },
   landChange: {
     groups: {
-      fwoa: "G514",
-      fwa: "G515",
+      fwoa: "G520",
+      fwa: "G521",
     },
     name: "Land Change",
     legend: () => legends.landChange,
@@ -248,13 +246,12 @@ export const layers = {
       higher: "S08",
     },
     type: "raster",
-    years: (group) =>
-      group === "fwoa" ? [0, 10, 20, 30, 40, 50] : [0, 10, 20],
+    years: [0, 10, 20, 30, 40, 50],
   },
   projects: {
     groups: {
-      fwoa: "G514",
-      fwa: "G515",
+      fwoa: "G520",
+      fwa: "G521",
     },
     name: "Projects",
     legend: () => legends.projects,
@@ -268,8 +265,8 @@ export const layers = {
   },
   vegetationType: {
     groups: {
-      fwoa: "G514",
-      fwa: "G515",
+      fwoa: "G520",
+      fwa: "G521",
     },
     name: "Vegetation Type",
     legend: () => legends.vegetationType,
@@ -280,7 +277,7 @@ export const layers = {
     },
     type: "raster",
     years: (group) =>
-      group === "fwoa" ? [0, 10, 20, 30, 40, 50] : [0, 10, 20],
+      group === "fwoa" ? [0, 10, 20, 30, 40, 50] : [0, 10, 20, 30, 40],
   },
 };
 export const views = {
