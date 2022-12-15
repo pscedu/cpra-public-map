@@ -84,7 +84,7 @@ export const legends = {
       "$50M to < $100M",
       "$100M to < $500M",
       "$500M to < $1B",
-      "$1B to < $3B",
+      "$1B or more",
     ],
   },
   easd: {
