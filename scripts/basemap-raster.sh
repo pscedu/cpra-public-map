@@ -12,8 +12,8 @@ mkdir -p "$TILES"
 
 # Merge the two land-water interface rasters.
 gdal_merge.py -o $WORKING/lwi_merged.tif \
-    $DATA/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_lndtyp.tif \
-    $DATA/InitialConditionLand-WaterInterface-AtchafalayaBasin.tif
+    $DATA/MP23_FWA_map_template/commondata/raster_data1/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_lndtyp.tif \
+    $DATA/MP23_FWA_map_template/commondata/raster_data/InitialConditionLand-WaterInterface-AtchafalayaBasin.tif
 
 # Colorize the merged land-water interface raster.
 cat > $WORKING/lwi.clr << EOF
