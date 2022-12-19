@@ -671,7 +671,7 @@ export function getStyle({
       ...projectLayers(
         view.value.layer.name == "Projects" ||
           (group.value !== "fwoa" && showProjects.value),
-        true,
+        ["<=", ["get", "year"], parseInt(year.value, 10)],
         view.value.layer.name !== "Projects"
       ),
       ...searchLayers,

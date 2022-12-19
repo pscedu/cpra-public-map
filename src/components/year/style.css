@@ -9,17 +9,17 @@ input[type="range"],
 }
 .ticks {
   color: #666666;
-  display: flex;
-  flex-direction: row;
   font-size: 0.8125rem;
-  left: -16px;
+  height: 1rem;
   position: relative;
-  width: calc(100% + 32px);
-}
-.ticks span {
-  display: block;
-  text-align: center;
   width: 100%;
+}
+.ticks .tick {
+  margin-left: -1rem;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 2rem;
 }
 input[type="range"]::-moz-range-track {
   background-color: var(--mpdv-color-gray-200);

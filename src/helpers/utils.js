@@ -16,7 +16,15 @@ export const bufferPoint = (xDeg, yDeg, radius, segments = 32) => {
 export const selectValue = (values, currentValue) => {
   values = values || [];
   if (values.includes(currentValue)) return currentValue;
-  return values.length ? values[0] : null;
+  const defaultValue = values[0];
+  if (!values.length) return null;
+  if (!isNaN(values[0]))
+    return values.reduce((prev, curr) =>
+      Math.abs(curr - currentValue) < Math.abs(prev - currentValue)
+        ? curr
+        : prev
+    );
+  return defaultValue;
 };
 
 export function getLocalResults(text, fuse, limit = 5) {

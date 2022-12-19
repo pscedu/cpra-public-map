@@ -342,6 +342,7 @@ export const views = {
   "slide-5": {
     title: "Taking Action",
     layer: layers.projects,
+    year: 0,
   },
   "slide-6": {
     title: "Land Change With the Master Plan",
@@ -369,6 +370,7 @@ export const views = {
   "slide-9": {
     title: "Time to Explore",
     layer: layers.projects,
+    year: 50,
   },
 };
 export const controls = {

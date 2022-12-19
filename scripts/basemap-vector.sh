@@ -57,6 +57,7 @@ select ProjectName as name,
             when ElementTypeCode in ('BS', 'MC', 'OR', 'RR', 'SP') then ElementTypeCode
             else 'IP' end
         ) else ProjectTypeCode end as type,
+    StartYear_FWOA as year,
     Shape as geom
 from LAYER as project
 where ModelGroup = 521
@@ -66,6 +67,7 @@ read -r -d '' project_label_sql << SQL
 select name,
     display_id,
     type,
+    year,
     st_pointonsurface(st_collect(geom)) as geom
 from (
     ${project_sql/LAYER/Points}
@@ -88,7 +90,7 @@ ogr2ogr -dialect sqlite -sql "${project_sql/LAYER/Lines}" \
     $WORKING/project_line.geojson $WORKING/projects.gpkg
 
 ogr2ogr -dialect sqlite \
-    -sql "select name, display_id, type, st_union(geom) as geom from (${project_sql/LAYER/Polygons}) as polygons group by name, display_id, type" \
+    -sql "select name, display_id, type, min(year) as year, st_union(geom) as geom from (${project_sql/LAYER/Polygons}) as polygons group by name, display_id, type" \
     $WORKING/project_polygon.geojson $WORKING/projects.gpkg
 
 ogr2ogr -dialect sqlite -sql "$project_label_sql" \

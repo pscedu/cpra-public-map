@@ -15,16 +15,17 @@ a + .slide {
 }
 
 @media (min-width: 700px) {
-  .inner {
+  .split {
     display: flex;
     flex-direction: row-reverse;
   }
-  .controls {
+  .split .controls {
     flex: 0 0 auto;
     margin: 0 0 calc(var(--mpdv-app-margin) * 0.5) var(--mpdv-app-margin);
     min-width: 230px;
     width: 35%;
   }
+  .full,
   .body {
     width: 100%;
   }

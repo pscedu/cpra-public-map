@@ -39,6 +39,9 @@
 .project-list td {
   border-bottom: 1px solid #cccccc;
 }
+.project-list tbody tr:last-child {
+  margin-bottom: 2rem;
+}
 .project-list input {
   min-width: 75%;
 }

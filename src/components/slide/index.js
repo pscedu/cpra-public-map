@@ -38,22 +38,24 @@ const createControl = (controlName, view, state) => {
       <Year
         signal={state.year}
         tooltip={spec.tooltip}
-        years={
-          view.layer.years instanceof Function
-            ? view.layer.years(state.group.value)
-            : view.layer.years
-        }
+        years={view.layer.years}
       />
     );
 };
 
-const Slide = ({ children, controls = [], title, viewName }) => {
+const Slide = ({
+  children,
+  controls = [],
+  layout = "split",
+  title,
+  viewName,
+}) => {
   const state = useContext(State);
   const view = views[viewName];
   return (
     <section class={style.slide}>
       <h2 class={"sr-only"}>{title || view.title}</h2>
-      <div class={style.inner}>
+      <div class={style[layout]}>
         {controls.length ? (
           <div class={style.controls}>
             {controls.map((controlName) =>

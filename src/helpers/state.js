@@ -137,9 +137,7 @@ export function createState() {
             : prevSubtypes[viewName.value])
       );
       year.value = selectValue(
-        layer.years instanceof Function
-          ? layer.years(group.peek())
-          : layer.years,
+        layer.years,
         view.value.year === undefined ? year.value : view.value.year
       );
     });

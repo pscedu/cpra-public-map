@@ -9,7 +9,7 @@ import { State } from "../../helpers/state";
 import style from "./style.css";
 
 const ProjectList = () => {
-  const { projects, selection, setSearchResult } = useContext(State);
+  const { projects, selection, setSearchResult, year } = useContext(State);
   const select = (e, key, value) => {
     e.preventDefault();
     setSearchResult(`${key}:${value}`);
@@ -21,6 +21,7 @@ const ProjectList = () => {
         ? selection.value["project-type"] === project.type.toLowerCase()
         : true
     )
+    .filter((project) => project.yearmin <= year.value)
     .map((project) => (
       <tr
         key={project.displayId}

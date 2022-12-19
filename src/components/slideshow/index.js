@@ -42,7 +42,13 @@ const Slideshow = () => {
       >
         <Disclaimer type="long" />
       </Slide>
-      <Slide color="green" viewName="projects" slideGroup="explore">
+      <Slide
+        controls={["year"]}
+        color="green"
+        layout="full"
+        viewName="projects"
+        slideGroup="explore"
+      >
         <ProjectList />
       </Slide>
 
@@ -143,7 +149,12 @@ const Slideshow = () => {
           into the future for both <strong>damage metrics</strong>.
         </p>
       </Slide>
-      <Slide viewName="slide-5" color="green" slideGroup="tour">
+      <Slide
+        controls={["year"]}
+        viewName="slide-5"
+        color="green"
+        slideGroup="tour"
+      >
         <Disclaimer />
         <p>
           If no action is taken, coastal Louisiana will face significant
@@ -157,12 +168,7 @@ const Slideshow = () => {
           From 131 candidate projects, a suite of restoration and risk reduction
           projects have been selected for the 2023 Coastal Master Plan. Projects
           that were selected were shown to have benefits for coastal Louisiana
-          regardless of which scenario they were evaluated under.{" "}
-          <span style={{ color: "#9e1821" }}>
-            Projects selected for the plan&apos;s first implementation period
-            (years 1-20) can be seen in the map above and the impact of these
-            projects is discussed in the following slides.
-          </span>
+          regardless of which scenario they were evaluated under.
         </p>
       </Slide>
       <Slide
