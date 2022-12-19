@@ -64,6 +64,12 @@
 .project-list a:hover {
   border-bottom-color: #5c7967;
 }
+.no-projects {
+  color: var(--mpdv-color-gray-600);
+  font-size: 1.5rem;
+  margin: 3rem 3rem 2rem 3rem;
+  text-align: center;
+}
 @media (min-width: 700px) {
   .project-list thead tr,
   .project {

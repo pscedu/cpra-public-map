@@ -60,7 +60,7 @@ const ProjectList = () => {
       </tr>
     ));
 
-  return (
+  return projectRows.length ? (
     <table class={style["project-list"]}>
       <thead>
         <tr>
@@ -72,6 +72,11 @@ const ProjectList = () => {
       </thead>
       <tbody>{projectRows}</tbody>
     </table>
+  ) : (
+    <p class={style["no-projects"]}>
+      No projects are active for the selected year range. Adjust the year slider
+      to see projects.
+    </p>
   );
 };
 
