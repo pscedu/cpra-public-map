@@ -24,13 +24,16 @@ const Year = ({ signal, tooltip, years }) => {
   };
 
   const tickDivisor = years.length > 10 ? 10 : 1;
-  const ticks = years
-    .filter((val) => val % tickDivisor === 0)
-    .map((val) => (
-      <span key={val} class={style.tick} style={{ left: `${val / 0.5}%` }}>
-        {val}
-      </span>
-    ));
+  const filteredYears = years.filter((val) => val % tickDivisor === 0);
+  const ticks = filteredYears.map((val, i) => (
+    <span
+      key={val}
+      class={style.tick}
+      style={{ left: `${(i * 100) / (filteredYears.length - 1)}%` }}
+    >
+      {val}
+    </span>
+  ));
 
   return (
     <div class="input">
