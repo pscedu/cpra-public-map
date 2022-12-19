@@ -278,8 +278,7 @@ export const layers = {
       higher: "S08",
     },
     type: "raster",
-    years: (group) =>
-      group === "fwoa" ? [0, 10, 20, 30, 40, 50] : [0, 10, 20, 30, 40],
+    years: [0, 10, 20, 30, 40, 50],
   },
 };
 export const views = {
