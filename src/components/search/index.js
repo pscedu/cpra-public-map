@@ -86,7 +86,8 @@ const Search = () => {
             </li>
             <li>
               <strong>Project Name:</strong>{" "}
-              <span class={style["example"]}>Morganza to the Gulf</span>
+              <span class={style["example"]}>Morganza to the Gulf</span> or{" "}
+              <span class={style["example"]}>#110b</span>
             </li>
             <li>
               <strong>Project Type:</strong>{" "}

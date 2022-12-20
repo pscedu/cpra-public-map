@@ -9,7 +9,7 @@ export GDAL_NUM_THREADS="ALL_CPUS"
 
 read -r -d '' project_sql << SQL
 select 'project:' || project.DisplayID as id,
-    project.ProjectName as name,
+    project.ProjectName || ': #' || project.DisplayID as name,
     'Project' as type,
     st_minx(st_collect(geom)) as xmin,
     st_miny(st_collect(geom)) as ymin,
