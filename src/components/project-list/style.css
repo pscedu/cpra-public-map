@@ -46,14 +46,14 @@
   min-width: 75%;
 }
 .name {
-  width: 50%;
+  width: calc(60% - 5rem);
 }
 .type,
 .region {
   width: 20%;
 }
 .years {
-  width: 10%;
+  width: 5rem;
 }
 .project-list a {
   border-bottom: 2px solid transparent;

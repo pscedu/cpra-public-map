@@ -67,7 +67,7 @@ const ProjectList = () => {
           <th class={style.name}>Project Name</th>
           <th class={style.type}>Project Type</th>
           <th class={style.region}>Region</th>
-          <th class={style.years}>Year</th>
+          <th class={style.years}>Imp. Year</th>
         </tr>
       </thead>
       <tbody>{projectRows}</tbody>
