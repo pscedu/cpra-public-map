@@ -567,8 +567,8 @@ export function getStyle({
       paint: {
         "line-color":
           subtype.value === "EAD"
-            ? linearZoom("#888888", "#333333")
-            : linearZoom("#CCCCCC", "#555555"),
+            ? linearZoom("#999999", "#444444")
+            : linearZoom("#DDDDDD", "#666666"),
         "line-width": linearZoom(0.5, 3),
       },
     });
