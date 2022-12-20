@@ -36,6 +36,7 @@ const createControl = (controlName, view, state) => {
   if (spec.type === "year")
     return (
       <Year
+        label={spec.label}
         signal={state.year}
         tooltip={spec.tooltip}
         years={view.layer.years}

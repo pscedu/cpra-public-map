@@ -43,7 +43,7 @@ const Slideshow = () => {
         <Disclaimer type="long" />
       </Slide>
       <Slide
-        controls={["year"]}
+        controls={["yearimplementation"]}
         color="green"
         layout="full"
         viewName="projects"
@@ -150,7 +150,7 @@ const Slideshow = () => {
         </p>
       </Slide>
       <Slide
-        controls={["year"]}
+        controls={["yearimplementation"]}
         viewName="slide-5"
         color="green"
         slideGroup="tour"

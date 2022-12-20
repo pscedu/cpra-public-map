@@ -7,7 +7,7 @@ import { gtag } from "../../helpers/utils";
 
 let yearTimeout;
 
-const Year = ({ signal, tooltip, years }) => {
+const Year = ({ label, signal, tooltip, years }) => {
   const id = useId();
   const handleInput = (e) => {
     const newYear = years[parseInt(e.target.value, 10)];
@@ -38,7 +38,7 @@ const Year = ({ signal, tooltip, years }) => {
   return (
     <div class="input">
       <label class="label" for={id}>
-        {tooltip ? <Tooltip content={tooltip} /> : null} Year
+        {tooltip ? <Tooltip content={tooltip} /> : null} {label}
         <span class={style.value}>: {signal.value}</span>
       </label>
       <div class={style.ticks}>{ticks}</div>

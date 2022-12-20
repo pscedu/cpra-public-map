@@ -434,8 +434,15 @@ export const controls = {
   },
   year: {
     type: "year",
+    label: "Year",
     tooltip:
       "<p>Use the time slider to explore model outputs from initial conditions to 50 years into the future. Data is available at 10-year increments.</p>",
+  },
+  yearimplementation: {
+    type: "year",
+    label: "Implementation Year",
+    tooltip:
+      "<p>Use the time slider to view projects planned for the selected range of years.</p>",
   },
 };
 export const mapDefaults = {
