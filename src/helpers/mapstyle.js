@@ -104,25 +104,28 @@ function projectLayers(show, filter, model, suffix = "") {
       paint: { "line-color": modelStrokeColor, "line-width": modelStrokeWidth },
       layout: { visibility: mod("visible", "none") },
     },
-    // Bank stabilization and structural risk reduction lines
+    // Bank stabilization lines
     {
-      id: `project-line-bs-sr${suffix}`,
+      id: `project-line-bs${suffix}`,
       type: "line",
       source: "Base Map: Vector",
       "source-layer": "project_line",
-      filter: [
-        "all",
-        ["in", ["get", "type"], ["literal", ["BS", "SR"]]],
-        filter,
-      ],
+      filter: ["all", ["==", ["get", "type"], "BS"], filter],
       paint: {
-        "line-color": mod(modelStrokeColor, [
-          "case",
-          ["==", ["get", "type"], "BS"],
-          "#D9A73B",
-          "#404042",
-        ]),
+        "line-color": mod(modelStrokeColor, "#D9A73B"),
         "line-width": mod(modelStrokeWidth, linearZoom(2, 5)),
+      },
+    },
+    // Structural risk reduction lines
+    {
+      id: `project-line-sr${suffix}`,
+      type: "line",
+      source: "Base Map: Vector",
+      "source-layer": "project_line",
+      filter: ["all", ["==", ["get", "type"], "SR"], filter],
+      paint: {
+        "line-color": "#404042",
+        "line-width": linearZoom(2, 5),
       },
     },
     // Diversion and hydrologic restoration lines
@@ -202,7 +205,7 @@ function projectLayers(show, filter, model, suffix = "") {
       "source-layer": "project_point",
       filter: ["all", ["==", ["get", "type"], "SR"], filter],
       paint: {
-        "icon-opacity": mod(linearZoom(0.1, 0.3), 1),
+        "icon-opacity": 1,
       },
       layout: {
         "icon-allow-overlap": true,
