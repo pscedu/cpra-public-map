@@ -472,6 +472,8 @@ export function getStyle({
     });
 
   const damageLayers = [];
+  const damageLabels = [];
+  const damageOutlines = [];
   const eadRamp = [
     "#DDC5E0",
     1000000,
@@ -544,42 +546,70 @@ export function getStyle({
       (subtype.value || "EAD") === "EAD"
         ? ["concat", "$", damageValueExpression]
         : damageValueExpression;
-    damageLayers.push(
-      {
-        id: `damage-polygon`,
-        type: "fill",
-        source: "Damage: Vector",
-        "source-layer": "damage",
-        paint: {
-          "fill-color": [
-            "step",
-            ["get", damageProp],
-            ...(subtype.value === "EAD" ? eadRamp : easdRamp),
-          ],
-          "fill-outline-color": "#bbbbbb",
-        },
+    damageLayers.push({
+      id: `damage-polygon`,
+      type: "fill",
+      source: "Damage: Vector",
+      "source-layer": "damage",
+      paint: {
+        "fill-color": [
+          "step",
+          ["get", damageProp],
+          ...(subtype.value === "EAD" ? eadRamp : easdRamp),
+        ],
       },
-      {
-        id: `damage-label`,
-        type: "symbol",
-        source: "Damage: Vector",
-        "source-layer": "damage_point",
-        minzoom: 10,
-        layout: {
-          "text-field": damageLabelExpression,
-          "text-size": 14,
-          "text-font": ["Franklin Gothic Demi Regular"],
-          "text-overlap": "always",
-        },
-        paint: {
-          "text-color": "#222222",
-          "text-halo-blur": 0.5,
-          "text-halo-color": "rgba(255, 255, 255, 1)",
-          "text-halo-width": 1,
-        },
-      }
-    );
+    });
+    damageOutlines.push({
+      id: `damage-outline`,
+      type: "line",
+      source: "Damage: Vector",
+      "source-layer": "damage",
+      paint: {
+        "line-color":
+          subtype.value === "EAD"
+            ? linearZoom("#999999", "#222222")
+            : linearZoom("#BBBBBB", "#444444"),
+        "line-width": linearZoom(0.5, 3),
+      },
+    });
+    damageLabels.push({
+      id: `damage-label`,
+      type: "symbol",
+      source: "Damage: Vector",
+      "source-layer": "damage_point",
+      minzoom: 10,
+      layout: {
+        "text-field": damageLabelExpression,
+        "text-size": 14,
+        "text-font": ["Franklin Gothic Demi Regular"],
+        "text-overlap": "always",
+      },
+      paint: {
+        "text-color": "#222222",
+        "text-halo-blur": 0.5,
+        "text-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-width": 1,
+      },
+    });
   }
+
+  const isHLC = view.value.layer.name === "Historical Land Change";
+  const maskLayers = [
+    {
+      id: "water-not-in-icm",
+      type: "fill",
+      source: "Base Map: Vector",
+      "source-layer": "water",
+      paint: {
+        "fill-color": "#ffffff",
+      },
+    },
+    {
+      id: "base-raster",
+      type: "raster",
+      source: "Base Map: Raster",
+    },
+  ];
 
   return {
     version: 8,
@@ -618,22 +648,10 @@ export function getStyle({
           "fill-opacity": 0.4,
         },
       },
-      {
-        id: "water-not-in-icm",
-        type: "fill",
-        source: "Base Map: Vector",
-        "source-layer": "water",
-        paint: {
-          "fill-color": "#ffffff",
-        },
-      },
-      {
-        id: "base-raster",
-        type: "raster",
-        source: "Base Map: Raster",
-      },
+      ...(isHLC ? maskLayers : []),
       ...modelLayers,
       ...damageLayers,
+      ...(isHLC ? [] : maskLayers),
       {
         id: "levee",
         type: "line",
@@ -668,6 +686,7 @@ export function getStyle({
           "line-width": 1.333,
         },
       },
+      ...damageOutlines,
       ...projectLayers(
         view.value.layer.name == "Projects" ||
           (group.value !== "fwoa" && showProjects.value),
@@ -695,6 +714,7 @@ export function getStyle({
           "text-color": "#444444",
         },
       },
+      ...damageLabels,
     ],
   };
 }
