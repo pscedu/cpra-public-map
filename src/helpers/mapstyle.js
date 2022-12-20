@@ -46,8 +46,8 @@ function projectLayers(show, filter, model, suffix = "") {
       "source-layer": "project_polygon",
       filter: ["all", ["==", ["get", "type"], "DI"], filter],
       paint: {
-        "fill-color": mod(modelFillColor, "#ed6731"),
-        "fill-opacity": mod(1, 0.2),
+        "fill-color": mod(modelFillColor, "#000000"),
+        "fill-opacity": mod(1, 0),
       },
     },
     // Diversion polygon outline
