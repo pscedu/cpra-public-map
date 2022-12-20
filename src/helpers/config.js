@@ -419,7 +419,7 @@ export const controls = {
   projects: {
     type: "checkbox",
     stateVariable: "showProjects",
-    label: "Show candidate projects",
+    label: "Show plan projects",
     disabled: (state) => state.group.value === "fwoa",
   },
   scenario: {
@@ -455,7 +455,7 @@ export const printText = {
   },
   layer: {
     "Land Change": "Land Change from Initial Conditions",
-    Projects: "Candidate Projects",
+    Projects: "Plan Projects",
   },
   scenario: {
     lower: "Lower Environmental Scenario",
