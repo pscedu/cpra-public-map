@@ -5,7 +5,6 @@ import style from "./style.css";
 import { State } from "../../helpers/state";
 
 import ActionButton from "../action-button";
-import Disclaimer from "../disclaimer";
 import Modal from "../modal";
 
 const Intro = () => {
@@ -28,13 +27,27 @@ const Intro = () => {
       title="Welcome to the 2023 Coastal Master Plan Data Viewer"
     >
       <div class={style.intro}>
-        <Disclaimer type="long" />
         <p>
-          This is an interactive online companion to Louisiana&apos;s 2023
-          Coastal Master Plan. This data viewer presents projections of coastal
-          change over 50 years and the potential impacts of priority restoration
-          and risk reduction projects to address the challenges of land loss and
-          coastal flood risk.
+          This is an interactive online companion to Louisiana&apos;s{" "}
+          <a href="https://coastal.la.gov/our-plan/2023-coastal-master-plan/">
+            Draft 2023 Coastal Master Plan
+          </a>
+          . This data viewer presents projections of coastal change over 50
+          years and the potential impacts of restoration and risk reduction
+          projects to address the challenges of land loss and coastal flood
+          risk.
+        </p>
+        <p>
+          Public comment on the Draft 2023 Coastal Master Plan is open through
+          Saturday, March 25, 2022. To submit comments electronically, contact
+          us via email at{" "}
+          <a href="mailto:masterplan@la.gov">masterplan@la.gov</a>. For details
+          on official public hearings or other ways to submit your comments on
+          the draft master plan, please{" "}
+          <a href="https://coastal.la.gov/our-plan/2023-coastal-master-plan/">
+            see our website
+          </a>
+          .
         </p>
         <div class={style.columns}>
           <div class={style.tour}>
