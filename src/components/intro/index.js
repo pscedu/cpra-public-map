@@ -39,7 +39,7 @@ const Intro = () => {
         </p>
         <p>
           Public comment on the Draft 2023 Coastal Master Plan is open through
-          Saturday, March 25, 2022. To submit comments electronically, contact
+          Saturday, March 25, 2023. To submit comments electronically, contact
           us via email at{" "}
           <a href="mailto:masterplan@la.gov">masterplan@la.gov</a>. For details
           on official public hearings or other ways to submit your comments on
