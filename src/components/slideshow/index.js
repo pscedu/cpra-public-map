@@ -107,7 +107,7 @@ const Slideshow = () => {
           Louisiana&apos;s map has changed significantly over the past century,
           with what was land changing into open water in many areas.{" "}
           <a href="https://pubs.er.usgs.gov/publication/sim3381">
-            Between 1932 and 2015, over 440 square miles of coastal land has
+            Between 1932 and 2015, over 2,000 square miles of coastal land has
             been lost.
           </a>{" "}
           This loss is a result of many factors&mdash;the impacts of leveeing
