@@ -1,8 +1,14 @@
 import { h } from "preact";
 import { useContext } from "preact/hooks";
 import { State } from "../../helpers/state";
-import { projectTypeDescriptions, projectTypes } from "../../helpers/config";
+import {
+  projectFactSheetBaseUrl,
+  projectTypeDescriptions,
+  projectTypes,
+} from "../../helpers/config";
 import style from "./style.css";
+
+import ActionButton from "../action-button";
 
 const ProjectDetail = () => {
   const { project } = useContext(State);
@@ -42,6 +48,19 @@ const ProjectDetail = () => {
         </p>
       </div>
       {description ? <p>{description}</p> : null}
+      <ActionButton
+        action={() =>
+          window.open(
+            `${projectFactSheetBaseUrl}${displayId}_${name.replace(
+              /[ \-]+/g,
+              "-"
+            )}.pdf`,
+            "_blank"
+          )
+        }
+      >
+        Project Fact Sheet (PDF)
+      </ActionButton>
     </div>
   );
 };
