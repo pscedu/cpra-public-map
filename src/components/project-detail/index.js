@@ -51,10 +51,9 @@ const ProjectDetail = () => {
       <ActionButton
         action={() =>
           window.open(
-            `${projectFactSheetBaseUrl}${displayId}_${name.replace(
-              /[ \-]+/g,
-              "-"
-            )}.pdf`,
+            `${projectFactSheetBaseUrl}${displayId}_${name
+              .replace(/[ \-]+/g, "-")
+              .replace(/[^A-Za-z0-9\-]/g, "")}.pdf`,
             "_blank"
           )
         }
