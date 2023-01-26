@@ -521,7 +521,7 @@ export function getStyle({
         ],
       ],
     ];
-    const isEadd = entry.value.damage || "eadd" === "eadd";
+    const isEadd = (entry.value.damage || "eadd") === "eadd";
     const damageLabelExpression = isEadd
       ? ["concat", "$", damageValueExpression]
       : damageValueExpression;
