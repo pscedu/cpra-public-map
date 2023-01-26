@@ -60,6 +60,17 @@ function makeCatalogEntries(service) {
       }
     }
     return entries;
+  } else if (service.url.match(/basemap-vector/g)) {
+    return Array.from(Array(51).keys()).map((year) => ({
+      aep: null,
+      damage: null,
+      group: null,
+      layer: "projects",
+      scenario: null,
+      serviceType: "vector",
+      url: service.url,
+      year,
+    }));
   }
   return [];
 }

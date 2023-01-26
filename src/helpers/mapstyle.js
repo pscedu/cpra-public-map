@@ -669,7 +669,7 @@ export function getStyle({
         entry.value.layer == "projects" ||
           (entry.value.group !== "fwoa" && showProjects.value),
         ["<=", ["get", "year"], entry.value.year],
-        entry.value.layer !== "Projects"
+        entry.value.layer !== "projects"
       ),
       ...searchLayers,
       ...projectLayers(selectedProjects, selectedProjects, false, "-selected"),

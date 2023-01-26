@@ -49,7 +49,11 @@ export const catalogSchema = [
         easd: "Structures",
       }[value]),
   },
-  { prop: "year", name: "Year" },
+  {
+    prop: "year",
+    name: "Year",
+    sort: (a, b) => (parseInt(a, 10) > parseInt(b, 10) ? 1 : -1),
+  },
 ];
 // Transform the catalog schema array into an object indexed by property name.
 export const catalogLevels = catalogSchema.reduce(
