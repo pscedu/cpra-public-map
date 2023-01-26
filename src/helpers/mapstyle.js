@@ -19,12 +19,6 @@ function linearZoom(min, max) {
   return ["interpolate", ["linear"], ["zoom"], 6, min, 12, max];
 }
 
-function getLayerName(layer, scenario, group, year, subtype) {
-  let name = `${layer.name} - ${layer.scenarios[scenario]} - ${layer.groups[group]} - Year ${year}`;
-  if (subtype) name += ` - ${layer.subtypeName} ${subtype}`;
-  return name;
-}
-
 function projectLayers(show, filter, model, suffix = "") {
   if (!show) return [];
   const mod = (yesModel, noModel) => (model ? yesModel : noModel);
@@ -297,15 +291,11 @@ function rasterTileUrl(serviceUrl, prefix) {
 }
 
 export function getStyle({
-  group,
-  prevLayerInfo,
-  scenario,
+  entry,
+  prevEntry,
   selection,
   services,
   showProjects,
-  subtype,
-  view,
-  year,
 }) {
   if (!services.value) return { version: 8, sources: {}, layers: [] };
 
@@ -433,17 +423,8 @@ export function getStyle({
   }
 
   // Prepare model layers.
-  let prevLayerName =
-    prevLayerInfo && prevLayerInfo.value
-      ? getLayerName(...prevLayerInfo.value)
-      : null;
-  let layerName = getLayerName(
-    view.value.layer,
-    scenario.value,
-    group.value,
-    year.value,
-    subtype.value
-  );
+  let prevEntryUrl = prevEntry && prevEntry.value ? prevEntry.value.url : null;
+  let entryUrl = entry && entry.value ? entry.value.url : null;
   const modelLayers = Object.values(services.value)
     .filter(
       (service) =>
@@ -460,14 +441,13 @@ export function getStyle({
         paint: {
           "raster-fade-duration": 0,
           "raster-opacity":
-            service.name ===
-            (prevLayerName !== null ? prevLayerName : layerName)
+            service.url === (prevEntryUrl !== null ? prevEntryUrl : entryUrl)
               ? 1
               : 0,
         },
         layout: {
           visibility:
-            service.name === layerName || service.name === prevLayerName
+            service.url === entryUrl || service.url === prevEntryUrl
               ? "visible"
               : "none",
         },
@@ -507,12 +487,8 @@ export function getStyle({
     5000,
     "#701231",
   ];
-  if (view.value.layer.name === "Damage") {
-    const damageProp =
-      `${(subtype.value || "EAD").toLowerCase()}_` +
-      `${view.value.layer.scenarios[scenario.value].toLowerCase()}_` +
-      `${view.value.layer.groups[group.value].toLowerCase()}_` +
-      `year${year.value}`;
+  if (entry.value.layer === "damage") {
+    const damageProp = entry.value.vectorProperty;
     const damageValueExpression = [
       "let",
       "digits",
@@ -545,10 +521,10 @@ export function getStyle({
         ],
       ],
     ];
-    const damageLabelExpression =
-      (subtype.value || "EAD") === "EAD"
-        ? ["concat", "$", damageValueExpression]
-        : damageValueExpression;
+    const isEadd = entry.value.damage || "eadd" === "eadd";
+    const damageLabelExpression = isEadd
+      ? ["concat", "$", damageValueExpression]
+      : damageValueExpression;
     damageLayers.push({
       id: `damage-polygon`,
       type: "fill",
@@ -558,7 +534,7 @@ export function getStyle({
         "fill-color": [
           "step",
           ["get", damageProp],
-          ...(subtype.value === "EAD" ? eadRamp : easdRamp),
+          ...(isEadd ? eadRamp : easdRamp),
         ],
       },
     });
@@ -568,10 +544,9 @@ export function getStyle({
       source: "Damage: Vector",
       "source-layer": "damage",
       paint: {
-        "line-color":
-          subtype.value === "EAD"
-            ? linearZoom("#999999", "#444444")
-            : linearZoom("#DDDDDD", "#666666"),
+        "line-color": isEadd
+          ? linearZoom("#999999", "#444444")
+          : linearZoom("#DDDDDD", "#666666"),
         "line-width": linearZoom(0.5, 3),
       },
     });
@@ -596,7 +571,7 @@ export function getStyle({
     });
   }
 
-  const isHLC = view.value.layer.name === "Historical Land Change";
+  const isHLC = entry.value.layer === "historical-land-change";
   const maskLayers = [
     {
       id: "water-not-in-icm",
@@ -691,10 +666,10 @@ export function getStyle({
       },
       ...damageOutlines,
       ...projectLayers(
-        view.value.layer.name == "Projects" ||
-          (group.value !== "fwoa" && showProjects.value),
-        ["<=", ["get", "year"], parseInt(year.value, 10)],
-        view.value.layer.name !== "Projects"
+        entry.value.layer == "projects" ||
+          (entry.value.group !== "fwoa" && showProjects.value),
+        ["<=", ["get", "year"], entry.value.year],
+        entry.value.layer !== "Projects"
       ),
       ...searchLayers,
       ...projectLayers(selectedProjects, selectedProjects, false, "-selected"),

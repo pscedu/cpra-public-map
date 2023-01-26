@@ -1,3 +1,61 @@
+// Descending sort function for catalog levels.
+const sortDesc = (a, b) => (a < b ? 1 : -1);
+// Catalog level definition objects.
+export const catalogSchema = [
+  {
+    prop: "layer",
+    name: "Layer",
+    format: (value) =>
+      ({
+        damage: "Damage",
+        "flood-depth": "Flood Depth",
+        "land-change": "Land Change",
+        projects: "Projects",
+        "vegetation-type": "Vegetation Type",
+      }[value]),
+  },
+  {
+    prop: "group",
+    name: "Plan Implementation Scenario",
+    format: (value) =>
+      ({
+        fwoa: "Without Plan",
+        fwa: "With Plan",
+      }[value]),
+    sort: sortDesc,
+  },
+  {
+    prop: "scenario",
+    name: "Environmental Scenario",
+    format: (value) =>
+      ({
+        lower: "Lower",
+        higher: "Higher",
+      }[value]),
+    sort: sortDesc,
+  },
+  {
+    prop: "aep",
+    name: "Annual Exceedance Probability",
+    format: (value) => (value ? value.toString() : ""),
+    sort: (a, b) => (parseFloat(a) > parseFloat(b) ? 1 : -1),
+  },
+  {
+    prop: "damage",
+    name: "Damage Metric",
+    format: (value) =>
+      ({
+        eadd: "Dollars",
+        easd: "Structures",
+      }[value]),
+  },
+  { prop: "year", name: "Year" },
+];
+// Transform the catalog schema array into an object indexed by property name.
+export const catalogLevels = catalogSchema.reduce(
+  (obj, level) => ({ ...obj, [level.prop]: level }),
+  {}
+);
 const colorSwatch = (color) =>
   "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' " +
   `width='50' height='20'><rect fill='${color.replace(
@@ -191,247 +249,127 @@ export const legends = {
     ],
   },
 };
-export const layers = {
-  damage: {
-    groups: {
-      fwoa: "G500",
-      fwa: "G516",
-    },
-    name: "Damage",
-    legend: (subtype) => (subtype === "EAD" ? legends.ead : legends.easd),
-    nullYears: [],
-    scenarios: {
-      lower: "S07",
-      higher: "S08",
-    },
-    subtypes: ["EAD", "EASD"],
-    type: "vector",
-    years: [0, 10, 20, 30, 40, 50],
-  },
-  floodDepth: {
-    groups: {
-      fwoa: "G500",
-      fwa: "G516",
-    },
-    name: "Flood Depth",
-    legend: () => legends.floodDepth,
-    nullYears: [],
-    scenarios: {
-      lower: "S07",
-      higher: "S08",
-    },
-    subtypeName: "Exceedance Probability",
-    subtypes: ["10.0", "2.0", "1.0", "0.2"],
-    type: "raster",
-    years: [0, 10, 20, 30, 40, 50],
-  },
-  historicalLandChange: {
-    groups: {
-      fwoa: "G500",
-    },
-    name: "Historical Land Change",
-    legend: () => legends.historicalLandChange,
-    nullYears: [],
-    scenarios: {
-      lower: "S07",
-    },
-    type: "raster",
-    years: [1932, 1956, 1975, 1985, 1995, 2006, 2015],
-  },
-  landChange: {
-    groups: {
-      fwoa: "G520",
-      fwa: "G521",
-    },
-    name: "Land Change",
-    legend: () => legends.landChange,
-    nullYears: [0],
-    scenarios: {
-      lower: "S07",
-      higher: "S08",
-    },
-    type: "raster",
-    years: [0, 10, 20, 30, 40, 50],
-  },
-  projects: {
-    groups: {
-      fwoa: "G520",
-      fwa: "G521",
-    },
-    name: "Projects",
-    legend: () => legends.projects,
-    nullYears: [0],
-    scenarios: {
-      lower: "S07",
-      higher: "S08",
-    },
-    type: "vector",
-    years: [...Array(51).keys()],
-  },
-  vegetationType: {
-    groups: {
-      fwoa: "G520",
-      fwa: "G521",
-    },
-    name: "Vegetation Type",
-    legend: () => legends.vegetationType,
-    nullYears: [],
-    scenarios: {
-      lower: "S07",
-      higher: "S08",
-    },
-    type: "raster",
-    years: [0, 10, 20, 30, 40, 50],
-  },
-};
+
 export const views = {
   "land-change": {
     title: "Land Change",
-    layer: layers.landChange,
+    layer: "land-change",
   },
   "vegetation-type": {
     title: "Vegetation Type",
-    layer: layers.vegetationType,
+    layer: "vegetation-type",
   },
   "flood-depth": {
     title: "Flood Depth",
-    layer: layers.floodDepth,
+    layer: "flood-depth",
   },
   damage: {
     title: "Damage",
-    layer: layers.damage,
+    layer: "damage",
   },
   projects: {
     title: "Projects",
-    layer: layers.projects,
+    layer: "projects",
   },
   "slide-0": {
     title: "A History of Change",
-    layer: layers.historicalLandChange,
+    layer: "historical-land-change",
     group: "fwoa",
     scenario: "lower",
     year: 1932,
   },
   "slide-1": {
     title: "A Continuing Crisis",
-    layer: layers.landChange,
+    layer: "land-change",
     group: "fwoa",
     scenario: "lower",
     year: 0,
   },
   "slide-2": {
     title: "Land Change Without Action",
-    layer: layers.landChange,
+    layer: "land-change",
     group: "fwoa",
     scenario: "lower",
     year: 0,
   },
   "slide-3": {
     title: "Flood Depth Without Action",
-    layer: layers.floodDepth,
+    layer: "flood-depth",
     group: "fwoa",
     scenario: "lower",
-    subtype: "10.0",
+    aed: 10,
     year: 0,
   },
   "slide-4": {
     title: "Expected Annual Damage Without Action",
-    layer: layers.damage,
+    layer: "damage",
     group: "fwoa",
     scenario: "lower",
-    subtype: "AED",
+    damage: "eadd",
     year: 0,
   },
   "slide-5": {
     title: "Taking Action",
-    layer: layers.projects,
+    layer: "projects",
     year: 0,
   },
   "slide-6": {
     title: "Land Change With the Master Plan",
-    layer: layers.landChange,
+    layer: "land-change",
     group: "fwa",
     scenario: "lower",
     year: 0,
   },
   "slide-7": {
     title: "Flood Depth With the Master Plan",
-    layer: layers.floodDepth,
+    layer: "flood-depth",
     group: "fwa",
     scenario: "lower",
-    subtype: "10.0",
+    aep: 10,
     year: 0,
   },
   "slide-8": {
     title: "Expected Annual Damage With the Master Plan",
-    layer: layers.damage,
+    layer: "damage",
     group: "fwa",
     scenario: "lower",
-    subtype: "AED",
+    damage: "eadd",
     year: 0,
   },
   "slide-9": {
     title: "Time to Explore",
-    layer: layers.projects,
+    layer: "projects",
     year: 50,
   },
 };
 export const controls = {
   aep: {
     type: "buttons",
-    stateVariable: "subtype",
     label: "Annual Exceedance Probability",
-    choices: layers.floodDepth.subtypes.map((subtype) => [subtype, subtype]),
     tooltip:
       "<p>To estimate future flooding potential, we included a range of storm intensities, sizes, and landfall locations across the coast. This information, along with the relative likelihood of each storm occurring, gave us a rough idea of how flooding could occur across Louisiana’s coast over the next 50 years.</p><p>To put these figures in context, Hurricane Katrina (2005) produced storm surge that rated as a 100-year event in Plaquemines and St Bernard Parish, while as a 50-year event in Orleans Parish. Hurricane Rita (2005) produced storm surge that rated as 100-year event in Terrebonne, St. Mary, and Vermillion. Hurricane Ike (2008) produced a storm surge that rated as a 50-year event in Cameron Parish.</p>",
   },
   damage: {
     type: "buttons",
-    stateVariable: "subtype",
     label: "Damage Metric",
-    choices: [
-      ["EAD", "Dollars"],
-      ["EASD", "Structures"],
-    ],
     tooltip:
       "<p>Future storm surge-based flooding damages can be estimated by considering flood depths and the number and type of assets flooded in events across the coast. The cost of these damages in dollars is called Estimated Annual Damages, Dollars or EADD. Another way to quantify damages is to count how many whole and partial structures are damaged from an event and sum them to determine Estimated Annual Structural Damage, or EASD.</p><p>Both damage metrics are projected over time and for different scenarios and event AEPs.</p>",
   },
   group: {
     type: "buttons",
     label: "Plan Implementation Scenario",
-    choices: [
-      ["fwoa", "Without Plan"],
-      ["fwa", "With Plan"],
-    ],
-    tooltip:
-      "<p>Select <strong>Without Plan</strong> to look at model outputs projecting the future if we do not implement any of the projects recommended in the 2023 Coastal Master Plan. Select <strong>With Plan</strong> to look at model outputs with the final plan projects in place.</p>",
-  },
-  groupdisabled: {
-    type: "buttons",
-    disabled: true,
-    stateVariable: "group",
-    label: "Plan Implementation Scenario",
-    choices: [
-      ["fwoa", "Without Plan"],
-      ["fwa", "With Plan"],
-    ],
-    help: "With Plan data coming soon!",
     tooltip:
       "<p>Select <strong>Without Plan</strong> to look at model outputs projecting the future if we do not implement any of the projects recommended in the 2023 Coastal Master Plan. Select <strong>With Plan</strong> to look at model outputs with the final plan projects in place.</p>",
   },
   projects: {
     type: "checkbox",
-    stateVariable: "showProjects",
+    level: "showProjects",
     label: "Show plan projects",
     disabled: (state) => state.group.value === "fwoa",
   },
   scenario: {
     type: "buttons",
     label: "Environmental Scenario",
-    choices: [
-      ["lower", "Lower"],
-      ["higher", "Higher"],
-    ],
     tooltip:
       "<p>Because we don&apos;t know what the future will bring, the 2023 Coastal Master Plan developed different environmental scenarios to capture possible coastal conditions. These scenarios reflect the different ways that future conditions could affect our ability to protect communities and build land.</p><p><strong>Lower Scenario:</strong> Assumes moderate changes in the factors over the next 50 years, including moderate rates of sea level rise and subsidence.</p><p><strong>Higher Scenario:</strong> Assumes more dramatic changes in the factors over the next 50 years, particularly higher rates of sea level rise and subsidence.</p><p>Factors included in future environmental scenarios: Sea level rise, subsidence, storm intensity, rainfall, tributary hydrology, temperature, and evapotranspiration.</p><p>More information on the environmental scenarios used for project selection in the 2023 Coastal Master Plan can be found in Appendix B.</p>",
   },
@@ -443,6 +381,7 @@ export const controls = {
   },
   yearimplementation: {
     type: "year",
+    level: "year",
     label: "Implementation Year",
     tooltip:
       "<p>Use the time slider to view projects planned for the selected range of years.</p>",

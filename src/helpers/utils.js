@@ -13,20 +13,6 @@ export const bufferPoint = (xDeg, yDeg, radius, segments = 32) => {
   return { type: "Polygon", coordinates: [ring] };
 };
 
-export const selectValue = (values, currentValue) => {
-  values = values || [];
-  if (values.includes(currentValue)) return currentValue;
-  const defaultValue = values[0];
-  if (!values.length) return null;
-  if (!isNaN(values[0]))
-    return values.reduce((prev, curr) =>
-      Math.abs(curr - currentValue) < Math.abs(prev - currentValue)
-        ? curr
-        : prev
-    );
-  return defaultValue;
-};
-
 export function getLocalResults(text, fuse, limit = 5) {
   let res = fuse
     ? fuse.search(text, { limit }).map((result) => result.item)
