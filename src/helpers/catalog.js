@@ -1,43 +1,45 @@
 import { catalogSchema as levels } from "../helpers/config";
 
 function makeCatalogEntries(service) {
+  const entries = [];
   const parts = service.url.split("/").pop().split("_");
   if (service.url.match(/MP2023_/g)) {
     const year = parseInt(parts[9], 10);
-    return [
-      {
-        aep: parts[12] == "aep" ? parseFloat(parts[11]).toFixed(1) : null,
-        damage: null,
-        group: { G500: "fwoa", G516: "fwa", G520: "fwoa", G521: "fwa" }[
-          parts[2]
-        ],
-        layer: {
-          depths50: "flood-depth",
-          FFIBS: "vegetation-type",
-          lndchg: "land-change",
-          lndtypdiff: "land-change",
-        }[parts[13] || parts[11]],
-        scenario: { S07: "lower", S08: "higher" }[parts[1]],
-        serviceType: "raster",
-        url: service.url,
-        year: parts[10] == "CLARA" ? (year == 1 ? 0 : year) : year - 2,
-      },
-    ];
+    entries.push({
+      aep: parts[12] == "aep" ? parseFloat(parts[11]).toFixed(1) : null,
+      damage: null,
+      group: { G500: "fwoa", G516: "fwa", G520: "fwoa", G521: "fwa" }[parts[2]],
+      layer: {
+        depths50: "flood-depth",
+        FFIBS: "vegetation-type",
+        lndchg: "land-change",
+        lndtypdiff: "land-change",
+      }[parts[13] || parts[11]],
+      scenario: { S07: "lower", S08: "higher" }[parts[1]],
+      serviceType: "raster",
+      url: service.url,
+      year: parts[10] == "CLARA" ? (year == 1 ? 0 : year) : year - 2,
+    });
+    // Create entries for land change year 0, since they don't have a raster image.
+    if (entries[0].year === 10 && entries[0].layer === "land-change")
+      entries.push({
+        ...entries[0],
+        serviceType: null,
+        url: null,
+        year: 0,
+      });
   } else if (service.url.match(/historical_land_change/g)) {
-    return [
-      {
-        aep: null,
-        damage: null,
-        group: null,
-        layer: "historical-land-change",
-        scenario: null,
-        serviceType: "raster",
-        url: service.url,
-        year: parseInt(parts[3], 10),
-      },
-    ];
+    entries.push({
+      aep: null,
+      damage: null,
+      group: null,
+      layer: "historical-land-change",
+      scenario: null,
+      serviceType: "raster",
+      url: service.url,
+      year: parseInt(parts[3], 10),
+    });
   } else if (service.url.match(/damage-vector/g)) {
-    const entries = [];
     for (let year = 0; year <= 50; year += 10) {
       for (let group of ["fwoa", "fwa"]) {
         for (let scenario of ["lower", "higher"]) {
@@ -62,20 +64,20 @@ function makeCatalogEntries(service) {
         }
       }
     }
-    return entries;
   } else if (service.url.match(/basemap-vector/g)) {
-    return Array.from(Array(51).keys()).map((year) => ({
-      aep: null,
-      damage: null,
-      group: null,
-      layer: "projects",
-      scenario: null,
-      serviceType: "vector",
-      url: service.url,
-      year,
-    }));
+    for (let year = 0; year < 51; year++)
+      entries.push({
+        aep: null,
+        damage: null,
+        group: null,
+        layer: "projects",
+        scenario: null,
+        serviceType: "vector",
+        url: service.url,
+        year,
+      });
   }
-  return [];
+  return entries;
 }
 
 export function buildCatalog(services) {
