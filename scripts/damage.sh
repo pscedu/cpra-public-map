@@ -65,6 +65,8 @@ select "CommunityID" as community_id,
 	cast(round(sum(case when "Scenario" = 8 and "ModelGroup" = 516 and "Year_FWOA" = 40 then "EASD_50" else 0 end)) as bigint) as easd_s08_g516_year40,
 	cast(round(sum(case when "Scenario" = 8 and "ModelGroup" = 516 and "Year_FWOA" = 50 then "EASD_50" else 0 end)) as bigint) as easd_s08_g516_year50
 from clara.risk
+where "FragilityScenario" = 1
+	and "PumpingID" = 0.5
 group by "CommunityID"
 SQL
 
