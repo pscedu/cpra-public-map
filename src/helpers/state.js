@@ -16,7 +16,7 @@ import {
 import * as config from "./config";
 import { buildCatalog } from "./catalog";
 
-let layerInfoCache = null;
+let entryInfoCache = null;
 
 export function createState() {
   // SIGNALS
@@ -186,21 +186,15 @@ export function createState() {
     if (viewName.value === "slide-9") gtag("event", "tutorial_complete");
   });
 
-  // Store information about the previous layer.
-  // effect(() => {
-  //   prevLayerInfo.value = (view.value.layer.nullYears || []).includes(
-  //     year.value
-  //   )
-  //     ? null
-  //     : layerInfoCache;
-  //   layerInfoCache = [
-  //     view.value.layer,
-  //     scenario.value,
-  //     group.value,
-  //     year.value,
-  //     subtype.value,
-  //   ];
-  // });
+  // Store information about the previous catalog entry.
+  effect(() => {
+    // If the current entry doesn't have an associated service, we don't load
+    // the previous entry from the cache since there will be no idle event
+    // triggered to clear it.
+    prevEntry.value =
+      entry.value && entry.value.serviceType !== null ? entryInfoCache : null;
+    entryInfoCache = entry.value;
+  });
 
   // Add map event handlers.
   effect(() => {
