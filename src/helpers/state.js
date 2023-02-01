@@ -267,7 +267,7 @@ export function createState() {
   const endTour = () => {
     batch(() => {
       drawerOpen.value = true;
-      setStorySlide(null);
+      setView("land-change");
     });
   };
 
@@ -286,14 +286,23 @@ export function createState() {
     searchResult.value = searchIndexMap.value[key] || null;
   };
 
-  const setStorySlide = (idx) =>
-    (viewName.value = idx === null ? "land-change" : `slide-${idx}`);
+  const setView = (targetViewName) => {
+    const view = config.views[targetViewName];
+    batch(() => {
+      viewName.value = targetViewName;
+      if (view.aep !== undefined) aep.value = view.aep;
+      if (view.damage !== undefined) damage.value = view.damage;
+      if (view.group !== undefined) group.value = view.group;
+      if (view.scenario !== undefined) scenario.value = view.scenario;
+      if (view.year !== undefined) year.value = view.year;
+    });
+  };
 
   const startTour = () => {
     batch(() => {
       searchResult.value = null;
       drawerOpen.value = true;
-      setStorySlide(0);
+      setView("slide-0");
     });
     mapFitBounds(config.mapDefaults.bounds);
   };
@@ -325,7 +334,7 @@ export function createState() {
     selection,
     services,
     setSearchResult,
-    setStorySlide,
+    setView,
     showProjects,
     startTour,
     storySlide,

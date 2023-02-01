@@ -10,10 +10,10 @@ const SlideNavigationButton = ({
   label,
   targetSlide,
 }) => {
-  const { viewName } = useContext(State);
+  const { setView } = useContext(State);
   const handleClick = action
     ? action
-    : () => (viewName.value = targetSlide.props.viewName);
+    : () => setView(targetSlide.props.viewName);
   return (
     <button
       aria-label={label || views[targetSlide.props.viewName].title}
