@@ -56,9 +56,12 @@ function makeCatalogEntries(service) {
               scenario,
               serviceType: "vector",
               url: service.url,
-              vectorProperty: [damage, scenario, group, `year${year}`].join(
-                "_"
-              ),
+              vectorProperty: [
+                damage == "eadd" ? "ead" : "easd",
+                scenario == "lower" ? "s07" : "s08",
+                group == "fwoa" ? "g500" : "g516",
+                `year${year}`,
+              ].join("_"),
               year,
             });
           }
