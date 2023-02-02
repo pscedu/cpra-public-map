@@ -20,7 +20,7 @@ let entryInfoCache = null;
 
 export function createState() {
   // SIGNALS
-  const aep = hashSignal("aep", "0.2");
+  const aep = hashSignal("aep", "10.0");
   const damage = hashSignal("damage", "eadd");
   const group = hashSignal("group", "fwoa");
   const scenario = hashSignal("scenario", "lower");

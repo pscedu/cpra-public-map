@@ -38,7 +38,7 @@ export const catalogSchema = [
     prop: "aep",
     name: "Annual Exceedance Probability",
     format: (value) => (value ? value.toString() : ""),
-    sort: (a, b) => (parseFloat(a) > parseFloat(b) ? 1 : -1),
+    sort: (a, b) => (parseFloat(a) < parseFloat(b) ? 1 : -1),
   },
   {
     prop: "damage",
@@ -301,7 +301,7 @@ export const views = {
     layer: "flood-depth",
     group: "fwoa",
     scenario: "lower",
-    aed: 10,
+    aed: "10.0",
     year: 0,
   },
   "slide-4": {
@@ -329,7 +329,7 @@ export const views = {
     layer: "flood-depth",
     group: "fwa",
     scenario: "lower",
-    aep: 10,
+    aep: "10.0",
     year: 0,
   },
   "slide-8": {
