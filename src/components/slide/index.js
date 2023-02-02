@@ -1,6 +1,10 @@
 import { h } from "preact";
 import { useContext } from "preact/hooks";
-import { controls as controlSpecs, views } from "../../helpers/config";
+import {
+  catalogLevels,
+  controls as controlSpecs,
+  views,
+} from "../../helpers/config";
 import { State } from "../../helpers/state";
 import style from "./style.css";
 
@@ -9,13 +13,17 @@ import Checkbox from "../checkbox";
 import Year from "../year";
 
 const createControl = (controlName, view, state) => {
+  if (!state.catalog.value) return;
   const spec = controlSpecs[controlName];
-  const sig = state[spec.stateVariable || controlName];
+  const sig = state[spec.level || controlName];
+  const level = catalogLevels[spec.level || controlName];
   if (spec.type === "buttons")
     return (
       <Buttons
         analyticsId={controlName}
-        choices={spec.choices}
+        choices={state.catalog.value
+          .choices(state.entry.value, level)
+          .map((value) => [value, level.format ? level.format(value) : value])}
         label={spec.label}
         signal={sig}
         tooltip={spec.tooltip}
@@ -39,7 +47,7 @@ const createControl = (controlName, view, state) => {
         label={spec.label}
         signal={state.year}
         tooltip={spec.tooltip}
-        years={view.layer.years}
+        years={state.catalog.value.choices(state.entry.value, level)}
       />
     );
 };

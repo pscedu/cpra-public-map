@@ -6,20 +6,8 @@ import { getMapPadding } from "../../helpers/utils";
 import { getStyle } from "../../helpers/mapstyle";
 
 const Map = () => {
-  const {
-    group,
-    map,
-    printing,
-    politicalBoundary,
-    prevLayerInfo,
-    scenario,
-    selection,
-    services,
-    showProjects,
-    subtype,
-    view,
-    year,
-  } = useContext(State);
+  const { entry, map, prevEntry, printing, selection, services, showProjects } =
+    useContext(State);
   const { mapDefaults, maxBounds } = config;
   const container = useRef();
   useLayoutEffect(() => {
@@ -31,16 +19,11 @@ const Map = () => {
         padding: getMapPadding(),
       },
       style: getStyle({
-        group,
-        politicalBoundary,
-        prevLayerInfo,
-        scenario,
+        entry,
+        prevEntry,
         selection,
         services,
         showProjects,
-        subtype,
-        view,
-        year,
       }),
       dragRotate: false,
       hash: "map",

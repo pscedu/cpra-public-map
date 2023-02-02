@@ -9,23 +9,24 @@ import ActionButton from "../action-button";
 import Legend from "../legend";
 
 const Print = ({ children }) => {
-  const { group, map, mapResize, scenario, subtype, printing, view, year } =
-    useContext(State);
-  const layerName = view.value.layer.name;
-  const { printText } = config;
-
+  const { entry, map, mapResize, printing } = useContext(State);
   const [initialWidth, initialHeight] = getDimensions();
   const [height, setHeight] = useState(initialHeight);
   const [width, setWidth] = useState(initialWidth);
 
+  if (!entry.value) return;
+
+  const layerName = entry.value.layer;
+  const { printText } = config;
+
   const titles = {
     primary: [
       "2023 Coastal Master Plan",
-      `${printText.group[group.value]} - Draft`,
+      `${printText.group[entry.value.group]} - Draft`,
     ],
     secondary: [
-      `${printText.layer[layerName] || layerName} - Year ${year.value}`,
-      `${printText.scenario[scenario.value]}`,
+      `${printText.layer[layerName] || layerName} - Year ${entry.value.year}`,
+      `${printText.scenario[entry.value.scenario]}`,
     ],
   };
 
@@ -44,7 +45,7 @@ const Print = ({ children }) => {
       width: 11 * dpi,
       height: 8.5 * dpi,
       dpi,
-      legend: view.value.layer.legend(subtype.value),
+      legend: entry.value.legend,
       scaleFactor: (11 * dpi) / width,
       titles,
     });
@@ -70,7 +71,7 @@ const Print = ({ children }) => {
   const legend = (
     <Legend
       dpi={dpi}
-      spec={view.value.layer.legend(subtype.value)}
+      spec={entry.value.legend}
       margin={margin}
       printing={printing.value}
     />

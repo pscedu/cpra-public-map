@@ -12,16 +12,17 @@ import {
   getOsmSelection,
   gtag,
   internal,
-  selectValue,
 } from "./utils";
 import * as config from "./config";
+import { buildCatalog } from "./catalog";
 
-let layerInfoCache = null;
+let entryInfoCache = null;
 
 export function createState() {
   // SIGNALS
+  const aep = hashSignal("aep", "0.2");
+  const damage = hashSignal("damage", "eadd");
   const group = hashSignal("group", "fwoa");
-  const politicalBoundary = hashSignal("political-boundary", null);
   const scenario = hashSignal("scenario", "lower");
   const showProjects = hashSignal(
     "show-projects",
@@ -29,14 +30,14 @@ export function createState() {
     (val) => (val ? "true" : "false"),
     (val) => val === "true"
   );
-  const subtype = hashSignal("subtype", null);
   const viewName = hashSignal("view", "slide-0");
   const year = hashSignal("year", 50, (val) => val.toString(), parseInt);
 
+  const catalog = signal(null);
   const drawerOpen = signal(true);
   const introOpen = signal(viewName.peek() === "slide-0");
   const map = signal(null);
-  const prevLayerInfo = signal(null);
+  const prevEntry = signal(null);
   const printing = signal(false);
   const projects = signal([]);
   const searchIndex = signal([]);
@@ -46,6 +47,18 @@ export function createState() {
   const services = signal(null);
 
   // COMPUTED SIGNALS
+  const entry = computed(() => {
+    if (!catalog.value || !view.value) return null;
+    return catalog.value.select({
+      aep: aep.value,
+      damage: damage.value,
+      group: group.value,
+      layer: view.value.layer,
+      scenario: scenario.value,
+      year: year.value,
+    });
+  });
+
   const fuse = computed(() =>
     searchIndex.value.length
       ? new Fuse(searchIndex.value, {
@@ -112,35 +125,7 @@ export function createState() {
   effect(async () => {
     const res = await fetch(config.servicesUrl);
     services.value = await res.json();
-  });
-
-  // Synchronize layer signals with available choices.
-  const prevSubtypes = {};
-  effect(() => {
-    const layer = view.value.layer;
-    if (subtype.peek() && (layer.subtypes || []).includes(subtype.peek()))
-      prevSubtypes[viewName.value] = subtype.peek();
-    batch(() => {
-      group.value = selectValue(
-        Object.keys(layer.groups),
-        view.value.group || group.value
-      );
-      scenario.value = selectValue(
-        Object.keys(layer.scenarios),
-        view.value.scenario || scenario.value
-      );
-      subtype.value = selectValue(
-        layer.subtypes,
-        view.value.subtype ||
-          ((layer.subtypes || []).includes(subtype.value)
-            ? subtype.value
-            : prevSubtypes[viewName.value])
-      );
-      year.value = selectValue(
-        layer.years,
-        view.value.year === undefined ? year.value : view.value.year
-      );
-    });
+    catalog.value = buildCatalog(services.value);
   });
 
   // Perform a search when text changes.
@@ -201,20 +186,14 @@ export function createState() {
     if (viewName.value === "slide-9") gtag("event", "tutorial_complete");
   });
 
-  // Store information about the previous layer.
+  // Store information about the previous catalog entry.
   effect(() => {
-    prevLayerInfo.value = (view.value.layer.nullYears || []).includes(
-      year.value
-    )
-      ? null
-      : layerInfoCache;
-    layerInfoCache = [
-      view.value.layer,
-      scenario.value,
-      group.value,
-      year.value,
-      subtype.value,
-    ];
+    // If the current entry doesn't have an associated service, we don't load
+    // the previous entry from the cache since there will be no idle event
+    // triggered to clear it.
+    prevEntry.value =
+      entry.value && entry.value.serviceType !== null ? entryInfoCache : null;
+    entryInfoCache = entry.value;
   });
 
   // Add map event handlers.
@@ -222,7 +201,7 @@ export function createState() {
     if (!map.value) return;
 
     // Unset the previous layer when the map becomes idle.
-    map.value.on("idle", () => (prevLayerInfo.value = null));
+    map.value.on("idle", () => (prevEntry.value = null));
 
     // Set layer click handlers.
     ["search-screen", "search-inner", "search-outer"].forEach((layer) =>
@@ -256,16 +235,11 @@ export function createState() {
     if (map.value)
       map.value.setStyle(
         getStyle({
-          group,
-          politicalBoundary,
-          prevLayerInfo,
-          scenario,
+          entry,
+          prevEntry,
           selection,
           services,
           showProjects,
-          subtype,
-          view,
-          year,
         })
       );
   });
@@ -287,7 +261,7 @@ export function createState() {
   const endTour = () => {
     batch(() => {
       drawerOpen.value = true;
-      setStorySlide(null);
+      setView("land-change");
     });
   };
 
@@ -306,30 +280,42 @@ export function createState() {
     searchResult.value = searchIndexMap.value[key] || null;
   };
 
-  const setStorySlide = (idx) =>
-    (viewName.value = idx === null ? "land-change" : `slide-${idx}`);
+  const setView = (targetViewName) => {
+    const view = config.views[targetViewName];
+    batch(() => {
+      viewName.value = targetViewName;
+      if (view.aep !== undefined) aep.value = view.aep;
+      if (view.damage !== undefined) damage.value = view.damage;
+      if (view.group !== undefined) group.value = view.group;
+      if (view.scenario !== undefined) scenario.value = view.scenario;
+      if (view.year !== undefined) year.value = view.year;
+    });
+  };
 
   const startTour = () => {
     batch(() => {
       searchResult.value = null;
       drawerOpen.value = true;
-      setStorySlide(0);
+      setView("slide-0");
     });
     mapFitBounds(config.mapDefaults.bounds);
   };
 
   return {
+    aep,
+    catalog,
     clearProject,
     clearSearch,
+    damage,
     drawerOpen,
     endTour,
+    entry,
     fuse,
     group,
     introOpen,
     map,
     mapFitBounds,
     mapResize,
-    politicalBoundary,
     printing,
     project,
     projectMap,
@@ -342,11 +328,10 @@ export function createState() {
     selection,
     services,
     setSearchResult,
-    setStorySlide,
+    setView,
     showProjects,
     startTour,
     storySlide,
-    subtype,
     view,
     viewName,
     year,
