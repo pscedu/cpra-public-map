@@ -113,8 +113,6 @@ export function buildCatalog(services) {
     }
   }
 
-  console.log(index);
-
   const getChoices = (obj, level) => {
     if (!levelObjRefs.includes(obj)) levelObjRefs.push(obj);
     const ref = levelObjRefs.indexOf(obj);
