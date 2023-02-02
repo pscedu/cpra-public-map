@@ -133,7 +133,7 @@ export const regionsLookup = Object.keys(regions).reduce(
   {}
 );
 export const legends = {
-  ead: {
+  eadd: {
     title: "Damage: EADD",
     images: [
       "#DDC5E0",
@@ -175,7 +175,7 @@ export const legends = {
       "5,000 or more",
     ],
   },
-  floodDepth: {
+  "flood-depth": {
     title: "Flood Depth",
     images: [
       "#728D97",
@@ -196,12 +196,12 @@ export const legends = {
       "21+ feet",
     ],
   },
-  historicalLandChange: {
+  "historical-land-change": {
     title: "Historical Land Change",
     images: ["#4591ac", "#265118"].map(colorSwatch),
     labels: ["Persistent Land Loss", "Persistent Land Gain"],
   },
-  landChange: {
+  "land-change": {
     title: "Land Change",
     images: ["#4591ac", "#00f0f0", "#99c104", "#265118"].map(colorSwatch),
     labels: ["Land Loss", "Induced Loss", "Land Maintained", "Land Gain"],
@@ -239,7 +239,7 @@ export const legends = {
       projectTypeDescriptions.MC,
     ],
   },
-  vegetationType: {
+  "vegetation-type": {
     title: "Vegetation Type",
     images: ["#5E823A", "#DAE86D", "#92CBE8", "#735753", "#0679D2"].map(
       colorSwatch
@@ -407,8 +407,11 @@ export const printText = {
     fwa: "Future With Action",
   },
   layer: {
-    "Land Change": "Land Change from Initial Conditions",
-    Projects: "Plan Projects",
+    damage: "Damage",
+    "flood-depth": "Flood Depth",
+    "land-change": "Land Change from Initial Conditions",
+    projects: "Plan Projects",
+    "vegetation-type": "Vegetation Type",
   },
   scenario: {
     lower: "Lower Environmental Scenario",

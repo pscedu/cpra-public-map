@@ -14,9 +14,19 @@ const Print = ({ children }) => {
   const [height, setHeight] = useState(initialHeight);
   const [width, setWidth] = useState(initialWidth);
 
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      const [newWidth, newHeight] = getDimensions();
+      setHeight(newHeight);
+      setWidth(newWidth);
+      mapResize();
+    });
+  }, []);
+
   if (!entry.value) return;
 
   const layerName = entry.value.layer;
+  const legendSpec = config.legends[entry.value.legend];
   const { printText } = config;
 
   const titles = {
@@ -45,7 +55,7 @@ const Print = ({ children }) => {
       width: 11 * dpi,
       height: 8.5 * dpi,
       dpi,
-      legend: entry.value.legend,
+      legend: legendSpec,
       scaleFactor: (11 * dpi) / width,
       titles,
     });
@@ -57,21 +67,12 @@ const Print = ({ children }) => {
     document.body.removeChild(link);
   };
 
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-      const [newWidth, newHeight] = getDimensions();
-      setHeight(newHeight);
-      setWidth(newWidth);
-      mapResize();
-    });
-  }, []);
-
   const dpi = height / 8.5;
   const margin = 0.5 * dpi;
   const legend = (
     <Legend
       dpi={dpi}
-      spec={entry.value.legend}
+      spec={legendSpec}
       margin={margin}
       printing={printing.value}
     />

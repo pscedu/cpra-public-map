@@ -1,20 +1,22 @@
-import { catalogSchema as levels } from "../helpers/config";
+import { catalogSchema as levels, legends } from "../helpers/config";
 
 function makeCatalogEntries(service) {
   const entries = [];
   const parts = service.url.split("/").pop().split("_");
   if (service.url.match(/MP2023_/g)) {
     const year = parseInt(parts[9], 10);
+    const layer = {
+      depths50: "flood-depth",
+      FFIBS: "vegetation-type",
+      lndchg: "land-change",
+      lndtypdiff: "land-change",
+    }[parts[13] || parts[11]];
     entries.push({
       aep: parts[12] == "aep" ? parseFloat(parts[11]).toFixed(1) : null,
       damage: null,
       group: { G500: "fwoa", G516: "fwa", G520: "fwoa", G521: "fwa" }[parts[2]],
-      layer: {
-        depths50: "flood-depth",
-        FFIBS: "vegetation-type",
-        lndchg: "land-change",
-        lndtypdiff: "land-change",
-      }[parts[13] || parts[11]],
+      layer,
+      legend: layer,
       scenario: { S07: "lower", S08: "higher" }[parts[1]],
       serviceType: "raster",
       url: service.url,
@@ -34,6 +36,7 @@ function makeCatalogEntries(service) {
       damage: null,
       group: null,
       layer: "historical-land-change",
+      legend: "historical-land-change",
       scenario: null,
       serviceType: "raster",
       url: service.url,
@@ -49,6 +52,7 @@ function makeCatalogEntries(service) {
               damage,
               group,
               layer: "damage",
+              legend: damage,
               scenario,
               serviceType: "vector",
               url: service.url,
@@ -68,6 +72,7 @@ function makeCatalogEntries(service) {
         damage: null,
         group: null,
         layer: "projects",
+        legend: "projects",
         scenario: null,
         serviceType: "vector",
         url: service.url,
