@@ -4,13 +4,14 @@ import { State } from "../../helpers/state";
 import style from "./style.css";
 
 import ActionButton from "../action-button";
+import CommunityDetail from "../community-detail";
 import ProjectDetail from "../project-detail";
 import ProjectList from "../project-list";
 import Slide from "../slide";
 import Slides from "../slides";
 
 const Slideshow = () => {
-  const { endTour, project } = useContext(State);
+  const { endTour, project, selection } = useContext(State);
   return (
     <Slides>
       <Slide
@@ -309,6 +310,15 @@ const Slideshow = () => {
       {project.value ? (
         <Slide title="Project Details" color="green" overlay={true}>
           <ProjectDetail />
+        </Slide>
+      ) : null}
+      {selection.value && selection.value.community ? (
+        <Slide
+          title="Community Details"
+          overlay={true}
+          controls={["scenario", "damage"]}
+        >
+          <CommunityDetail />
         </Slide>
       ) : null}
     </Slides>

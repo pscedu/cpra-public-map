@@ -204,6 +204,21 @@ export function createState() {
     map.value.on("idle", () => (prevEntry.value = null));
 
     // Set layer click handlers.
+    ["damage-polygon", "damage-label"].forEach((layer) =>
+      map.value.on("click", layer, (e) => {
+        const feature = e.features[0];
+        const props = feature.properties;
+        searchResult.value = {
+          id: props.community_id,
+          type: "community",
+          category: null,
+          name: `Community ${props.community_id}`,
+          selection: {
+            community: props,
+          },
+        };
+      })
+    );
     ["search-screen", "search-inner", "search-outer"].forEach((layer) =>
       map.value.on("click", layer, () => clearSearch())
     );
