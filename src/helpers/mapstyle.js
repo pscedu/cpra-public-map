@@ -557,6 +557,17 @@ export function getStyle({
         },
       },
       {
+        id: "damage-fill-selected",
+        type: "fill",
+        source: "Damage: Vector",
+        "source-layer": "damage",
+        filter: ["==", ["get", "community_id"], selectedCommunity],
+        paint: {
+          "fill-color": "#000000",
+          "fill-opacity": 0.5,
+        },
+      },
+      {
         id: "damage-outline-selected",
         type: "line",
         source: "Damage: Vector",
@@ -565,7 +576,7 @@ export function getStyle({
         paint: {
           "line-color": "#000000",
           "line-dasharray": [1, 1],
-          "line-width": 2,
+          "line-width": linearZoom(3, 4),
         },
       }
     );

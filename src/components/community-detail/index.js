@@ -23,25 +23,6 @@ Chart.register(
   Tooltip
 );
 
-const diagonalStripesPattern = (color = "#8b8daa", width = 8) => {
-  const canvas = document.createElement("canvas");
-  const context = canvas.getContext("2d");
-  canvas.width = 8;
-  canvas.height = 8;
-  context.strokeStyle = color;
-  context.lineWidth = width;
-
-  context.stroke;
-  context.beginPath();
-  context.moveTo(0, 0);
-  context.lineTo(0, 8);
-  context.stroke();
-
-  const pattern = context.createPattern(canvas, "repeat");
-  pattern.setTransform(new DOMMatrix("rotate(45deg)"));
-  return pattern;
-};
-
 const getDatasetData = (props, unit, prefix) => {
   return [0, 10, 20, 30, 40, 50].map(
     (year) => props[`${prefix}${year}`] / unit
@@ -60,33 +41,38 @@ const getValues = (props, damage, scenario) => {
   };
 };
 
-const getDisplayValues = (props, damage, scenario) => {
-  const values = getValues(props, damage, scenario);
-  const fwa = [0, ...values.fwa.slice(1)];
+const getColors = (scenario) => {
   return {
-    fwoa: values.fwoa.map((value, i) => value - fwa[i]),
-    fwa,
+    fwoa: scenario === "lower" ? "#0BA7A0" : "#006B66",
+    fwa: scenario === "lower" ? "#96CC3B" : "#5E8021",
   };
 };
 
 const getData = (props, damage, scenario) => {
-  const values = getDisplayValues(props, damage, scenario);
+  const values = getValues(props, damage, scenario);
+  const colors = getColors(scenario);
   return {
     labels: [0, 10, 20, 30, 40, 50],
     datasets: [
       {
-        label: "With Plan",
-        data: values.fwa,
-        backgroundColor: "#8b8daa",
-      },
-      {
         label: "Without Plan",
         data: values.fwoa,
-        backgroundColor: diagonalStripesPattern(),
+        backgroundColor: colors.fwoa,
+      },
+      {
+        label: "With Plan",
+        data: values.fwa,
+        backgroundColor: colors.fwa,
       },
     ],
   };
 };
+
+const dollarFormat = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  maximumFractionDigits: 0,
+});
 
 const CommunityDetail = () => {
   const canvas = useRef(null);
@@ -101,6 +87,10 @@ const CommunityDetail = () => {
       easd: "Estimated Annual Structural Damage",
     }[damage.value];
     const chartOptions = {
+      interaction: {
+        intersect: false,
+        mode: "index",
+      },
       plugins: {
         title: {
           display: true,
@@ -108,22 +98,35 @@ const CommunityDetail = () => {
             scenario.value === "higher" ? "Higher" : "Lower"
           } Scenario`,
         },
+        tooltip: {
+          callbacks: {
+            label: (item) => {
+              return `${item.dataset.label}: ${
+                damage.value === "eadd"
+                  ? dollarFormat.format(item.raw * 1000000)
+                  : item.formattedValue
+              }`;
+            },
+            title: (items) => `Year ${items[0].label}`,
+          },
+        },
       },
       responsive: false,
       scales: {
         x: {
-          stacked: true,
           title: {
             display: true,
             text: "Year",
           },
         },
         y: {
-          stacked: true,
           min: 0,
           title: {
             display: true,
-            text: damage.value === "eadd" ? "Millions of $" : "Structures",
+            text:
+              damage.value === "eadd"
+                ? "Millions of $"
+                : "Structure Equivalents",
           },
         },
       },
@@ -135,13 +138,12 @@ const CommunityDetail = () => {
         options: chartOptions,
       });
     } else {
-      const displayValues = getDisplayValues(
-        props,
-        damage.value,
-        scenario.value
-      );
-      chart.value.data.datasets[0].data = displayValues.fwa;
-      chart.value.data.datasets[1].data = displayValues.fwoa;
+      const values = getValues(props, damage.value, scenario.value);
+      const colors = getColors(scenario.value);
+      chart.value.data.datasets[0].data = values.fwoa;
+      chart.value.data.datasets[0].backgroundColor = colors.fwoa;
+      chart.value.data.datasets[1].data = values.fwa;
+      chart.value.data.datasets[1].backgroundColor = colors.fwa;
       chart.value.options = chartOptions;
       chart.value.update();
     }
