@@ -167,10 +167,15 @@ pids=()
 
 while IFS= read -r raster_name; do
     raster_type=$(match "$raster_name" "CLARA" "FFIBS" "lndchg" "lndtypdiff")
-    model=$([ "$raster_type" == "CLARA" ] && echo "CLARA" || echo "ICM")
-    scenario=$(match "$raster_name" "S07" "S08")
-    group=$([[ "$raster_name" =~ G[0-9]{3} ]] && echo $BASH_REMATCH)
-    in_path="$DATA/$model/$scenario/$group/geomorph/output/tif/$raster_name"
+
+    if [ "$raster_type" == "CLARA" ]; then
+        in_path="$DATA/CLARA/outputs/tif/$raster_name"
+    else
+        scenario=$(match "$raster_name" "S07" "S08")
+        group=$([[ "$raster_name" =~ G[0-9]{3} ]] && echo $BASH_REMATCH)
+        in_path="$DATA/ICM/$scenario/$group/geomorph/output/tif/$raster_name"
+    fi
+
     if [ -f "$in_path" ]; then
         "Converting $raster_name..."
         set_status "$raster_name" "in progress"
