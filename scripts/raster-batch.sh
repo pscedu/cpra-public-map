@@ -126,7 +126,7 @@ match() {
 }
 
 set_status() {
-    ogrinfo -sql "update raster set status = \"$2\" where raster_name = \"$1\"" \
+    ogrinfo -sql "update rasters set status = \"$2\" where raster_name = \"$1\"" \
         "$INDEX_GPKG"
 }
 
