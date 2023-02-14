@@ -8,6 +8,9 @@
 # Use RAM disk as the working directory.
 CONCURRENT="$SLURM_NTASKS_PER_NODE"
 WORKING="$RAMDISK"
+MEMORY_PER_TASK=$(echo "80 / $CONCURRENT" | bc)
+export GDAL_CACHEMAX="$MEMORY_PER_TASK%"
+export GDAL_NUM_THREADS="1"
 
 # CLARA color map
 cat > $WORKING/CLARA.clr << EOF
@@ -159,25 +162,25 @@ convert_raster () {
     set_status "$in_name" "complete"
 }
 
-raster_names=$(ogr2ogr -f CSV -sql "select raster_name from rasters where status = \"not started\" limit $CONCURRENT" /vsistdout/ "$INDEX_GPKG" | tail -n +2)
-pids=()
+# raster_names=$(ogr2ogr -f CSV -sql "select raster_name from rasters where status = \"not started\" limit $CONCURRENT" /vsistdout/ "$INDEX_GPKG" | tail -n +2)
+# pids=()
 
-while IFS= read -r raster_name; do
-    raster_type=$(match "$raster_name" "CLARA" "FFIBS" "lndchg" "lndtypdiff")
-    model=$([ "$raster_type" == "CLARA" ] && echo "CLARA" || echo "ICM")
-    scenario=$(match "$raster_name" "S07" "S08")
-    group=$([[ "$raster_name" =~ G[0-9]{3} ]] && echo $BASH_REMATCH)
-    in_path="$DATA/$model/$scenario/$group/geomorph/output/tif/$raster_name"
-    if [ -f "$in_path" ]; then
-        "Converting $raster_name..."
-        set_status "$raster_name" "in progress"
-        convert_raster "$in_path" "$raster_type" &
-        pids+=($!)
-    else
-        echo "Skipping $raster_name..."
-    fi
-done <<< "$raster_names"
+# while IFS= read -r raster_name; do
+#     raster_type=$(match "$raster_name" "CLARA" "FFIBS" "lndchg" "lndtypdiff")
+#     model=$([ "$raster_type" == "CLARA" ] && echo "CLARA" || echo "ICM")
+#     scenario=$(match "$raster_name" "S07" "S08")
+#     group=$([[ "$raster_name" =~ G[0-9]{3} ]] && echo $BASH_REMATCH)
+#     in_path="$DATA/$model/$scenario/$group/geomorph/output/tif/$raster_name"
+#     if [ -f "$in_path" ]; then
+#         "Converting $raster_name..."
+#         set_status "$raster_name" "in progress"
+#         convert_raster "$in_path" "$raster_type" &
+#         pids+=($!)
+#     else
+#         echo "Skipping $raster_name..."
+#     fi
+# done <<< "$raster_names"
 
-for pid in ${pids[*]}; do
-    wait $pid
-done
+# for pid in ${pids[*]}; do
+#     wait $pid
+# done
