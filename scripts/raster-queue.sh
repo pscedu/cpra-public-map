@@ -3,6 +3,7 @@
 raster_names=$(cat "$1")
 base_path="$PROJECT/raster-root"
 tiles_path="$PROJECT/tiles-new"
+cog_path="$PROJECT/cog"
 scripts_dir=$(realpath "$(dirname "$0")")
 
 match() {
@@ -33,7 +34,8 @@ while IFS= read -r raster_name; do
             echo "Scheduling $raster_name..."
             sbatch -N 1 -p RM-shared -t 00:10:00 --ntasks-per-node=1 \
                 "$scripts_dir/gdal-singularity.sh" \
-                "$scripts_dir/raster-convert.sh" "$in_path" "$out_path" "$raster_type"
+                "$scripts_dir/raster-convert.sh" \
+                "$in_path" "$out_path" "$cog_path/$raster_name" "$raster_type"
         fi
      else
         echo "Missing $raster_name..."

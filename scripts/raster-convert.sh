@@ -116,17 +116,28 @@ EOF
 
 in_path="$1"
 out_path="$2"
-raster_type="$3"
+cog_path="$3"
+raster_type="$4"
 in_name=$(basename "$in_path")
 out_name=$(basename "$out_path")
 raster_name="${in_name%.tif}"
 color_path="$WORKING/$raster_type.clr"
+working_cog_path="$WORKING/${raster_name}_cog.tif"
 working_tif_path="$WORKING/$raster_name.tif"
 working_tiles_path="$WORKING/$out_name"
 
+# Create a COG.
+gdal_translate $in_path $working_cog_path -of COG
+
+# Copy the COG to the output directory.
+cp $working_cog_path $cog_path
+
 # Colorize the raster.
-gdaldem color-relief -alpha $in_path $color_path $working_tif_path \
+gdaldem color-relief -alpha $working_cog_path $color_path $working_tif_path \
     -of GTiff -co "COMPRESS=LZW"
+
+# Remove the working COG file.
+rm $working_cog_path
 
 # Set the coordinate system.
 gdal_edit.py -a_srs "EPSG:26915" $working_tif_path
@@ -142,5 +153,5 @@ rm $working_tif_path
 # Add lower zoom levels.
 gdaladdo $working_tiles_path -r nearest
 
-# Move the tiles to the output directory.
-mv $working_tiles_path $out_path
+# Copy the tiles to the output directory.
+cp $working_tiles_path $out_path
