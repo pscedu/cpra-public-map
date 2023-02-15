@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Use local disk as the working directory.
-WORKING="$LOCAL"
+# Use RAM disk as the working directory.
+WORKING="$RAMDISK"
 
 # Dedicate half the availabe RAM to cache.
 export GDAL_CACHEMAX="1000"
@@ -125,7 +125,8 @@ working_tif_path="$WORKING/$raster_name.tif"
 working_tiles_path="$WORKING/$out_name"
 
 # Colorize the raster.
-gdaldem color-relief -alpha $in_path $color_path $working_tif_path
+gdaldem color-relief -alpha $in_path $color_path $working_tif_path \
+    -of GTiff -co "COMPRESS=LZW"
 
 # Set the coordinate system.
 gdal_edit.py -a_srs "EPSG:26915" $working_tif_path
