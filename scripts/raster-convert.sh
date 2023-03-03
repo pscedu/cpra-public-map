@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Use RAM disk as the working directory.
-WORKING="$RAMDISK"
+# Use the local disk as the working directory.
+WORKING="$LOCAL"
 
-# Dedicate half the availabe RAM to cache.
-export GDAL_CACHEMAX="1000"
+# Dedicate 75% of the availabe RAM to cache.
+export GDAL_CACHEMAX="1500"
 
 # Tell GDAL to use a single thread.
 export GDAL_NUM_THREADS="1"
@@ -117,27 +117,34 @@ EOF
 in_path="$1"
 out_path="$2"
 cog_path="$3"
-raster_type="$4"
+mask_path="$4"
+raster_type="$5"
 in_name=$(basename "$in_path")
 out_name=$(basename "$out_path")
 raster_name="${in_name%.tif}"
 color_path="$WORKING/$raster_type.clr"
+working_masked_path="$WORKING/${raster_name}_masked.tif"
 working_cog_path="$WORKING/${raster_name}_cog.tif"
 working_tif_path="$WORKING/$raster_name.tif"
 working_tiles_path="$WORKING/$out_name"
 
-# Create a COG.
-gdal_translate $in_path $working_cog_path -of COG
+# Apply the mask layer.
+gdal_calc.py --calc="numpy.where(B==1, A, -9999)" \
+    --extent="intersect" --co="COMPRESS=LZW" \
+    --outfile="$working_masked_path" \
+    -A "$in_path" \
+    -B "$mask_path"
 
-# Copy the COG to the output directory.
+# Create the COG.
+gdal_translate $working_masked_path $working_cog_path -of COG -a_nodata -9999.000 -stats
+
+# Copy the COG to the output directory and remove it from the working directory.
 cp $working_cog_path $cog_path
+rm $working_cog_path
 
 # Colorize the raster.
-gdaldem color-relief -alpha $working_cog_path $color_path $working_tif_path \
+gdaldem color-relief -alpha $working_masked_path $color_path $working_tif_path \
     -of GTiff -co "COMPRESS=LZW"
-
-# Remove the working COG file.
-rm $working_cog_path
 
 # Set the coordinate system.
 gdal_edit.py -a_srs "EPSG:26915" $working_tif_path
