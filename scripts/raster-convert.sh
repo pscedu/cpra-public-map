@@ -135,8 +135,11 @@ gdal_calc.py --calc="numpy.where(B==1, A, -9999)" \
     -A "$in_path" \
     -B "$mask_path"
 
+# Set the nodata value.
+gdal_edit.py -a_nodata -9999 $working_masked_path
+
 # Create the COG.
-gdal_translate $working_masked_path $working_cog_path -of COG -a_nodata -9999.000 -stats
+gdal_translate $working_masked_path $working_cog_path -of COG -stats
 
 # Copy the COG to the output directory and remove it from the working directory.
 cp $working_cog_path $cog_path
