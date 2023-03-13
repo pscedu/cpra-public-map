@@ -9,6 +9,7 @@ import ProjectDetail from "../project-detail";
 import ProjectList from "../project-list";
 import Slide from "../slide";
 import Slides from "../slides";
+import Tooltip from "../tooltip";
 
 const Slideshow = () => {
   const { endTour, project, selection } = useContext(State);
@@ -314,9 +315,24 @@ const Slideshow = () => {
       ) : null}
       {selection.value && selection.value.community ? (
         <Slide
-          title="Community Details"
+          title={selection.value.community.display_name}
           overlay={true}
           controls={["scenario", "damage"]}
+          additionalControls={
+            <div class="input">
+              <label class="label">
+                <Tooltip
+                  content="Damage data is presented for spatial units across the coast.
+                Each unit represents a portion of a coastal Parish. For damage
+                information at the Parish level, please see the Parish Fact Sheets in Attachment F3."
+                />{" "}
+                CLARA Community
+                <span class="value">
+                  : {selection.value.community.community_id}
+                </span>
+              </label>
+            </div>
+          }
         >
           <CommunityDetail />
         </Slide>

@@ -225,7 +225,7 @@ export function createState() {
           id: props.community_id,
           type: "community",
           category: null,
-          name: `Community ${props.community_id}`,
+          name: props.display_name,
           selection: {
             community: props,
           },

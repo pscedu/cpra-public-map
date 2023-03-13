@@ -53,6 +53,7 @@ const createControl = (controlName, view, state) => {
 };
 
 const Slide = ({
+  additionalControls = null,
   children,
   controls = [],
   layout = "split",
@@ -65,11 +66,12 @@ const Slide = ({
     <section class={style.slide}>
       <h2 class={"sr-only"}>{title || view.title}</h2>
       <div class={style[layout]}>
-        {controls.length ? (
+        {controls.length || additionalControls ? (
           <div class={style.controls}>
             {controls.map((controlName) =>
               createControl(controlName, view, state)
             )}
+            {additionalControls}
           </div>
         ) : null}
         <div class={style.body}>{children}</div>

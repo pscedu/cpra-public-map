@@ -86,12 +86,20 @@ ogr2ogr -append -t_srs "EPSG:4326" \
 		/vsizip/$DATA/MississippiRiver_mask_for_mapping.zip/MississippiRiver_mask_for_mapping/MississippiRiver_mask_for_mapping.shp \
 		-nln "mask"
 
+ogr2ogr -append \
+		$WORKING/damage.gpkg \
+		$DATA/community_splits_names.csv \
+		-nln "community_name"
+
 read -r -d '' combined_sql << SQL
 select damage.*,
+	community_name.display_name,
 	st_difference(st_union(community.SHAPE), mask_dissolve.geom) as geom
 from damage
 join community
 	on damage.community_id = community.MP_Community_ID
+join community_name
+	on damage.community_id = community_name.community_id
 join (
 	select st_collect(geom) as geom
 	from mask
@@ -156,6 +164,7 @@ select community_id,
 	easd_s08_g516_year30,
 	easd_s08_g516_year40,
 	easd_s08_g516_year50,
+	display_name,
 	st_pointonsurface(geometry) as geom
 from damage
 SQL
