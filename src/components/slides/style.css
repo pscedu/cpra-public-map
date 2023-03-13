@@ -32,10 +32,15 @@
 .overlay {
   background-color: white;
   bottom: 0;
+  display: flex;
+  flex-direction: column;
   left: 0;
   position: absolute;
   right: 0;
   top: 0;
+}
+.overlay > section {
+  flex: 1 0 auto;
 }
 .overlay-title {
   background-color: var(--mpdv-color-green-500);

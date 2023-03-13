@@ -203,7 +203,36 @@ export function createState() {
     // Unset the previous layer when the map becomes idle.
     map.value.on("idle", () => (prevEntry.value = null));
 
+    const addCursorEvents = (layerName) => {
+      map.value.on(
+        "mousemove",
+        layerName,
+        () => (map.value.getCanvas().style.cursor = "pointer")
+      );
+      map.value.on(
+        "mouseleave",
+        layerName,
+        () => (map.value.getCanvas().style.cursor = "")
+      );
+    };
+
     // Set layer click handlers.
+    ["damage-polygon", "damage-label"].forEach((layer) => {
+      map.value.on("click", layer, (e) => {
+        const feature = e.features[0];
+        const props = feature.properties;
+        searchResult.value = {
+          id: props.community_id,
+          type: "community",
+          category: null,
+          name: props.display_name,
+          selection: {
+            community: props,
+          },
+        };
+      });
+      addCursorEvents(layer);
+    });
     ["search-screen", "search-inner", "search-outer"].forEach((layer) =>
       map.value.on("click", layer, () => clearSearch())
     );
@@ -217,16 +246,7 @@ export function createState() {
               `project:${e.features[0].properties.display_id}`
             ])
       );
-      map.value.on(
-        "mousemove",
-        layerName,
-        () => (map.value.getCanvas().style.cursor = "pointer")
-      );
-      map.value.on(
-        "mouseleave",
-        layerName,
-        () => (map.value.getCanvas().style.cursor = "")
-      );
+      addCursorEvents(layerName);
     });
   });
 

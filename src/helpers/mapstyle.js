@@ -349,7 +349,7 @@ export function getStyle({
   let searchFeatures = [];
   if (selectedProjects) {
     searchFeatures.push(bboxPolygon(config.maxBounds));
-  } else if (selectionType) {
+  } else if (selectionType && selectionType !== "community") {
     const polygon =
       selection.value.polygon ||
       bboxPolygon(config.layerExtents[selectionType]);
@@ -521,6 +521,11 @@ export function getStyle({
         ],
       ],
     ];
+    const selectedCommunity =
+      (selection.value &&
+        selection.value.community &&
+        selection.value.community.community_id) ||
+      -1;
     const isEadd = (entry.value.damage || "eadd") === "eadd";
     const damageLabelExpression = isEadd
       ? ["concat", "$", damageValueExpression]
@@ -538,18 +543,43 @@ export function getStyle({
         ],
       },
     });
-    damageOutlines.push({
-      id: `damage-outline`,
-      type: "line",
-      source: "Damage: Vector",
-      "source-layer": "damage",
-      paint: {
-        "line-color": isEadd
-          ? linearZoom("#999999", "#444444")
-          : linearZoom("#DDDDDD", "#666666"),
-        "line-width": linearZoom(0.5, 3),
+    damageOutlines.push(
+      {
+        id: `damage-outline`,
+        type: "line",
+        source: "Damage: Vector",
+        "source-layer": "damage",
+        paint: {
+          "line-color": isEadd
+            ? linearZoom("#999999", "#444444")
+            : linearZoom("#DDDDDD", "#666666"),
+          "line-width": linearZoom(0.5, 3),
+        },
       },
-    });
+      {
+        id: "damage-fill-selected",
+        type: "fill",
+        source: "Damage: Vector",
+        "source-layer": "damage",
+        filter: ["==", ["get", "community_id"], selectedCommunity],
+        paint: {
+          "fill-color": "#000000",
+          "fill-opacity": 0.5,
+        },
+      },
+      {
+        id: "damage-outline-selected",
+        type: "line",
+        source: "Damage: Vector",
+        "source-layer": "damage",
+        filter: ["==", ["get", "community_id"], selectedCommunity],
+        paint: {
+          "line-color": "#000000",
+          "line-dasharray": [1, 1],
+          "line-width": linearZoom(3, 4),
+        },
+      }
+    );
     damageLabels.push({
       id: `damage-label`,
       type: "symbol",

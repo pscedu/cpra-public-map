@@ -1,4 +1,7 @@
 .slide {
+  align-items: stretch;
+  display: flex;
+  flex-direction: row;
   overflow-y: auto;
   padding: calc(var(--mpdv-app-margin) * 0.5) var(--mpdv-app-margin);
   width: 100%;
@@ -13,15 +16,19 @@ a + .slide {
   font-weight: 600;
   font-style: italic;
 }
+.slide > div {
+  width: 100%;
+}
 
 @media (min-width: 700px) {
   .split {
+    align-items: stretch;
     display: flex;
     flex-direction: row-reverse;
   }
   .split .controls {
     flex: 0 0 auto;
-    margin: 0 0 calc(var(--mpdv-app-margin) * 0.5) var(--mpdv-app-margin);
+    margin: 0 0 0 var(--mpdv-app-margin);
     min-width: 230px;
     width: 35%;
   }

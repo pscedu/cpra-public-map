@@ -30,7 +30,12 @@ const SlideNavigation = ({ currentSlide, navigationType, slides }) => {
   if (navigationType === "overlay") {
     buttons.push(
       <SlideNavigationButton
-        cssClass={classes("button", "icon", "active", "green")}
+        cssClass={classes(
+          "button",
+          "icon",
+          "active",
+          currentSlide.props.color || "teal"
+        )}
         action={clearProject}
         label="Close"
       >
