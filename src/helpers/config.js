@@ -66,12 +66,12 @@ const colorSwatch = (color) =>
     "#",
     "%23"
   )}' x='0' y='0' height='20' width='50' /></svg>`;
-export const servicesUrl = "https://tiles.mpdv-23.bridges2.psc.edu/services";
+export const servicesUrl = "https://tiles.mpdv.coastal.la.gov/services";
 export const projectListUrl = "/projects.csv";
 export const projectFactSheetBaseUrl =
   "https://coastal.la.gov/wp-content/uploads/2023/01/";
 export const searchIndexUrl = "/search.csv";
-export const geocodeUrl = "https://mpdv-23.bridges2.psc.edu/nominatim/search";
+export const geocodeUrl = "https://mpdv.coastal.la.gov/nominatim/search";
 export const websiteUrl =
   "https://coastal.la.gov/our-plan/2023-coastal-master-plan/";
 export const contactEmail = ["mai", ["masterplan", "la.gov"].join("@")].join(
