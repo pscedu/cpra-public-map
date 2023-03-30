@@ -1,9 +1,13 @@
-import { catalogSchema as levels, legends } from "../helpers/config";
+import { catalogSchema as levels, serviceBaseUrl } from "../helpers/config";
+
+function serviceUrl(service) {
+  return `${serviceBaseUrl}/${service}`;
+}
 
 function makeCatalogEntries(service) {
   const entries = [];
-  const parts = service.url.split("/").pop().split("_");
-  if (service.url.match(/MP2023_/g)) {
+  const parts = service.split("/").pop().split("_");
+  if (service.match(/MP2023_/g)) {
     const year = parseInt(parts[9], 10);
     const layer = {
       depths50: "flood-depth",
@@ -19,7 +23,7 @@ function makeCatalogEntries(service) {
       legend: layer,
       scenario: { S07: "lower", S08: "higher" }[parts[1]],
       serviceType: "raster",
-      url: service.url,
+      url: serviceUrl(service),
       year: parts[10] == "CLARA" ? (year == 1 ? 0 : year) : year - 2,
     });
     // Create entries for land change year 0, since they don't have a raster image.
@@ -30,7 +34,7 @@ function makeCatalogEntries(service) {
         url: null,
         year: 0,
       });
-  } else if (service.url.match(/historical_land_change/g)) {
+  } else if (service.match(/historical_land_change/g)) {
     entries.push({
       aep: null,
       damage: null,
@@ -39,10 +43,10 @@ function makeCatalogEntries(service) {
       legend: "historical-land-change",
       scenario: null,
       serviceType: "raster",
-      url: service.url,
+      url: serviceUrl(service),
       year: parseInt(parts[3], 10),
     });
-  } else if (service.url.match(/damage-vector/g)) {
+  } else if (service.match(/damage-vector/g)) {
     for (let year = 0; year <= 50; year += 10) {
       for (let group of ["fwoa", "fwa"]) {
         for (let scenario of ["lower", "higher"]) {
@@ -55,7 +59,7 @@ function makeCatalogEntries(service) {
               legend: damage,
               scenario,
               serviceType: "vector",
-              url: service.url,
+              url: serviceUrl(service),
               vectorProperty: [
                 damage == "eadd" ? "ead" : "easd",
                 scenario == "lower" ? "s07" : "s08",
@@ -68,7 +72,7 @@ function makeCatalogEntries(service) {
         }
       }
     }
-  } else if (service.url.match(/basemap-vector/g)) {
+  } else if (service.match(/basemap-vector/g)) {
     for (let year = 0; year < 51; year++)
       entries.push({
         aep: null,
@@ -78,7 +82,7 @@ function makeCatalogEntries(service) {
         legend: "projects",
         scenario: null,
         serviceType: "vector",
-        url: service.url,
+        url: serviceUrl(service),
         year,
       });
   }

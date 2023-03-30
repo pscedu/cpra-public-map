@@ -36,7 +36,7 @@ function projectLayers(show, filter, model, suffix = "") {
     {
       id: `project-polygon-di${suffix}`,
       type: "fill",
-      source: "Base Map: Vector",
+      source: "basemap-vector",
       "source-layer": "project_polygon",
       filter: ["all", ["==", ["get", "type"], "DI"], filter],
       paint: {
@@ -48,7 +48,7 @@ function projectLayers(show, filter, model, suffix = "") {
     {
       id: `project-polygon-di-outline${suffix}`,
       type: "line",
-      source: "Base Map: Vector",
+      source: "basemap-vector",
       "source-layer": "project_polygon",
       filter: ["all", ["==", ["get", "type"], "DI"], filter],
       paint: {
@@ -61,7 +61,7 @@ function projectLayers(show, filter, model, suffix = "") {
     {
       id: `project-polygon-lb${suffix}`,
       type: "fill",
-      source: "Base Map: Vector",
+      source: "basemap-vector",
       "source-layer": "project_polygon",
       filter: ["all", ["==", ["get", "type"], "LB"], filter],
       paint: {
@@ -71,7 +71,7 @@ function projectLayers(show, filter, model, suffix = "") {
     {
       id: `project-polygon-lb-outline${suffix}`,
       type: "line",
-      source: "Base Map: Vector",
+      source: "basemap-vector",
       "source-layer": "project_polygon",
       filter: ["all", ["==", ["get", "type"], "LB"], filter],
       paint: { "line-color": modelStrokeColor, "line-width": modelStrokeWidth },
@@ -81,7 +81,7 @@ function projectLayers(show, filter, model, suffix = "") {
     {
       id: `project-polygon-mc${suffix}`,
       type: "fill",
-      source: "Base Map: Vector",
+      source: "basemap-vector",
       "source-layer": "project_polygon",
       filter: ["all", ["==", ["get", "type"], "MC"], filter],
       paint: mod(
@@ -92,7 +92,7 @@ function projectLayers(show, filter, model, suffix = "") {
     {
       id: `project-polygon-mc-outline${suffix}`,
       type: "line",
-      source: "Base Map: Vector",
+      source: "basemap-vector",
       "source-layer": "project_polygon",
       filter: ["all", ["==", ["get", "type"], "MC"], filter],
       paint: { "line-color": modelStrokeColor, "line-width": modelStrokeWidth },
@@ -102,7 +102,7 @@ function projectLayers(show, filter, model, suffix = "") {
     {
       id: `project-line-bs${suffix}`,
       type: "line",
-      source: "Base Map: Vector",
+      source: "basemap-vector",
       "source-layer": "project_line",
       filter: ["all", ["==", ["get", "type"], "BS"], filter],
       paint: {
@@ -114,7 +114,7 @@ function projectLayers(show, filter, model, suffix = "") {
     {
       id: `project-line-sr${suffix}`,
       type: "line",
-      source: "Base Map: Vector",
+      source: "basemap-vector",
       "source-layer": "project_line",
       filter: ["all", ["==", ["get", "type"], "SR"], filter],
       paint: {
@@ -126,7 +126,7 @@ function projectLayers(show, filter, model, suffix = "") {
     {
       id: `project-line-di-hr${suffix}`,
       type: "line",
-      source: "Base Map: Vector",
+      source: "basemap-vector",
       "source-layer": "project_line",
       filter: [
         "all",
@@ -148,7 +148,7 @@ function projectLayers(show, filter, model, suffix = "") {
     {
       id: `project-line-rr${suffix}`,
       type: "line",
-      source: "Base Map: Vector",
+      source: "basemap-vector",
       "source-layer": "project_line",
       filter: ["all", ["==", ["get", "type"], "RR"], filter],
       paint: {
@@ -160,7 +160,7 @@ function projectLayers(show, filter, model, suffix = "") {
     {
       id: `project-line-sp${suffix}`,
       type: "line",
-      source: "Base Map: Vector",
+      source: "basemap-vector",
       "source-layer": "project_line",
       filter: ["all", ["==", ["get", "type"], "SP"], filter],
       paint: {
@@ -172,7 +172,7 @@ function projectLayers(show, filter, model, suffix = "") {
     {
       id: `project-point-di-hr${suffix}`,
       type: "circle",
-      source: "Base Map: Vector",
+      source: "basemap-vector",
       "source-layer": "project_point",
       filter: [
         "all",
@@ -195,7 +195,7 @@ function projectLayers(show, filter, model, suffix = "") {
     {
       id: `project-point-sr${suffix}`,
       type: "symbol",
-      source: "Base Map: Vector",
+      source: "basemap-vector",
       "source-layer": "project_point",
       filter: ["all", ["==", ["get", "type"], "SR"], filter],
       paint: {
@@ -211,7 +211,7 @@ function projectLayers(show, filter, model, suffix = "") {
     {
       id: `project-label${suffix}`,
       type: "symbol",
-      source: "Base Map: Vector",
+      source: "basemap-vector",
       "source-layer": "project_label",
       filter: ["all", ["!=", ["get", "type"], "OR"], filter],
       minzoom: 9,
@@ -232,7 +232,7 @@ function projectLayers(show, filter, model, suffix = "") {
     {
       id: `project-icon${suffix}`,
       type: "symbol",
-      source: "Base Map: Vector",
+      source: "basemap-vector",
       "source-layer": "project_label",
       filter: ["all", ["!=", ["get", "type"], "OR"], filter],
       minzoom: 10,
@@ -244,7 +244,7 @@ function projectLayers(show, filter, model, suffix = "") {
     {
       id: `project-icon-dot${suffix}`,
       type: "circle",
-      source: "Base Map: Vector",
+      source: "basemap-vector",
       "source-layer": "project_label",
       filter: ["all", ["!=", ["get", "type"], "OR"], filter],
       maxzoom: 10,
@@ -303,12 +303,12 @@ export function getStyle({
 
   // Prepare sources.
   const sources = {};
-  for (let service of Object.values(services.value)) {
+  for (let service of services.value) {
     let source;
-    if (service.imageType == "pbf") {
+    if (/-vector$/g.test(service)) {
       source = {
         type: "vector",
-        url: service.url,
+        url: `${config.serviceBaseUrl}/${service}`,
       };
     } else {
       source = {
@@ -318,19 +318,13 @@ export function getStyle({
         ],
         maxzoom: 13,
         type: "raster",
-        tiles: [
-          rasterTileUrl(service.url, "a"),
-          rasterTileUrl(service.url, "b"),
-          rasterTileUrl(service.url, "c"),
-          rasterTileUrl(service.url, "d"),
-        ],
+        tiles: ["a", "b", "c", "d"].map((letter) =>
+          rasterTileUrl(`${config.serviceBaseUrl}/${service}`, letter)
+        ),
         tileSize: 256,
       };
     }
-    if (source.type == "raster") {
-      source.tileSize = 256;
-    }
-    sources[service.name] = source;
+    sources[service] = source;
   }
 
   // Selected projects
@@ -387,7 +381,7 @@ export function getStyle({
       searchLayers.push(
         {
           id: "search-outer",
-          source: "Base Map: Vector",
+          source: "basemap-vector",
           "source-layer": "outer",
           type: "fill",
           filter: ["==", selectionType, ["get", "type"]],
@@ -395,7 +389,7 @@ export function getStyle({
         },
         {
           id: "search-inner",
-          source: "Base Map: Vector",
+          source: "basemap-vector",
           "source-layer": selectionType,
           type: "fill",
           filter: ["!=", selection.value[selectionType], ["get", "id"]],
@@ -413,7 +407,7 @@ export function getStyle({
     } else if (config.layerExtents[selectionType]) {
       searchLayers.push({
         id: "search",
-        source: "Base Map: Vector",
+        source: "basemap-vector",
         "source-layer": selectionType,
         type: "line",
         filter: ["==", selection.value[selectionType], ["get", "id"]],
@@ -425,29 +419,26 @@ export function getStyle({
   // Prepare model layers.
   let prevEntryUrl = prevEntry && prevEntry.value ? prevEntry.value.url : null;
   let entryUrl = entry && entry.value ? entry.value.url : null;
-  const modelLayers = Object.values(services.value)
+  const modelLayers = services.value
     .filter(
-      (service) =>
-        !(
-          service.name.startsWith("Base Map") ||
-          service.name.startsWith("Damage")
-        )
+      (service) => !(/-vector$/g.test(service) || /^basemap/.test(service))
     )
     .map((service) => {
+      let serviceUrl = `${config.serviceBaseUrl}/${service}`;
       return {
-        id: service.name,
+        id: service,
         type: "raster",
-        source: service.name,
+        source: service,
         paint: {
           "raster-fade-duration": 0,
           "raster-opacity":
-            service.url === (prevEntryUrl !== null ? prevEntryUrl : entryUrl)
+            serviceUrl === (prevEntryUrl !== null ? prevEntryUrl : entryUrl)
               ? 1
               : 0,
         },
         layout: {
           visibility:
-            service.url === entryUrl || service.url === prevEntryUrl
+            serviceUrl === entryUrl || serviceUrl === prevEntryUrl
               ? "visible"
               : "none",
         },
@@ -533,7 +524,7 @@ export function getStyle({
     damageLayers.push({
       id: `damage-polygon`,
       type: "fill",
-      source: "Damage: Vector",
+      source: "damage-vector",
       "source-layer": "damage",
       paint: {
         "fill-color": [
@@ -547,7 +538,7 @@ export function getStyle({
       {
         id: `damage-outline`,
         type: "line",
-        source: "Damage: Vector",
+        source: "damage-vector",
         "source-layer": "damage",
         paint: {
           "line-color": isEadd
@@ -559,7 +550,7 @@ export function getStyle({
       {
         id: "damage-fill-selected",
         type: "fill",
-        source: "Damage: Vector",
+        source: "damage-vector",
         "source-layer": "damage",
         filter: ["==", ["get", "community_id"], selectedCommunity],
         paint: {
@@ -570,7 +561,7 @@ export function getStyle({
       {
         id: "damage-outline-selected",
         type: "line",
-        source: "Damage: Vector",
+        source: "damage-vector",
         "source-layer": "damage",
         filter: ["==", ["get", "community_id"], selectedCommunity],
         paint: {
@@ -583,7 +574,7 @@ export function getStyle({
     damageLabels.push({
       id: `damage-label`,
       type: "symbol",
-      source: "Damage: Vector",
+      source: "damage-vector",
       "source-layer": "damage_point",
       minzoom: 10,
       layout: {
@@ -606,7 +597,7 @@ export function getStyle({
     {
       id: "water-not-in-icm",
       type: "fill",
-      source: "Base Map: Vector",
+      source: "basemap-vector",
       "source-layer": "water",
       paint: {
         "fill-color": "#ffffff",
@@ -615,7 +606,7 @@ export function getStyle({
     {
       id: "base-raster",
       type: "raster",
-      source: "Base Map: Raster",
+      source: "basemap-raster",
     },
   ];
 
@@ -639,7 +630,7 @@ export function getStyle({
       {
         id: "state",
         type: "fill",
-        source: "Base Map: Vector",
+        source: "basemap-vector",
         "source-layer": "state",
         paint: {
           "fill-color": "#d6d6d6",
@@ -648,7 +639,7 @@ export function getStyle({
       {
         id: "state-screen",
         type: "fill",
-        source: "Base Map: Vector",
+        source: "basemap-vector",
         "source-layer": "state",
         filter: ["!=", ["get", "abbr"], "LA"],
         paint: {
@@ -663,7 +654,7 @@ export function getStyle({
       {
         id: "levee",
         type: "line",
-        source: "Base Map: Vector",
+        source: "basemap-vector",
         "source-layer": "levee",
         paint: {
           "line-color": "#939598",
@@ -674,7 +665,7 @@ export function getStyle({
       {
         id: "road-secondary",
         type: "line",
-        source: "Base Map: Vector",
+        source: "basemap-vector",
         "source-layer": "road",
         filter: ["==", ["get", "type"], "S"],
         paint: {
@@ -686,7 +677,7 @@ export function getStyle({
       {
         id: "road-primary",
         type: "line",
-        source: "Base Map: Vector",
+        source: "basemap-vector",
         "source-layer": "road",
         filter: ["==", ["get", "type"], "P"],
         paint: {
@@ -706,7 +697,7 @@ export function getStyle({
       {
         id: "label",
         type: "symbol",
-        source: "Base Map: Vector",
+        source: "basemap-vector",
         "source-layer": "label",
         layout: {
           "text-field": ["get", "text"],
