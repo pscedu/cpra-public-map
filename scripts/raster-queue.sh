@@ -4,7 +4,6 @@ raster_names=$(cat "$1")
 base_path="$PROJECT/raster-root"
 tiles_path="$PROJECT/tiles-new"
 cog_path="$PROJECT/cog"
-mask_path="$PROJECT/data/mask-default.tif"
 scripts_dir=$(realpath "$(dirname "$0")")
 
 match() {
@@ -17,6 +16,7 @@ match() {
 
 while IFS= read -r raster_name; do
     raster_type=$(match "$raster_name" "CLARA" "FFIBS" "lndchg" "lndtypdiff" "VCT")
+    mask_path="$PROJECT/data/mask-$raster_type.tif"
 
     if [ "$raster_type" == "CLARA" ]; then
         in_path="$base_path/CLARA/outputs/tif/$raster_name"
