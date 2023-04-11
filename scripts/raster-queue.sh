@@ -16,7 +16,7 @@ match() {
 }
 
 while IFS= read -r raster_name; do
-    raster_type=$(match "$raster_name" "CLARA" "FFIBS" "lndchg" "lndtypdiff")
+    raster_type=$(match "$raster_name" "CLARA" "FFIBS" "lndchg" "lndtypdiff" "VCT")
 
     if [ "$raster_type" == "CLARA" ]; then
         in_path="$base_path/CLARA/outputs/tif/$raster_name"
