@@ -30,6 +30,7 @@ export function createState() {
     (val) => (val ? "true" : "false"),
     (val) => val === "true"
   );
+  const vegetation = hashSignal("vegetation", "ffibs");
   const viewName = hashSignal("view", "slide-0");
   const year = hashSignal("year", 50, (val) => val.toString(), parseInt);
 
@@ -55,6 +56,7 @@ export function createState() {
       group: group.value,
       layer: view.value.layer,
       scenario: scenario.value,
+      vegetation: vegetation.value,
       year: year.value,
     });
   });
@@ -352,6 +354,7 @@ export function createState() {
     showProjects,
     startTour,
     storySlide,
+    vegetation,
     view,
     viewName,
     year,

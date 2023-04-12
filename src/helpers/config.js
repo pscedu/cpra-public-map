@@ -50,6 +50,15 @@ export const catalogSchema = [
       }[value]),
   },
   {
+    prop: "vegetation",
+    name: "Vegetation Index",
+    format: (value) =>
+      ({
+        ffibs: "FFIBS",
+        vct: "VCT",
+      }[value]),
+  },
+  {
     prop: "year",
     name: "Year",
     sort: (a, b) => (parseInt(a, 10) > parseInt(b, 10) ? 1 : -1),
@@ -240,8 +249,8 @@ export const legends = {
       projectTypeDescriptions.MC,
     ],
   },
-  "vegetation-type": {
-    title: "Vegetation Type",
+  ffibs: {
+    title: "Vegetation Type: FFIBS",
     images: ["#5E823A", "#DAE86D", "#92CBE8", "#735753", "#0679D2"].map(
       colorSwatch
     ),
@@ -251,6 +260,43 @@ export const legends = {
       "Intermediate Marsh",
       "Brackish Marsh",
       "Saline Marsh",
+    ],
+  },
+  vct: {
+    title: "Vegetation Type: VCT",
+    images: [
+      "#a6cecf",
+      "#1f78b4",
+      "#b2df8a",
+      "#5ba02c",
+      "#fb9a99",
+      "#e31a1c",
+      "#fdbf6f",
+      "#ff7f00",
+      "#cab2d6",
+      "#6a3d9a",
+      "#ffff99",
+      "#005a00",
+      "#ff80ff",
+      "#7f5f1e",
+      "#8cf0f0",
+    ].map(colorSwatch),
+    labels: [
+      "Maidencane",
+      "Three-Square",
+      "Rosseau Cane",
+      "Paspalum",
+      "Wiregrass",
+      "Bulltongue",
+      "Needlerush",
+      "Bulrush",
+      "Brackish Mix",
+      "Oystergrass",
+      "Saltgrass",
+      "Bottomland Hardwood Forest + Swamp Forest",
+      "Barrier Island Vegetation",
+      "Unvegetated",
+      "Flotant",
     ],
   },
 };
@@ -377,6 +423,12 @@ export const controls = {
     label: "Environmental Scenario",
     tooltip:
       "<p>Because we don&apos;t know what the future will bring, the 2023 Coastal Master Plan developed different environmental scenarios to capture possible coastal conditions. These scenarios reflect the different ways that future conditions could affect our ability to protect communities and build land.</p><p><strong>Lower Scenario:</strong> Assumes moderate changes in the factors over the next 50 years, including moderate rates of sea level rise and subsidence.</p><p><strong>Higher Scenario:</strong> Assumes more dramatic changes in the factors over the next 50 years, particularly higher rates of sea level rise and subsidence.</p><p>Factors included in future environmental scenarios: Sea level rise, subsidence, storm intensity, rainfall, tributary hydrology, temperature, and evapotranspiration.</p><p>More information on the environmental scenarios used for project selection in the 2023 Coastal Master Plan can be found in Appendix B.</p>",
+  },
+  vegetation: {
+    type: "buttons",
+    label: "Vegetation Index",
+    tooltip:
+      "<p>Wetland vegetation is responsive to changes in the environment, such as increases to salinity or inundation levels over time. Over 50 years the distribution of different wetland vegetation classes will shift and change, impacting habitats and ecosystems. The projects selected for the 2023 Coastal Master Plan support a variety of vegetation types coastwide.</p>",
   },
   year: {
     type: "year",

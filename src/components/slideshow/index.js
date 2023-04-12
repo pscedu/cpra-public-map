@@ -36,7 +36,7 @@ const Slideshow = () => {
         </p>
       </Slide>
       <Slide
-        controls={["year", "scenario", "group", "projects"]}
+        controls={["year", "scenario", "vegetation", "group", "projects"]}
         viewName="vegetation-type"
         slideGroup="explore"
       >

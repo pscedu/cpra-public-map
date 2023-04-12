@@ -14,16 +14,24 @@ function makeCatalogEntries(service) {
       FFIBS: "vegetation-type",
       lndchg: "land-change",
       lndtypdiff: "land-change",
+      VCT: "vegetation-type",
     }[parts[13] || parts[11]];
+    const vegetation =
+      layer == "vegetation-type"
+        ? parts[11] == "VCT"
+          ? "vct"
+          : "ffibs"
+        : null;
     entries.push({
       aep: parts[12] == "aep" ? parseFloat(parts[11]).toFixed(1) : null,
       damage: null,
       group: { G500: "fwoa", G516: "fwa", G520: "fwoa", G521: "fwa" }[parts[2]],
       layer,
-      legend: layer,
+      legend: vegetation ? vegetation : layer,
       scenario: { S07: "lower", S08: "higher" }[parts[1]],
       serviceType: "raster",
       url: serviceUrl(service),
+      vegetation,
       year: parts[10] == "CLARA" ? (year == 1 ? 0 : year) : year - 2,
     });
     // Create entries for land change year 0, since they don't have a raster image.
@@ -44,6 +52,7 @@ function makeCatalogEntries(service) {
       scenario: null,
       serviceType: "raster",
       url: serviceUrl(service),
+      vegetation: null,
       year: parseInt(parts[3], 10),
     });
   } else if (service.match(/damage-vector/g)) {
@@ -66,6 +75,7 @@ function makeCatalogEntries(service) {
                 group == "fwoa" ? "g500" : "g516",
                 `year${year}`,
               ].join("_"),
+              vegetation: null,
               year,
             });
           }
@@ -83,6 +93,7 @@ function makeCatalogEntries(service) {
         scenario: null,
         serviceType: "vector",
         url: serviceUrl(service),
+        vegetation: null,
         year,
       });
   }
