@@ -1,6 +1,7 @@
 .env
 node_modules
 /build
+/cog
 /*.log
 /scratch.txt
 /size-plugin.json
