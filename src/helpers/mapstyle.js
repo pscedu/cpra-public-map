@@ -592,7 +592,11 @@ export function getStyle({
     });
   }
 
-  const isHLC = entry.value.layer === "historical-land-change";
+  const underMask = [
+    "historical-land-change",
+    "land-change",
+    "vegetation-type",
+  ].includes(entry.value.layer);
   const maskLayers = [
     {
       id: "water-not-in-icm",
@@ -604,7 +608,7 @@ export function getStyle({
       },
     },
     {
-      id: "base-raster",
+      id: "initial-conditions-water",
       type: "raster",
       source: "basemap-raster",
     },
@@ -647,10 +651,10 @@ export function getStyle({
           "fill-opacity": 0.4,
         },
       },
-      ...(isHLC ? maskLayers : []),
+      ...(underMask ? maskLayers : []),
       ...modelLayers,
       ...damageLayers,
-      ...(isHLC ? [] : maskLayers),
+      ...(underMask ? [] : maskLayers),
       {
         id: "levee",
         type: "line",
