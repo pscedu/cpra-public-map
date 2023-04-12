@@ -30,7 +30,7 @@ const Intro = () => {
         <p>
           This is an interactive online companion to Louisiana&apos;s{" "}
           <a href="https://coastal.la.gov/our-plan/2023-coastal-master-plan/">
-            Draft 2023 Coastal Master Plan
+            2023 Coastal Master Plan
           </a>
           . This data viewer presents projections of coastal change over 50
           years and the potential impacts of restoration and risk reduction
@@ -38,16 +38,9 @@ const Intro = () => {
           risk.
         </p>
         <p>
-          Public comment on the Draft 2023 Coastal Master Plan is open through
-          Saturday, March 25, 2023. To submit comments electronically, contact
-          us via email at{" "}
-          <a href="mailto:masterplan@la.gov">masterplan@la.gov</a>. For details
-          on official public hearings or other ways to submit your comments on
-          the draft master plan, please{" "}
-          <a href="https://coastal.la.gov/our-plan/2023-coastal-master-plan/">
-            see our website
-          </a>
-          .
+          If you have questions about the data viewer or the master plan, please
+          contact us via email at{" "}
+          <a href="mailto:masterplan@la.gov">masterplan@la.gov</a>.
         </p>
         <div class={style.columns}>
           <div class={style.tour}>

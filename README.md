@@ -1,4 +1,4 @@
-# Louisiana's Coastal Master Plan 2023 Data Viewer
+# Louisiana's 2023 Coastal Master Plan Data Viewer
 
 ## CLI Commands
 

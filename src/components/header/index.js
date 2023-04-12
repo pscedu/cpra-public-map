@@ -30,7 +30,7 @@ const Header = () => {
         <img src="/assets/images/logo.png" alt="CPRA" />
       </a>
       <h1>
-        <span class={style.title}>Louisiana's Coastal Master Plan 2023 </span>
+        <span class={style.title}>Louisiana's 2023 Coastal Master Plan </span>
       </h1>
       <div class={style.spacer} />
       {tourButtons}
