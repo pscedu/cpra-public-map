@@ -27,7 +27,7 @@ from (
         Region,
         StartYear_FWOA
     from Points
-    where ModelGroup = 521
+    where ModelGroup = 522
     union select DisplayID,
         ProjectID,
         ElementID,
@@ -36,7 +36,7 @@ from (
         Region,
         StartYear_FWOA
     from Lines
-    where ModelGroup = 521
+    where ModelGroup = 522
     union select DisplayID,
         ProjectID,
         ElementID,
@@ -45,7 +45,7 @@ from (
         Region,
         StartYear_FWOA
     from Polygons
-    where ModelGroup = 521
+    where ModelGroup = 522
 ) as project
 left join metadata
     on project.DisplayID = metadata.DisplayID

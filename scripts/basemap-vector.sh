@@ -60,7 +60,7 @@ select ProjectName as name,
     StartYear_FWOA as year,
     Shape as geom
 from LAYER as project
-where ModelGroup = 521
+where ModelGroup = 522
 SQL
 
 read -r -d '' project_label_sql << SQL
