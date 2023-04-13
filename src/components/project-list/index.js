@@ -21,7 +21,9 @@ const ProjectList = () => {
         ? selection.value["project-type"] === project.type.toLowerCase()
         : true
     )
-    .filter((project) => project.yearmin <= year.value)
+    .filter(
+      (project) => parseInt(project.yearmin, 10) <= parseInt(year.value, 10)
+    )
     .map((project) => (
       <tr
         key={project.displayId}

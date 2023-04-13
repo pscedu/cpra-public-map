@@ -32,7 +32,7 @@ export function createState() {
   );
   const vegetation = hashSignal("vegetation", "ffibs");
   const viewName = hashSignal("view", "slide-0");
-  const year = hashSignal("year", 50, (val) => val.toString(), parseInt);
+  const year = hashSignal("year", "50");
 
   const catalog = signal(null);
   const drawerOpen = signal(true);
