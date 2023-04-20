@@ -9,7 +9,6 @@ import Map from "../map";
 import Print from "../print";
 import Slideshow from "../slideshow";
 import Toolbar from "../toolbar";
-import Watermark from "../watermark";
 
 const App = () => {
   const { printing } = useContext(State);
@@ -23,7 +22,6 @@ const App = () => {
             <Map />
           </Print>
           {printing.value ? null : <Slideshow />}
-          {printing.value ? null : <Watermark>DRAFT</Watermark>}
         </div>
         <Toolbar />
       </div>
