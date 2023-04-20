@@ -428,7 +428,7 @@ export const controls = {
     type: "buttons",
     label: "Vegetation Index",
     tooltip:
-      "<p>Wetland vegetation is responsive to changes in the environment, such as increases to salinity or inundation levels over time. Over 50 years the distribution of different wetland vegetation classes will shift and change, impacting habitats and ecosystems. The projects selected for the 2023 Coastal Master Plan support a variety of vegetation types coastwide.</p>",
+      "<p>The vegetation data can be viewed in one of two different ways; the first is to use the marsh classification, which uses a weighted score to classify the vegetation as Fresh Forested, Fresh Marsh, Intermediate Marsh, Brackish Marsh, or Saline Marsh, or <strong>FFIBS</strong>. The second method is to summarize the mixture of vegetation species present into one of 15 vegetation community types, or <strong>VCT</strong>. For more information on which species are commonly associated with each VCT, see:</p><p>Snedden, G.A., 2019. Patterning emergent marsh vegetation assemblages in coastal Louisiana, USA, with unsupervised artificial neural networks. <em>Applied Vegetation Science.</em> 22: 213-229. DOI: 10.1111.avsc.12425</p>",
   },
   year: {
     type: "year",
