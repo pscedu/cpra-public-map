@@ -154,7 +154,7 @@ working_tif_path="$WORKING/$raster_name.tif"
 working_tiles_path="$WORKING/$out_name"
 
 # Apply the mask layer.
-gdal_calc.py --calc="numpy.where(B==1, A, 0)" \
+gdal_calc.py --calc="numpy.where(B==1, A, -9998)" \
     --extent="intersect" --co="COMPRESS=LZW" \
     --outfile="$working_masked_path" \
     -A "$in_path" \
