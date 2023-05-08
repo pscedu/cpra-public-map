@@ -78,7 +78,7 @@ const colorSwatch = (color) =>
 export const serviceBaseUrl = "https://tiles.mpdv.coastal.la.gov/services";
 export const servicesUrl = "/services.json";
 export const projectListUrl = "/projects.csv";
-export const projectFactSheetBaseUrl =
+export const factSheetBaseUrl =
   "https://coastal.la.gov/wp-content/uploads/masterplan/";
 export const searchIndexUrl = "/search.csv";
 export const geocodeUrl = "https://mpdv.coastal.la.gov/nominatim/search";

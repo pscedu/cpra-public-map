@@ -1,5 +1,6 @@
 import { h } from "preact";
 import { useContext } from "preact/hooks";
+import { factSheetBaseUrl } from "../../helpers/config";
 import { State } from "../../helpers/state";
 import style from "./style.css";
 
@@ -319,19 +320,31 @@ const Slideshow = () => {
           overlay={true}
           controls={["scenario", "damage"]}
           additionalControls={
-            <div class="input">
-              <label class="label">
-                <Tooltip
-                  content="Damage data is presented for spatial units across the coast.
+            <>
+              <div class="input">
+                <label class="label">
+                  <Tooltip
+                    content="Damage data is presented for spatial units across the coast.
                 Each unit represents a portion of a coastal Parish. For damage
                 information at the Parish level, please see the Parish Fact Sheets in Attachment F3."
-                />{" "}
-                CLARA Community
-                <span class="value">
-                  : {selection.value.community.community_id}
-                </span>
-              </label>
-            </div>
+                  />{" "}
+                  CLARA Community
+                  <span class="value">
+                    : {selection.value.community.community_id}
+                  </span>
+                </label>
+              </div>
+              <ActionButton
+                action={() =>
+                  window.open(
+                    `${factSheetBaseUrl}MP2023_datasheet_community_${selection.value.community.community_id}.pdf`,
+                    "_blank"
+                  )
+                }
+              >
+                Community Datasheet (PDF)
+              </ActionButton>
+            </>
           }
         >
           <CommunityDetail />

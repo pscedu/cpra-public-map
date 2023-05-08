@@ -2,7 +2,7 @@ import { h } from "preact";
 import { useContext } from "preact/hooks";
 import { State } from "../../helpers/state";
 import {
-  projectFactSheetBaseUrl,
+  factSheetBaseUrl,
   projectTypeDescriptions,
   projectTypes,
 } from "../../helpers/config";
@@ -51,7 +51,7 @@ const ProjectDetail = () => {
       <ActionButton
         action={() =>
           window.open(
-            `${projectFactSheetBaseUrl}${displayId}_${name
+            `${factSheetBaseUrl}${displayId}_${name
               .replace(/[ \-]+/g, "-")
               .replace(/[^A-Za-z0-9\-]/g, "")}.pdf`,
             "_blank"
