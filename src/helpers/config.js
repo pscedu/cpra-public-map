@@ -79,7 +79,7 @@ export const serviceBaseUrl = "https://tiles.mpdv.coastal.la.gov/services";
 export const servicesUrl = "/services.json";
 export const projectListUrl = "/projects.csv";
 export const projectFactSheetBaseUrl =
-  "https://coastal.la.gov/wp-content/uploads/2023/01/";
+  "https://coastal.la.gov/wp-content/uploads/masterplan/";
 export const searchIndexUrl = "/search.csv";
 export const geocodeUrl = "https://mpdv.coastal.la.gov/nominatim/search";
 export const websiteUrl =
