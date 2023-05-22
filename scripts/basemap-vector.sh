@@ -220,6 +220,11 @@ ogr2ogr -t_srs "EPSG:4326" -dialect "sqlite" -sql "$outer_sql" \
     -nln outer \
     $WORKING/outer.gpkg
 
+ogr2ogr -t_srs "EPSG:4326" \
+    $WORKING/polder.geojson \
+    -nln polder \
+    "/vsizip/$DATA/MP23_Ecoregions_withAtch.zip"
+
 # Generate vector tiles.
 echo "Generating vector tiles..."
 tippecanoe -zg -o $TILES/basemap-vector.mbtiles \
@@ -234,6 +239,7 @@ tippecanoe -zg -o $TILES/basemap-vector.mbtiles \
     $WORKING/lass.geojson \
     $WORKING/region.geojson \
     $WORKING/outer.geojson \
+    $WORKING/polder.geojson \
     $WORKING/project_label.geojson \
     $WORKING/project_point.geojson \
     $WORKING/project_line.geojson \
