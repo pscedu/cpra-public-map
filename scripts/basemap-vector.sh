@@ -223,7 +223,8 @@ ogr2ogr -t_srs "EPSG:4326" -dialect "sqlite" -sql "$outer_sql" \
 ogr2ogr -t_srs "EPSG:4326" \
     $WORKING/polder.geojson \
     -nln polder \
-    "/vsizip/$DATA/MP23_Ecoregions_withAtch.zip"
+    -s_srs "EPSG:26915" \
+    "$DATA/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_polders.shp.zip"
 
 # Generate vector tiles.
 echo "Generating vector tiles..."
