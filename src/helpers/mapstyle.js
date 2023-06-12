@@ -692,7 +692,7 @@ export function getStyle({
       ...damageOutlines,
       ...projectLayers(
         entry.value.layer == "projects" ||
-          (entry.value.group !== "fwoa" && showProjects.value),
+          (entry.value.group == "fwa" && showProjects.value),
         ["<=", ["get", "year"], entry.value.year],
         entry.value.layer !== "projects"
       ),
