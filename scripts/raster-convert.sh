@@ -171,7 +171,7 @@ gdal_calc.py --calc="numpy.where(B==1, A, -9998)" \
 gdal_edit.py -a_nodata -9999 -stats $working_masked_path
 
 # Create the COG.
-gdal_translate $working_masked_path $working_cog_path -of COG
+gdal_translate $working_masked_path $working_cog_path -of COG -co "RESAMPLING=NEAREST"
 
 # Copy the COG to the output directory and remove it from the working directory.
 cp $working_cog_path $cog_path
