@@ -164,11 +164,12 @@ gdal_calc.py --calc="numpy.where(B==1, A, -9998)" \
     --extent="intersect" --co="COMPRESS=LZW" \
     --outfile="$working_masked_path" \
     --type="$data_type" \
+    --NoDataValue="-9999" \
     -A "$in_path" \
     -B "$mask_path"
 
-# Set the nodata value.
-gdal_edit.py -a_nodata -9999 -stats $working_masked_path
+# Recalculate image statistics.
+gdal_edit.py -stats $working_masked_path
 
 # Create the COG.
 gdal_translate $working_masked_path $working_cog_path -of COG -co "RESAMPLING=NEAREST"
