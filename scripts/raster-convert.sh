@@ -139,6 +139,11 @@ cat > $WORKING/VCT.clr << EOF
 9999 255 255 255
 EOF
 
+get_data_type() {
+    [[ "lndchg lndtypdiff VCT" =~ (^|[[:space:]])$1($|[[:space:]]) ]] \
+        && echo "Int16" || echo "Float32"
+}
+
 in_path="$1"
 out_path="$2"
 cog_path="$3"
@@ -148,6 +153,7 @@ in_name=$(basename "$in_path")
 out_name=$(basename "$out_path")
 raster_name="${in_name%.tif}"
 color_path="$WORKING/$raster_type.clr"
+data_type=$(get_data_type "$raster_type")
 working_masked_path="$WORKING/${raster_name}_masked.tif"
 working_cog_path="$WORKING/${raster_name}_cog.tif"
 working_tif_path="$WORKING/$raster_name.tif"
@@ -157,6 +163,7 @@ working_tiles_path="$WORKING/$out_name"
 gdal_calc.py --calc="numpy.where(B==1, A, -9998)" \
     --extent="intersect" --co="COMPRESS=LZW" \
     --outfile="$working_masked_path" \
+    --type="$data_type" \
     -A "$in_path" \
     -B "$mask_path"
 
