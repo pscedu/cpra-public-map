@@ -30,15 +30,14 @@ const Print = ({ children }) => {
   const { printText } = config;
 
   const titles = {
-    primary: [
-      "2023 Coastal Master Plan",
-      `${printText.group[entry.value.group]} - Draft`,
-    ],
+    primary: ["2023 Coastal Master Plan", printText.group[entry.value.group]],
     secondary: [
       `${printText.layer[layerName] || layerName} - Year ${entry.value.year}`,
-      `${printText.scenario[entry.value.scenario]}`,
     ],
   };
+
+  if (entry.value.scenario)
+    titles.secondary.push(printText.scenario[entry.value.scenario]);
 
   const fileName = `${titles.primary.join(" ")} ${titles.secondary.join(
     " "

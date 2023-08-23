@@ -457,10 +457,11 @@ export const layerExtents = {
 export const printText = {
   group: {
     fwoa: "Future Without Action",
-    fwa: "Future With Action",
+    fwa: "Future With Master Plan",
   },
   layer: {
     damage: "Damage",
+    "historical-land-change": "Historical Land Change",
     "flood-depth": "Flood Depth",
     "land-change": "Land Change from Initial Conditions",
     projects: "Plan Projects",
