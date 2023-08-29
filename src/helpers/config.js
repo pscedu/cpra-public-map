@@ -404,7 +404,7 @@ export const controls = {
     type: "buttons",
     label: "Damage Metric",
     tooltip:
-      "<p>Future storm surge-based flooding damages can be estimated by considering flood depths and the number and type of assets flooded in events across the coast. The cost of these damages in dollars is called Estimated Annual Damages, Dollars or EADD. Another way to quantify damages is to count how many whole and partial structures are damaged from an event and sum them to determine Estimated Annual Structural Damage, or EASD.</p><p>Both damage metrics are projected over time and for different scenarios and event AEPs.</p>",
+      "<p>Future storm surge-based flooding damages can be estimated by considering flood depths and the number and type of assets flooded in events across the coast. The cost of these damages in dollars is called Expected Annual Damages, Dollars or EADD. Another way to quantify damages is to count how many whole and partial structures are damaged from an event and sum them to determine Expected Annual Structural Damage, or EASD.</p><p>Both damage metrics are projected over time and for different scenarios and event AEPs.</p>",
   },
   group: {
     type: "buttons",

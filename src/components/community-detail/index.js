@@ -83,8 +83,8 @@ const CommunityDetail = () => {
 
   useLayoutEffect(() => {
     const metricName = {
-      eadd: "Estimated Annual Damage, Dollars",
-      easd: "Estimated Annual Structural Damage",
+      eadd: "Expected Annual Damage, Dollars",
+      easd: "Expected Annual Structural Damage",
     }[damage.value];
     const chartOptions = {
       interaction: {
