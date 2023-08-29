@@ -32,8 +32,8 @@ while IFS= read -r raster_name; do
     out_scenario=$([[ "$scenario" == "S07" ]] && echo "Lower" || echo "Higher")
     out_group=$([[ "$group" =~ G500|G520 ]] && echo "FWOA" || echo "FWMP")
     out_type=$(join_by "_" ${name_parts[@]:$type_index:20})
-    out_start_year=$(printf "%02d" $start_year)
-    out_end_year=$(printf "%02d" $end_year)
+    out_start_year=$(printf "%02d" "${start_year#0}")
+    out_end_year=$(printf "%02d" "${end_year#0}")
 
     out_name="MP2023_${out_scenario}_${out_group}_${uncertainty}_${out_start_year}_${out_end_year}_${out_type%.tif}"
     out_path="$tiles_path/$out_name.mbtiles"
