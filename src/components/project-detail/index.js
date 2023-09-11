@@ -52,7 +52,7 @@ const ProjectDetail = () => {
         action={() =>
           window.open(
             `${factSheetBaseUrl}${displayId}_${name
-              .replace(/[ \-]+/g, "-")
+              .replace(/[ \-/]+/g, "-")
               .replace(/[^A-Za-z0-9\-]/g, "")}.pdf`,
             "_blank"
           )
