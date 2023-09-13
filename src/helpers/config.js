@@ -84,6 +84,7 @@ export const searchIndexUrl = "/search.csv";
 export const geocodeUrl = "https://mpdv.coastal.la.gov/nominatim/search";
 export const websiteUrl =
   "https://coastal.la.gov/our-plan/2023-coastal-master-plan/";
+export const mpdapUrl = "https://mpdap.coastal.la.gov/";
 export const contactEmail = ["mai", ["masterplan", "la.gov"].join("@")].join(
   "lto:"
 );

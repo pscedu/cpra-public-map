@@ -17,9 +17,13 @@ const Toolbar = () => {
     state.introOpen.value = true;
     trackClick("toolbar_about", "About the Data Viewer");
   };
+  const downloadClick = () => {
+    trackClick("toolbar_download", "Download Master Plan Data");
+    window.location = config.mpdapUrl;
+  };
   const printClick = () => {
     state.printing.value = !state.printing.value;
-    trackClick("toolbar_website", "Visit Master Plan Website");
+    trackClick("toolbar_print", "Print or Export Map");
   };
   const websiteClick = () => {
     trackClick("toolbar_website", "Visit Master Plan Website");
@@ -38,6 +42,14 @@ const Toolbar = () => {
       >
         <ion-icon src="/assets/buttons/question.svg" />
         <span class="sr-only">About the Data Viewer</span>
+      </button>
+      <button
+        title="Download Master Plan Data"
+        onClick={downloadClick}
+        class={style.download}
+      >
+        <ion-icon name="download" />
+        <span class="sr-only">Download Master Plan Data</span>
       </button>
       <button
         title="Print or Export Map"
