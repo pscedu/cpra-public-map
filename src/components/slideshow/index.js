@@ -208,7 +208,7 @@ const Slideshow = () => {
       >
         <p>
           To take action toward addressing the challenges of a changing coast, a
-          suite of 73 restoration and risk reduction projects has been selected
+          suite of 77 restoration and risk reduction projects has been selected
           for the 2023 Coastal Master Plan. When fully implemented, the plan
           will provide a myriad of benefits for coastal communities and
           ecosystems, including avoiding hundreds of square miles of land loss
@@ -291,7 +291,7 @@ const Slideshow = () => {
           than today&apos;s coast. The 2023 Coastal Master Plan presents a
           vision for a future coast that can support people living, working, and
           playing in Louisiana into the future while adapting to the changing
-          landscape through the implementation of the 73 restoration and risk
+          landscape through the implementation of the 77 restoration and risk
           reduction projects selected for the plan.
         </p>
         <p>
