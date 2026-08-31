@@ -1,0 +1,14 @@
+node_modules
+build
+dist
+.playwright-cli
+cog
+data
+env
+*.log
+scratch.txt
+size-plugin.json
+tiles
+working
+slurm-*.out
+.git
