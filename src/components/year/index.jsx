@@ -1,6 +1,6 @@
 import { h } from "preact";
 import { useId } from "preact/hooks";
-import style from "./style.css";
+import style from "./style.module.css";
 
 import Tooltip from "../tooltip";
 import { gtag } from "../../helpers/utils";

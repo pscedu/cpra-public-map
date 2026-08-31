@@ -75,7 +75,7 @@ const colorSwatch = (color) =>
     "#",
     "%23"
   )}' x='0' y='0' height='20' width='50' /></svg>`;
-export const serviceBaseUrl = "https://tiles.mpdv.coastal.la.gov/services";
+export const serviceBaseUrl = "https://api.mpdp.coastal.la.gov/tiles";
 export const servicesUrl = "/services.json";
 export const projectListUrl = "/projects.csv";
 export const factSheetBaseUrl =

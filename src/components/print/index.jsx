@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "preact/hooks";
 import * as config from "../../helpers/config";
 import { State } from "../../helpers/state";
 import { addLineBreaks, getDimensions, mapToImage } from "../../helpers/print";
-import style from "./style.css";
+import style from "./style.module.css";
 
 import ActionButton from "../action-button";
 import Legend from "../legend";

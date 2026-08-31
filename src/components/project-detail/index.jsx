@@ -6,7 +6,7 @@ import {
   projectTypeDescriptions,
   projectTypes,
 } from "../../helpers/config";
-import style from "./style.css";
+import style from "./style.module.css";
 
 import ActionButton from "../action-button";
 

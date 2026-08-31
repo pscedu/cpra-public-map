@@ -1,7 +1,7 @@
 import { h } from "preact";
 import { useContext } from "preact/hooks";
 import { batch } from "@preact/signals";
-import style from "./style.css";
+import style from "./style.module.css";
 import { State } from "../../helpers/state";
 
 import ActionButton from "../action-button";

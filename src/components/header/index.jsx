@@ -1,6 +1,6 @@
 import { h } from "preact";
 import { useContext } from "preact/hooks";
-import style from "./style.css";
+import style from "./style.module.css";
 import { State } from "../../helpers/state";
 
 import Buttons from "../buttons";

@@ -285,11 +285,6 @@ function projectLayers(show, filter, model, suffix = "") {
   ];
 }
 
-function rasterTileUrl(serviceUrl, prefix) {
-  let sub = `//${prefix}.`;
-  return `${serviceUrl.replace("//", sub)}/tiles/{z}/{x}/{y}.png`;
-}
-
 export function getStyle({
   entry,
   prevEntry,
@@ -318,9 +313,7 @@ export function getStyle({
         ],
         maxzoom: 13,
         type: "raster",
-        tiles: ["a", "b", "c", "d"].map((letter) =>
-          rasterTileUrl(`${config.serviceBaseUrl}/${service}`, letter)
-        ),
+        tiles: [`${config.serviceBaseUrl}/${service}/{z}/{x}/{y}`],
         tileSize: 256,
       };
     }
@@ -617,7 +610,7 @@ export function getStyle({
   return {
     version: 8,
     sprite: `${loc.origin}/style/sprite?cache=20220630`,
-    glyphs: `${loc.origin}/style/glyphs/{fontstack}/{range}.pbf`,
+    glyphs: `${config.serviceBaseUrl}/font/{fontstack}/{range}`,
     sources,
     transition: {
       duration: 0,

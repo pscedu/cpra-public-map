@@ -6,7 +6,7 @@ import {
   regionsLookup,
 } from "../../helpers/config";
 import { State } from "../../helpers/state";
-import style from "./style.css";
+import style from "./style.module.css";
 
 const ProjectList = () => {
   const { projects, selection, setSearchResult, year } = useContext(State);

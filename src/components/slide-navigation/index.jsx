@@ -2,7 +2,7 @@ import { h } from "preact";
 import { useContext } from "preact/hooks";
 import { State } from "../../helpers/state";
 import { views } from "../../helpers/config";
-import style from "./style.css";
+import style from "./style.module.css";
 
 import SlideNavigationButton from "../slide-navigation-button";
 

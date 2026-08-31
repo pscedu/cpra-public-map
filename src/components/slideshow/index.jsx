@@ -2,7 +2,7 @@ import { h } from "preact";
 import { useContext } from "preact/hooks";
 import { factSheetBaseUrl } from "../../helpers/config";
 import { State } from "../../helpers/state";
-import style from "./style.css";
+import style from "./style.module.css";
 
 import ActionButton from "../action-button";
 import CommunityDetail from "../community-detail";

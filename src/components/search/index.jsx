@@ -2,7 +2,7 @@ import { h } from "preact";
 import { useSignalEffect, useSignal } from "@preact/signals";
 import { useContext, useRef } from "preact/hooks";
 import { State } from "../../helpers/state";
-import style from "./style.css";
+import style from "./style.module.css";
 
 function formatResult(result) {
   return [

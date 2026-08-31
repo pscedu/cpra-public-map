@@ -1,6 +1,8 @@
 .env
 node_modules
 /build
+/dist
+/.playwright-cli
 /cog
 /data
 /env
@@ -8,11 +10,9 @@ node_modules
 /scratch.txt
 /size-plugin.json
 data/
-fonts/
 node_modules/
-src/static/projects.csv
-src/static/search.csv
-src/static/style/glyphs
+public/projects.csv
+public/search.csv
 tiles/
 working/
 slurm-*.out

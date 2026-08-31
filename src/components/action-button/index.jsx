@@ -1,5 +1,5 @@
 import { h } from "preact";
-import style from "./style.css";
+import style from "./style.module.css";
 import { gtag } from "../../helpers/utils";
 
 const ActionButton = ({ action, analyticsId, children, cssClass, icon }) => {

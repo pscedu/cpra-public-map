@@ -1,3 +1,5 @@
+import { h } from "preact";
+
 const hPadding = 200,
   wPadding = 100;
 

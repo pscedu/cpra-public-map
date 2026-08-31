@@ -6,7 +6,7 @@ import {
   views,
 } from "../../helpers/config";
 import { State } from "../../helpers/state";
-import style from "./style.css";
+import style from "./style.module.css";
 
 import Buttons from "../buttons";
 import Checkbox from "../checkbox";

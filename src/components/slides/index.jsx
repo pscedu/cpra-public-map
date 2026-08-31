@@ -1,7 +1,7 @@
 import { h } from "preact";
 import { useContext, useLayoutEffect } from "preact/hooks";
 import { State } from "../../helpers/state";
-import style from "./style.css";
+import style from "./style.module.css";
 
 import SlideNavigation from "../slide-navigation";
 

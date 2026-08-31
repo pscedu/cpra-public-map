@@ -1,5 +1,5 @@
 import { h } from "preact";
-import style from "./style.css";
+import style from "./style.module.css";
 
 const Modal = ({ children, open = false, title }) => {
   if (!open) return null;

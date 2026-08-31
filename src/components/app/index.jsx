@@ -1,5 +1,5 @@
 import { h } from "preact";
-import style from "./style.css";
+import style from "./style.module.css";
 import { useContext } from "preact/hooks";
 import { State } from "../../helpers/state";
 
